@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
+
 import './App.css';
+import Navbar from './components/Navbar';
+import SingleEntry from './components/SingleEntry.jsx'
+
+const theme = createMuiTheme();
+
 
 import SingleEntry from './components/SingleEntry.jsx'
 
@@ -9,15 +16,19 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div className="App">
-          <div className="col-xs-10">NAVBAR PLACEHOLDER</div>
-          <div className="col-xs-10">
-          <Switch>
-            <Route exact path="/" />
-            <Route exact path="/entries/:id" component={SingleEntry}/>
-          </Switch>
+        <MuiThemeProvider theme={theme}>
+          <div className="App">
+            <div className="col-xs-10">
+              <Navbar />
+            </div>
+            <div className="col-xs-10">
+            <Switch>
+              <Route exact path="/" />
+              <Route exact path="/entries/:id" component={SingleEntry}/>
+            </Switch>
+            </div>
           </div>
-        </div>
+        </MuiThemeProvider>
       </Router>
     );
   }
