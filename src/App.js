@@ -9,7 +9,7 @@ import SingleEntry from './components/SingleEntry.jsx'
 const theme = createMuiTheme();
 
 
-import SingleEntry from './components/SingleEntry.jsx'
+
 
 
 class App extends Component {

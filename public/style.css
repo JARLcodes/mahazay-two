@@ -1,0 +1,18 @@
+#singleEntry {
+    display: flex
+}
+
+#sidebar {
+    width: 20%;
+    height: 100%
+}
+
+#editor {
+    width: 80%;
+    height: 100%
+}
+
+#singleEntrySidebar {
+    display: flex;
+    flex-direction: column
+}

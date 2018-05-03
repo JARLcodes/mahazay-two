@@ -6,6 +6,7 @@ import createFocusPlugin from 'draft-js-focus-plugin';
 import createBlockDndPlugin from 'draft-js-drag-n-drop-plugin';
 import Button from "material-ui/Button";
 
+import SingleEntrySidebar from './SingleEntrySidebar.jsx';
 const focusPlugin = createFocusPlugin();
 const blockDndPlugin = createBlockDndPlugin();
 
@@ -131,20 +132,23 @@ export default class SingleEntry extends React.Component {
   render() {
     const { alignment, showStyleToolbar, showAlignmentToolbar } = this.state;
     return (
-      <div>
-        <Button onClick={this.showStyleToolbar.bind(this)}><b>B</b><i>I</i><u>U</u></Button>
-        {showStyleToolbar && <div>{this.renderStyleToolbar()}</div>}
-        <Button onClick={this.showAlignmentToolbar.bind(this)}>Align</Button>
-        {showAlignmentToolbar && <div>{this.renderAlignmentToolbar()}</div>}
-        <div>
-          <Editor
-            customStyleMap={styleMap}
-            editorState={this.state.editorState}
-            onChange={this.onChange}
-            placeholder="...start here"
-            plugins={plugins}
-            textAlignment={'right'}
-          />
+      <div id="singleEntry">
+        <div id="sidebar"> <SingleEntrySidebar/> </div>
+        <div id="editor">
+          <Button onClick={this.showStyleToolbar.bind(this)}><b>B</b><i>I</i><u>U</u></Button>
+          {showStyleToolbar && <div>{this.renderStyleToolbar()}</div>}
+          <Button onClick={this.showAlignmentToolbar.bind(this)}>Align</Button>
+          {showAlignmentToolbar && <div>{this.renderAlignmentToolbar()}</div>}
+          <div>
+            <Editor
+              customStyleMap={styleMap}
+              editorState={this.state.editorState}
+              onChange={this.onChange}
+              placeholder="...start here"
+              plugins={plugins}
+              textAlignment={alignment}
+            />
+          </div>
         </div>
       </div>
     );
