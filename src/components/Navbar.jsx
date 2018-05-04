@@ -34,34 +34,34 @@ export default class Navbar extends Component {
     render () {
         return (
             <div className={styles.root}>
-                <AppBar position="static" className={styles.appbar}>
-                    <Toolbar className={styles.toolbar}>
-                        <Button color="inherit" className={styles.button}>
+                <AppBar position="static" style={styles.appbar}>
+                    <Toolbar style={styles.toolbar}>
+                        <Button color="inherit" style={styles.button}>
                             <ArrowBack />
                             Back
                         </Button>
                         <Button href="/">
-                            <Typography variant="display4" color="inherit" className="">
+                            <Typography variant="display4" color="inherit">
                                 Mahazay
                             </Typography>
                         </Button>
-                        <Button href="/journals" color="inherit" className={styles.button}>
+                        <Button href="/journals" color="inherit" style={styles.button}>
                             <ImportContacts />
                             Journals
                         </Button>
-                        <Button href="/entries" color="inherit" className={styles.button}>
+                        <Button href="/entries" color="inherit" style={styles.button}>
                             <LibraryBooks />
                             Entries
                         </Button>
-                        <Button href="/tracker" color="inherit" className={styles.button}>
+                        <Button href="/tracker" color="inherit" style={styles.button}>
                             <CheckBox />
                             Tracker
                         </Button>
-                        <Button href="/insights" color="inherit" className={styles.button}>
+                        <Button href="/insights" color="inherit" style={styles.button}>
                             <Poll />
                             Insights
                         </Button>
-                        <Button href="/login" color="inherit" className={styles.logoutButton}>
+                        <Button href="/login" color="inherit" style={styles.logoutButton}>
                             <Person />
                             Logout
                         </Button>
