@@ -1,26 +1,28 @@
 {
-  "name": "mahazay-two",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@material-ui/icons": "^1.0.0-beta.43",
-    "draft-js": "^0.10.5",
-    "draft-js-drag-n-drop-plugin": "^2.0.3",
-    "draft-js-focus-plugin": "^2.0.4",
-    "draft-js-image-plugin": "^2.0.5",
-    "draft-js-plugins-editor": "^2.0.8",
-    "material-design-icons": "^3.0.1",
-    "material-ui": "^1.0.0-beta.44",
-    "react": "^16.3.2",
-    "react-dom": "^16.3.2",
-    "react-router": "^4.2.0",
-    "react-router-dom": "^4.2.2",
-    "react-scripts": "1.1.4"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  }
+    "name": "mahazay-two",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "@firebase/firestore": "^0.4.1",
+        "@material-ui/icons": "^1.0.0-beta.43",
+        "draft-js": "^0.10.5",
+        "draft-js-drag-n-drop-plugin": "^2.0.3",
+        "draft-js-focus-plugin": "^2.0.4",
+        "draft-js-image-plugin": "^2.0.5",
+        "draft-js-plugins-editor": "^2.0.8",
+        "firebase": "^4.13.0",
+        "material-design-icons": "^3.0.1",
+        "material-ui": "^1.0.0-beta.44",
+        "react": "^16.3.2",
+        "react-dom": "^16.3.2",
+        "react-router": "^4.2.0",
+        "react-router-dom": "^4.2.2",
+        "react-scripts": "1.1.4"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test --env=jsdom",
+        "eject": "react-scripts eject"
+    }
 }
