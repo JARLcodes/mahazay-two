@@ -1,8 +1,8 @@
-import * as firebase from 'firebase';
-import * as config from '../../firebase.config.js';
-import { setNext } from '../actions/auth';
+// import * as firebase from 'firebase';
+// import * as config from '../../firebase.config.js';
+// import { setNext } from '../actions/auth';
 
-firebase.initializeApp(config);
+// firebase.initializeApp(config);
 
 
 /* used to require authorized users for certain views
