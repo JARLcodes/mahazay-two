@@ -5,11 +5,16 @@ import createImagePlugin from 'draft-js-image-plugin';
 import createFocusPlugin from 'draft-js-focus-plugin';
 import createBlockDndPlugin from 'draft-js-drag-n-drop-plugin';
 import Button from "material-ui/Button";
+import { FormControlLabel, Switch, FormGroup } from "material-ui";
 
 const focusPlugin = createFocusPlugin();
 const blockDndPlugin = createBlockDndPlugin();
 
-
+const styles = {
+  makePublic: {
+    marginLeft: '46%'
+  }
+}
 const decorator = composeDecorators(
   focusPlugin.decorator,
   blockDndPlugin.decorator
@@ -80,7 +85,8 @@ export default class SingleEntry extends React.Component {
     editorState: EditorState.createWithContent(convertFromRaw(initialState)), 
     alignment: 'left', 
     showStyleToolbar: false, 
-    showAlignmentToolbar: false
+    showAlignmentToolbar: false, 
+    public: false
   }
   
   onChange = editorState => {
@@ -102,6 +108,10 @@ export default class SingleEntry extends React.Component {
 
   onAlignmentChange(alignment){
     this.setState({ alignment })
+  }
+
+  shareEntry(){
+    this.setState({ public: !this.state.public })
   }
 
   showStyleToolbar(){
@@ -132,10 +142,23 @@ export default class SingleEntry extends React.Component {
     const { alignment, showStyleToolbar, showAlignmentToolbar } = this.state;
     return (
       <div>
+         <FormGroup row style={styles.makePublic}>
+          <FormControlLabel 
+            control={
+              <Switch
+                checked={this.state.public}
+                onChange={this.state.public}
+                value="checked"
+              />
+            }
+            label="Make Entry Public"
+            />
+        </FormGroup>
         <Button onClick={this.showStyleToolbar.bind(this)}><b>B</b><i>I</i><u>U</u></Button>
         {showStyleToolbar && <div>{this.renderStyleToolbar()}</div>}
         <Button onClick={this.showAlignmentToolbar.bind(this)}>Align</Button>
         {showAlignmentToolbar && <div>{this.renderAlignmentToolbar()}</div>}
+       
         <div>
           <Editor
             customStyleMap={styleMap}
