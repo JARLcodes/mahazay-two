@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
+import TextField from 'material-ui/TextField';
+import Input, { InputAdornment } from 'material-ui/Input';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import ArrowBack from '@material-ui/icons/ArrowBack';
@@ -9,7 +11,7 @@ import CheckBox from '@material-ui/icons/CheckBox';
 import Poll from '@material-ui/icons/Poll';
 import ImportContacts from '@material-ui/icons/ImportContacts';
 import LibraryBooks from '@material-ui/icons/LibraryBooks';
-
+import Search from '@material-ui/icons/Search';
 
 const styles = {
   root: {
@@ -26,19 +28,21 @@ const styles = {
 //   },
 //   logoutButton: {
 
-//   }
+//   },
+    textField: {
+        color: '#FAFAFA'
+    }
 };
 
 export default class Navbar extends Component {
     
     render () {
         return (
-            <div className={styles.root}>
-                <AppBar position="static" style={styles.appbar}>
+            <div>
+                <AppBar position="static" style={styles.root}>
                     <Toolbar style={styles.toolbar}>
                         <Button color="inherit" style={styles.button}>
                             <ArrowBack />
-                            Back
                         </Button>
                         <Button href="/">
                             <Typography variant="display4" color="inherit">
@@ -61,6 +65,19 @@ export default class Navbar extends Component {
                             <Poll />
                             Insights
                         </Button>
+                        <TextField
+                            id="search"
+                            type="search"
+                            style={styles.textField}
+                            placeholder="Search"
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="start">
+                                        <Search />
+                                    </InputAdornment>
+                                ),
+                              }}
+                        />
                         <Button href="/login" color="inherit" style={styles.logoutButton}>
                             <Person />
                             Logout
