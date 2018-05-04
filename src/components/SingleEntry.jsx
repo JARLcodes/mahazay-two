@@ -6,6 +6,7 @@ import createFocusPlugin from 'draft-js-focus-plugin';
 import createBlockDndPlugin from 'draft-js-drag-n-drop-plugin';
 import Button from "material-ui/Button";
 
+import SingleEntrySidebar from './SingleEntrySidebar.jsx';
 const focusPlugin = createFocusPlugin();
 const blockDndPlugin = createBlockDndPlugin();
 
@@ -27,41 +28,41 @@ const initialState = {
   "entityMap": {
       "0": {
           "type": "IMAGE",
-          "mutability": "IMMUTABLE",
+          "mutability": "MUTABLE",
           "data": {
               "src": "/images/cherry-blossom.jpg"
-          }
+          }, 
+      "1": {
+        "type": "IMAGE",
+        "mutability": "MUTABLE",
+        "data": {
+            "src": "/images/cherry-blossom.jpg"
+        }
       }
+    }
   },
   "blocks": [{
       "key": "9gm3s",
-      "text": "You can have images in your text field which are draggable. Hover over the image press down your mouse button and drag it to another position inside the editor.",
+      "text": "",
       "type": "unstyled",
       "depth": 0,
       "inlineStyleRanges": [],
       "entityRanges": [],
       "data": {}
-  }, {
-      "key": "ov7r",
-      "text": " ",
-      "type": "atomic",
-      "depth": 0,
-      "inlineStyleRanges": [],
-      "entityRanges": [{
-          "offset": 0,
-          "length": 1,
-          "key": 0
-      }],
-      "data": {}
-  }, {
-      "key": "e23a8",
-      "text": "You can checkout the alignment tool plugin documentation to see how to build a compatible block plugin …",
-      "type": "unstyled",
-      "depth": 0,
-      "inlineStyleRanges": [],
-      "entityRanges": [],
-      "data": {}
-  }]
+  }, 
+  {
+    "key": "ov7r",
+    "text": " ",
+    "type": "atomic",
+    "depth": 0,
+    "inlineStyleRanges": [],
+    "entityRanges": [{
+        "offset": 0,
+        "length": 1,
+        "key": 0
+    }],
+    "data": {}
+}]
 };
 /* eslint-enable */
 
@@ -131,21 +132,24 @@ export default class SingleEntry extends React.Component {
   render() {
     const { alignment, showStyleToolbar, showAlignmentToolbar } = this.state;
     return (
-      <div>
-        <Button onClick={this.showStyleToolbar.bind(this)}><b>B</b><i>I</i><u>U</u></Button>
-        {showStyleToolbar && <div>{this.renderStyleToolbar()}</div>}
-        <Button onClick={this.showAlignmentToolbar.bind(this)}>Align</Button>
-        {showAlignmentToolbar && <div>{this.renderAlignmentToolbar()}</div>}
-        <div>
-          <Editor
-            customStyleMap={styleMap}
-            editorState={this.state.editorState}
-            onChange={this.onChange}
-            placeholder="...start here"
-            plugins={plugins}
-            textAlignment={alignment}
-          />
-        </div>
+      <div id="singleEntry">
+        <div id="sidebar"> <SingleEntrySidebar/> </div>
+        <div id="editor">
+          <Button onClick={this.showStyleToolbar.bind(this)}><b>B</b><i>I</i><u>U</u></Button>
+          {showStyleToolbar && <div>{this.renderStyleToolbar()}</div>}
+          <Button onClick={this.showAlignmentToolbar.bind(this)}>Align</Button>
+          {showAlignmentToolbar && <div>{this.renderAlignmentToolbar()}</div>}
+          
+              <Editor
+                customStyleMap={styleMap}
+                editorState={this.state.editorState}
+                onChange={this.onChange}
+                placeholder="...start here"
+                plugins={plugins}
+                textAlignment={alignment}
+              />
+          </div>
+       
       </div>
     );
   }

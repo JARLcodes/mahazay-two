@@ -9,6 +9,7 @@
     "draft-js-focus-plugin": "^2.0.4",
     "draft-js-image-plugin": "^2.0.5",
     "draft-js-plugins-editor": "^2.0.8",
+    "material-design-icons": "^3.0.1",
     "material-ui": "^1.0.0-beta.44",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
