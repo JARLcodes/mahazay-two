@@ -15,9 +15,10 @@ const styles = {
   root: {
     flexGrow: 1,
   },
-//   appbar: {
-      
-//   },
+
+  appbar: {
+      marginBottom: 50
+  },
 //   toolbar: {
 
 //   },
@@ -34,7 +35,7 @@ export default class Navbar extends Component {
     render () {
         return (
             <div className={styles.root}>
-                <AppBar position="static" className={styles.appbar}>
+                <AppBar position="static" className={styles.appbar} style={styles.appbar}>
                     <Toolbar className={styles.toolbar}>
                         <Button color="inherit" className={styles.button}>
                             <ArrowBack />
