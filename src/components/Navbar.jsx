@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
+import TextField from 'material-ui/TextField';
+import Input, { InputAdornment } from 'material-ui/Input';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import ArrowBack from '@material-ui/icons/ArrowBack';
@@ -9,7 +11,7 @@ import CheckBox from '@material-ui/icons/CheckBox';
 import Poll from '@material-ui/icons/Poll';
 import ImportContacts from '@material-ui/icons/ImportContacts';
 import LibraryBooks from '@material-ui/icons/LibraryBooks';
-
+import Search from '@material-ui/icons/Search';
 
 const styles = {
   root: {
@@ -27,40 +29,57 @@ const styles = {
 //   },
 //   logoutButton: {
 
-//   }
+//   },
+    textField: {
+        color: '#FAFAFA'
+    }
 };
 
 export default class Navbar extends Component {
     
     render () {
         return (
-            <div className={styles.root}>
-                <AppBar position="static" className={styles.appbar} style={styles.appbar}>
-                    <Toolbar className={styles.toolbar}>
-                        <Button color="inherit" className={styles.button}>
+            <div>
+                <AppBar position="static" style={styles.root}>
+                    <Toolbar style={styles.toolbar}>
+                        <Button color="inherit" style={styles.button}>
                             <ArrowBack />
-                            Back
                         </Button>
-                        <Typography variant="display4" color="inherit" className="">
-                            Mahazay
-                        </Typography>
-                        <Button href="/journals" color="inherit" className={styles.button}>
+                        <Button href="/">
+                            <Typography variant="display4" color="inherit">
+                                Mahazay
+                            </Typography>
+                        </Button>
+                        <Button href="/journals" color="inherit" style={styles.button}>
                             <ImportContacts />
                             Journals
                         </Button>
-                        <Button href="/entries" color="inherit" className={styles.button}>
+                        <Button href="/entries" color="inherit" style={styles.button}>
                             <LibraryBooks />
                             Entries
                         </Button>
-                        <Button href="/tracker" color="inherit" className={styles.button}>
+                        <Button href="/tracker" color="inherit" style={styles.button}>
                             <CheckBox />
                             Tracker
                         </Button>
-                        <Button href="/insights" color="inherit" className={styles.button}>
+                        <Button href="/insights" color="inherit" style={styles.button}>
                             <Poll />
                             Insights
                         </Button>
-                        <Button href="/login" color="inherit" className={styles.logoutButton}>
+                        <TextField
+                            id="search"
+                            type="search"
+                            style={styles.textField}
+                            placeholder="Search"
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="start">
+                                        <Search />
+                                    </InputAdornment>
+                                ),
+                              }}
+                        />
+                        <Button href="/login" color="inherit" style={styles.logoutButton}>
                             <Person />
                             Logout
                         </Button>
