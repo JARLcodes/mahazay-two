@@ -1,12 +1,16 @@
 import React from "react";
-import { EditorState, RichUtils, convertFromRaw, convertToRaw } from "draft-js";
+import { EditorState, RichUtils, convertFromRaw, convertToRaw, EditorChangeType, ContentState } from "draft-js";
 import Editor, { composeDecorators } from 'draft-js-plugins-editor';
 import createImagePlugin from 'draft-js-image-plugin';
 import createFocusPlugin from 'draft-js-focus-plugin';
 import createBlockDndPlugin from 'draft-js-drag-n-drop-plugin';
 import Button from "material-ui/Button";
+// import '@firebase/firestore';
+
 
 import SingleEntrySidebar from './SingleEntrySidebar.jsx';
+
+import { db } from '../utils/firebase.config.js';
 const focusPlugin = createFocusPlugin();
 const blockDndPlugin = createBlockDndPlugin();
 
@@ -66,6 +70,7 @@ const initialState = {
 };
 /* eslint-enable */
 
+const rootRef = db.collection('entries').doc('x5hE8v4AmZrtF9AcdWhX');
 
 const styleMap = {
   'STRIKETHROUGH': {
@@ -78,16 +83,26 @@ const styleMap = {
 
 export default class SingleEntry extends React.Component {
   state = {
-    editorState: EditorState.createWithContent(convertFromRaw(initialState)), 
+    editorState: null, 
     alignment: 'left', 
     showStyleToolbar: false, 
     showAlignmentToolbar: false
   }
   
+  componentDidMount(){
+    
+    rootRef.get()
+      .then(snap => {
+      const content = snap.data().content ? convertFromRaw(snap.data().content) : ContentState.createFromText('')
+        console.log('data', snap.data());
+      this.setState({ editorState: EditorState.createWithContent(content) })
+    })
+  }
   onChange = editorState => {
     // to send data from entry to firebase WHILE USER IS UPDATING: use convertToRaw(editorState.getCurrentContent())
-    console.log(convertToRaw(editorState.getCurrentContent()))
+    // console.log(convertToRaw(editorState.getCurrentContent()))
     this.setState({editorState})
+    rootRef.update({ content: convertToRaw(editorState.getCurrentContent()) })
   }
 
   toggleInlineStyle = style => () => 
@@ -130,7 +145,8 @@ export default class SingleEntry extends React.Component {
   }
 
   render() {
-    const { alignment, showStyleToolbar, showAlignmentToolbar } = this.state;
+    const { alignment, showStyleToolbar, showAlignmentToolbar, editorState } = this.state;
+    if (!editorState) return 'loading';
     return (
       <div id="singleEntry">
         <div id="sidebar"> <SingleEntrySidebar/> </div>

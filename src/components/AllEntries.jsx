@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // export const db = firebase.firestore(); defined in src/App.js
-import { db } from './../App';
+
 
 
 export default class AllEntries extends Component {
@@ -11,7 +11,7 @@ export default class AllEntries extends Component {
 
   }
   componentDidMount(){
-   console.log('db.collection(entries)', db.collection('entries'))
+  //  console.log('db.collection(entries)', db.collection('entries'))
    //to add to database
   //  db.collection('entries').add({
   //    content: 'blahhhhhh', 
@@ -29,7 +29,7 @@ export default class AllEntries extends Component {
 
   
   render() {
-    console.log('database', db._config.credentials.app.firebase_);
+    
     return (
       <div>
         <h1>here here hereeeee</h1>
