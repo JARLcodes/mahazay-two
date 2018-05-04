@@ -40,9 +40,11 @@ export default class Navbar extends Component {
                             <ArrowBack />
                             Back
                         </Button>
-                        <Typography variant="display4" color="inherit" className="">
-                            Mahazay
-                        </Typography>
+                        <Button href="/">
+                            <Typography variant="display4" color="inherit" className="">
+                                Mahazay
+                            </Typography>
+                        </Button>
                         <Button href="/journals" color="inherit" className={styles.button}>
                             <ImportContacts />
                             Journals
