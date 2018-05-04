@@ -17,9 +17,10 @@ const styles = {
   root: {
     flexGrow: 1,
   },
-//   appbar: {
-      
-//   },
+
+  appbar: {
+      marginBottom: 50
+  },
 //   toolbar: {
 
 //   },
