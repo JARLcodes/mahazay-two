@@ -31,38 +31,38 @@ const initialState = {
           "mutability": "MUTABLE",
           "data": {
               "src": "/images/cherry-blossom.jpg"
-          }
+          }, 
+      "1": {
+        "type": "IMAGE",
+        "mutability": "MUTABLE",
+        "data": {
+            "src": "/images/cherry-blossom.jpg"
+        }
       }
+    }
   },
   "blocks": [{
       "key": "9gm3s",
-      "text": "...start here",
-      "type": "unstyled",
-      "depth": 0,
-      "inlineStyleRanges": [],
-      "entityRanges": [],
-      "data": {}
-  }, {
-      "key": "ov7r",
-      "text": " ",
-      "type": "atomic",
-      "depth": 0,
-      "inlineStyleRanges": [],
-      "entityRanges": [{
-          "offset": 0,
-          "length": 1,
-          "key": 0
-      }],
-      "data": {}
-  }, {
-      "key": "e23a8",
       "text": "",
       "type": "unstyled",
       "depth": 0,
       "inlineStyleRanges": [],
       "entityRanges": [],
       "data": {}
-  }]
+  }, 
+  {
+    "key": "ov7r",
+    "text": " ",
+    "type": "atomic",
+    "depth": 0,
+    "inlineStyleRanges": [],
+    "entityRanges": [{
+        "offset": 0,
+        "length": 1,
+        "key": 0
+    }],
+    "data": {}
+}]
 };
 /* eslint-enable */
 
@@ -139,17 +139,17 @@ export default class SingleEntry extends React.Component {
           {showStyleToolbar && <div>{this.renderStyleToolbar()}</div>}
           <Button onClick={this.showAlignmentToolbar.bind(this)}>Align</Button>
           {showAlignmentToolbar && <div>{this.renderAlignmentToolbar()}</div>}
-          <div>
-            <Editor
-              customStyleMap={styleMap}
-              editorState={this.state.editorState}
-              onChange={this.onChange}
-              placeholder="...start here"
-              plugins={plugins}
-              textAlignment={alignment}
-            />
+          
+              <Editor
+                customStyleMap={styleMap}
+                editorState={this.state.editorState}
+                onChange={this.onChange}
+                placeholder="...start here"
+                plugins={plugins}
+                textAlignment={alignment}
+              />
           </div>
-        </div>
+       
       </div>
     );
   }

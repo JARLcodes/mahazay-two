@@ -8,8 +8,16 @@
 }
 
 #editor {
-    width: 80%;
-    height: 100%
+    width: 70%;
+    height: 100%;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    cursor: text;
+    padding: 20px;
+    border-radius: 2px;
+    margin-bottom: 2em;
+    box-shadow: inset 0px 1px 8px -3px #ABABAB;
+    background: #fefefe;
 }
 
 #singleEntrySidebar {
