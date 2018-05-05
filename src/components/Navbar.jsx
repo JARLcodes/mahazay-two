@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import TextField from 'material-ui/TextField';
-import Input, { InputAdornment } from 'material-ui/Input';
+import { InputAdornment } from 'material-ui/Input';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import ArrowBack from '@material-ui/icons/ArrowBack';
@@ -16,10 +16,7 @@ import Search from '@material-ui/icons/Search';
 const styles = {
   root: {
     flexGrow: 1,
-  },
-
-  appbar: {
-      marginBottom: 50
+    marginBottom: 50
   },
 //   toolbar: {
 

@@ -1,85 +1,23 @@
 import React from "react";
-import { EditorState, RichUtils, convertFromRaw, convertToRaw, EditorChangeType, ContentState } from "draft-js";
-import Editor, { composeDecorators } from 'draft-js-plugins-editor';
-import createImagePlugin from 'draft-js-image-plugin';
-import createFocusPlugin from 'draft-js-focus-plugin';
-import createBlockDndPlugin from 'draft-js-drag-n-drop-plugin';
+import { EditorState, RichUtils, convertFromRaw, convertToRaw, ContentState } from "draft-js";
+import Editor from 'draft-js-plugins-editor';
 import Button from "material-ui/Button";
-// import '@firebase/firestore';
+import FormatAlignCenter from '@material-ui/icons/FormatAlignCenter';
+import FormatAlignJustify from '@material-ui/icons/FormatAlignJustify';
+import FormatAlignLeft from '@material-ui/icons/FormatAlignLeft';
+import FormatAlignRight from '@material-ui/icons/FormatAlignRight';
 
 
 import SingleEntrySidebar from './SingleEntrySidebar.jsx';
-
-import { db } from '../utils/firebase.config.js';
-const focusPlugin = createFocusPlugin();
-const blockDndPlugin = createBlockDndPlugin();
+import { plugins, styles } from '../utils/singleEntryUtils';
+import { db, admin } from '../utils/firebase.config.js';
 
 
-const decorator = composeDecorators(
-  focusPlugin.decorator,
-  blockDndPlugin.decorator
-);
-const imagePlugin = createImagePlugin({ decorator });
-
-const plugins = [
-  blockDndPlugin,
-  focusPlugin,
-  imagePlugin
-];
-
-/* eslint-disable */
-const initialState = {
-  "entityMap": {
-      "0": {
-          "type": "IMAGE",
-          "mutability": "MUTABLE",
-          "data": {
-              "src": "/images/cherry-blossom.jpg"
-          }, 
-      "1": {
-        "type": "IMAGE",
-        "mutability": "MUTABLE",
-        "data": {
-            "src": "/images/cherry-blossom.jpg"
-        }
-      }
-    }
-  },
-  "blocks": [{
-      "key": "9gm3s",
-      "text": "",
-      "type": "unstyled",
-      "depth": 0,
-      "inlineStyleRanges": [],
-      "entityRanges": [],
-      "data": {}
-  }, 
-  {
-    "key": "ov7r",
-    "text": " ",
-    "type": "atomic",
-    "depth": 0,
-    "inlineStyleRanges": [],
-    "entityRanges": [{
-        "offset": 0,
-        "length": 1,
-        "key": 0
-    }],
-    "data": {}
-}]
+const getRootRef = (entryId) => {
+  return db.collection('entries').doc(entryId)
 };
-/* eslint-enable */
-
-const rootRef = db.collection('entries').doc('x5hE8v4AmZrtF9AcdWhX');
-
-const styleMap = {
-  'STRIKETHROUGH': {
-    textDecoration: 'line-through',
-  },
-  'UNDERLINE': {
-    textDecoration: 'underline'
-  }
-};
+// convertFromRaw(snap.data().content)
+const rootRef = db.collection('entries').doc('K9xhcdKXioAH6oQ7Hv5k');
 
 export default class SingleEntry extends React.Component {
   state = {
@@ -93,14 +31,12 @@ export default class SingleEntry extends React.Component {
     
     rootRef.get()
       .then(snap => {
-      const content = snap.data().content ? convertFromRaw(snap.data().content) : ContentState.createFromText('')
-        console.log('data', snap.data());
+      const content = snap.data().content ?  ContentState.createFromText('') : null;
       this.setState({ editorState: EditorState.createWithContent(content) })
     })
   }
   onChange = editorState => {
-    // to send data from entry to firebase WHILE USER IS UPDATING: use convertToRaw(editorState.getCurrentContent())
-    // console.log(convertToRaw(editorState.getCurrentContent()))
+    // to send data from entry to firebase: use convertToRaw(editorState.getCurrentContent())
     this.setState({editorState})
     rootRef.update({ content: convertToRaw(editorState.getCurrentContent()) })
   }
@@ -138,26 +74,27 @@ export default class SingleEntry extends React.Component {
 
   renderAlignmentToolbar(){
     return <React.Fragment>
-        <Button onClick={this.onAlignmentChange.bind(this, 'left')}>Left</Button>
-        <Button onClick={this.onAlignmentChange.bind(this, 'center')}>Center</Button>
-        <Button onClick={this.onAlignmentChange.bind(this, 'right')}>Right</Button>
+        <Button onClick={this.onAlignmentChange.bind(this, 'left')}><FormatAlignLeft/></Button>
+        <Button onClick={this.onAlignmentChange.bind(this, 'center')}><FormatAlignCenter/></Button>
+        <Button onClick={this.onAlignmentChange.bind(this, 'right')}><FormatAlignRight/></Button>
     </React.Fragment>
   }
 
   render() {
     const { alignment, showStyleToolbar, showAlignmentToolbar, editorState } = this.state;
+    if (this.state.editorState) console.log('editor state: ', this.state.editorState.getCurrentContent());
     if (!editorState) return 'loading';
     return (
       <div id="singleEntry">
         <div id="sidebar"> <SingleEntrySidebar/> </div>
         <div id="editor">
-          <Button onClick={this.showStyleToolbar.bind(this)}><b>B</b><i>I</i><u>U</u></Button>
+          <Button onClick={this.showStyleToolbar.bind(this)}><b>B </b><i>I </i><u>U</u></Button>
           {showStyleToolbar && <div>{this.renderStyleToolbar()}</div>}
           <Button onClick={this.showAlignmentToolbar.bind(this)}>Align</Button>
           {showAlignmentToolbar && <div>{this.renderAlignmentToolbar()}</div>}
           
               <Editor
-                customStyleMap={styleMap}
+                customStyleMap={styles.styleMap}
                 editorState={this.state.editorState}
                 onChange={this.onChange}
                 placeholder="...start here"

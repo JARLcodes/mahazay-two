@@ -7,16 +7,9 @@ import Navbar from './components/Navbar';
 import AllEntries from './components/AllEntries.jsx';
 import SingleEntry from './components/SingleEntry.jsx';
 
-
-
 const theme = createMuiTheme();
 
-
-
-
-
-class App extends Component {
-  render() {
+function App() {
     return (
       <Router>
         <MuiThemeProvider theme={theme}>
@@ -36,6 +29,6 @@ class App extends Component {
       </Router>
     );
   }
-}
+
 
 export default App;
