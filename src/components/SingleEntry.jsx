@@ -13,27 +13,29 @@ import { plugins, styles } from '../utils/singleEntryUtils';
 import { db, admin } from '../utils/firebase.config.js';
 
 
-const getRootRef = (entryId) => {
-  return db.collection('entries').doc(entryId)
-};
-// convertFromRaw(snap.data().content)
+// const getRootRef = (entryId) => {
+//   return db.collection('entries').doc(entryId)
+// };
+
 const rootRef = db.collection('entries').doc('K9xhcdKXioAH6oQ7Hv5k');
+// const rootRef = db.collection('entries')
 
 export default class SingleEntry extends React.Component {
   state = {
     editorState: null, 
     alignment: 'left', 
     showStyleToolbar: false, 
-    showAlignmentToolbar: false
+    showAlignmentToolbar: false, 
   }
   
   componentDidMount(){
-    
     rootRef.get()
       .then(snap => {
-      const content = snap.data().content ?  ContentState.createFromText('') : null;
+      const content = snap.data().content ?  convertFromRaw(snap.data().content) : ContentState.createFromText('');
+      console.log('data', snap.id) //doc id lives here
       this.setState({ editorState: EditorState.createWithContent(content) })
     })
+   
   }
   onChange = editorState => {
     // to send data from entry to firebase: use convertToRaw(editorState.getCurrentContent())

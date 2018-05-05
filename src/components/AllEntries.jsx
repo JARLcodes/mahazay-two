@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-// export const db = firebase.firestore(); defined in src/App.js
-
-
+import { db, admin } from '../utils/firebase.config.js';
+import { convertFromRaw, convertToRaw } from 'draft-js';
 
 export default class AllEntries extends Component {
   constructor(){
     super();
-    this.state = {};
+   
   
 
   }
@@ -25,14 +24,17 @@ export default class AllEntries extends Component {
   //      console.log(`${doc.id} => ${JSON.stringify(doc.data())}`)
   //    })
   //  })
+
   }
+
 
   
   render() {
-    
+   
+
     return (
       <div>
-        <h1>here here hereeeee</h1>
+        <h1>MAP OVER ENTRIES HERE</h1>
       </div>
     )
   }

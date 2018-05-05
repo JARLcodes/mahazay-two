@@ -11,16 +11,17 @@ const express = require('express');
 
 const app = express();
 
+
+
 app.get('**', (req, res) => {
   const html = renderToString(<App />);
   console.log('html: ', html);
   res.set('Cache-Control', 'public, max-age=600, s-maxage=1200')
 })
 
-// app.get('/entries/:entryId', (req, res) => {
 
-// })
-
-
+app.get('/entries/:id', (req, res) => {
+  console.log('here');
+})
 const ssrapp = functions.https.onRequest(app);
 module.exports = ssrapp;
