@@ -1,15 +1,14 @@
 import React from "react";
 import { EditorState, RichUtils, convertFromRaw, convertToRaw, EditorChangeType, ContentState } from "draft-js";
 import Editor from 'draft-js-plugins-editor';
-
-
 import Button from "material-ui/Button";
 
+import { db } from '../utils/firebase.config.js';
 import { getRootRef } from '../utils/componentUtils';
 import { plugins, styles } from './../utils/singleEntryUtils';
 import SingleEntrySidebar from './SingleEntrySidebar.jsx';
 
-import { db } from '../utils/firebase.config.js';
+
 
 
 
@@ -86,6 +85,7 @@ export default class SingleEntry extends React.Component {
     const { alignment, showStyleToolbar, showAlignmentToolbar, editorState } = this.state;
     if (!editorState) return 'loading';
     console.log('single entry props: ', this.props)
+    console.log('this.state.rootRef.get()', this.state.rootRef)
     return (
       <div id="singleEntry">
         <div id="sidebar"> <SingleEntrySidebar/> </div>
