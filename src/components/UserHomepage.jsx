@@ -7,9 +7,7 @@ import Typography from 'material-ui/Typography';
 const styles = {
   card: {
 		maxWidth: 345,
-		background: '#EDE7F6',
-		borderRadius: 3, 
-		color: 'white',
+		background: '#E8EAF6',
 		height: 48,
 		padding: '3vh 2vh',
 		margin: '3vh'
@@ -18,7 +16,7 @@ const styles = {
     height: 0,
     paddingTop: '56.25%', // 16:9
 	}, 
-}
+};
 
 export default class Home extends Component {
 	render() {
@@ -26,18 +24,18 @@ export default class Home extends Component {
 			<div>
 				<h1>Home</h1>
         <Grid container justify='center'>
-        <Link to='/login'>
+        <Link to="login" style={{textDecoration:"none"}}>
         <Card style={styles.card}>	
           <CardContent>
-					<Typography variant="subheading" gutterBottom color="textSecondary">Login</Typography>
+					<Typography>Login</Typography>
 					</CardContent>
           </Card>
         </Link>
         
-        <Link to='/register'>
+        <Link to="/register" style={{textDecoration:"none"}}>
           <Card style={styles.card}>
           <CardContent>
-					<Typography variant="subheading" gutterBottom color="textSecondary">Register</Typography>
+					<Typography>Register</Typography>
 					</CardContent>
           </Card>
         </Link>

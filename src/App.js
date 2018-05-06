@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
-
 import './App.css';
-import Navbar from './components/Navbar';
-import AllEntries from './components/AllEntries.jsx';
-import SingleEntry from './components/SingleEntry.jsx';
-import Dashboard from './components/Dashboard.jsx';
+import { 
+  Navbar, 
+  SingleEntry,
+  Dashboard,
+  UserHomepage,
+  AllEntries } from './components/index.js';
 
 const theme = createMuiTheme();
 
@@ -22,6 +23,7 @@ class App extends Component {
             <div className="col-xs-10">
             <Switch>
               <Route exact path="/" component={Dashboard}/>
+              <Route path="/home" component={UserHomepage}/>
               <Route exact path="/entries" component={AllEntries}/>
               <Route exact path="/entries/:id" component={SingleEntry}/>
             </Switch>

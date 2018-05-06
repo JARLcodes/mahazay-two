@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { EditorState, RichUtils, convertFromRaw, convertToRaw, ContentState } from "draft-js";
 import Editor from 'draft-js-plugins-editor';
 import Button from "material-ui/Button";
@@ -19,7 +19,7 @@ const getRootRef = (entryId) => {
 // convertFromRaw(snap.data().content)
 const rootRef = db.collection('entries').doc('K9xhcdKXioAH6oQ7Hv5k');
 
-export default class SingleEntry extends React.Component {
+export default class SingleEntry extends Component {
   state = {
     editorState: null, 
     alignment: 'left', 

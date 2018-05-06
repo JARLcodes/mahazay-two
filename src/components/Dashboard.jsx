@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
-import { withStyles } from 'material-ui/styles';
+import React from 'react';
 import { Link } from 'react-router-dom';
+
 import Grid from 'material-ui/Grid';
-import Card, { CardContent, CardMedia, CardHeader } from 'material-ui/Card';
+import Card, { CardContent } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
+
 import Person from '@material-ui/icons/Person';
 import ImportContacts from '@material-ui/icons/ImportContacts';
 import LibraryBooks from '@material-ui/icons/LibraryBooks';
@@ -51,12 +52,14 @@ const Dashboard = () => {
 			</Grid>
 		</Grid>
 
-		<Grid justify="center" style={styles.gridList}>
+		<Grid container spacing={24} justify="center" style={styles.gridList}>
 				<Grid>
-					<Link to='/journals' style={{textDecoration: 'none'}}>
+					<Link to='/journals' style={{textDecoration:"none"}}>
 					<Card style={styles.card}>
 						<ImportContacts style={styles.mediumIcon}/>
-						<CardContent>Maybe some preview to journals here</CardContent>
+						<CardContent>
+						<Typography>Maybe some preview to journals here</Typography>
+						</CardContent>
 					</Card>
 					</Link>
 				</Grid>
@@ -65,7 +68,9 @@ const Dashboard = () => {
 					<Link to="/entries" style={{textDecoration:"none"}}>
 					<Card style={styles.card}>
 						<LibraryBooks style={styles.mediumIcon}/>
-						<CardContent>A preview to the entries here</CardContent>
+						<CardContent>
+						<Typography>Maybe some preview to entries here</Typography>
+						</CardContent>
 					</Card>
 					</Link>
 				</Grid>
