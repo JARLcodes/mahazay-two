@@ -12,27 +12,26 @@ import SingleEntry from './components/SingleEntry.jsx';
 const theme = createMuiTheme();
 
 
-class App extends Component {
-  render() {
-    return (
-      <Router>
-        <MuiThemeProvider theme={theme}>
-          <div className="App">
-            <div className="col-xs-10">
-              <Navbar />
-            </div>
-            <div className="col-xs-10">
-            <Switch>
-              <Route exact path="/" />
-              <Route exact path="/entries" component={AllEntries}/>
-              <Route exact path="/entries/:id" component={SingleEntry}/>
-            </Switch>
-            </div>
+function App(props) {
+  return (
+    <Router>
+      <MuiThemeProvider theme={theme}>
+        <div className="App">
+          <div className="col-xs-10">
+            <Navbar />
           </div>
-        </MuiThemeProvider>
-      </Router>
-    );
-  }
+          <div className="col-xs-10">
+          <Switch>
+            <Route exact path="/" />
+            <Route exact path="/entries" component={AllEntries}/>
+            <Route exact path="/entries/:id" component={SingleEntry}/>
+          </Switch>
+          </div>
+        </div>
+      </MuiThemeProvider>
+    </Router>
+  );
 }
+
 
 export default App;

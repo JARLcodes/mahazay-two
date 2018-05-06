@@ -1,99 +1,34 @@
 import React from "react";
 import { EditorState, RichUtils, convertFromRaw, convertToRaw, EditorChangeType, ContentState } from "draft-js";
-import Editor, { composeDecorators } from 'draft-js-plugins-editor';
-import createImagePlugin from 'draft-js-image-plugin';
-import createFocusPlugin from 'draft-js-focus-plugin';
-import createBlockDndPlugin from 'draft-js-drag-n-drop-plugin';
+import Editor from 'draft-js-plugins-editor';
+
+
 import Button from "material-ui/Button";
-// import '@firebase/firestore';
 
-
+import { getRootRef } from '../utils/componentUtils';
+import { plugins, styles } from './../utils/singleEntryUtils';
 import SingleEntrySidebar from './SingleEntrySidebar.jsx';
 
 import { db } from '../utils/firebase.config.js';
-const focusPlugin = createFocusPlugin();
-const blockDndPlugin = createBlockDndPlugin();
 
 
-const decorator = composeDecorators(
-  focusPlugin.decorator,
-  blockDndPlugin.decorator
-);
-const imagePlugin = createImagePlugin({ decorator });
 
-const plugins = [
-  blockDndPlugin,
-  focusPlugin,
-  imagePlugin
-];
 
-/* eslint-disable */
-const initialState = {
-  "entityMap": {
-      "0": {
-          "type": "IMAGE",
-          "mutability": "MUTABLE",
-          "data": {
-              "src": "/images/cherry-blossom.jpg"
-          }, 
-      "1": {
-        "type": "IMAGE",
-        "mutability": "MUTABLE",
-        "data": {
-            "src": "/images/cherry-blossom.jpg"
-        }
-      }
-    }
-  },
-  "blocks": [{
-      "key": "9gm3s",
-      "text": "",
-      "type": "unstyled",
-      "depth": 0,
-      "inlineStyleRanges": [],
-      "entityRanges": [],
-      "data": {}
-  }, 
-  {
-    "key": "ov7r",
-    "text": " ",
-    "type": "atomic",
-    "depth": 0,
-    "inlineStyleRanges": [],
-    "entityRanges": [{
-        "offset": 0,
-        "length": 1,
-        "key": 0
-    }],
-    "data": {}
-}]
-};
-/* eslint-enable */
-
-const rootRef = db.collection('entries').doc('x5hE8v4AmZrtF9AcdWhX');
-
-const styleMap = {
-  'STRIKETHROUGH': {
-    textDecoration: 'line-through',
-  },
-  'UNDERLINE': {
-    textDecoration: 'underline'
-  }
-};
 
 export default class SingleEntry extends React.Component {
   state = {
     editorState: null, 
     alignment: 'left', 
     showStyleToolbar: false, 
-    showAlignmentToolbar: false
+    showAlignmentToolbar: false, 
+    rootRef: getRootRef('entries', this.props.match.params.id)
   }
   
   componentDidMount(){
     
-    rootRef.get()
+    this.state.rootRef.get()
       .then(snap => {
-      const content = snap.data().content ? convertFromRaw(snap.data().content) : ContentState.createFromText('')
+      const content = snap.data() ? convertFromRaw(snap.data().content) : ContentState.createFromText('')
         console.log('data', snap.data());
       this.setState({ editorState: EditorState.createWithContent(content) })
     })
@@ -102,7 +37,10 @@ export default class SingleEntry extends React.Component {
     // to send data from entry to firebase WHILE USER IS UPDATING: use convertToRaw(editorState.getCurrentContent())
     // console.log(convertToRaw(editorState.getCurrentContent()))
     this.setState({editorState})
-    rootRef.update({ content: convertToRaw(editorState.getCurrentContent()) })
+    this.state.rootRef.content 
+      ? this.state.rootRef.update({ content: convertToRaw(editorState.getCurrentContent()) })
+      : this.state.rootRef.set({ content: convertToRaw(editorState.getCurrentContent()) });
+
   }
 
   toggleInlineStyle = style => () => 
@@ -147,6 +85,7 @@ export default class SingleEntry extends React.Component {
   render() {
     const { alignment, showStyleToolbar, showAlignmentToolbar, editorState } = this.state;
     if (!editorState) return 'loading';
+    console.log('single entry props: ', this.props)
     return (
       <div id="singleEntry">
         <div id="sidebar"> <SingleEntrySidebar/> </div>
@@ -157,7 +96,7 @@ export default class SingleEntry extends React.Component {
           {showAlignmentToolbar && <div>{this.renderAlignmentToolbar()}</div>}
           
               <Editor
-                customStyleMap={styleMap}
+                customStyleMap={styles.styleMap}
                 editorState={this.state.editorState}
                 onChange={this.onChange}
                 placeholder="...start here"
