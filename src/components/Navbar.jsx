@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import TextField from 'material-ui/TextField';
-import Input, { InputAdornment } from 'material-ui/Input';
+import { InputAdornment } from 'material-ui/Input';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import ArrowBack from '@material-ui/icons/ArrowBack';
@@ -16,22 +16,31 @@ import Search from '@material-ui/icons/Search';
 const styles = {
   root: {
     flexGrow: 1,
+    marginBottom: 50
   },
-
-  appbar: {
-      marginBottom: 50
+  toolbar: {
+    background: "white"
   },
-//   toolbar: {
-
-//   },
-//   button: {
-
-//   },
-//   logoutButton: {
-
-//   },
-    textField: {
-        color: '#FAFAFA'
+  backButton: {
+    color: "#424242"
+  },
+  journalButton: {
+    color: "#A1887F"
+  },
+  entryButton: {
+    color: "#82B1FF"
+  },
+  trackerButton: {
+    color: "#EF9A9A"
+  },
+  insightButton: {
+    color: "#9FA8DA"
+  },
+  logoutButton: {
+    color: "#424242"
+  },
+  textField: {
+    color: '#FAFAFA'
     }
 };
 
@@ -42,27 +51,27 @@ export default class Navbar extends Component {
             <div>
                 <AppBar position="static" style={styles.root}>
                     <Toolbar style={styles.toolbar}>
-                        <Button color="inherit" style={styles.button}>
+                        <Button color="inherit" style={styles.backButton}>
                             <ArrowBack />
                         </Button>
                         <Button href="/">
-                            <Typography variant="display4" color="inherit">
+                            <Typography variant="display4">
                                 Mahazay
                             </Typography>
                         </Button>
-                        <Button href="/journals" color="inherit" style={styles.button}>
+                        <Button href="/journals" color="inherit" style={styles.journalButton}>
                             <ImportContacts />
                             Journals
                         </Button>
-                        <Button href="/entries" color="inherit" style={styles.button}>
+                        <Button href="/entries" color="inherit" style={styles.entryButton}>
                             <LibraryBooks />
                             Entries
                         </Button>
-                        <Button href="/tracker" color="inherit" style={styles.button}>
+                        <Button href="/tracker" color="inherit" style={styles.trackerButton}>
                             <CheckBox />
                             Tracker
                         </Button>
-                        <Button href="/insights" color="inherit" style={styles.button}>
+                        <Button href="/insights" color="inherit" style={styles.insightButton}>
                             <Poll />
                             Insights
                         </Button>

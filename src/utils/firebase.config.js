@@ -16,3 +16,6 @@ const firestore = firebase.firestore();
 const settings = { timestampsInSnapshots: true };
 firestore.settings(settings);
 export const db = firestore;
+
+// export const admin = require('firebase-admin');
+// admin.initializeApp();
