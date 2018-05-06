@@ -6,7 +6,7 @@ import {
   Navbar, 
   SingleEntry,
   Dashboard,
-  UserHomepage,
+  Home,
   AllEntries } from './components/index.js';
 
 const theme = createMuiTheme();
@@ -22,8 +22,8 @@ class App extends Component {
             </div>
             <div className="col-xs-10">
             <Switch>
-              <Route exact path="/" component={Dashboard}/>
-              <Route path="/home" component={UserHomepage}/>
+              <Route path="/" component={Home}/>
+              <Route exact path="/dashboard" component={Dashboard}/>
               <Route exact path="/entries" component={AllEntries}/>
               <Route exact path="/entries/:id" component={SingleEntry}/>
             </Switch>
