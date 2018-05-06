@@ -9,27 +9,32 @@ import ImportContacts from '@material-ui/icons/ImportContacts';
 import LibraryBooks from '@material-ui/icons/LibraryBooks';
 
 const styles = {
-  card: {
-		maxWidth: 200,
-		background: "#EFEBE9",
-		padding: "4vh 4vh",
-		margin: "2vh 2vh"
-	},
 	profileCard: {
 		maxWidth: 200,
-		background: "#ECEFF1",
-		padding: "2vh 4vh",
+		background: "#E8EAF6",
+		padding: "3vh 5vh",
 		marginBottom: "8vh"
+	},
+  card: {
+		maxWidth: 200,
+		background: "#FFFDE7",
+		padding: "4vh 4vh",
+		margin: "2vh 2vh"
 	},
   gridList: {
     display: "flex",
     flexWrap: "nowrap",
     overflowX: "auto",
 	},
+	profileIcon: {
+		color: "#616161",
+		width: 80,
+		height: 80
+	},
 	mediumIcon: {
-		color: "#757575",
-		width: 30,
-		height: 30
+		color: "#616161",
+		width: 40,
+		height: 40
 	}
 };
 
@@ -40,8 +45,7 @@ const Dashboard = () => {
 			<Grid>
 				<Link to="/profile" style={{textDecoration:"none"}}>
 				<Card style={styles.profileCard}>
-					<Person style={styles.mediumIcon}/>
-					<CardContent>Your Profile</CardContent>
+					<Person style={styles.profileIcon}/>
 				</Card>
 				</Link>
 			</Grid>
