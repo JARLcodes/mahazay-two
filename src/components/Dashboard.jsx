@@ -2,85 +2,70 @@ import React, { Component } from 'react';
 import { withStyles } from 'material-ui/styles';
 import { Link } from 'react-router-dom';
 import Grid from 'material-ui/Grid';
-import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card';
+import Card, { CardContent, CardMedia, CardHeader } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
+import Person from '@material-ui/icons/Person';
+import ImportContacts from '@material-ui/icons/ImportContacts';
+import LibraryBooks from '@material-ui/icons/LibraryBooks';
 
 const styles = {
   card: {
-		maxWidth: 345,
-		background: 'lightgray',
-		borderRadius: 5, 
-		color: 'white',
-		height: 48,
-		padding: '6vh 7vh',
-		margin: '4vh'
-  },
-  media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
-	}, 
+		maxWidth: 200,
+		background: "#EFEBE9",
+		padding: "4vh 4vh",
+		margin: "2vh 2vh"
+	},
+	profileCard: {
+		maxWidth: 200,
+		background: "#ECEFF1",
+		padding: "2vh 4vh",
+		marginBottom: "8vh"
+	},
   gridList: {
-    display: 'flex',
-    flexWrap: 'nowrap',
-    overflowX: 'auto',
-  }
+    display: "flex",
+    flexWrap: "nowrap",
+    overflowX: "auto",
+	},
+	mediumIcon: {
+		color: "#757575",
+		width: 30,
+		height: 30
+	}
 };
 
-const Dashboard = props => {
-	console.log('styles', styles.card)
+const Dashboard = () => {
 	return (
-		<div>
-			<Grid container spacing={24} justify="center">
-			<div>
-			<Grid item padding={16}>
-				<Link to='/profile'>
-				<Card style={styles.card}>
-					<CardContent>
-					<Typography variant="subheading" color="textSecondary">View Profile</Typography>
-					</CardContent>
+	<div>
+		<Grid container spacing={24} justify="center" style={styles.gridList}>
+			<Grid>
+				<Link to="/profile" style={{textDecoration:"none"}}>
+				<Card style={styles.profileCard}>
+					<Person style={styles.mediumIcon}/>
+					<CardContent>Your Profile</CardContent>
 				</Card>
 				</Link>
 			</Grid>
-			</div>
+		</Grid>
 
-			<div>
-			<Grid item padding={16}>
-				<Link to='/logout'>
-				<Card style={styles.card}>
-					<CardContent>
-					<Typography variant="subheading" color="textSecondary">Logout</Typography>
-					</CardContent>
-				</Card>
-			</Link>
+		<Grid justify="center" style={styles.gridList}>
+				<Grid>
+					<Link to='/journals' style={{textDecoration: 'none'}}>
+					<Card style={styles.card}>
+						<ImportContacts style={styles.mediumIcon}/>
+						<CardContent>Maybe some preview to journals here</CardContent>
+					</Card>
+					</Link>
+				</Grid>
+
+				<Grid>
+					<Link to="/entries" style={{textDecoration:"none"}}>
+					<Card style={styles.card}>
+						<LibraryBooks style={styles.mediumIcon}/>
+						<CardContent>A preview to the entries here</CardContent>
+					</Card>
+					</Link>
+				</Grid>
 			</Grid>
-			</div>
-
-			<div>
-			<Grid item padding={16}>
-				<Link to='/journals'>
-				<Card style={styles.card}>
-					<CardContent>
-					<Typography variant="subheading" color="textSecondary">Your Journals</Typography>
-					</CardContent>
-				</Card>
-				</Link>
-			</Grid>
-			</div>
-
-			<div>
-			<Grid item padding={16}>
-				<Link to='/entries'>
-				<Card style={styles.card}>
-					<CardContent>
-					<Typography variant="subheading" color="textSecondary">Your Entries</Typography>
-					</CardContent>
-				</Card>
-				</Link>
-			</Grid>
-			</div>
-
-			</Grid>
-
 		</div>
 	);
 };
