@@ -23,7 +23,10 @@ const styles = theme => ({
     display: "flex",
     flexWrap: "nowrap",
     overflowX: "auto",
-	}
+  },
+  signUp: {
+    background: "blue"
+  }
 });
 
 export default class HomepageForm extends Component {
@@ -32,12 +35,12 @@ export default class HomepageForm extends Component {
     this.state = {
       email: '',
       password: '',
-      showLogin: false,
-      showSignUp: false
+      signUp: false,
+      login: true
     };
     this.handleChange = this.handleChange.bind(this);
-    this.handleLoginForm = this.handleLoginForm.bind(this);
-    this.handleSignUpForm = this.handleSignUpForm.bind(this);
+    // this.toggleSignUp = this.toggleSignUp.bind(this);
+    this.toggleShow = this.toggleShow.bind(this);
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
   }
@@ -47,14 +50,10 @@ export default class HomepageForm extends Component {
     this.setState({ [event.target.name] : event.target.value });
   }
 
-  handleLoginForm() {
-    this.setState({ showLogin: !this.state.showLogin });
+  toggleShow() {
+    this.setState({ signUp: !this.state.signUp, login: !this.state.login });
   }
 
-  handleSignUpForm() {
-    this.setState({ showSignUp: !this.state.showSignUp });
-  }
-  
   handleSignUp(event) {
     event.preventDefault();
     const { email, password } = this.state;
@@ -72,14 +71,16 @@ export default class HomepageForm extends Component {
   }
 
   render() {
-    console.log('db collection', db.collection('journals'));
+    console.log('state login', this.state.login);
+    console.log('state signup', this.state.signUp)
     return (
       <form className={styles.container}>
       <Grid container spacing={24} justify="center"style={styles.gridList}>
         <div>
-        <Button onClick={this.handleSignUpForm}>New to Mahazay?</Button>
-          <Grid item>
-          { this.state.showSignUp ? 
+        <Grid item>
+        <Button onClick={this.toggleShow}>New to Mahazay?</Button>
+        <Button onClick={this.toggleShow}>Already a User?</Button>
+          { this.state.signUp && !this.state.login ? 
             <div>
               <div>
                 <TextField
@@ -90,7 +91,7 @@ export default class HomepageForm extends Component {
                 placeholder="Enter Email"
                 margin="normal"
                 />
-              </div>
+            </div>
             <div>
                 <TextField
                 id="name"
@@ -102,44 +103,39 @@ export default class HomepageForm extends Component {
                 />
               </div> 
               <Button href="/dashboard" onClick={this.handleSignUp}>
-              Sign Up
+                Sign Up
               </Button>
-            </div> : null }
+            </div> 
+            :
+            this.state.login && !this.state.signUp ?
+            <div>
+            <div>
+              <TextField
+              id="emailInput"
+              label="Email"
+              onChange={this.handleChange}
+              name="email"
+              placeholder="Enter Email"
+              margin="normal"
+              />
+          </div>
+          <div>
+              <TextField
+              id="name"
+              label="Password"
+              onChange={this.handleChange}
+              name="password"
+              placeholder="Enter Password"
+              margin="normal"
+              />
+            </div> 
+            <Button href="/dashboard" onClick={this.handleLogin}>
+             Login
+            </Button>
+          </div>
+          : null}
           </Grid> 
         </div>
-
-        <div>
-        <Button onClick={this.handleLoginForm}>Already a Member?</Button>
-          <Grid item>
-          { this.state.showLogin ? 
-            <div>
-              <div>
-                <TextField
-                id="emailInput"
-                label="Email"
-                onChange={this.handleChange}
-                name="email"
-                placeholder="Enter Email"
-                margin="normal"
-                />
-              </div>
-            <div>
-                <TextField
-                id="name"
-                label="Password"
-                onChange={this.handleChange}
-                name="password"
-                placeholder="Enter Password"
-                margin="normal"
-                />
-              </div> 
-              <Button href="dashboard" onClick={this.handleLogin}>
-              Login
-              </Button>
-            </div> : null }
-            </Grid> 
-          </div>
-
         </Grid>
       </form>
     );
