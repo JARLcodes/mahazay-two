@@ -31,11 +31,11 @@ export default class AllEntries extends Component {
   }
 
   render() {
-    const { rootRef, docs, newEntryId } = this.state;
+    const { rootRef, entries, newEntryId } = this.state;
     return (
       <div>
-        { docs.map( doc => (
-          <Link key={Object.keys(doc)} to={`/entries/${Object.keys(doc)}`}>LINK</Link>
+        { entries.map( entry => (
+          <Link key={Object.keys(entry)} to={`/entries/${Object.keys(entry)}`}>LINK</Link>
         )
         )}
         <Button onClick={this.addEntry}>New Entry</Button>
