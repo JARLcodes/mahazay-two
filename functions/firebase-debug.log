@@ -1,0 +1,18 @@
+[debug] [2018-05-05T18:42:07.809Z] ----------------------------------------------------------------------
+[debug] [2018-05-05T18:42:07.812Z] Command:       /Users/abigaildemsas/.nvm/versions/node/v8.11.1/bin/node /usr/local/bin/firebase deploy
+[debug] [2018-05-05T18:42:07.812Z] CLI Version:   3.18.4
+[debug] [2018-05-05T18:42:07.812Z] Platform:      darwin
+[debug] [2018-05-05T18:42:07.812Z] Node Version:  v8.11.1
+[debug] [2018-05-05T18:42:07.815Z] Time:          Sat May 05 2018 14:42:07 GMT-0400 (EDT)
+[debug] [2018-05-05T18:42:07.815Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-05-05T18:42:07.834Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-05-05T18:42:07.835Z] > authorizing via signed-in user
+[debug] [2018-05-05T18:42:07.838Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/mahazay-c248c  
+  
+ Sat May 05 2018 14:42:07 GMT-0400 (EDT)
+[debug] [2018-05-05T18:42:08.223Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-05T18:42:08.224Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/mahazay-c248c/tokens  
+  
+ Sat May 05 2018 14:42:08 GMT-0400 (EDT)
+[debug] [2018-05-05T18:42:08.661Z] <<< HTTP RESPONSE 200
