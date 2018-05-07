@@ -3,42 +3,38 @@ import { EditorState, RichUtils, convertFromRaw, convertToRaw, ContentState } fr
 import Editor from 'draft-js-plugins-editor';
 import Button from "material-ui/Button";
 import FormatAlignCenter from '@material-ui/icons/FormatAlignCenter';
-import FormatAlignJustify from '@material-ui/icons/FormatAlignJustify';
 import FormatAlignLeft from '@material-ui/icons/FormatAlignLeft';
 import FormatAlignRight from '@material-ui/icons/FormatAlignRight';
 
-
+import { getRootRef } from '../utils/componentUtils';
+import { plugins, styles } from './../utils/singleEntryUtils';
 import SingleEntrySidebar from './SingleEntrySidebar.jsx';
-import { plugins, styles } from '../utils/singleEntryUtils';
-import { db, admin } from '../utils/firebase.config.js';
 
-
-const getRootRef = (entryId) => {
-  return db.collection('entries').doc(entryId)
-};
-// convertFromRaw(snap.data().content)
-const rootRef = db.collection('entries').doc('K9xhcdKXioAH6oQ7Hv5k');
 
 export default class SingleEntry extends Component {
   state = {
     editorState: null, 
     alignment: 'left', 
     showStyleToolbar: false, 
-    showAlignmentToolbar: false
+    showAlignmentToolbar: false, 
+    rootRef: getRootRef('entries', this.props.match.params.id)
   }
   
   componentDidMount(){
     
-    rootRef.get()
+    this.state.rootRef.get()
       .then(snap => {
-      const content = snap.data().content ?  ContentState.createFromText('') : null;
+      const content = snap.data() ? convertFromRaw(snap.data().content) : ContentState.createFromText('')
       this.setState({ editorState: EditorState.createWithContent(content) })
     })
   }
   onChange = editorState => {
-    // to send data from entry to firebase: use convertToRaw(editorState.getCurrentContent())
+    // to send data from entry to firebase WHILE USER IS UPDATING: use convertToRaw(editorState.getCurrentContent())
     this.setState({editorState})
-    rootRef.update({ content: convertToRaw(editorState.getCurrentContent()) })
+    this.state.rootRef.content 
+      ? this.state.rootRef.update({ content: convertToRaw(editorState.getCurrentContent()) })
+      : this.state.rootRef.set({ content: convertToRaw(editorState.getCurrentContent()) });
+
   }
 
   toggleInlineStyle = style => () => 
@@ -59,6 +55,7 @@ export default class SingleEntry extends Component {
   showStyleToolbar(){
     this.setState({ showStyleToolbar: !this.state.showStyleToolbar })
   }
+  
   showAlignmentToolbar(){
     this.setState({ showAlignmentToolbar: !this.state.showAlignmentToolbar })
   }
@@ -85,10 +82,10 @@ export default class SingleEntry extends Component {
     if (this.state.editorState) console.log('editor state: ', this.state.editorState.getCurrentContent());
     if (!editorState) return 'loading';
     return (
-      <div id="singleEntry">
-        <div id="sidebar"> <SingleEntrySidebar/> </div>
-        <div id="editor">
-          <Button onClick={this.showStyleToolbar.bind(this)}><b>B </b><i>I </i><u>U</u></Button>
+      <div style={styles.singleEntry}>
+        <div style={styles.sidebar}> <SingleEntrySidebar/> </div>
+        <div style={styles.editor}>
+          <Button onClick={this.showStyleToolbar.bind(this)}><b>B</b><i>I</i><u>U</u></Button>
           {showStyleToolbar && <div>{this.renderStyleToolbar()}</div>}
           <Button onClick={this.showAlignmentToolbar.bind(this)}>Align</Button>
           {showAlignmentToolbar && <div>{this.renderAlignmentToolbar()}</div>}

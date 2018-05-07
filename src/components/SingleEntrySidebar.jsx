@@ -10,12 +10,16 @@ const styles = {
   delete: {
     alignSelf: 'center', 
     width: '20%'
+  }, 
+  singleEntrySidebar : {
+    display: "flex",
+    flexDirection: "column"
   }
 }
 export default class SingleEntrySidebar extends Component {
   render() {
     return (
-      <div id="singleEntrySidebar">
+      <div style={styles.singleEntrySidebar}>
         <Add style={styles.addMedia}/>
         <Button>Video</Button>
         <Button>Image</Button>
