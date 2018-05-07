@@ -12,7 +12,6 @@ import Poll from '@material-ui/icons/Poll';
 import ImportContacts from '@material-ui/icons/ImportContacts';
 import LibraryBooks from '@material-ui/icons/LibraryBooks';
 import Search from '@material-ui/icons/Search';
-import { Link } from 'react-router-dom';
 
 const styles = {
     root: {
@@ -67,12 +66,10 @@ export default class Navbar extends Component {
                             <ImportContacts />
                             Journals
                         </Button>
-                        <Link to="/entries" style={styles.link}>
-                            <Button href="/entries" color="inherit" style={styles.entryButton}>
-                                <LibraryBooks />
-                                Entries
-                            </Button>
-                        </Link>
+                        <Button href="/entries"  style={styles.entryButton}>
+                            <LibraryBooks />
+                            Entries
+                        </Button>             
                         <Button href="/tracker" color="inherit" style={styles.trackerButton}>
                             <CheckBox />
                             Tracker

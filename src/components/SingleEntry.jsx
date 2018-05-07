@@ -1,13 +1,14 @@
 import React, { Component } from "react";
-import { EditorState, RichUtils, convertFromRaw, convertToRaw, ContentState } from "draft-js";
+import { EditorState, RichUtils, convertFromRaw, convertToRaw } from "draft-js";
 import Editor from 'draft-js-plugins-editor';
 import Button from "material-ui/Button";
 import FormatAlignCenter from '@material-ui/icons/FormatAlignCenter';
 import FormatAlignLeft from '@material-ui/icons/FormatAlignLeft';
 import FormatAlignRight from '@material-ui/icons/FormatAlignRight';
+// import TextField from 'material-ui/TextField';
 
 import { getRootRef } from '../utils/componentUtils';
-import { plugins, styles } from './../utils/singleEntryUtils';
+import { plugins, styles, promptForLink, removeLink, confirmLink, linkDecorator } from './../utils/singleEntryUtils';
 import SingleEntrySidebar from './SingleEntrySidebar.jsx';
 
 
@@ -17,17 +18,21 @@ export default class SingleEntry extends Component {
     alignment: 'left', 
     showStyleToolbar: false, 
     showAlignmentToolbar: false, 
+    showLinkToolbar: false,
+    showUrlInput: false,
+    urlValue: '',
     rootRef: getRootRef('entries', this.props.match.params.id)
   }
   
   componentDidMount(){
-    
     this.state.rootRef.get()
       .then(snap => {
-      const content = snap.data() ? convertFromRaw(snap.data().content) : ContentState.createFromText('')
-      this.setState({ editorState: EditorState.createWithContent(content) })
-    })
+        snap.data() 
+        ? this.setState({ editorState: EditorState.createWithContent(convertFromRaw(snap.data().content)) }) 
+        : this.setState({ editorState: EditorState.createEmpty(linkDecorator)})
+    });
   }
+
   onChange = editorState => {
     // to send data from entry to firebase WHILE USER IS UPDATING: use convertToRaw(editorState.getCurrentContent())
     this.setState({editorState})
@@ -37,6 +42,7 @@ export default class SingleEntry extends Component {
 
   }
 
+  //for BIU toolbar
   toggleInlineStyle = style => () => 
     this.onChange(RichUtils.toggleInlineStyle(
       this.state.editorState,
@@ -48,55 +54,105 @@ export default class SingleEntry extends Component {
   onUnderline = this.toggleInlineStyle('UNDERLINE')
   onStrikethrough = this.toggleInlineStyle('STRIKETHROUGH')
 
-  onAlignmentChange(alignment){
-    this.setState({ alignment })
+  onAlignmentChange(){
+    console.log('change alignment...')
   }
 
-  showStyleToolbar(){
-    this.setState({ showStyleToolbar: !this.state.showStyleToolbar })
-  }
-  
-  showAlignmentToolbar(){
-    this.setState({ showAlignmentToolbar: !this.state.showAlignmentToolbar })
-  }
-
-  renderStyleToolbar() {
-    return <React.Fragment>
-        <Button onClick={this.onBold}>Bold</Button>
-        <Button onClick={this.onItalic}>Italic</Button>
-        <Button onClick={this.onUnderline}>Underline</Button>
-        <Button onClick={this.onStrikethrough}>Strikethrough</Button>
-    </React.Fragment>
+  showToolbar(type){
+    switch(type){
+      case 'STYLE':
+        return this.setState({ showStyleToolbar: !this.state.showStyleToolbar });
+      case 'ALIGN':
+        return this.setState({ showAlignmentToolbar: !this.state.showAlignmentToolbar });
+      case 'LINK':
+        return this.setState({ showLinkToolbar: !this.state.showLinkToolbar });
+      default:
+        console.log(type);
+    }
+    
   }
 
-  renderAlignmentToolbar(){
-    return <React.Fragment>
-        <Button onClick={this.onAlignmentChange.bind(this, 'left')}><FormatAlignLeft/></Button>
-        <Button onClick={this.onAlignmentChange.bind(this, 'center')}><FormatAlignCenter/></Button>
-        <Button onClick={this.onAlignmentChange.bind(this, 'right')}><FormatAlignRight/></Button>
-    </React.Fragment>
+  renderToolbar(type){
+    switch(type){
+      case 'STYLE':
+        return ( 
+          <React.Fragment>
+            <Button onClick={this.onBold}>Bold</Button>
+            <Button onClick={this.onItalic}>Italic</Button>
+            <Button onClick={this.onUnderline}>Underline</Button>
+            <Button onClick={this.onStrikethrough}>Strikethrough</Button>
+          </React.Fragment> 
+        )
+      case 'ALIGN': 
+        return (
+          <React.Fragment>
+            <Button onClick={this.onAlignmentChange.bind(this, 'left')}><FormatAlignLeft/></Button>
+            <Button onClick={this.onAlignmentChange.bind(this, 'center')}><FormatAlignCenter/></Button>
+            <Button onClick={this.onAlignmentChange.bind(this, 'right')}><FormatAlignRight/></Button>
+          </React.Fragment>
+        )
+      case 'LINK': 
+        return (
+          <React.Fragment>
+            <Button onClick={e => promptForLink.call(this, e, this.state.editorState) }>Add Link</Button>
+            <Button onClick={e => removeLink.call(this, e, this.state.editorState )}>Remove Link</Button> 
+            
+          </React.Fragment>
+        )
+      default:
+        console.log('render toolbar please select a type: STYLE, ALIGN, or LINK');
+      }
+  }
+
+
+  handleKeyCommand(command, editorState) {
+    const newState = RichUtils.handleKeyCommand(editorState, command);
+    if (newState) {
+      this.onChange(newState);
+      return 'handled';
+    }
+    return 'not-handled';
   }
 
   render() {
-    const { alignment, showStyleToolbar, showAlignmentToolbar, editorState } = this.state;
-    if (this.state.editorState) console.log('editor state: ', this.state.editorState.getCurrentContent());
+    let urlInput;
+    const { alignment, showStyleToolbar, showAlignmentToolbar, showLinkToolbar, showUrlInput, editorState } = this.state;
     if (!editorState) return 'loading';
     return (
       <div style={styles.singleEntry}>
         <div style={styles.sidebar}> <SingleEntrySidebar/> </div>
         <div style={styles.editor}>
-          <Button onClick={this.showStyleToolbar.bind(this)}><b>B</b><i>I</i><u>U</u></Button>
-          {showStyleToolbar && <div>{this.renderStyleToolbar()}</div>}
-          <Button onClick={this.showAlignmentToolbar.bind(this)}>Align</Button>
-          {showAlignmentToolbar && <div>{this.renderAlignmentToolbar()}</div>}
-          
+
+          <Button onClick={this.showToolbar.bind(this, 'STYLE')}><b>B</b><i>I</i><u>U</u></Button>
+          {showStyleToolbar && <div>{this.renderToolbar('STYLE')}</div>}
+
+          <Button onClick={this.showToolbar.bind(this, 'ALIGN')}>Align</Button>
+          {showAlignmentToolbar && <div>{this.renderToolbar('ALIGN')}</div>}
+
+          <Button onClick={this.showToolbar.bind(this, 'LINK')}>Link</Button>
+          {showLinkToolbar && <div>{this.renderToolbar('LINK')}</div>}
+           {/* {showUrlInput && 
+           <div> */}
+            <input
+                onChange={this.onURLChange}
+                ref="url"
+                style={styles.urlInput}
+                type="text"
+                value={this.state.urlValue}
+                onKeyDown={this.onLinkInputKeyDown}
+              />
+              <Button onClick={e => confirmLink.call(this, e, this.state.editorState, this.state.urlValue)}>Confirm Link</Button>
+            {/* </div>
+           } */}
               <Editor
                 customStyleMap={styles.styleMap}
                 editorState={this.state.editorState}
                 onChange={this.onChange}
+                handleKeyCommand={this.handleKeyCommand.bind(this)}
                 placeholder="...start here"
                 plugins={plugins}
                 textAlignment={alignment}
+                ref="editor"
               />
           </div>
        

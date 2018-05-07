@@ -9,7 +9,9 @@ const styles = {
   }, 
   delete: {
     alignSelf: 'center', 
-    width: '20%'
+    width: '20%', 
+    backgroundColor: "#EF9A9A", 
+    color: "#fff"
   }, 
   singleEntrySidebar : {
     display: "flex",
@@ -24,7 +26,7 @@ export default class SingleEntrySidebar extends Component {
         <Button>Video</Button>
         <Button>Image</Button>
         <Button>Audio</Button>
-        <Button variant="raised" color="secondary" style={styles.delete}>Delete Entry</Button>
+        <Button style={styles.delete}>Delete Entry</Button>
        
       </div>
     )

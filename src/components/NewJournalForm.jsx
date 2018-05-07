@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import TextField from 'material-ui/TextField';
-import { InputAdornment } from 'material-ui/Input';
 import Button from "material-ui/Button";
 import { getRootRef } from '../utils/componentUtils';
 

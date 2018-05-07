@@ -31,7 +31,7 @@ export default class AllEntries extends Component {
   }
 
   render() {
-    const { rootRef, entries, newEntryId } = this.state;
+    const { entries, newEntryId } = this.state;
     return (
       <div>
         { entries.map( entry => (
