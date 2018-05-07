@@ -26,6 +26,7 @@ function App() {
           <div className="col-xs-10">
           <Switch>
             <Route exact path="/" component={HomepageForm}/>
+            <Route exact path="/dashboard" component={Dashboard}/>
             <Route exact path="/entries" component={AllEntries}/>
             <Route exact path="/entries/:id" component={SingleEntry}/>
             <Route exact path="/journals" component={AllJournals} />

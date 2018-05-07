@@ -92,7 +92,7 @@ export default class Navbar extends Component {
                                 ),
                             }}
                         />
-                        <Button href="/login" color="inherit" style={styles.logoutButton}>
+                        <Button href="/" color="inherit" style={styles.logoutButton}>
                             <Person />
                             Logout
                         </Button>

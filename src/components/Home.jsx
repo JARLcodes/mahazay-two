@@ -3,7 +3,8 @@ import MenuItem from 'material-ui/Menu/MenuItem';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import Grid from 'material-ui/Grid';
-import firebase, { auth, provider } from '../utils/firebase.config'
+import firebase from 'firebase';
+import { auth, provider, db } from '../utils/firebase.config';
 
 const styles = theme => ({
   container: {
@@ -32,8 +33,7 @@ export default class HomepageForm extends Component {
       email: '',
       password: '',
       showLogin: false,
-      showSignUp: false,
-      newUser: null
+      showSignUp: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleLoginForm = this.handleLoginForm.bind(this);
@@ -41,9 +41,10 @@ export default class HomepageForm extends Component {
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
   }
-  
+
   handleChange(event) {
-    this.setState({ [event.target.name ] : event.target.value });
+    event.preventDefault();
+    this.setState({ [event.target.name] : event.target.value });
   }
 
   handleLoginForm() {
@@ -54,12 +55,12 @@ export default class HomepageForm extends Component {
     this.setState({ showSignUp: !this.state.showSignUp });
   }
   
-  handleSignUp() {
+  handleSignUp(event) {
+    event.preventDefault();
     const { email, password } = this.state;
     auth.createUserWithEmailAndPassword(email, password)
-    .then(res => {
-      const newUser = res.newUser;
-      this.setState({ newUser });
+    .then(newUser => {
+      return db.collection('users').doc(`${newUser.uid}`).set({ email: email, password: password });
     })
     .catch(err => console.log(err.message));
   }
@@ -71,8 +72,7 @@ export default class HomepageForm extends Component {
   }
 
   render() {
-    console.log('signup', this.handleSignUp)
-    console.log('state', this.state.email)
+    console.log('db collection', db.collection('journals'));
     return (
       <form className={styles.container}>
       <Grid container spacing={24} justify="center"style={styles.gridList}>
@@ -101,7 +101,7 @@ export default class HomepageForm extends Component {
                 margin="normal"
                 />
               </div> 
-              <Button onClick={this.handleSignUp}>
+              <Button href="/dashboard" onClick={this.handleSignUp}>
               Sign Up
               </Button>
             </div> : null }
@@ -133,7 +133,7 @@ export default class HomepageForm extends Component {
                 margin="normal"
                 />
               </div> 
-              <Button onClick={this.handleLogin}>
+              <Button href="dashboard" onClick={this.handleLogin}>
               Login
               </Button>
             </div> : null }
