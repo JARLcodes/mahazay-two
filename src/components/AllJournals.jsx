@@ -77,20 +77,20 @@ const styles = {
     // height: 450,
     borderStyle: 'inset',
     borderWidth: 'thick',
-    borderColor: '#3E2723'
+    borderColor: '#A1887F'
   },
   subheader: {
     fontFamily: 'Georgia',
     fontSize: 40,
     fontWeight: 'bold',
     fontVariant: 'small-caps',
-    color: '#3E2723'
+    color: '#795548'
   },
   tile: {
-    // backgroundColor: '#8D6E63',
+    backgroundColor: '#BCAAA4',
     borderStyle: 'inset',
     borderWidth: 'thick',
-    borderColor: '#3E2723'
+    borderColor: '#A1887F'
   },
   icon: {
     color: 'rgba(255, 255, 255, 0.54)',
