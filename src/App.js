@@ -7,32 +7,38 @@ import {
   SingleEntry,
   Dashboard,
   Home,
-  AllEntries } from './components/index.js';
+  AllEntries,
+  AllJournals,
+  SingleJournal, 
+  NewJournalForm
+} from './components/index.js';
 
 const theme = createMuiTheme();
 
-class App extends Component {
-  render() {
-    return (
-      <Router>
-        <MuiThemeProvider theme={theme}>
-          <div className="App">
-            <div className="col-xs-10">
-              <Navbar />
-            </div>
-            <div className="col-xs-10">
-            <Switch>
-              <Route path="/" component={Home}/>
-              <Route exact path="/dashboard" component={Dashboard}/>
-              <Route exact path="/entries" component={AllEntries}/>
-              <Route exact path="/entries/:id" component={SingleEntry}/>
-            </Switch>
-            </div>
+
+function App() {
+  return (
+    <Router>
+      <MuiThemeProvider theme={theme}>
+        <div className="App">
+          <div className="col-xs-10">
+            <Navbar />
           </div>
-        </MuiThemeProvider>
-      </Router>
-    );
-  }
+          <div className="col-xs-10">
+          <Switch>
+            <Route exact path="/" />
+            <Route exact path="/entries" component={AllEntries}/>
+            <Route exact path="/entries/:id" component={SingleEntry}/>
+            <Route exact path="/journals" component={AllJournals} />
+            <Route exact path="/journals/:id" component={SingleJournal} />
+            <Route exact path="/new-journal" component={NewJournalForm}/>
+          </Switch>
+          </div>
+        </div>
+      </MuiThemeProvider>
+    </Router>
+  );
 }
+
 
 export default App;

@@ -6,7 +6,6 @@ import { composeDecorators } from 'draft-js-plugins-editor';
 const focusPlugin = createFocusPlugin();
 const blockDndPlugin = createBlockDndPlugin();
 
-
 const decorator = composeDecorators(
   focusPlugin.decorator,
   blockDndPlugin.decorator
@@ -19,48 +18,6 @@ export const plugins = [
   imagePlugin
 ];
 
-/* eslint-disable */
-export const initialState = {
-  "entityMap": {
-      "0": {
-          "type": "IMAGE",
-          "mutability": "MUTABLE",
-          "data": {
-              "src": "/images/cherry-blossom.jpg"
-          }, 
-      "1": {
-        "type": "IMAGE",
-        "mutability": "MUTABLE",
-        "data": {
-            "src": "/images/cherry-blossom.jpg"
-        }
-      }
-    }
-  },
-  "blocks": [{
-      "key": "9gm3s",
-      "text": "",
-      "type": "unstyled",
-      "depth": 0,
-      "inlineStyleRanges": [],
-      "entityRanges": [],
-      "data": {}
-  }, 
-  {
-    "key": "ov7r",
-    "text": " ",
-    "type": "atomic",
-    "depth": 0,
-    "inlineStyleRanges": [],
-    "entityRanges": [{
-        "offset": 0,
-        "length": 1,
-        "key": 0
-    }],
-    "data": {}
-}]
-};
-/* eslint-enable */
 
 export const styles = {
   styleMap: {
@@ -70,5 +27,25 @@ export const styles = {
     'UNDERLINE': {
       textDecoration: 'underline'
     }
+  }, 
+  singleEntry: {
+    display: "flex"
+  }, 
+  sidebar: {
+    width: "20%",
+    height: "100%"
+  }, 
+  editor: {
+    width: "70%",
+    height: "100%",
+    boxSizing: "borderBox",
+    border: "1px solid #ddd",
+    cursor: "text",
+    padding: "20px",
+    borderRadius: "2px",
+    marginBottom: "2em",
+    boxShadow: "inset 0px 1px 8px -3px #ABABAB",
+    background: "#fefefe"
   }
 }
+

@@ -12,35 +12,39 @@ import Poll from '@material-ui/icons/Poll';
 import ImportContacts from '@material-ui/icons/ImportContacts';
 import LibraryBooks from '@material-ui/icons/LibraryBooks';
 import Search from '@material-ui/icons/Search';
+import { Link } from 'react-router-dom';
 
 const styles = {
-  root: {
-    flexGrow: 1,
-    marginBottom: 50
-  },
-  toolbar: {
-    background: "white"
-  },
-  backButton: {
-    color: "#424242"
-  },
-  journalButton: {
-    color: "#A1887F"
-  },
-  entryButton: {
-    color: "#82B1FF"
-  },
-  trackerButton: {
-    color: "#EF9A9A"
-  },
-  insightButton: {
-    color: "#9FA8DA"
-  },
-  logoutButton: {
-    color: "#424242"
-  },
-  textField: {
-    color: '#FAFAFA'
+    root: {
+        flexGrow: 1,
+        marginBottom: 50
+    },
+    toolbar: {
+        background: "white"
+    },
+    link: {
+        textDecoration: "none"
+    },
+    backButton: {
+        color: "#424242"
+    },
+    journalButton: {
+        color: "#A1887F"
+    },
+    entryButton: {
+        color: "#82B1FF"
+    },
+    trackerButton: {
+        color: "#EF9A9A"
+    },
+    insightButton: {
+        color: "#9FA8DA"
+    },
+    logoutButton: {
+        color: "#424242"
+    },
+    textField: {
+        color: '#FAFAFA'
     }
 };
 
@@ -63,10 +67,12 @@ export default class Navbar extends Component {
                             <ImportContacts />
                             Journals
                         </Button>
-                        <Button href="/entries" color="inherit" style={styles.entryButton}>
-                            <LibraryBooks />
-                            Entries
-                        </Button>
+                        <Link to="/entries" style={styles.link}>
+                            <Button href="/entries" color="inherit" style={styles.entryButton}>
+                                <LibraryBooks />
+                                Entries
+                            </Button>
+                        </Link>
                         <Button href="/tracker" color="inherit" style={styles.trackerButton}>
                             <CheckBox />
                             Tracker
@@ -86,7 +92,7 @@ export default class Navbar extends Component {
                                         <Search />
                                     </InputAdornment>
                                 ),
-                              }}
+                            }}
                         />
                         <Button href="/login" color="inherit" style={styles.logoutButton}>
                             <Person />
