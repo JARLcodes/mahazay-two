@@ -10,23 +10,23 @@ export default class AllEntries extends Component {
     super();
     this.state = {
       rootRef: getRootRef('entries'), 
-      docs: [], 
+      entries: [], 
       allEntryIds: []
     };
     this.addEntry = this.addEntry.bind(this);
   }
 
   componentDidMount(){
-    const { rootRef, docs } = this.state;
+    const { rootRef } = this.state;
     rootRef.get()
       .then(querySnapshot => {
-        querySnapshot.forEach(doc => this.setState({docs: [...this.state.docs, {[doc.id] : doc.data() }], allEntryIds: [...this.state.allEntryIds, doc.id]}))
+        querySnapshot.forEach(entry => this.setState({ entries: [...this.state.entries, {[entry.id] : entry.data() }], allEntryIds: [...this.state.allEntryIds, entry.id]}))
     })
   }
 
   addEntry(){
     console.log('assigning new entry to journal AND generating new entry id');
-    const newEntryId = Number(this.state.allEntryIds[this.state.allEntryIds.length - 1]) + 1;
+    const newEntryId = this.state.allEntryIds.length > 0 ? Number(this.state.allEntryIds[this.state.allEntryIds.length - 1]) + 1 : 1;
     this.props.history.push(`/entries/${newEntryId}`);
   }
 

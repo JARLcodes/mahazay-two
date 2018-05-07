@@ -7,12 +7,16 @@ import {
   SingleEntry,
   Dashboard,
   Home,
-  AllEntries } from './components/index.js';
+  AllEntries,
+  AllJournals,
+  SingleJournal, 
+  NewJournalForm
+} from './components/index.js';
 
 const theme = createMuiTheme();
 
 
-function App(props) {
+function App() {
   return (
     <Router>
       <MuiThemeProvider theme={theme}>
@@ -25,6 +29,9 @@ function App(props) {
             <Route exact path="/" />
             <Route exact path="/entries" component={AllEntries}/>
             <Route exact path="/entries/:id" component={SingleEntry}/>
+            <Route exact path="/journals" component={AllJournals} />
+            <Route exact path="/journals/:id" component={SingleJournal} />
+            <Route exact path="/new-journal" component={NewJournalForm}/>
           </Switch>
           </div>
         </div>
