@@ -12,6 +12,7 @@ import Poll from '@material-ui/icons/Poll';
 import ImportContacts from '@material-ui/icons/ImportContacts';
 import LibraryBooks from '@material-ui/icons/LibraryBooks';
 import Search from '@material-ui/icons/Search';
+import { Link } from 'react-router-dom';
 
 const styles = {
   root: {
@@ -21,15 +22,10 @@ const styles = {
   appbar: {
       marginBottom: 50
   },
-//   toolbar: {
-
-//   },
-//   button: {
-
-//   },
-//   logoutButton: {
-
-//   },
+  link: {
+    color: "#fff", 
+    textDecoration: "none"
+  },
     textField: {
         color: '#FAFAFA'
     }
@@ -54,10 +50,12 @@ export default class Navbar extends Component {
                             <ImportContacts />
                             Journals
                         </Button>
-                        <Button href="/entries" color="inherit" style={styles.button}>
-                            <LibraryBooks />
-                            Entries
-                        </Button>
+                        <Link to="/entries" style={styles.link}>
+                            <Button href="/entries" color="inherit" style={styles.button}>
+                                <LibraryBooks />
+                                Entries
+                            </Button>
+                        </Link>
                         <Button href="/tracker" color="inherit" style={styles.button}>
                             <CheckBox />
                             Tracker

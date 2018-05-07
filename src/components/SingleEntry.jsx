@@ -9,11 +9,6 @@ import { plugins, styles } from './../utils/singleEntryUtils';
 import SingleEntrySidebar from './SingleEntrySidebar.jsx';
 
 
-
-
-
-
-
 export default class SingleEntry extends React.Component {
   state = {
     editorState: null, 
@@ -28,13 +23,11 @@ export default class SingleEntry extends React.Component {
     this.state.rootRef.get()
       .then(snap => {
       const content = snap.data() ? convertFromRaw(snap.data().content) : ContentState.createFromText('')
-        console.log('data', snap.data());
       this.setState({ editorState: EditorState.createWithContent(content) })
     })
   }
   onChange = editorState => {
     // to send data from entry to firebase WHILE USER IS UPDATING: use convertToRaw(editorState.getCurrentContent())
-    // console.log(convertToRaw(editorState.getCurrentContent()))
     this.setState({editorState})
     this.state.rootRef.content 
       ? this.state.rootRef.update({ content: convertToRaw(editorState.getCurrentContent()) })
@@ -60,6 +53,7 @@ export default class SingleEntry extends React.Component {
   showStyleToolbar(){
     this.setState({ showStyleToolbar: !this.state.showStyleToolbar })
   }
+  
   showAlignmentToolbar(){
     this.setState({ showAlignmentToolbar: !this.state.showAlignmentToolbar })
   }
@@ -84,12 +78,10 @@ export default class SingleEntry extends React.Component {
   render() {
     const { alignment, showStyleToolbar, showAlignmentToolbar, editorState } = this.state;
     if (!editorState) return 'loading';
-    console.log('single entry props: ', this.props)
-    console.log('this.state.rootRef.get()', this.state.rootRef)
     return (
-      <div id="singleEntry">
-        <div id="sidebar"> <SingleEntrySidebar/> </div>
-        <div id="editor">
+      <div style={styles.singleEntry}>
+        <div style={styles.sidebar}> <SingleEntrySidebar/> </div>
+        <div style={styles.editor}>
           <Button onClick={this.showStyleToolbar.bind(this)}><b>B</b><i>I</i><u>U</u></Button>
           {showStyleToolbar && <div>{this.renderStyleToolbar()}</div>}
           <Button onClick={this.showAlignmentToolbar.bind(this)}>Align</Button>
