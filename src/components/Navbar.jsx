@@ -67,12 +67,10 @@ export default class Navbar extends Component {
                             <ImportContacts />
                             Journals
                         </Button>
-                        <Link to="/entries" style={styles.link}>
-                            <Button href="/entries" color="inherit" style={styles.entryButton}>
-                                <LibraryBooks />
-                                Entries
-                            </Button>
-                        </Link>
+                        <Button href="/entries" color="inherit" style={styles.entryButton}>
+                            <LibraryBooks />
+                            Entries
+                        </Button>
                         <Button href="/tracker" color="inherit" style={styles.trackerButton}>
                             <CheckBox />
                             Tracker
