@@ -35,7 +35,6 @@ export default class AllJournals extends Component {
   }
 
   render() {
-    console.log(this.state.allJournalIds)
     const journals = this.state.journals;
     const journalIds = this.state.allJournalIds;
     return (
