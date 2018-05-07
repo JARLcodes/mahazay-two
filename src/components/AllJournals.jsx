@@ -18,11 +18,7 @@ export default class AllJournals extends Component {
       allJournalIds: []
     }
 
-    // this.handleClick = this.handleClick.bind(this);
   }
-  // handleClick (event) {
-  //   <Redirect to={`/journals/${event.target.value}`} />
-  // }
 
   componentDidMount(){
     const { rootRef } = this.state;
@@ -42,13 +38,13 @@ export default class AllJournals extends Component {
       <div style={styles.root}>
         <GridList cellHeight={180} style={styles.gridList}>
           <GridListTile key='Subheader' cols={2} style={{height: 'auto'}}>
-            <Subheader component="div">My Journals</Subheader>
+            <Subheader component="div" style={styles.subheader}>My Journals</Subheader>
           </GridListTile>
           {
             journals.map((journal, ind) => (
-              <GridListTile key={journalIds[ind]} >
+              <GridListTile key={journalIds[ind]} style={styles.tile}>
                 <Link to={`/journals/${journalIds[ind]}`}>
-                  <img src='https://cdn3.iconfinder.com/data/icons/design-flat-icons-vol-2/256/62-512.png' alt={journal.title} style={{height: 'auto'}}/>
+                  <img src='https://cdn3.iconfinder.com/data/icons/design-flat-icons-vol-2/256/62-512.png' alt={journal.title} style={{height: 150, width: 150}}/>
                   <GridListTileBar 
                     title={journal.title}
                     subtitle={<span>{journal.description}</span>}
@@ -75,11 +71,26 @@ const styles = {
     flexWrap: 'wrap',
     justifyContent: 'space-around',
     overflow: 'hidden',
-    // backgroundColor: theme.palette.background.paper,
   },
   gridList: {
-    width: 500,
-    height: 450,
+    // width: 500,
+    // height: 450,
+    borderStyle: 'inset',
+    borderWidth: 'thick',
+    borderColor: '#3E2723'
+  },
+  subheader: {
+    fontFamily: 'Georgia',
+    fontSize: 40,
+    fontWeight: 'bold',
+    fontVariant: 'small-caps',
+    color: '#3E2723'
+  },
+  tile: {
+    // backgroundColor: '#8D6E63',
+    borderStyle: 'inset',
+    borderWidth: 'thick',
+    borderColor: '#3E2723'
   },
   icon: {
     color: 'rgba(255, 255, 255, 0.54)',
