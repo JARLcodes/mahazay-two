@@ -9,6 +9,7 @@ import FormatAlignRight from '@material-ui/icons/FormatAlignRight';
 import { getRootRef } from '../utils/componentUtils';
 import { plugins, styles } from './../utils/singleEntryUtils';
 import SingleEntrySidebar from './SingleEntrySidebar.jsx';
+import { getToken, analyze } from '../utils/watsonFuncs.js'
 
 
 export default class SingleEntry extends Component {
@@ -24,8 +25,9 @@ export default class SingleEntry extends Component {
     
     this.state.rootRef.get()
       .then(snap => {
-      const content = snap.data() ? convertFromRaw(snap.data().content) : ContentState.createFromText('')
-      this.setState({ editorState: EditorState.createWithContent(content) })
+        snap.data() 
+        ? this.setState({ editorState: EditorState.createWithContent(convertFromRaw(snap.data().content)) }) 
+        : this.setState({ editorState: EditorState.createEmpty()})
     })
   }
   onChange = editorState => {
@@ -98,6 +100,7 @@ export default class SingleEntry extends Component {
                 plugins={plugins}
                 textAlignment={alignment}
               />
+          {/* <Button onClick={getToken.then(((this.state.editorState) => analyze)}>Analyze</Button> */}
           </div>
        
       </div>
