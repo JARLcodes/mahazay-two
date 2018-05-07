@@ -10,7 +10,6 @@ const decorator = composeDecorators(
   focusPlugin.decorator,
   blockDndPlugin.decorator
 );
-
 const imagePlugin = createImagePlugin({ decorator });
 
 export const plugins = [

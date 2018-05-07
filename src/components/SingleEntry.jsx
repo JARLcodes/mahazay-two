@@ -1,15 +1,17 @@
-import React from "react";
-import { EditorState, RichUtils, convertFromRaw, convertToRaw, EditorChangeType, ContentState } from "draft-js";
+import React, { Component } from "react";
+import { EditorState, RichUtils, convertFromRaw, convertToRaw, ContentState } from "draft-js";
 import Editor from 'draft-js-plugins-editor';
 import Button from "material-ui/Button";
+import FormatAlignCenter from '@material-ui/icons/FormatAlignCenter';
+import FormatAlignLeft from '@material-ui/icons/FormatAlignLeft';
+import FormatAlignRight from '@material-ui/icons/FormatAlignRight';
 
-import { db } from '../utils/firebase.config.js';
 import { getRootRef } from '../utils/componentUtils';
 import { plugins, styles } from './../utils/singleEntryUtils';
 import SingleEntrySidebar from './SingleEntrySidebar.jsx';
 
 
-export default class SingleEntry extends React.Component {
+export default class SingleEntry extends Component {
   state = {
     editorState: null, 
     alignment: 'left', 
@@ -69,14 +71,15 @@ export default class SingleEntry extends React.Component {
 
   renderAlignmentToolbar(){
     return <React.Fragment>
-        <Button onClick={this.onAlignmentChange.bind(this, 'left')}>Left</Button>
-        <Button onClick={this.onAlignmentChange.bind(this, 'center')}>Center</Button>
-        <Button onClick={this.onAlignmentChange.bind(this, 'right')}>Right</Button>
+        <Button onClick={this.onAlignmentChange.bind(this, 'left')}><FormatAlignLeft/></Button>
+        <Button onClick={this.onAlignmentChange.bind(this, 'center')}><FormatAlignCenter/></Button>
+        <Button onClick={this.onAlignmentChange.bind(this, 'right')}><FormatAlignRight/></Button>
     </React.Fragment>
   }
 
   render() {
     const { alignment, showStyleToolbar, showAlignmentToolbar, editorState } = this.state;
+    if (this.state.editorState) console.log('editor state: ', this.state.editorState.getCurrentContent());
     if (!editorState) return 'loading';
     return (
       <div style={styles.singleEntry}>
