@@ -11,6 +11,15 @@ import { getRootRef } from '../utils/componentUtils';
 import { plugins, styles, promptForLink, removeLink, confirmLink, linkDecorator } from './../utils/singleEntryUtils';
 import SingleEntrySidebar from './SingleEntrySidebar.jsx';
 
+<<<<<<< HEAD
+=======
+// const getRootRef = (entryId) => {
+//   return db.collection('entries').doc(entryId)
+// };
+
+const rootRef = db.collection('entries').doc('K9xhcdKXioAH6oQ7Hv5k');
+// const rootRef = db.collection('entries')
+>>>>>>> e8fc19c39d1ca8fcffddf361527046d4a6f4343d
 
 export default class SingleEntry extends Component {
   state = {
@@ -18,6 +27,7 @@ export default class SingleEntry extends Component {
     alignment: 'left', 
     showStyleToolbar: false, 
     showAlignmentToolbar: false, 
+<<<<<<< HEAD
     showLinkToolbar: false,
     showUrlInput: false,
     urlValue: '',
@@ -31,6 +41,18 @@ export default class SingleEntry extends Component {
         ? this.setState({ editorState: EditorState.createWithContent(convertFromRaw(snap.data().content)) }) 
         : this.setState({ editorState: EditorState.createEmpty(linkDecorator)})
     });
+=======
+  }
+  
+  componentDidMount(){
+    rootRef.get()
+      .then(snap => {
+      const content = snap.data().content ?  convertFromRaw(snap.data().content) : ContentState.createFromText('');
+      console.log('data', snap.id) //doc id lives here
+      this.setState({ editorState: EditorState.createWithContent(content) })
+    })
+   
+>>>>>>> e8fc19c39d1ca8fcffddf361527046d4a6f4343d
   }
 
   onChange = editorState => {

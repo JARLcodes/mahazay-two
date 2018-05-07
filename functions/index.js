@@ -11,4 +11,21 @@ const express = require('express');
 
 const app = express();
 
+<<<<<<< HEAD
 
+=======
+
+
+app.get('**', (req, res) => {
+  const html = renderToString(<App />);
+  console.log('html: ', html);
+  res.set('Cache-Control', 'public, max-age=600, s-maxage=1200')
+})
+
+
+app.get('/entries/:id', (req, res) => {
+  console.log('here');
+})
+const ssrapp = functions.https.onRequest(app);
+module.exports = ssrapp;
+>>>>>>> e8fc19c39d1ca8fcffddf361527046d4a6f4343d
