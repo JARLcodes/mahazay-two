@@ -14,7 +14,7 @@ import { getToken, analyze } from '../utils/watsonFuncs.js'
 
 export default class SingleEntry extends Component {
   state = {
-    editorState: null, 
+    editorState: EditorState.createEmpty(), 
     alignment: 'left', 
     showStyleToolbar: false, 
     showAlignmentToolbar: false, 
@@ -81,8 +81,10 @@ export default class SingleEntry extends Component {
 
   render() {
     const { alignment, showStyleToolbar, showAlignmentToolbar, editorState } = this.state;
-    if (this.state.editorState) console.log('editor state: ', this.state.editorState.getCurrentContent());
+    if (this.state.editorState) console.log('editor state: ', convertToRaw(this.state.editorState.getCurrentContent()));
     if (!editorState) return 'loading';
+    const content = convertToRaw(this.state.editorState.getCurrentContent()).blocks.map(block => block.text).join(' ');
+    console.log('content', content)
     return (
       <div style={styles.singleEntry}>
         <div style={styles.sidebar}> <SingleEntrySidebar/> </div>
@@ -100,7 +102,8 @@ export default class SingleEntry extends Component {
                 plugins={plugins}
                 textAlignment={alignment}
               />
-          {/* <Button onClick={getToken.then(((this.state.editorState) => analyze)}>Analyze</Button> */}
+          
+          <Button onClick={() => getToken().then((token) => analyze(token, content))}>Analyze</Button>
           </div>
        
       </div>

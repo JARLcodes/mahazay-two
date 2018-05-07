@@ -1,14 +1,12 @@
 'use strict';
 
 const ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
-
-const btn = document.getElementById('analyze-btn');
-const input = document.getElementById('input');
-const output = document.getElementById('output'); 
+const axios = require('axios');
 
 export const  getToken = function() {
-  return fetch('/api/token/tone_analyzer').then(function(response) {
-    return response.text();
+  return axios.get('/api/token/tone_analyzer').then(function(response) {
+    console.log('response? ', response)
+    return response.text;
   });
 };
 
