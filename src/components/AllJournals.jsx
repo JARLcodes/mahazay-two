@@ -3,7 +3,7 @@ import GridList, { GridListTile, GridListTileBar } from 'material-ui/GridList';
 import Subheader from 'material-ui/List/ListSubheader';
 import IconButton from 'material-ui/IconButton';
 import SubdirectoryArrowLeft from '@material-ui/icons/SubdirectoryArrowLeft';
-import { Redirect } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import { getRootRef } from '../utils/componentUtils';
 import  NewJournalForm  from './NewJournalForm.jsx';
@@ -20,9 +20,9 @@ export default class AllJournals extends Component {
 
     // this.handleClick = this.handleClick.bind(this);
   }
-  handleClick (event) {
-    // <Redirect to="" />
-  }
+  // handleClick (event) {
+  //   <Redirect to={`/journals/${event.target.value}`} />
+  // }
 
   componentDidMount(){
     const { rootRef } = this.state;
@@ -35,7 +35,7 @@ export default class AllJournals extends Component {
   }
 
   render() {
-    console.log(this.state.journals[1])
+    console.log(this.state.allJournalIds)
     const journals = this.state.journals;
     const journalIds = this.state.allJournalIds;
     return (
@@ -46,17 +46,19 @@ export default class AllJournals extends Component {
           </GridListTile>
           {
             journals.map((journal, ind) => (
-              <GridListTile key={ind} onClick={() => <Redirect to={`/journals/${journal.id}`} />}>
-                <img src='https://cdn3.iconfinder.com/data/icons/design-flat-icons-vol-2/256/62-512.png' alt={journal.title} />
-                <GridListTileBar 
-                  title={journal.title}
-                  subtitle={<span>{journal.description}</span>}
-                  actionIcon={
-                    <IconButton style={styles.icon}>
-                      <SubdirectoryArrowLeft />
-                    </IconButton>
-                  }
-                />
+              <GridListTile key={journalIds[ind]} >
+                <Link to={`/journals/${journalIds[ind]}`}>
+                  <img src='https://cdn3.iconfinder.com/data/icons/design-flat-icons-vol-2/256/62-512.png' alt={journal.title} style={{height: 'auto'}}/>
+                  <GridListTileBar 
+                    title={journal.title}
+                    subtitle={<span>{journal.description}</span>}
+                    actionIcon={
+                      <IconButton style={styles.icon}>
+                        <SubdirectoryArrowLeft />
+                      </IconButton>
+                    }
+                  />
+                </Link>
               </GridListTile>
             ))
           }
