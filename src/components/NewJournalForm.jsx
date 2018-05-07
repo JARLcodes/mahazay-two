@@ -59,6 +59,7 @@ export default class NewJournalForm extends Component {
   }
   
   render() {
+    const journals = this.props.journals;
     return (
       <div >
         <form style={styles.addJournalForm}>
