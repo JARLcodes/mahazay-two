@@ -35,6 +35,7 @@ export default class AllJournals extends Component {
   }
 
   render() {
+
     const journals = this.state.journals;
     const journalIds = this.state.allJournalIds;
     return (
@@ -84,4 +85,3 @@ const styles = {
     color: 'rgba(255, 255, 255, 0.54)',
   },
 };
-
