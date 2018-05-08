@@ -12,8 +12,8 @@ import Poll from '@material-ui/icons/Poll';
 import ImportContacts from '@material-ui/icons/ImportContacts';
 import LibraryBooks from '@material-ui/icons/LibraryBooks';
 import Search from '@material-ui/icons/Search';
-import firebase from 'firebase';
-import { auth, provider, db } from '../utils/firebase.config';
+// import firebase from 'firebase';
+import { auth } from '../utils/firebase.config';
 import { withAuth } from 'fireview';
 
 const styles = {
@@ -50,7 +50,8 @@ const styles = {
 export class Navbar extends Component {
     render () {
         const user = this.props._user;
-        console.log('navbar user', user);
+        const userEmail = user && user.email ? user.email : null;
+        console.log('navbar user', userEmail)
         return (
             <div>
                 <AppBar position="static" style={styles.root}>
@@ -59,9 +60,15 @@ export class Navbar extends Component {
                             <ArrowBack />
                         </Button>
                         <Button href="/">
-                            <Typography variant="display4">
-                                Mahazay
+                        <div>
+                            <Typography variant="display3">
+                               Mahazay
                             </Typography>
+                            <Typography variant="subheading"
+                                        style={{fontStyle:"italic", textTransform:"lowercase"}}>
+                                ( ma • hā • zay )
+                            </Typography>
+                        </div>
                         </Button>
                         <Button href="/journals" color="inherit" style={styles.journalButton}>
                             <ImportContacts />
@@ -92,13 +99,13 @@ export class Navbar extends Component {
                                 ),
                             }}
                         />
-                        {/* { isLoggedIn ? */}
-                        <Button href="/login" color="inherit" style={styles.logoutButton}
+                        { user ?
+                        <Button href="/" color="inherit" style={styles.logoutButton}
                             onClick={() => auth.signOut()}>
                             <Person />
                             Logout
                         </Button>
-                        {/* : null} */}
+                        : null }
                     </Toolbar>
                 </AppBar>
             </div>

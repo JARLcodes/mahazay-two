@@ -1,11 +1,11 @@
 import React, { Component }from 'react';
-import history from '../history';
-import MenuItem from 'material-ui/Menu/MenuItem';
+// import history from '../history';
+// import MenuItem from 'material-ui/Menu/MenuItem';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import Grid from 'material-ui/Grid';
 import firebase from 'firebase';
-import { auth, provider, db } from '../utils/firebase.config';
+import { auth, db } from '../utils/firebase.config';
 
 const styles = theme => ({
   container: {
@@ -69,7 +69,7 @@ export default class HomepageForm extends Component {
     })
     .then(() => {
       auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-      this.props.history.push("/dashboard");
+      this.props.history.push("/");
     })
     .catch(err => console.log(err.message));
   }
@@ -79,16 +79,14 @@ export default class HomepageForm extends Component {
     auth.signInWithEmailAndPassword(email, password)
        .then(() => {
       auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-      this.props.history.push("/dashboard");
+      this.props.history.push("/");
     })
     .catch(err => console.log(err.message));
   }
 
   authListener() {
     auth.onAuthStateChanged(user => {
-      console.log('firebaseUser', user);
       if (user) {
-        console.log('i set the state')
         this.setState({ user });
       }
       else this.setState({ user: null });
@@ -96,7 +94,6 @@ export default class HomepageForm extends Component {
 	}
 
   render() {
-    console.log('props', this.props)
     return (
       <form className={styles.container}>
       <Grid container spacing={24} justify="center"style={styles.gridList}>
