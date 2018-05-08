@@ -1,16 +1,31 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import Button from "material-ui/Button";
+import { withStyles } from 'material-ui/styles';
+import Card, { CardActions, CardContent } from 'material-ui/Card';
+import Grid from 'material-ui/Grid';
 
 import { getRootRef } from '../utils/componentUtils';
 
+const styles = {
+  card: {
+    minWidth: 275,
+  },
+  title: {
+    marginBottom: 16,
+    fontSize: 14,
+  },
+  pos: {
+    marginBottom: 12,
+  },
+};
 
-export default class AllEntries extends Component {
+export class AllEntries extends Component {
   constructor(){
     super();
     this.state = {
-      rootRef: getRootRef('entries'), 
-      entries: [], 
+      rootRef: getRootRef('entries'),
+      entries: [],
       allEntryIds: []
     };
     this.addEntry = this.addEntry.bind(this);
@@ -32,16 +47,27 @@ export default class AllEntries extends Component {
 
   render() {
     const { rootRef, entries, newEntryId } = this.state;
+
     return (
       <div>
-        { entries.map( entry => (
-          <Link key={Object.keys(entry)} to={`/entries/${Object.keys(entry)}`}>LINK</Link>
-        )
+        <Grid container spacing={24}>
+        { entries.map( entry => {
+          return (
+            <Grid key={Object.keys(entry)} item xs={3} >
+              <Card>
+                <CardContent>
+                  <Link to={`/entries/${Object.keys(entry)}`}>{"Entry #" + Object.keys(entry)[0]}</Link>
+                </CardContent>
+              </Card>
+            </Grid>
+          )}
         )}
         <Button onClick={this.addEntry}>New Entry</Button>
         { newEntryId && <Redirect to={`/entries/${newEntryId}`}/> }
-        
+        </Grid>
       </div>
     )
   }
 }
+
+export default withStyles(styles)(AllEntries)
