@@ -4,8 +4,6 @@ const express = require('express');
 const app = express();
 const expressBrowserify = require('express-browserify');
 const dotenv = require('dotenv');
-const watson = require('watson-developer-cloud');
-
 
 const isDev = app.get('env') === 'development';
 app.use(express.static('public/'));
@@ -17,8 +15,6 @@ app.get(
     debug: isDev
   })
 );
-
-
 
 app.get('/api/hello', (req, res) => {
   res.send({ express: 'Hello From Express' });

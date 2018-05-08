@@ -25,7 +25,7 @@ export default class SingleEntry extends Component {
     
     this.state.rootRef.get()
       .then(snap => {
-        snap.data() 
+        snap.data().content
         ? this.setState({ editorState: EditorState.createWithContent(convertFromRaw(snap.data().content)) }) 
         : this.setState({ editorState: EditorState.createEmpty()})
     })
@@ -81,10 +81,10 @@ export default class SingleEntry extends Component {
 
   render() {
     const { alignment, showStyleToolbar, showAlignmentToolbar, editorState } = this.state;
-    if (this.state.editorState) console.log('editor state: ', convertToRaw(this.state.editorState.getCurrentContent()));
+    if (this.state.editorState) console.log('editor state: ', this.state.editorState.getCurrentContent().getPlainText());
     if (!editorState) return 'loading';
-    const content = convertToRaw(this.state.editorState.getCurrentContent()).blocks.map(block => block.text).join(' ');
-    console.log('content', content)
+    const text = this.state.editorState.getCurrentContent().getPlainText();
+    console.log('text', text)
     return (
       <div style={styles.singleEntry}>
         <div style={styles.sidebar}> <SingleEntrySidebar/> </div>
@@ -103,7 +103,7 @@ export default class SingleEntry extends Component {
                 textAlignment={alignment}
               />
           
-          <Button onClick={() => getToken().then((token) => analyze(token, content))}>Analyze</Button>
+          <Button onClick={() => getToken().then((token) => analyze(token, text))}>Analyze</Button>
           </div>
        
       </div>

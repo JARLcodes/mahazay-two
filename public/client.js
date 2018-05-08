@@ -11,6 +11,7 @@ const output = document.getElementById('output');
  */
 function getToken() {
   return fetch('/api/token/tone_analyzer').then(function(response) {
+    console.log('response', response)
     return response.text();
   });
 }
@@ -20,6 +21,8 @@ function analyze(token) {
     token: token,
     version: '2016-05-19',
   });
+
+  console.log('input.value', typeof input.value === 'string')
   toneAnalyzer.tone(
     {
       text: input.value,
@@ -35,5 +38,6 @@ function analyze(token) {
 }
 
 btn.onclick = function() {
+  console.log('clicked')
   getToken().then(analyze);
 };
