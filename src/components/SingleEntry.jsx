@@ -18,12 +18,12 @@ export default class SingleEntry extends Component {
     alignment: 'left', 
     showStyleToolbar: false, 
     showAlignmentToolbar: false, 
-    insightIds: [], 
+    toneInsightIds: [], 
     rootRef: getRootRef('entries', this.props.match.params.id)
   }
   
   componentDidMount(){
-    this.getInsightIds('insights');
+    this.getInsightIds('toneInsights');
     this.state.rootRef.get()
       .then(snap => {
         snap.data()
@@ -38,15 +38,16 @@ export default class SingleEntry extends Component {
       ? this.state.rootRef.update({ content: convertToRaw(editorState.getCurrentContent()) })
       : this.state.rootRef.set({ content: convertToRaw(editorState.getCurrentContent()) });
     //analyze input with each change
-    const { insightIds } = this.state;
+    const { toneInsightIds } = this.state;
     const text = this.state.editorState.getCurrentContent().getPlainText();
-    const insightId = insightIds.length > 0 ? insightIds.length : 0;
-    getTokenTone().then((token) => analyzeTone(token, text, insightId ))
+    const toneInsightId = toneInsightIds.length > 0 ? toneInsightIds.length : 0;
+    //only call tone analyzer if length of text is greater than 350 -- to limit api calls
+    if (text.length > 350) getTokenTone().then((token) => analyzeTone(token, text, toneInsightId ))
   }
 
   getInsightIds = (collectionName) => {
     const ids = getIds(collectionName)
-    this.setState({ insightIds: ids })
+    this.setState({ toneInsightIds: ids })
   }
 
   toggleInlineStyle = style => () => 

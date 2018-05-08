@@ -9,7 +9,7 @@ export const  getTokenTone = () => {
   });
 };
 
-export const analyzeTone = (token, text, insightId) => {
+export const analyzeTone = (token, text, toneInsightId) => {
   const toneAnalyzer = new ToneAnalyzerV3({
     token,
     version: '2016-05-19',
@@ -21,9 +21,9 @@ export const analyzeTone = (token, text, insightId) => {
       if (err) {
         return console.log(err);
       }
-      const insight = JSON.stringify(result, null, 2);
-      const parsedInsight = JSON.parse(insight)["document_tone"]["tone_categories"];
-      db.collection('insights').doc(insightId.toString()).set({ parsedInsight });
+      const toneInsight = JSON.stringify(result, null, 2);
+      const parsedToneInsight = JSON.parse(toneInsight)["document_tone"]["tone_categories"];
+      db.collection('toneInsights').doc(toneInsightId.toString()).set({ parsedToneInsight });
     }
   );
 };

@@ -41,9 +41,7 @@ export default class NewJournalForm extends Component {
     const { rootRef } = this.state;
     rootRef.get()
       .then(querySnapshot => {
-        console.log('in new journal form: ', querySnapshot)
         querySnapshot.forEach(journal => {
-          console.log('journal', journal);
           this.setState({ journals: [...this.state.journals, {[journal.id] : journal.data() }], allJournalIds: [...this.state.allJournalIds, journal.id] })
         })
       })
