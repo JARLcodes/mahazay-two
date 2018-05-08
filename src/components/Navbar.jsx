@@ -12,7 +12,8 @@ import Poll from '@material-ui/icons/Poll';
 import ImportContacts from '@material-ui/icons/ImportContacts';
 import LibraryBooks from '@material-ui/icons/LibraryBooks';
 import Search from '@material-ui/icons/Search';
-
+import firebase from 'firebase';
+import { auth, provider, db } from '../utils/firebase.config';
 
 const styles = {
     root: {
@@ -89,7 +90,8 @@ export default class Navbar extends Component {
                                 ),
                             }}
                         />
-                        <Button href="/login" color="inherit" style={styles.logoutButton}>
+                        <Button href="/login" color="inherit" style={styles.logoutButton}
+                            onClick={() => auth.signOut()}>
                             <Person />
                             Logout
                         </Button>

@@ -1,4 +1,5 @@
 import React, { Component }from 'react';
+import history from '../history';
 import MenuItem from 'material-ui/Menu/MenuItem';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
@@ -36,13 +37,18 @@ export default class HomepageForm extends Component {
       email: '',
       password: '',
       signUp: false,
-      login: true
+      login: true,
+      user: {}
     };
     this.handleChange = this.handleChange.bind(this);
-    // this.toggleSignUp = this.toggleSignUp.bind(this);
     this.toggleShow = this.toggleShow.bind(this);
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
+    this.authListener = this.authListener.bind(this);
+  }
+
+  componentDidMount() {
+    this.authListener();
   }
 
   handleChange(event) {
@@ -58,9 +64,10 @@ export default class HomepageForm extends Component {
     event.preventDefault();
     const { email, password } = this.state;
     auth.createUserWithEmailAndPassword(email, password)
-    .then(newUser => {
-      return db.collection('users').doc(`${newUser.uid}`).set({ email: email, password: password });
+    .then(user => {
+      return db.collection('users').doc(`${user.uid}`).set({ email: email, password: password });
     })
+    .then(auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL))
     .catch(err => console.log(err.message));
   }
 
@@ -70,9 +77,20 @@ export default class HomepageForm extends Component {
     .catch(err => console.log(err.message));
   }
 
+  authListener() {
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        this.setState({ user });
+        console.log('firebaseUser', user);
+        this.props.history.push("/dashboard");
+      }
+      else this.setState({ user: null });
+    });
+	}
+
   render() {
-    console.log('state login', this.state.login);
-    console.log('state signup', this.state.signUp)
+    console.log('props', this.props)
+    console.log('user state', this.state.user);
     return (
       <form className={styles.container}>
       <Grid container spacing={24} justify="center"style={styles.gridList}>

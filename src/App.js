@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import './App.css';
+import history from './history';
 import { 
   Navbar, 
   SingleEntry,
@@ -13,13 +14,13 @@ import {
   NewJournalForm
 } from './components/index.js';
 
+
 const theme = createMuiTheme();
 
 class App extends Component {
-
   render() {
     return (
-      <Router>
+      <Router history={history}>
         <MuiThemeProvider theme={theme}>
           <div className="App">
             <div className="col-xs-10">
@@ -27,7 +28,8 @@ class App extends Component {
             </div>
             <div className="col-xs-10">
             <Switch>
-              <Route exact path="/" />
+              <Route exact path="/" component={Home}/>
+              <Route path="/dashboard" component={Dashboard} />
               <Route exact path="/entries" component={AllEntries}/>
               <Route exact path="/entries/:id" component={SingleEntry}/>
               <Route exact path="/journals" component={AllJournals} />
