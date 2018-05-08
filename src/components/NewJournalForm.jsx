@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import TextField from 'material-ui/TextField';
 import { InputAdornment } from 'material-ui/Input';
 import Button from "material-ui/Button";
-import { getRootRef } from '../utils/componentUtils';
+import { getRootRef, getIds } from '../utils/componentUtils';
 
 
 const styles = { 
@@ -41,7 +41,9 @@ export default class NewJournalForm extends Component {
     const { rootRef } = this.state;
     rootRef.get()
       .then(querySnapshot => {
+        console.log('in new journal form: ', querySnapshot)
         querySnapshot.forEach(journal => {
+          console.log('journal', journal);
           this.setState({ journals: [...this.state.journals, {[journal.id] : journal.data() }], allJournalIds: [...this.state.allJournalIds, journal.id] })
         })
       })
