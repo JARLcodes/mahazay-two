@@ -67,23 +67,29 @@ export default class HomepageForm extends Component {
     .then(user => {
       return db.collection('users').doc(`${user.uid}`).set({ email: email, password: password });
     })
-    .then(auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL))
+    .then(() => {
+      auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+      this.props.history.push("/dashboard");
+    })
     .catch(err => console.log(err.message));
   }
 
   handleLogin() {
     const { email, password } = this.state;
     auth.signInWithEmailAndPassword(email, password)
-    .then(auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL))
+       .then(() => {
+      auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+      this.props.history.push("/dashboard");
+    })
     .catch(err => console.log(err.message));
   }
 
   authListener() {
     auth.onAuthStateChanged(user => {
+      console.log('firebaseUser', user);
       if (user) {
+        console.log('i set the state')
         this.setState({ user });
-        console.log('firebaseUser', user);
-        this.props.history.push("/dashboard");
       }
       else this.setState({ user: null });
     });
@@ -91,7 +97,6 @@ export default class HomepageForm extends Component {
 
   render() {
     console.log('props', this.props)
-    console.log('user state', this.state.user);
     return (
       <form className={styles.container}>
       <Grid container spacing={24} justify="center"style={styles.gridList}>

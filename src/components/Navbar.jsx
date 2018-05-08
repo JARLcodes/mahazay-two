@@ -14,6 +14,7 @@ import LibraryBooks from '@material-ui/icons/LibraryBooks';
 import Search from '@material-ui/icons/Search';
 import firebase from 'firebase';
 import { auth, provider, db } from '../utils/firebase.config';
+import { withAuth } from 'fireview';
 
 const styles = {
     root: {
@@ -46,11 +47,10 @@ const styles = {
     }
 };
 
-const isLoggedIn = auth.currentUser;
-
-export default class Navbar extends Component {
+export class Navbar extends Component {
     render () {
-        console.log('userAuth', firebase.auth().currentUser)
+        const user = this.props._user;
+        console.log('navbar user', user);
         return (
             <div>
                 <AppBar position="static" style={styles.root}>
@@ -105,3 +105,5 @@ export default class Navbar extends Component {
         )
     }
 }
+
+export default withAuth(Navbar);
