@@ -26,7 +26,7 @@ export default class AllEntries extends Component {
 
   addEntry(){
     console.log('assigning new entry to journal AND generating new entry id');
-    const newEntryId = this.state.allEntryIds.length > 0 ? Number(this.state.allEntryIds[this.state.allEntryIds.length - 1]) + 1 : 1;
+    const newEntryId = this.state.allEntryIds.length > 0 ? Number(this.state.allEntryIds[this.state.allEntryIds.length - 1]) + 1 : 0;
     this.props.history.push(`/entries/${newEntryId}`);
   }
 

@@ -1,5 +1,5 @@
 'use strict';
-const ltAuthService = require('./watson.config.js');
+const { ltAuthServiceTone } = require('./watson.config.js');
 const express = require('express');
 const app = express();
 const dotenv = require('dotenv');
@@ -18,8 +18,9 @@ app.get('/api/hello', (req, res) => {
   res.send({ express: 'Hello From Express' });
 });
 
+//get token middleware
 app.get('/api/token/tone_analyzer', function(req, res) {
-  ltAuthService.getToken(function(err, token) {
+  ltAuthServiceTone.getToken(function(err, token) {
     if (err) {
       console.log('Error retrieving token: ', err);
       return res.status(500).send('Error retrieving token');
