@@ -74,6 +74,7 @@ export default class HomepageForm extends Component {
   handleLogin() {
     const { email, password } = this.state;
     auth.signInWithEmailAndPassword(email, password)
+    .then(auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL))
     .catch(err => console.log(err.message));
   }
 
@@ -120,7 +121,7 @@ export default class HomepageForm extends Component {
                 margin="normal"
                 />
               </div> 
-              <Button href="/dashboard" onClick={this.handleSignUp}>
+              <Button onClick={this.handleSignUp}>
                 Sign Up
               </Button>
             </div> 
@@ -147,7 +148,7 @@ export default class HomepageForm extends Component {
               margin="normal"
               />
             </div> 
-            <Button href="/dashboard" onClick={this.handleLogin}>
+            <Button onClick={this.handleLogin}>
              Login
             </Button>
           </div>

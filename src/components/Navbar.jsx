@@ -46,9 +46,11 @@ const styles = {
     }
 };
 
+const isLoggedIn = auth.currentUser;
+
 export default class Navbar extends Component {
-    
     render () {
+        console.log('userAuth', firebase.auth().currentUser)
         return (
             <div>
                 <AppBar position="static" style={styles.root}>
@@ -90,11 +92,13 @@ export default class Navbar extends Component {
                                 ),
                             }}
                         />
+                        {/* { isLoggedIn ? */}
                         <Button href="/login" color="inherit" style={styles.logoutButton}
                             onClick={() => auth.signOut()}>
                             <Person />
                             Logout
                         </Button>
+                        {/* : null} */}
                     </Toolbar>
                 </AppBar>
             </div>

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import './App.css';
+import { auth } from './utils/firebase.config';
+
 import history from './history';
 import { 
   Navbar, 
