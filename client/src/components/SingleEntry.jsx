@@ -14,7 +14,7 @@ import { getToken, analyze } from '../utils/watsonFuncs.js'
 
 export default class SingleEntry extends Component {
   state = {
-    editorState: EditorState.createEmpty(), 
+    editorState: null, 
     alignment: 'left', 
     showStyleToolbar: false, 
     showAlignmentToolbar: false, 
