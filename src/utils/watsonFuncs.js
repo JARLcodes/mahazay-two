@@ -16,13 +16,14 @@ export const analyzeTone = (token, text, insightId) => {
   });
   
   toneAnalyzer.tone(
-    { text },
+    { text, sentences: false },
     function(err, result) {
       if (err) {
         return console.log(err);
       }
       const insight = JSON.stringify(result, null, 2);
-      db.collection('insights').doc(insightId.toString()).set(JSON.parse(insight));
+      const parsedInsight = JSON.parse(insight)["document_tone"]["tone_categories"];
+      db.collection('insights').doc(insightId.toString()).set({ parsedInsight });
     }
   );
 };

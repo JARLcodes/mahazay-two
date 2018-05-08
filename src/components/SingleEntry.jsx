@@ -37,6 +37,11 @@ export default class SingleEntry extends Component {
     this.state.rootRef.content 
       ? this.state.rootRef.update({ content: convertToRaw(editorState.getCurrentContent()) })
       : this.state.rootRef.set({ content: convertToRaw(editorState.getCurrentContent()) });
+    //analyze input with each change
+    const { insightIds } = this.state;
+    const text = this.state.editorState.getCurrentContent().getPlainText();
+    const insightId = insightIds.length > 0 ? insightIds.length : 0;
+    getTokenTone().then((token) => analyzeTone(token, text, insightId ))
   }
 
   getInsightIds = (collectionName) => {
@@ -87,10 +92,8 @@ export default class SingleEntry extends Component {
   render() {
     const { alignment, showStyleToolbar, showAlignmentToolbar, editorState } = this.state;
     if (!editorState) return 'loading';
-    const text = this.state.editorState.getCurrentContent().getPlainText();
-    const { insightIds } = this.state;
-    console.log('insightIds', insightIds);
-    const insightId = insightIds.length > 0 ? insightIds.length : 0;
+   
+    
     return (
       <div style={styles.singleEntry}>
         <div style={styles.sidebar}> <SingleEntrySidebar/> </div>
@@ -109,7 +112,6 @@ export default class SingleEntry extends Component {
                 textAlignment={alignment}
               />
           
-          <Button onClick={() => getTokenTone().then((token) => analyzeTone(token, text, insightId ))}>Analyze</Button>
           </div>
       </div>
     );
