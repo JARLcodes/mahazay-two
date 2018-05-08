@@ -23,5 +23,4 @@ yarn-error.log*
 
 
 src/utils/firebase.config.js
-src/utils/firebase.config.js
 functions/watson.config.js
