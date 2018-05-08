@@ -31,10 +31,13 @@
         "test": "react-scripts test --env=jsdom",
         "eject": "react-scripts eject",
         "firebase-serve": "npx -p node@6 firebase serve --only functions,hosting"
-
     },
     "devDependencies": {
         "concurrently": "^3.5.1"
     },
-    "proxy": { "/api": { "target": "http://localhost:5000/" } }
+    "proxy": {
+        "/api": {
+            "target": "http://localhost:5000/"
+        }
+    }
 }
