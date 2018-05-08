@@ -1,9 +1,0 @@
-{
-    "env": {
-        "browser": true
-    },
-    "rules": {
-        "prefer-const": "off",
-        "no-var": "off"
-    }
-}
