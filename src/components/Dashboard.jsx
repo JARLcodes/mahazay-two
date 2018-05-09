@@ -8,6 +8,7 @@ import Typography from 'material-ui/Typography';
 import Person from '@material-ui/icons/Person';
 import ImportContacts from '@material-ui/icons/ImportContacts';
 import LibraryBooks from '@material-ui/icons/LibraryBooks';
+import { withAuth } from 'fireview';
 
 const styles = {
 	profileCard: {
@@ -39,7 +40,8 @@ const styles = {
 	}
 };
 
-const Dashboard = () => {
+const Dashboard = (props) => {
+	const user = props && props._user ? props._user : 'tina you fat lard';
 	return (
 	<div>
 		<Grid container spacing={24} justify="center" style={styles.gridList}>
@@ -47,6 +49,7 @@ const Dashboard = () => {
 				<Link to="/profile" style={{textDecoration:"none"}}>
 				<Card style={styles.profileCard}>
 					<Person style={styles.profileIcon}/>
+					<div>{user.email}</div>
 				</Card>
 				</Link>
 			</Grid>
@@ -79,4 +82,4 @@ const Dashboard = () => {
 	);
 };
 
-export default Dashboard;
+export default withAuth(Dashboard);

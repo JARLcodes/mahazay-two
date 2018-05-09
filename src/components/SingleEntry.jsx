@@ -6,10 +6,10 @@ import FormatAlignCenter from '@material-ui/icons/FormatAlignCenter';
 import FormatAlignLeft from '@material-ui/icons/FormatAlignLeft';
 import FormatAlignRight from '@material-ui/icons/FormatAlignRight';
 
-import { getRootRef } from '../utils/componentUtils';
+import { getRootRef, getIds } from '../utils/componentUtils';
 import { plugins, styles } from './../utils/singleEntryUtils';
 import SingleEntrySidebar from './SingleEntrySidebar.jsx';
-import { getToken, analyze } from '../utils/watsonFuncs.js'
+import { getTokenTone, analyzeTone } from '../utils/watsonFuncs.js'
 
 
 export default class SingleEntry extends Component {
@@ -18,11 +18,12 @@ export default class SingleEntry extends Component {
     alignment: 'left', 
     showStyleToolbar: false, 
     showAlignmentToolbar: false, 
+    toneInsightIds: [], 
     rootRef: getRootRef('entries', this.props.match.params.id)
   }
   
   componentDidMount(){
-    
+    this.getInsightIds('toneInsights');
     this.state.rootRef.get()
       .then(snap => {
         snap.data()
@@ -36,7 +37,17 @@ export default class SingleEntry extends Component {
     this.state.rootRef.content 
       ? this.state.rootRef.update({ content: convertToRaw(editorState.getCurrentContent()) })
       : this.state.rootRef.set({ content: convertToRaw(editorState.getCurrentContent()) });
+    //analyze input with each change
+    const { toneInsightIds } = this.state;
+    const text = this.state.editorState.getCurrentContent().getPlainText();
+    const toneInsightId = toneInsightIds.length > 0 ? toneInsightIds.length : 0;
+    //only call tone analyzer if length of text is greater than 350 -- to limit api calls
+    if (text.length > 350) getTokenTone().then((token) => analyzeTone(token, text, toneInsightId ))
+  }
 
+  getInsightIds = (collectionName) => {
+    const ids = getIds(collectionName)
+    this.setState({ toneInsightIds: ids })
   }
 
   toggleInlineStyle = style => () => 
@@ -81,10 +92,9 @@ export default class SingleEntry extends Component {
 
   render() {
     const { alignment, showStyleToolbar, showAlignmentToolbar, editorState } = this.state;
-    if (this.state.editorState) console.log('editor state: ', this.state.editorState.getCurrentContent().getPlainText());
     if (!editorState) return 'loading';
-    const text = this.state.editorState.getCurrentContent().getPlainText();
-    console.log('text', text)
+   
+    
     return (
       <div style={styles.singleEntry}>
         <div style={styles.sidebar}> <SingleEntrySidebar/> </div>
@@ -103,9 +113,7 @@ export default class SingleEntry extends Component {
                 textAlignment={alignment}
               />
           
-          <Button onClick={() => getToken().then((token) => analyze(token, text))}>Analyze</Button>
           </div>
-       
       </div>
     );
   }

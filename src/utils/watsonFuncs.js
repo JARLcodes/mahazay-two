@@ -1,27 +1,29 @@
 'use strict';
-
+import { db } from './firebase.config.js';
 const ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
 
 
-export const  getToken = () => {
+export const  getTokenTone = () => {
   return fetch('/api/token/tone_analyzer').then(response => {
     return response.text();
   });
 };
 
-export const analyze = (token, text) => {
+export const analyzeTone = (token, text, toneInsightId) => {
   const toneAnalyzer = new ToneAnalyzerV3({
     token,
     version: '2016-05-19',
   });
   
   toneAnalyzer.tone(
-    { text },
+    { text, sentences: false },
     function(err, result) {
       if (err) {
         return console.log(err);
       }
-      console.log(JSON.stringify(result, null, 2));
+      const toneInsight = JSON.stringify(result, null, 2);
+      const parsedToneInsight = JSON.parse(toneInsight)["document_tone"]["tone_categories"];
+      db.collection('toneInsights').doc(toneInsightId.toString()).set({ parsedToneInsight });
     }
   );
 };
