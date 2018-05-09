@@ -9,7 +9,7 @@ import FormatAlignRight from '@material-ui/icons/FormatAlignRight';
 import { getRootRef, getIds } from '../utils/componentUtils';
 import { plugins, styles } from './../utils/singleEntryUtils';
 import SingleEntrySidebar from './SingleEntrySidebar.jsx';
-import { getTokenTone, analyzeTone } from '../utils/watsonFuncs.js'
+import { getTokenTone, analyzeTone, getTokenPersonality, analyzePersonality } from '../utils/watsonFuncs.js'
 
 
 export default class SingleEntry extends Component {
@@ -18,19 +18,22 @@ export default class SingleEntry extends Component {
     alignment: 'left', 
     showStyleToolbar: false, 
     showAlignmentToolbar: false, 
-    toneInsightIds: [], 
+    toneInsightIds: [],
+    personalityInsightIds: [], 
     rootRef: getRootRef('entries', this.props.match.params.id)
   }
   
   componentDidMount(){
     this.getInsightIds('toneInsights');
+    this.getInsightIds('personalityInsights');
     this.state.rootRef.get()
       .then(snap => {
-        snap.data()
+        snap.data().content
         ? this.setState({ editorState: EditorState.createWithContent(convertFromRaw(snap.data().content)) }) 
         : this.setState({ editorState: EditorState.createEmpty()})
     })
   }
+
   onChange = editorState => {
     // to send data from entry to firebase WHILE USER IS UPDATING: use convertToRaw(editorState.getCurrentContent())
     this.setState({editorState})
@@ -38,11 +41,15 @@ export default class SingleEntry extends Component {
       ? this.state.rootRef.update({ content: convertToRaw(editorState.getCurrentContent()) })
       : this.state.rootRef.set({ content: convertToRaw(editorState.getCurrentContent()) });
     //analyze input with each change
-    const { toneInsightIds } = this.state;
+    const { toneInsightIds, personalityInsightIds } = this.state;
     const text = this.state.editorState.getCurrentContent().getPlainText();
     const toneInsightId = toneInsightIds.length > 0 ? toneInsightIds.length : 0;
+    const personalityInsightId = personalityInsightIds.length > 0 ? personalityInsightIds.length : 0;
     //only call tone analyzer if length of text is greater than 350 -- to limit api calls
-    if (text.length > 350) getTokenTone().then((token) => analyzeTone(token, text, toneInsightId ))
+    if (text.length % 350 === 0){
+      getTokenTone().then((token) => analyzeTone(token, text, toneInsightId ));
+      console.log(text)
+    } 
   }
 
   getInsightIds = (collectionName) => {

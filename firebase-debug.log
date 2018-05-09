@@ -1,0 +1,85 @@
+[debug] [2018-05-09T14:38:43.493Z] ----------------------------------------------------------------------
+[debug] [2018-05-09T14:38:43.500Z] Command:       /Users/janelgrant/.npm/_npx/6117/lib/node_modules/node/bin/node /usr/local/bin/firebase serve --only functions,hosting
+[debug] [2018-05-09T14:38:43.501Z] CLI Version:   3.18.4
+[debug] [2018-05-09T14:38:43.501Z] Platform:      darwin
+[debug] [2018-05-09T14:38:43.501Z] Node Version:  v6.14.2
+[debug] [2018-05-09T14:38:43.502Z] Time:          Wed May 09 2018 10:38:43 GMT-0400 (EDT)
+[debug] [2018-05-09T14:38:43.502Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-05-09T14:38:43.543Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-05-09T14:38:43.544Z] > authorizing via signed-in user
+[debug] [2018-05-09T14:38:43.549Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-05-09T14:38:43.550Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ { refresh_token: '1/aKpGqHeXhNSTNN5a3ix425K6sGEqLQTzqna4XLHg3h0MvYJe5Bpql1EgN6EE-OGQ',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Wed May 09 2018 10:38:43 GMT-0400 (EDT)
+[debug] [2018-05-09T14:38:43.854Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-09T14:38:43.874Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/mahazay-c248c  
+  
+ Wed May 09 2018 10:38:43 GMT-0400 (EDT)
+[debug] [2018-05-09T14:38:44.241Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-09T14:38:44.243Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/mahazay-c248c/tokens  
+  
+ Wed May 09 2018 10:38:44 GMT-0400 (EDT)
+[debug] [2018-05-09T14:38:44.598Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-09T14:38:44.599Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/mahazay-c248c  
+  
+ Wed May 09 2018 10:38:44 GMT-0400 (EDT)
+[debug] [2018-05-09T14:38:44.956Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/janelgrant/GraceHopper-Fullstack-Immersive/SeniorPhase/mahazay-two'...
+[info] 
+[debug] [2018-05-09T14:38:48.220Z] Error: EACCES: permission denied, mkdir '/usr/local/lib/node_modules/firebase-tools/node_modules/@google-cloud/functions-emulator/logs'
+    at Error (native)
+    at Object.fs.mkdirSync (fs.js:932:18)
+    at Object.assertLogsPath (/usr/local/lib/node_modules/firebase-tools/node_modules/@google-cloud/functions-emulator/src/emulator/logs.js:65:10)
+    at new Controller (/usr/local/lib/node_modules/firebase-tools/node_modules/@google-cloud/functions-emulator/src/cli/controller.js:77:32)
+    at FunctionsEmulator.start (/usr/local/lib/node_modules/firebase-tools/lib/functionsEmulator.js:111:21)
+    at Object.start (/usr/local/lib/node_modules/firebase-tools/lib/serve/functions.js:9:29)
+    at /usr/local/lib/node_modules/firebase-tools/lib/serve/index.js:17:21
+    at arrayMap (/usr/local/lib/node_modules/firebase-tools/node_modules/lodash/lodash.js:639:23)
+    at Function.map (/usr/local/lib/node_modules/firebase-tools/node_modules/lodash/lodash.js:9554:14)
+    at _serve (/usr/local/lib/node_modules/firebase-tools/lib/serve/index.js:15:7)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2018-05-09T14:40:37.074Z] ----------------------------------------------------------------------
+[debug] [2018-05-09T14:40:37.081Z] Command:       /Users/janelgrant/.npm/_npx/6226/lib/node_modules/node/bin/node /usr/local/bin/firebase serve --only functions,hosting
+[debug] [2018-05-09T14:40:37.082Z] CLI Version:   3.18.4
+[debug] [2018-05-09T14:40:37.082Z] Platform:      darwin
+[debug] [2018-05-09T14:40:37.082Z] Node Version:  v6.14.2
+[debug] [2018-05-09T14:40:37.084Z] Time:          Wed May 09 2018 10:40:37 GMT-0400 (EDT)
+[debug] [2018-05-09T14:40:37.084Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-05-09T14:40:37.106Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-05-09T14:40:37.107Z] > authorizing via signed-in user
+[debug] [2018-05-09T14:40:37.111Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/mahazay-c248c  
+  
+ Wed May 09 2018 10:40:37 GMT-0400 (EDT)
+[debug] [2018-05-09T14:40:37.615Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-09T14:40:37.617Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/mahazay-c248c/tokens  
+  
+ Wed May 09 2018 10:40:37 GMT-0400 (EDT)
+[debug] [2018-05-09T14:40:38.190Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-09T14:40:38.191Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/mahazay-c248c  
+  
+ Wed May 09 2018 10:40:38 GMT-0400 (EDT)
+[debug] [2018-05-09T14:40:38.467Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/janelgrant/GraceHopper-Fullstack-Immersive/SeniorPhase/mahazay-two'...
+[info] 
+[debug] [2018-05-09T14:40:40.807Z] Error: EACCES: permission denied, mkdir '/usr/local/lib/node_modules/firebase-tools/node_modules/@google-cloud/functions-emulator/logs'
+    at Error (native)
+    at Object.fs.mkdirSync (fs.js:932:18)
+    at Object.assertLogsPath (/usr/local/lib/node_modules/firebase-tools/node_modules/@google-cloud/functions-emulator/src/emulator/logs.js:65:10)
+    at new Controller (/usr/local/lib/node_modules/firebase-tools/node_modules/@google-cloud/functions-emulator/src/cli/controller.js:77:32)
+    at FunctionsEmulator.start (/usr/local/lib/node_modules/firebase-tools/lib/functionsEmulator.js:111:21)
+    at Object.start (/usr/local/lib/node_modules/firebase-tools/lib/serve/functions.js:9:29)
+    at /usr/local/lib/node_modules/firebase-tools/lib/serve/index.js:17:21
+    at arrayMap (/usr/local/lib/node_modules/firebase-tools/node_modules/lodash/lodash.js:639:23)
+    at Function.map (/usr/local/lib/node_modules/firebase-tools/node_modules/lodash/lodash.js:9554:14)
+    at _serve (/usr/local/lib/node_modules/firebase-tools/lib/serve/index.js:15:7)
+[error] 
+[error] Error: An unexpected error has occurred.

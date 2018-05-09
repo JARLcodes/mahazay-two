@@ -1,5 +1,5 @@
 'use strict';
-const { ltAuthServiceTone } = require('./watson.config.js');
+const { ltAuthServiceTone, ltAuthServicePersonality } = require('./watson.config.js');
 const express = require('express');
 const app = express();
 const dotenv = require('dotenv');
@@ -27,6 +27,17 @@ app.get('/api/token/tone_analyzer', function(req, res) {
     res.send(token);
   });
 });
+
+app.get('/api/token/personality_analyzer', function(req, res) {
+  ltAuthServicePersonality.getToken(function(err, token) {
+    if (err) {
+      console.log('Error retrieving token: ', err);
+      return res.status(500).send('Error retrieving token');
+    }
+    res.send(token);
+  });
+});
+
 
 if (module === require.main){
   const port = process.env.PORT || process.env.VCAP_APP_PORT || 5000;
