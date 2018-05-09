@@ -51,6 +51,7 @@ export class Navbar extends Component {
     render () {
         const user = this.props._user;
         const userEmail = user && user.email ? user.email : null;
+        const disabled = user ? false : true;
         console.log('navbar user', userEmail)
         return (
             <div>
@@ -70,19 +71,19 @@ export class Navbar extends Component {
                             </Typography>
                         </div>
                         </Button>
-                        <Button href="/journals" color="inherit" style={styles.journalButton}>
+                        <Button href="/journals" color="inherit" style={styles.journalButton} disabled={disabled}>
                             <ImportContacts />
                             Journals
                         </Button>
-                        <Button href="/entries" color="inherit" style={styles.entryButton}>
+                        <Button href="/entries" color="inherit" style={styles.entryButton} disabled={disabled}> 
                             <LibraryBooks />
                             Entries
                         </Button>
-                        <Button href="/tracker" color="inherit" style={styles.trackerButton}>
+                        <Button href="/tracker" color="inherit" style={styles.trackerButton} disabled={disabled}>
                             <CheckBox />
                             Tracker
                         </Button>
-                        <Button href="/insights" color="inherit" style={styles.insightButton}>
+                        <Button href="/insights" color="inherit" style={styles.insightButton} disabled={disabled}>
                             <Poll />
                             Insights
                         </Button>

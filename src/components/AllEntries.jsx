@@ -4,8 +4,10 @@ import Button from "material-ui/Button";
 import { withStyles } from 'material-ui/styles';
 import Card, { CardContent } from 'material-ui/Card';
 import Grid from 'material-ui/Grid';
+import { withAuth } from 'fireview';
 
 import { getRootRef } from '../utils/componentUtils';
+
 
 const styles = {
   card: {
@@ -41,7 +43,6 @@ export class AllEntries extends Component {
 
   render() {
     const { entries } = this.state;
-
     return (
       <div>
         <Grid container spacing={24}>
@@ -62,4 +63,4 @@ export class AllEntries extends Component {
   }
 }
 
-export default withStyles(styles)(AllEntries)
+export default withAuth(withStyles(styles)(AllEntries));
