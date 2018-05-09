@@ -19,24 +19,26 @@ export default class SingleEntry extends Component {
     showStyleToolbar: false, 
     showAlignmentToolbar: false, 
     toneInsightIds: [], 
-    rootRef: getRootRef('entries', this.props.match.params.id)
+    rootRef: getRootRef('entries', this.props.match.params.entryId)
   }
   
   componentDidMount(){
     this.getInsightIds('toneInsights');
     this.state.rootRef.get()
       .then(snap => {
+        snap.forEach(snap => 
         snap.data()
-        ? this.setState({ editorState: EditorState.createWithContent(convertFromRaw(snap.data().content)) }) 
-        : this.setState({ editorState: EditorState.createEmpty()})
-    })
-  }
+          ? this.setState({ editorState: EditorState.createWithContent(convertFromRaw(snap.data().content)) }) 
+          : this.setState({ editorState: EditorState.createEmpty()})
+        )
+      })
+  };
+
   onChange = editorState => {
     // to send data from entry to firebase WHILE USER IS UPDATING: use convertToRaw(editorState.getCurrentContent())
     this.setState({editorState})
-    this.state.rootRef.content 
-      ? this.state.rootRef.update({ content: convertToRaw(editorState.getCurrentContent()) })
-      : this.state.rootRef.set({ content: convertToRaw(editorState.getCurrentContent()) });
+    //at this point, entry has been created
+    this.state.rootRef.update({ content: convertToRaw(editorState.getCurrentContent()) });
     //analyze input with each change
     const { toneInsightIds } = this.state;
     const text = this.state.editorState.getCurrentContent().getPlainText();
