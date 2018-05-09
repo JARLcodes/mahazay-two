@@ -24,7 +24,6 @@ export class AllEntries extends Component {
   constructor(){
     super();
     this.state = {
-      
       entries: []
     };
   
@@ -34,7 +33,7 @@ export class AllEntries extends Component {
     getRootRef('entries').get()
       .then(querySnapshot => {
         querySnapshot.forEach(entry => this.setState({ 
-          entries: [...this.state.entries, {[entry.id] : entry.data() }] 
+          entries: [...this.state.entries, {[entry.id] : entry.data(), journalId: entry.data().journalId }] 
         }))
     })
   }
@@ -51,7 +50,7 @@ export class AllEntries extends Component {
             <Grid key={Object.keys(entry)} item xs={3} >
               <Card>
                 <CardContent>
-                  <Link to={`/entries/${Object.keys(entry)}`}>{"Entry #" + Object.keys(entry)[0]}</Link>
+                  <Link to={`/journals/${entry.journalId}/entries/${Object.keys(entry)}`}>{"Entry #" + Object.keys(entry)[0]}</Link>
                 </CardContent>
               </Card>
             </Grid>

@@ -12,7 +12,8 @@ export default class SingleJournal extends Component {
 
   addEntry(){
     getRootRef('entries').add({})
-      .then(docRef => this.props.history.push(`/entries/${docRef.id}`));
+      .then(docRef => 
+        this.props.history.push(`/journals/${this.props.match.params.journalId}/entries/${docRef.id}`));
   };
 
   render() {

@@ -19,18 +19,21 @@ export default class SingleEntry extends Component {
     showStyleToolbar: false, 
     showAlignmentToolbar: false, 
     toneInsightIds: [], 
-    rootRef: getRootRef('entries', this.props.match.params.id)
+    rootRef: getRootRef('entries', this.props.match.params.entryId)
   }
   
   componentDidMount(){
     this.getInsightIds('toneInsights');
     this.state.rootRef.get()
       .then(snap => {
-        snap.data().content
-        ? this.setState({ editorState: EditorState.createWithContent(convertFromRaw(snap.data().content)) }) 
-        : this.setState({ editorState: EditorState.createEmpty()})
-    })
-  }
+        snap.forEach(snap => 
+        snap.data()
+          ? this.setState({ editorState: EditorState.createWithContent(convertFromRaw(snap.data().content)) }) 
+          : this.setState({ editorState: EditorState.createEmpty()})
+        )
+      })
+  };
+
   onChange = editorState => {
     // to send data from entry to firebase WHILE USER IS UPDATING: use convertToRaw(editorState.getCurrentContent())
     this.setState({editorState})
