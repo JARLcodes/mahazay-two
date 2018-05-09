@@ -53,9 +53,10 @@ export default class NewJournalForm extends Component {
   }
 
   addJournal(){
-    const newJournalId = this.state.allJournalIds.length > 0 ? Number(this.state.allJournalIds[this.state.allJournalIds.length - 1]) + 1 : 1;
     const data = { title: this.state.title, description: this.state.description };
-    this.state.rootRef.doc(newJournalId.toString()).set(data);
+    let newJournalId;
+    getRootRef('journals').add(data)
+      .then(journal => this.props.history.push(`/journals/${journal.id}`))
   }
   
   render() {

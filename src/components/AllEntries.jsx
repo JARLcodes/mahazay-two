@@ -24,29 +24,24 @@ export class AllEntries extends Component {
   constructor(){
     super();
     this.state = {
-      rootRef: getRootRef('entries'),
-      entries: [],
-      allEntryIds: []
+      
+      entries: []
     };
-    this.addEntry = this.addEntry.bind(this);
+  
   }
 
   componentDidMount(){
-    const { rootRef } = this.state;
-    rootRef.get()
+    getRootRef('entries').get()
       .then(querySnapshot => {
-        querySnapshot.forEach(entry => this.setState({ entries: [...this.state.entries, {[entry.id] : entry.data() }], allEntryIds: [...this.state.allEntryIds, entry.id]}))
+        querySnapshot.forEach(entry => this.setState({ 
+          entries: [...this.state.entries, {[entry.id] : entry.data() }] 
+        }))
     })
   }
 
-  addEntry(){
-    console.log('assigning new entry to journal AND generating new entry id');
-    const newEntryId = this.state.allEntryIds.length > 0 ? Number(this.state.allEntryIds[this.state.allEntryIds.length - 1]) + 1 : 1;
-    this.props.history.push(`/entries/${newEntryId}`);
-  }
 
   render() {
-    const { rootRef, entries, newEntryId } = this.state;
+    const { entries } = this.state;
 
     return (
       <div>
@@ -62,8 +57,6 @@ export class AllEntries extends Component {
             </Grid>
           )}
         )}
-        <Button onClick={this.addEntry}>New Entry</Button>
-        { newEntryId && <Redirect to={`/entries/${newEntryId}`}/> }
         </Grid>
       </div>
     )
