@@ -1,6 +1,4 @@
 import React, { Component }from 'react';
-// import history from '../history';
-// import MenuItem from 'material-ui/Menu/MenuItem';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import Zoom from 'material-ui/transitions/Zoom';

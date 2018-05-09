@@ -70,19 +70,19 @@ export class Navbar extends Component {
                             </Typography>
                         </div>
                         </Button>
-                        <Button href="/journals" color="inherit" style={styles.journalButton}>
+                        <Button disabled={!user} href="/journals" color="inherit" style={styles.journalButton}>
                             <ImportContacts />
                             Journals
                         </Button>
-                        <Button href="/entries" color="inherit" style={styles.entryButton}>
+                        <Button disabled={!user} href="/entries" color="inherit" style={styles.entryButton}>
                             <LibraryBooks />
                             Entries
                         </Button>
-                        <Button href="/tracker" color="inherit" style={styles.trackerButton}>
+                        <Button disabled={!user} href="/tracker" color="inherit" style={styles.trackerButton}>
                             <CheckBox />
                             Tracker
                         </Button>
-                        <Button href="/insights" color="inherit" style={styles.insightButton}>
+                        <Button disabled={!user} href="/insights" color="inherit" style={styles.insightButton}>
                             <Poll />
                             Insights
                         </Button>
