@@ -101,7 +101,6 @@ export default class SingleEntry extends Component {
   render() {
     const { alignment, showStyleToolbar, showAlignmentToolbar, editorState } = this.state;
     if (!editorState) return 'loading';
-    console.log('this.state.rootref in render', this.state.rootRef);
     
     return ( 
       <div style={styles.singleEntry}>
