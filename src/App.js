@@ -35,9 +35,9 @@ class App extends Component {
             <div className="col-xs-10">
             <Switch>
               <Route exact path="/entries" component={AllEntries}/>
-              <Route exact path="/entries/:id" component={SingleEntry}/>
+              <Route exact path="/journals/:journalId/entries/:journalId" component={SingleEntry}/>
               <Route exact path="/journals" component={AllJournals} />
-              <Route exact path="/journals/:id" component={SingleJournal} />
+              <Route exact path="/journals/:journalId" component={SingleJournal} />
               <Route exact path="/new-journal" component={NewJournalForm}/>
             { user ? <Route exact path="/" component={Dashboard}/>
                     : <Route exact path="/" component={Home}/>}
