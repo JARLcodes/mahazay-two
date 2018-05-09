@@ -1,7 +1,6 @@
 import React, { Component }from 'react';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
-import Zoom from 'material-ui/transitions/Zoom';
 import Grid from 'material-ui/Grid';
 import firebase from 'firebase';
 import { auth, db } from '../utils/firebase.config';
@@ -108,7 +107,6 @@ export default class HomepageForm extends Component {
                 label="Email"
                 onChange={this.handleChange}
                 name="email"
-                placeholder="Enter Email"
                 margin="normal"
                 />
             </div>
@@ -118,7 +116,6 @@ export default class HomepageForm extends Component {
                 label="Password"
                 onChange={this.handleChange}
                 name="password"
-                placeholder="Enter Password"
                 margin="normal"
                 />
               </div> 

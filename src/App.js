@@ -14,7 +14,8 @@ import {
   AllEntries,
   AllJournals,
   SingleJournal, 
-  NewJournalForm
+  NewJournalForm,
+  Tracker
 } from './components/index.js';
 
 
@@ -39,6 +40,7 @@ class App extends Component {
               <Route exact path="/journals" component={AllJournals} />
               <Route exact path="/journals/:id" component={SingleJournal} />
               <Route exact path="/new-journal" component={NewJournalForm}/>
+              <Route path="/tracker" component={Tracker}/>
             { user ? <Route exact path="/" component={Dashboard}/>
                     : <Route exact path="/" component={Home}/>}
             { user ? <Route component={Dashboard}/>
