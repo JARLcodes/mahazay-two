@@ -1,89 +1,49 @@
-[debug] [2018-05-08T17:58:54.257Z] ----------------------------------------------------------------------
-[debug] [2018-05-08T17:58:54.266Z] Command:       /home/richi/.npm/_npx/22232/lib/node_modules/node/bin/node /usr/bin/firebase serve --only functions,hosting
-[debug] [2018-05-08T17:58:54.267Z] CLI Version:   3.18.4
-[debug] [2018-05-08T17:58:54.267Z] Platform:      linux
-[debug] [2018-05-08T17:58:54.267Z] Node Version:  v6.14.2
-[debug] [2018-05-08T17:58:54.267Z] Time:          Tue May 08 2018 13:58:54 GMT-0400 (EDT)
-[debug] [2018-05-08T17:58:54.267Z] ----------------------------------------------------------------------
+[debug] [2018-05-08T20:13:16.211Z] ----------------------------------------------------------------------
+[debug] [2018-05-08T20:13:16.214Z] Command:       /home/richi/.npm/_npx/27796/lib/node_modules/node/bin/node /home/richi/Desktop/projects/mahazay/node_modules/.bin/firebase serve --only functions,hosting
+[debug] [2018-05-08T20:13:16.214Z] CLI Version:   3.18.4
+[debug] [2018-05-08T20:13:16.214Z] Platform:      linux
+[debug] [2018-05-08T20:13:16.214Z] Node Version:  v6.14.2
+[debug] [2018-05-08T20:13:16.214Z] Time:          Tue May 08 2018 16:13:16 GMT-0400 (EDT)
+[debug] [2018-05-08T20:13:16.214Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2018-05-08T17:58:54.391Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2018-05-08T17:58:54.394Z] > authorizing via signed-in user
-[debug] [2018-05-08T17:58:54.408Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
-[debug] [2018-05-08T17:58:54.410Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+[debug] [2018-05-08T20:13:16.225Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-05-08T20:13:16.225Z] > authorizing via signed-in user
+[debug] [2018-05-08T20:13:16.228Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-05-08T20:13:16.228Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
  { refresh_token: '1/mVxiKAX2GAuJu1EBfvcdI7R5wy7uF5Fag61QCjc27u8',
   client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
   client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
   grant_type: 'refresh_token',
   scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
- Tue May 08 2018 13:58:54 GMT-0400 (EDT)
-[debug] [2018-05-08T17:58:54.936Z] <<< HTTP RESPONSE 200
-[debug] [2018-05-08T17:58:54.979Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/mahazay-c248c  
+ Tue May 08 2018 16:13:16 GMT-0400 (EDT)
+[debug] [2018-05-08T20:13:16.440Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-08T20:13:16.498Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/mahazay-c248c  
   
- Tue May 08 2018 13:58:54 GMT-0400 (EDT)
-[debug] [2018-05-08T17:58:55.330Z] <<< HTTP RESPONSE 200
-[debug] [2018-05-08T17:58:55.335Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/mahazay-c248c/tokens  
+ Tue May 08 2018 16:13:16 GMT-0400 (EDT)
+[debug] [2018-05-08T20:13:18.188Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-08T20:13:18.189Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/mahazay-c248c/tokens  
   
- Tue May 08 2018 13:58:55 GMT-0400 (EDT)
-[debug] [2018-05-08T17:58:55.727Z] <<< HTTP RESPONSE 200
-[debug] [2018-05-08T17:58:55.733Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/mahazay-c248c  
+ Tue May 08 2018 16:13:18 GMT-0400 (EDT)
+[debug] [2018-05-08T20:13:18.667Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-08T20:13:18.668Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/mahazay-c248c  
   
- Tue May 08 2018 13:58:55 GMT-0400 (EDT)
-[debug] [2018-05-08T17:58:56.157Z] <<< HTTP RESPONSE 200
+ Tue May 08 2018 16:13:18 GMT-0400 (EDT)
+[debug] [2018-05-08T20:13:19.383Z] <<< HTTP RESPONSE 200
 [info] 
 [info] === Serving from '/home/richi/Desktop/projects/mahazay'...
 [info] 
 [info] i  functions: Preparing to emulate functions.
-[debug] [2018-05-08T17:59:02.470Z] Fetching environment
-[debug] [2018-05-08T17:59:02.774Z] Error: EACCES: permission denied, open '/home/richi/.config/gcloud/application_default_credentials.json'
+[debug] [2018-05-08T20:13:20.462Z] Fetching environment
+[debug] [2018-05-08T20:13:20.719Z] Error: EACCES: permission denied, open '/home/richi/.config/gcloud/application_default_credentials.json'
     at Error (native)
     at Object.fs.openSync (fs.js:642:18)
     at Object.fs.writeFileSync (fs.js:1356:33)
-    at module.exports (/usr/lib/node_modules/firebase-tools/lib/ensureDefaultCredentials.js:42:6)
-    at FunctionsEmulator.start (/usr/lib/node_modules/firebase-tools/lib/functionsEmulator.js:116:3)
-    at Object.start (/usr/lib/node_modules/firebase-tools/lib/serve/functions.js:9:29)
-    at /usr/lib/node_modules/firebase-tools/lib/serve/index.js:17:21
-    at arrayMap (/usr/lib/node_modules/firebase-tools/node_modules/lodash/lodash.js:639:23)
-    at Function.map (/usr/lib/node_modules/firebase-tools/node_modules/lodash/lodash.js:9554:14)
-    at _serve (/usr/lib/node_modules/firebase-tools/lib/serve/index.js:15:7)
-[error] 
-[error] Error: An unexpected error has occurred.
-[debug] [2018-05-08T18:04:28.309Z] ----------------------------------------------------------------------
-[debug] [2018-05-08T18:04:28.311Z] Command:       /home/richi/.npm/_npx/22663/lib/node_modules/node/bin/node /usr/bin/firebase serve --only functions,hosting
-[debug] [2018-05-08T18:04:28.311Z] CLI Version:   3.18.4
-[debug] [2018-05-08T18:04:28.312Z] Platform:      linux
-[debug] [2018-05-08T18:04:28.312Z] Node Version:  v6.14.2
-[debug] [2018-05-08T18:04:28.399Z] Time:          Tue May 08 2018 14:04:28 GMT-0400 (EDT)
-[debug] [2018-05-08T18:04:28.399Z] ----------------------------------------------------------------------
-[debug] 
-[debug] [2018-05-08T18:04:28.439Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2018-05-08T18:04:28.439Z] > authorizing via signed-in user
-[debug] [2018-05-08T18:04:28.444Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/mahazay-c248c  
-  
- Tue May 08 2018 14:04:28 GMT-0400 (EDT)
-[debug] [2018-05-08T18:04:28.880Z] <<< HTTP RESPONSE 200
-[debug] [2018-05-08T18:04:28.885Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/mahazay-c248c/tokens  
-  
- Tue May 08 2018 14:04:28 GMT-0400 (EDT)
-[debug] [2018-05-08T18:04:29.307Z] <<< HTTP RESPONSE 200
-[debug] [2018-05-08T18:04:29.312Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/mahazay-c248c  
-  
- Tue May 08 2018 14:04:29 GMT-0400 (EDT)
-[debug] [2018-05-08T18:04:29.696Z] <<< HTTP RESPONSE 200
-[info] 
-[info] === Serving from '/home/richi/Desktop/projects/mahazay'...
-[info] 
-[info] i  functions: Preparing to emulate functions.
-[debug] [2018-05-08T18:04:31.502Z] Fetching environment
-[debug] [2018-05-08T18:04:31.635Z] Error: EACCES: permission denied, open '/home/richi/.config/gcloud/application_default_credentials.json'
-    at Error (native)
-    at Object.fs.openSync (fs.js:642:18)
-    at Object.fs.writeFileSync (fs.js:1356:33)
-    at module.exports (/usr/lib/node_modules/firebase-tools/lib/ensureDefaultCredentials.js:42:6)
-    at FunctionsEmulator.start (/usr/lib/node_modules/firebase-tools/lib/functionsEmulator.js:116:3)
-    at Object.start (/usr/lib/node_modules/firebase-tools/lib/serve/functions.js:9:29)
-    at /usr/lib/node_modules/firebase-tools/lib/serve/index.js:17:21
-    at arrayMap (/usr/lib/node_modules/firebase-tools/node_modules/lodash/lodash.js:639:23)
-    at Function.map (/usr/lib/node_modules/firebase-tools/node_modules/lodash/lodash.js:9554:14)
-    at _serve (/usr/lib/node_modules/firebase-tools/lib/serve/index.js:15:7)
+    at module.exports (/home/richi/Desktop/projects/mahazay/node_modules/firebase-tools/lib/ensureDefaultCredentials.js:42:6)
+    at FunctionsEmulator.start (/home/richi/Desktop/projects/mahazay/node_modules/firebase-tools/lib/functionsEmulator.js:116:3)
+    at Object.start (/home/richi/Desktop/projects/mahazay/node_modules/firebase-tools/lib/serve/functions.js:9:29)
+    at /home/richi/Desktop/projects/mahazay/node_modules/firebase-tools/lib/serve/index.js:17:21
+    at arrayMap (/home/richi/Desktop/projects/mahazay/node_modules/lodash/lodash.js:639:23)
+    at Function.map (/home/richi/Desktop/projects/mahazay/node_modules/lodash/lodash.js:9554:14)
+    at _serve (/home/richi/Desktop/projects/mahazay/node_modules/firebase-tools/lib/serve/index.js:15:7)
 [error] 
 [error] Error: An unexpected error has occurred.
