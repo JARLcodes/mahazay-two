@@ -26,11 +26,9 @@ export default class SingleEntry extends Component {
     this.getInsightIds('toneInsights');
     this.state.rootRef.get()
       .then(snap => {
-        snap.forEach(snap => 
-        snap.data()
+        snap.data().content
           ? this.setState({ editorState: EditorState.createWithContent(convertFromRaw(snap.data().content)) }) 
           : this.setState({ editorState: EditorState.createEmpty()})
-        )
       })
   };
 
@@ -95,9 +93,9 @@ export default class SingleEntry extends Component {
   render() {
     const { alignment, showStyleToolbar, showAlignmentToolbar, editorState } = this.state;
     if (!editorState) return 'loading';
-   
+    console.log('this.state.rootref in render', this.state.rootRef);
     
-    return (
+    return ( 
       <div style={styles.singleEntry}>
         <div style={styles.sidebar}> <SingleEntrySidebar/> </div>
         <div style={styles.editor}>
