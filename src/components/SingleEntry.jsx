@@ -1,7 +1,11 @@
 import React, { Component } from "react";
+import { Map } from 'fireview';
 import { EditorState, RichUtils, convertFromRaw, convertToRaw, ContentState } from "draft-js";
 import Editor from 'draft-js-plugins-editor';
 import Button from "material-ui/Button";
+import { MenuItem } from 'material-ui/Menu';
+import Select from 'material-ui/Select';
+import Input, { InputLabel } from 'material-ui/Input';
 import FormatAlignCenter from '@material-ui/icons/FormatAlignCenter';
 import FormatAlignLeft from '@material-ui/icons/FormatAlignLeft';
 import FormatAlignRight from '@material-ui/icons/FormatAlignRight';
@@ -13,14 +17,19 @@ import { getTokenTone, analyzeTone } from '../utils/watsonFuncs.js'
 
 
 export default class SingleEntry extends Component {
-  state = {
-    editorState: null, 
-    alignment: 'left', 
-    showStyleToolbar: false, 
-    showAlignmentToolbar: false, 
-    toneInsightIds: [], 
-    rootRef: getRootRef('entries', this.props.match.params.id)
+  constructor(props){
+    super(props);
+    this.state = {
+      editorState: null, 
+      alignment: 'left', 
+      showStyleToolbar: false, 
+      showAlignmentToolbar: false, 
+      toneInsightIds: [], 
+      journal: {}, 
+      rootRef: getRootRef('entries', this.props.match.params.id)
+    }
   }
+ 
   
   componentDidMount(){
     this.getInsightIds('toneInsights');
@@ -31,6 +40,12 @@ export default class SingleEntry extends Component {
         : this.setState({ editorState: EditorState.createEmpty()})
     })
   }
+
+  handleChange(e){
+    e.preventDefault();
+    console.log('???')
+    this.setState({ journal: e.target.value })
+  } 
   onChange = editorState => {
     // to send data from entry to firebase WHILE USER IS UPDATING: use convertToRaw(editorState.getCurrentContent())
     this.setState({editorState})
@@ -93,11 +108,33 @@ export default class SingleEntry extends Component {
   render() {
     const { alignment, showStyleToolbar, showAlignmentToolbar, editorState } = this.state;
     if (!editorState) return 'loading';
-   
-    
     return (
       <div style={styles.singleEntry}>
-        <div style={styles.sidebar}> <SingleEntrySidebar/> </div>
+        
+        <div style={styles.sidebar}> <SingleEntrySidebar/> 
+        <div id={styles.select}>
+            <InputLabel htmlFor="journal-helper" style={styles.placeholder}>Journal</InputLabel>
+            <Select
+              value={this.state.journal}
+              input={<Input name="journal" id="journal-helper"/>}
+              style={styles.select}
+              onChange={this.handleChange}
+            >
+              <MenuItem value=""></MenuItem>
+              <Map from={getRootRef('journals')}
+                  Loading={() => 'Loading...'}
+                  Render={journal => {
+                    if (journal.title){
+                      return <MenuItem key={journal.title} value={journal}>{journal.title}</MenuItem>
+                    }
+                    else return null;
+                  }
+                  }
+                  Empty={() => 'No journals'}
+                  />
+            </Select>
+          </div>
+          </div>
         <div style={styles.editor}>
           <Button onClick={this.showStyleToolbar.bind(this)}><b>B</b><i>I</i><u>U</u></Button>
           {showStyleToolbar && <div>{this.renderStyleToolbar()}</div>}
@@ -114,6 +151,7 @@ export default class SingleEntry extends Component {
               />
           
           </div>
+      
       </div>
     );
   }
