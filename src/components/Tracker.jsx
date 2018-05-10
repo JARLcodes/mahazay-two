@@ -8,12 +8,14 @@ import Table, {
   TableBody,
   TableCell,
   TableHead,
-  TablePagination,
-  TableRow,
-  TableSortLabel,
+  TableRow
 } from 'material-ui/Table';
-import Calendar from 'react-calendar';
-import moment from 'moment';
+import Moment from 'react-moment';
+import * as moment from 'moment';
+
+import firebase from 'firebase';
+import { auth, db } from '../utils/firebase.config';
+import { getRootRef } from '../utils/componentUtils';
 
 const styles = theme => ({
   container: {
@@ -42,40 +44,45 @@ export default class Tracker extends Component {
   constructor() {
     super();
     this.state = {
-      date: new Date(),
+      selectedDate: {},
+      habits: [],
       habit: '',
-      habitTable: [{ habit: '' }]
+      rootRef: getRootRef('habits')
     };
     this.handleAddHabit = this.handleAddHabit.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  handleSubmit(event) {
-    event.preventDefault();
-    const { habit, habitTable } = this.state;
-    this.setState({ [event.target.name]: event.target.value })
+  componentDidMount() {
+    const { rootRef } = this.state;
+    rootRef.get();
   }
 
-  handleAddHabit(event) {
+  handleChange(event) {
     event.preventDefault();
-    this.setState({
-      habitTable: this.state.habitTable.concat([{ habit: '' }])
-    });
+    this.setState({ [event.target.name]: event.target.value });
+  }
+
+  handleAddHabit() {
+    db.collection('habits').add({habit: this.state.habit});
   }
 
   render() {
-    console.log('table state', this.state.habitTable)
+    console.log('the state of habits', this.state.habits);
+    console.log('just the state of habit', this.state.habit)
     const days = ['Su', 'M', 'T', 'W', 'Th', 'F', 'Sa'];
     const dummy = ['Water', 'Exercise', 'Meditation', 'Reading'];
+    const things = this.state.habits;
+    const dateToFormat = this.state.date;
     return (
       <div>
-      <form onSubmit={this.handleSubmit} className={styles.container}> 
+      <form className={styles.container}> 
         <TextField
         id="name"
         label="placeholder"
+        name="habit"
         className={styles.textField}
-        value={this.state.name}
-        onChange={this.handleAddHabit}
+        onChange={this.handleChange}
         margin="normal"
         />
         <Button onClick={this.handleAddHabit}>
@@ -98,10 +105,8 @@ export default class Tracker extends Component {
         </TableRow>)}
       </TableBody>
       </Table>
-          <Calendar
-            value={this.state.date}
-          />
       </div>
     );
   }
 }
+

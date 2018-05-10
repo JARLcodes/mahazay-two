@@ -36,7 +36,7 @@ export class AllEntries extends Component {
     rootRef.get()
       .then(querySnapshot => {
         querySnapshot.forEach(entry => this.setState({ entries: [...this.state.entries, {[entry.id] : entry.data() }], allEntryIds: [...this.state.allEntryIds, entry.id]}))
-    })
+    });
   }
 
   addEntry(){
