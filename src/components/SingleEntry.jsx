@@ -27,6 +27,7 @@ export default class SingleEntry extends Component {
    
     this.state.rootRef.get()
       .then(snap => {
+        if (snap.data()) console.log('snap.data', snap.data());
         snap.data() && snap.data().content
         ? this.setState({ editorState: EditorState.createWithContent(convertFromRaw(snap.data().content)) }) 
         : this.setState({ editorState: EditorState.createEmpty()})
