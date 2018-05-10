@@ -30,7 +30,7 @@ export const analyzeTone = (token, text, toneInsightId) => {
       }
       const toneInsight = JSON.stringify(result, null, 2);
       const parsedToneInsight = JSON.parse(toneInsight)["document_tone"]["tone_categories"];
-      db.collection('toneInsights').doc(toneInsightId.toString()).set({ parsedToneInsight });
+      db.collection('toneInsights').add({ parsedToneInsight });
     }
   );
 };
