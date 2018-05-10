@@ -9,10 +9,12 @@ import Table, {
   TableHead,
   TableRow
 } from 'material-ui/Table';
+import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 // import Moment from 'react-moment';
 // import * as moment from 'moment';
 
-// import firebase from 'firebase';
+import * as firebase from 'firebase';
+import { Map, withAuth } from 'fireview';
 import { db } from '../utils/firebase.config';
 import { getRootRef } from '../utils/componentUtils';
 
@@ -39,6 +41,12 @@ const styles = theme => ({
   }
 });
 
+const AllHabits = db.collection('habits');
+const Habit = props => {
+  const { habit } = props;
+  return <TableRow><TableCell>{props.habit}</TableCell></TableRow>;
+};
+
 export default class Tracker extends Component {
   constructor() {
     super();
@@ -52,11 +60,6 @@ export default class Tracker extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  componentDidMount() {
-    const { rootRef } = this.state;
-    
-  }
-
   handleChange(event) {
     event.preventDefault();
     this.setState({ [event.target.name]: event.target.value });
@@ -67,17 +70,13 @@ export default class Tracker extends Component {
     this.setState({ habits: [...this.state.habits, this.state.habit] });
   }
 
-  // handleSubmit() {
-    
-  // }
-
   render() {
     console.log('the state of habits', this.state.habits);
     // console.log('just the state of habit', this.state.habit);
 
     const days = ['Su', 'M', 'T', 'W', 'Th', 'F', 'Sa'];
     const dummy = ['Water', 'Exercise', 'Meditation', 'Reading'];
-
+    const userHabits = this.state.habits;
     return (
       <div>
       <form className={styles.container}> 
@@ -100,14 +99,15 @@ export default class Tracker extends Component {
         {days.map(day => <TableCell>{day}</TableCell>)}
       </TableRow>
       </TableHead>
-      <TableBody>
-        {dummy.map(habit => 
-        <TableRow>
-          <TableCell>
-          {habit}
-          </TableCell>
-        </TableRow>)}
-      </TableBody>
+      <Map from={AllHabits}
+      Render={Habit}
+      />
+      <TableCell>
+        <RadioButtonGroup>
+          <RadioButton
+          label="something"/>
+        </RadioButtonGroup>
+      </TableCell>
       </Table>
       </div>
     );

@@ -71,12 +71,10 @@ export default class HomepageForm extends Component {
   handleSignUp(event) {
     event.preventDefault();
     const { email, password } = this.state;
-    if (password.length < 6) this.setState({ warning: 'password-error' })
-    if (!email.includes('@') || !(email.indexOf('.') > email.indexOf('@'))) this.setState({ warning: 'email-error'}) 
-    console.log('password in sign up', password);
+    // if (password.length < 6) this.setState({ warning: 'password-error' });
+    // if (!email.includes('@') || !(email.indexOf('.') > email.indexOf('@'))) this.setState({ warning: 'email-error'});
     auth.createUserWithEmailAndPassword(email, password)
     .then(user => {
-      
       return db.collection('users').doc(`${user.uid}`).set({ email: email, password: password });
     })
     .then(() => {
@@ -89,7 +87,7 @@ export default class HomepageForm extends Component {
   handleLogin() {
     const { email, password } = this.state;
     auth.signInWithEmailAndPassword(email, password)
-       .then(() => {
+    .then(() => {
       auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
       this.props.history.push("/");
     })
@@ -97,10 +95,8 @@ export default class HomepageForm extends Component {
   }
 
   authListener() {
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        this.setState({ user });
-      }
+    auth.onAuthStateChanged(user => { 
+      if (user) this.setState({ user });
       else this.setState({ user: null });
     });
 	}
@@ -140,7 +136,7 @@ export default class HomepageForm extends Component {
                 />
               </div>
             }
-            
+          
                 {this.state.warning === 'password-error'
                   ? <div style={styles.error}>
                     <TextField

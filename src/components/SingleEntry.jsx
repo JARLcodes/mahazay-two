@@ -9,11 +9,7 @@ import FormatAlignRight from '@material-ui/icons/FormatAlignRight';
 import { getRootRef, getIds } from '../utils/componentUtils';
 import { plugins, styles } from './../utils/singleEntryUtils';
 import SingleEntrySidebar from './SingleEntrySidebar.jsx';
-<<<<<<< HEAD
-import { getTokenTone, analyzeTone } from '../utils/watsonFuncs.js';
-=======
 import { getTokenTone, analyzeTone, getTokenPersonality, analyzePersonality } from '../utils/watsonFuncs.js'
->>>>>>> master
 
 
 export default class SingleEntry extends Component {
