@@ -48,3 +48,44 @@
 [info] [hosting] Rewriting /api/entries/9/personalityInsights to local function api
 [info] [hosting] Rewriting /api/entries/9/personalityInsights to local function api
 [info] [hosting] Rewriting /api/entries/9/personalityInsights to local function api
+[debug] [2018-05-10T15:12:39.777Z] ----------------------------------------------------------------------
+[debug] [2018-05-10T15:12:39.782Z] Command:       /Users/janelgrant/.npm/_npx/29732/lib/node_modules/node/bin/node /Users/janelgrant/.nvm/versions/node/v9.4.0/bin/firebase serve --only functions,hosting
+[debug] [2018-05-10T15:12:39.782Z] CLI Version:   3.18.4
+[debug] [2018-05-10T15:12:39.782Z] Platform:      darwin
+[debug] [2018-05-10T15:12:39.783Z] Node Version:  v6.14.2
+[debug] [2018-05-10T15:12:39.783Z] Time:          Thu May 10 2018 11:12:39 GMT-0400 (EDT)
+[debug] [2018-05-10T15:12:39.784Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-05-10T15:12:39.804Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-05-10T15:12:39.804Z] > authorizing via signed-in user
+[debug] [2018-05-10T15:12:39.807Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/mahazay-c248c  
+  
+ Thu May 10 2018 11:12:39 GMT-0400 (EDT)
+[debug] [2018-05-10T15:12:40.219Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-10T15:12:40.221Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/mahazay-c248c/tokens  
+  
+ Thu May 10 2018 11:12:40 GMT-0400 (EDT)
+[debug] [2018-05-10T15:12:40.511Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-10T15:12:40.512Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/mahazay-c248c  
+  
+ Thu May 10 2018 11:12:40 GMT-0400 (EDT)
+[debug] [2018-05-10T15:12:41.106Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/janelgrant/GraceHopper-Fullstack-Immersive/SeniorPhase/mahazay-two'...
+[info] 
+[info] i  functions: Preparing to emulate functions.
+[debug] [2018-05-10T15:12:42.632Z] Fetching environment
+[debug] [2018-05-10T15:12:42.636Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/255815640961:getServerAppConfig  
+  
+ Thu May 10 2018 11:12:42 GMT-0400 (EDT)
+[debug] [2018-05-10T15:12:42.637Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/255815640961/clients/_:getWebAppConfig  
+  
+ Thu May 10 2018 11:12:42 GMT-0400 (EDT)
+[debug] [2018-05-10T15:12:43.120Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: public
+[info] ✔  hosting: Local server: http://localhost:5000
+
+[debug] [2018-05-10T15:12:43.175Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-10T15:12:43.175Z] Starting @google-cloud/functions-emulator
+[debug] [2018-05-10T15:12:45.752Z] Parsing function triggers
+[info] ✔  functions: api: http://localhost:5001/mahazay-c248c/us-central1/api
