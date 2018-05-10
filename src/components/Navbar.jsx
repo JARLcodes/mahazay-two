@@ -51,8 +51,10 @@ export class Navbar extends Component {
     render () {
         const user = this.props._user;
         const userEmail = user && user.email ? user.email : null;
+        const disabled = user ? false : true;
         console.log('navbar user', userEmail)
         return (
+<<<<<<< HEAD
     <div>
         <AppBar position="static" style={styles.root}>
             <Toolbar style={styles.toolbar}>
@@ -108,6 +110,63 @@ export class Navbar extends Component {
                 : null }
             </Toolbar>
         </AppBar>
+=======
+            <div>
+                <AppBar position="static" style={styles.root}>
+                    <Toolbar style={styles.toolbar}>
+                        <Button color="inherit" style={styles.backButton}>
+                            <ArrowBack />
+                        </Button>
+                        <Button href="/">
+                        <div>
+                            <Typography variant="display3">
+                               Mahazay
+                            </Typography>
+                            <Typography variant="subheading"
+                                        style={{fontStyle:"italic", textTransform:"lowercase"}}>
+                                ( ma • hā • zay )
+                            </Typography>
+                        </div>
+                        </Button>
+                        <Button href="/journals" color="inherit" style={styles.journalButton} disabled={disabled}>
+                            <ImportContacts />
+                            Journals
+                        </Button>
+                        <Button href="/entries" color="inherit" style={styles.entryButton} disabled={disabled}> 
+                            <LibraryBooks />
+                            Entries
+                        </Button>
+                        <Button href="/tracker" color="inherit" style={styles.trackerButton} disabled={disabled}>
+                            <CheckBox />
+                            Tracker
+                        </Button>
+                        <Button href="/insights" color="inherit" style={styles.insightButton} disabled={disabled}>
+                            <Poll />
+                            Insights
+                        </Button>
+                        <TextField
+                            id="search"
+                            type="search"
+                            style={styles.textField}
+                            placeholder="Search"
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="start">
+                                        <Search />
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                        { user ?
+                        <Button href="/" color="inherit" style={styles.logoutButton}
+                            onClick={() => auth.signOut()}>
+                            <Person />
+                            Logout
+                        </Button>
+                        : null }
+                    </Toolbar>
+                </AppBar>
+>>>>>>> master
             </div>
         )
     }

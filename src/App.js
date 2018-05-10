@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import './App.css';
-// import { auth } from './utils/firebase.config';
 import { withAuth } from 'fireview';
 
 import history from './history';
@@ -36,9 +35,9 @@ class App extends Component {
             <div className="col-xs-10">
             <Switch>
               <Route exact path="/entries" component={AllEntries}/>
-              <Route exact path="/entries/:id" component={SingleEntry}/>
+              <Route exact path="/journals/:journalId/entries/:entryId" component={SingleEntry}/>
               <Route exact path="/journals" component={AllJournals} />
-              <Route exact path="/journals/:id" component={SingleJournal} />
+              <Route exact path="/journals/:journalId" component={SingleJournal} />
               <Route exact path="/new-journal" component={NewJournalForm}/>
               <Route path="/tracker" component={Tracker}/>
             { user ? <Route exact path="/" component={Dashboard}/>

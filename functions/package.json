@@ -10,6 +10,7 @@
     "logs": "firebase functions:log"
   },
   "dependencies": {
+    "draft-js": "^0.10.5",
     "express": "^4.16.3",
     "firebase-admin": "~5.12.0",
     "firebase-functions": "^1.0.1",

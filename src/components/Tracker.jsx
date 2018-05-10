@@ -54,10 +54,7 @@ export default class Tracker extends Component {
 
   componentDidMount() {
     const { rootRef } = this.state;
-    rootRef.get()
-      .then(snap => {
-        snap.data();
-      });
+    
   }
 
   handleChange(event) {

@@ -1,5 +1,6 @@
 import React, { Component }from 'react';
 import TextField from 'material-ui/TextField';
+import { FormHelperText } from 'material-ui/Form';
 import Button from 'material-ui/Button';
 import Grid from 'material-ui/Grid';
 import firebase from 'firebase';
@@ -25,6 +26,14 @@ const styles = theme => ({
   },
   signUp: {
     background: "blue"
+  }, 
+  error: {
+    display: "flex", 
+    flexDirection: "column"
+  }, 
+  helperText: {
+    alignSelf: "center", 
+    marginLeft: "1em"
   }
 });
 
@@ -36,6 +45,7 @@ export default class HomepageForm extends Component {
       password: '',
       signUp: false,
       login: true,
+      warning: 'none',
       user: {}
     };
     this.handleChange = this.handleChange.bind(this);
@@ -61,8 +71,12 @@ export default class HomepageForm extends Component {
   handleSignUp(event) {
     event.preventDefault();
     const { email, password } = this.state;
+    if (password.length < 6) this.setState({ warning: 'password-error' })
+    if (!email.includes('@') || !(email.indexOf('.') > email.indexOf('@'))) this.setState({ warning: 'email-error'}) 
+    console.log('password in sign up', password);
     auth.createUserWithEmailAndPassword(email, password)
     .then(user => {
+      
       return db.collection('users').doc(`${user.uid}`).set({ email: email, password: password });
     })
     .then(() => {
@@ -99,26 +113,60 @@ export default class HomepageForm extends Component {
         <Grid item>
         <Button onClick={this.toggleShow}>New to Mahazay?</Button>
         <Button onClick={this.toggleShow}>Already a User?</Button>
+
           { this.state.signUp && !this.state.login ? 
             <div>
-              <div>
+            {this.state.warning === 'email-error' 
+             ? <div>
                 <TextField
+                error
                 id="emailInput"
                 label="Email"
                 onChange={this.handleChange}
                 name="email"
                 margin="normal"
                 />
-            </div>
-            <div>
+                <FormHelperText id="name-helper-text">Please enter a valid email address</FormHelperText>
+              </div>
+            :
+              <div>
                 <TextField
-                id="name"
-                label="Password"
+                id="emailInput"
+                label="Email"
                 onChange={this.handleChange}
-                name="password"
+                name="email"
+                placeholder="Enter Email"
                 margin="normal"
                 />
-              </div> 
+              </div>
+            }
+            
+                {this.state.warning === 'password-error'
+                  ? <div style={styles.error}>
+                    <TextField
+                      error
+                      id="name"
+                      label="Password"
+                      onChange={this.handleChange}
+                      name="password"
+                      placeholder="password"
+                      margin="normal"
+                      style={styles.helperText}
+                      />
+                      <FormHelperText id="name-helper-text">Password must be at least 6 characters</FormHelperText>
+                    </div>
+                  : <div>
+                    <TextField
+                      id="name"
+                      label="Password"
+                      onChange={this.handleChange}
+                      name="password"
+                      placeholder="Enter Password"
+                      margin="normal"
+                      />
+                      </div>
+                }
+               
               <Button onClick={this.handleSignUp}>
                 Sign Up
               </Button>

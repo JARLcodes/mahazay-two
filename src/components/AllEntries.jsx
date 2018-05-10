@@ -4,8 +4,10 @@ import Button from "material-ui/Button";
 import { withStyles } from 'material-ui/styles';
 import Card, { CardContent } from 'material-ui/Card';
 import Grid from 'material-ui/Grid';
+import { withAuth } from 'fireview';
 
 import { getRootRef } from '../utils/componentUtils';
+
 
 const styles = {
   card: {
@@ -24,30 +26,23 @@ export class AllEntries extends Component {
   constructor(){
     super();
     this.state = {
-      rootRef: getRootRef('entries'),
-      entries: [],
-      allEntryIds: []
+      entries: []
     };
-    this.addEntry = this.addEntry.bind(this);
+  
   }
 
   componentDidMount(){
-    const { rootRef } = this.state;
-    rootRef.get()
+    getRootRef('entries').get()
       .then(querySnapshot => {
-        querySnapshot.forEach(entry => this.setState({ entries: [...this.state.entries, {[entry.id] : entry.data() }], allEntryIds: [...this.state.allEntryIds, entry.id]}))
-    });
+        querySnapshot.forEach(entry => this.setState({ 
+          entries: [...this.state.entries, {[entry.id] : entry.data(), journalId: entry.data().journalId }] 
+        }))
+    })
   }
 
-  addEntry(){
-    console.log('assigning new entry to journal AND generating new entry id');
-    const newEntryId = this.state.allEntryIds.length > 0 ? Number(this.state.allEntryIds[this.state.allEntryIds.length - 1]) + 1 : 1;
-    this.props.history.push(`/entries/${newEntryId}`);
-  }
 
   render() {
-    const { rootRef, entries, newEntryId } = this.state;
-
+    const { entries } = this.state;
     return (
       <div>
         <Grid container spacing={24}>
@@ -56,18 +51,16 @@ export class AllEntries extends Component {
             <Grid key={Object.keys(entry)} item xs={3} >
               <Card>
                 <CardContent>
-                  <Link to={`/entries/${Object.keys(entry)}`}>{"Entry #" + Object.keys(entry)[0]}</Link>
+                  <Link to={`/journals/${entry.journalId}/entries/${Object.keys(entry)}`}>{"Entry #" + Object.keys(entry)[0]}</Link>
                 </CardContent>
               </Card>
             </Grid>
           )}
         )}
-        <Button onClick={this.addEntry}>New Entry</Button>
-        { newEntryId && <Redirect to={`/entries/${newEntryId}`}/> }
         </Grid>
       </div>
     )
   }
 }
 
-export default withStyles(styles)(AllEntries)
+export default withAuth(withStyles(styles)(AllEntries));
