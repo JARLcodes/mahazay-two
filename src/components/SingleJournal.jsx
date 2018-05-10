@@ -13,7 +13,10 @@ class SingleJournal extends Component {
 
   addEntry(){
     console.log('this.props', this.props._user.email);
-    getRootRef('entries').add({ dateCreated: new Date(), journalId: this.props.match.params.journalId, userEmail: this.props._user.email })
+    getRootRef('entries').add({ dateCreated: new Date(), 
+                                journalId: this.props.match.params.journalId, 
+                                userEmail: this.props._user.email 
+                              })
       .then(docRef => 
         this.props.history.push(`/journals/${this.props.match.params.journalId}/entries/${docRef.id}`));
   };
