@@ -7,6 +7,7 @@
         "@material-ui/icons": "^1.0.0-beta.43",
         "ajv": "^6.0.0",
         "axios": "^0.18.0",
+        "cors": "^2.8.4",
         "draft-js": "^0.10.5",
         "draft-js-drag-n-drop-plugin": "^2.0.3",
         "draft-js-focus-plugin": "^2.0.4",
