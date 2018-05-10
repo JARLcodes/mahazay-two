@@ -36,20 +36,32 @@ export const analyzeTone = (token, text, toneInsightId) => {
 };
 
 export const analyzePersonality = (token, text, personalityInsightId) => {
+  // console.log(token)
   const personalityAnalyzer = new PersonalityInsightsV3({
     token,
-    version: '2017-10-13',
+    version_date: process.env.PERSONALITY_INSIGHTS_VERSION_DATE || "2017-10-13"
   });
-  
-  personalityAnalyzer.profile(
-    { content: text, consumption_preferences: true },
-    function(err, result) {
-      if (err) {
-        return console.log(err);
-      }
+
+  let params = {
+    content: text,
+    content_type: 'text/plain',
+    raw_scores: true,
+    consumption_preferences: true
+  };
+
+  // console.log("personalityInsight: ", text)
+
+  personalityAnalyzer.profile(params, function(err, result) {
+    if (err) {
+      console.log(err);
+    } else {
+      // console.log("personalityInsight: ", result)
       const personalityInsight = JSON.stringify(result, null, 2);
-      const parsedPersonalityInsight = JSON.parse(personalityInsight)["personality"]["needs"]["values"]["behavior"]["consumption_preferences"];
+      const parsedPersonalityInsight = JSON.parse(personalityInsight)//["personality"]["needs"]["values"]["behavior"]["consumption_preferences"];
       db.collection('personalityInsights').doc(personalityInsightId.toString()).set({ parsedPersonalityInsight });
     }
-  );
+    // if (err) console.log('Error:', err);
+    // else console.log(JSON.stringify(result, null, 2));
+    // }
+  });
 };

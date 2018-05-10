@@ -28,7 +28,7 @@ export default class SingleEntry extends Component {
     this.getInsightIds('personalityInsights');
     this.state.rootRef.get()
       .then(snap => {
-        snap.data().content
+        snap.data()
         ? this.setState({ editorState: EditorState.createWithContent(convertFromRaw(snap.data().content)) }) 
         : this.setState({ editorState: EditorState.createEmpty()})
     })
@@ -42,19 +42,21 @@ export default class SingleEntry extends Component {
       : this.state.rootRef.set({ content: convertToRaw(editorState.getCurrentContent()) });
     //analyze input with each change
     const { toneInsightIds, personalityInsightIds } = this.state;
-    const text = this.state.editorState.getCurrentContent().getPlainText();
+    const text = this.state.editorState.getCurrentContent().getPlainText()
     const toneInsightId = toneInsightIds.length > 0 ? toneInsightIds.length : 0;
     const personalityInsightId = personalityInsightIds.length > 0 ? personalityInsightIds.length : 0;
     //only call tone analyzer if length of text is greater than 350 -- to limit api calls
-    if (text.length % 350 === 0){
+    if (text.length > 350){
       getTokenTone().then((token) => analyzeTone(token, text, toneInsightId ));
-      console.log(text)
+      getTokenPersonality().then(token => analyzePersonality(token, text, personalityInsightId));
     } 
+    //change to button to limit amout of times we hit watson
   }
 
   getInsightIds = (collectionName) => {
     const ids = getIds(collectionName)
-    this.setState({ toneInsightIds: ids })
+    if(collectionName === 'toneInsights') this.setState({ toneInsightIds: ids});
+    if(collectionName === 'personalityInsights') this.setState({personalityInsightIds: ids})
   }
 
   toggleInlineStyle = style => () => 
