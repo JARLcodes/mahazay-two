@@ -11,7 +11,7 @@ export default class SingleJournal extends Component {
   }
 
   addEntry(){
-    getRootRef('entries').add({})
+    getRootRef('entries').add({ dateCreated: new Date(), journalId: this.props.match.params.journalId})
       .then(docRef => 
         this.props.history.push(`/journals/${this.props.match.params.journalId}/entries/${docRef.id}`));
   };
