@@ -54,7 +54,10 @@ export default class Tracker extends Component {
 
   componentDidMount() {
     const { rootRef } = this.state;
-    rootRef.get();
+    rootRef.get()
+      .then(snap => {
+        snap.data();
+      });
   }
 
   handleChange(event) {
@@ -64,11 +67,16 @@ export default class Tracker extends Component {
 
   handleAddHabit() {
     db.collection('habits').add({habit: this.state.habit});
+    this.setState({ habits: [...this.state.habits, this.state.habit] });
   }
+
+  // handleSubmit() {
+    
+  // }
 
   render() {
     console.log('the state of habits', this.state.habits);
-    console.log('just the state of habit', this.state.habit);
+    // console.log('just the state of habit', this.state.habit);
 
     const days = ['Su', 'M', 'T', 'W', 'Th', 'F', 'Sa'];
     const dummy = ['Water', 'Exercise', 'Meditation', 'Reading'];
