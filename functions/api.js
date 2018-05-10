@@ -4,19 +4,23 @@ firebase.initializeApp();
 const db = firebase.firestore();
 const { ltAuthServiceTone, ltAuthServicePersonality } = require('./watson.config.js');
 const getPersonalityToken = () => new Promise((resolve, reject) => {
-  ltAuthServicePersonality.getToken((err, data) => {
+  ltAuthServicePersonality.getToken(err, data) => {
     if(err) return reject(err);
     resolve(data);
   });
 });
+
+
 const express = require('express');
 const app = express();
 const dotenv = require('dotenv');
 const cors = require('cors');
 const PersonalityInsightsV3 = require('watson-developer-cloud/personality-insights/v3');
-const { convertFromRaw } = require('draft-js');
+const { convertFromRaw }= require('draft-js');
 
 module.exports = app;
+
+
 
 const isDev = app.get('env') === 'development';
 
@@ -36,6 +40,7 @@ app.get('/api/token/tone_analyzer', function(req, res) {
     res.send(token);
   });
 });
+
 
 
 const analyzePersonality = (args) => {
