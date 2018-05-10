@@ -9,7 +9,7 @@ import FormatAlignRight from '@material-ui/icons/FormatAlignRight';
 import { getRootRef, getIds } from '../utils/componentUtils';
 import { plugins, styles } from './../utils/singleEntryUtils';
 import SingleEntrySidebar from './SingleEntrySidebar.jsx';
-import { getTokenTone, analyzeTone, getTokenPersonality, analyzePersonality } from '../utils/watsonFuncs.js'
+import { getTokenTone, analyzeTone } from '../utils/watsonFuncs.js'
 
 
 export default class SingleEntry extends Component {
@@ -41,14 +41,12 @@ export default class SingleEntry extends Component {
       ? this.state.rootRef.update({ content: convertToRaw(editorState.getCurrentContent()) })
       : this.state.rootRef.set({ content: convertToRaw(editorState.getCurrentContent()) });
     //analyze input with each change
-    const { toneInsightIds, personalityInsightIds } = this.state;
+    const { toneInsightIds } = this.state;
     const text = this.state.editorState.getCurrentContent().getPlainText()
     const toneInsightId = toneInsightIds.length > 0 ? toneInsightIds.length : 0;
-    const personalityInsightId = personalityInsightIds.length > 0 ? personalityInsightIds.length : 0;
     //only call tone analyzer if length of text is greater than 350 -- to limit api calls
     if (text.length > 350){
       getTokenTone().then((token) => analyzeTone(token, text, toneInsightId ));
-      getTokenPersonality().then(token => analyzePersonality(token, text, personalityInsightId));
     } 
     //change to button to limit amout of times we hit watson
   }
@@ -56,7 +54,6 @@ export default class SingleEntry extends Component {
   getInsightIds = (collectionName) => {
     const ids = getIds(collectionName)
     if(collectionName === 'toneInsights') this.setState({ toneInsightIds: ids});
-    if(collectionName === 'personalityInsights') this.setState({personalityInsightIds: ids})
   }
 
   toggleInlineStyle = style => () => 
