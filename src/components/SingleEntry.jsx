@@ -20,7 +20,7 @@ export default class SingleEntry extends Component {
     showAlignmentToolbar: false, 
     toneInsightIds: [],
     personalityInsightIds: [], 
-    rootRef: getRootRef('entries', this.props.match.params.id)
+    rootRef: getRootRef('entries', this.props.match.params.entryId)
   }
   
   componentDidMount(){
@@ -28,7 +28,7 @@ export default class SingleEntry extends Component {
     this.getInsightIds('personalityInsights');
     this.state.rootRef.get()
       .then(snap => {
-        snap.data()
+        snap.data().content
         ? this.setState({ editorState: EditorState.createWithContent(convertFromRaw(snap.data().content)) }) 
         : this.setState({ editorState: EditorState.createEmpty()})
     })
