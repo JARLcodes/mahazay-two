@@ -70,7 +70,11 @@ app.get('/api/entries/:entryId/personalityInsights', (req, res, next) => {
   const text = db.collection('entries')
     .doc(req.params.entryId)
     .get()
-    .then(snap => convertFromRaw(snap.data().content).getPlainText())
+    .then(snap => {
+      if(snap.data().content) return convertFromRaw(snap.data().content).getPlainText()
+      return null;
+    })
+    // .then(snap => console.log("snap: ", snap.data()))
   
   const token = getPersonalityToken();
 
