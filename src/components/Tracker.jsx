@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import classNames from 'classnames';
-import { withStyles, Typography } from 'material-ui/styles';
-import MenuItem from 'material-ui/Menu/MenuItem';
+// import { withStyles, Typography } from 'material-ui/styles';
+// import MenuItem from 'material-ui/Menu/MenuItem';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import Table, {
@@ -10,11 +9,11 @@ import Table, {
   TableHead,
   TableRow
 } from 'material-ui/Table';
-import Moment from 'react-moment';
-import * as moment from 'moment';
+// import Moment from 'react-moment';
+// import * as moment from 'moment';
 
-import firebase from 'firebase';
-import { auth, db } from '../utils/firebase.config';
+// import firebase from 'firebase';
+import { db } from '../utils/firebase.config';
 import { getRootRef } from '../utils/componentUtils';
 
 const styles = theme => ({
@@ -69,11 +68,11 @@ export default class Tracker extends Component {
 
   render() {
     console.log('the state of habits', this.state.habits);
-    console.log('just the state of habit', this.state.habit)
+    console.log('just the state of habit', this.state.habit);
+
     const days = ['Su', 'M', 'T', 'W', 'Th', 'F', 'Sa'];
     const dummy = ['Water', 'Exercise', 'Meditation', 'Reading'];
-    const things = this.state.habits;
-    const dateToFormat = this.state.date;
+
     return (
       <div>
       <form className={styles.container}> 

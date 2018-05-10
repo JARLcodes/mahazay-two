@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { EditorState, RichUtils, convertFromRaw, convertToRaw, ContentState } from "draft-js";
+import { EditorState, RichUtils, convertFromRaw, convertToRaw } from "draft-js";
 import Editor from 'draft-js-plugins-editor';
 import Button from "material-ui/Button";
 import FormatAlignCenter from '@material-ui/icons/FormatAlignCenter';
@@ -9,7 +9,7 @@ import FormatAlignRight from '@material-ui/icons/FormatAlignRight';
 import { getRootRef, getIds } from '../utils/componentUtils';
 import { plugins, styles } from './../utils/singleEntryUtils';
 import SingleEntrySidebar from './SingleEntrySidebar.jsx';
-import { getTokenTone, analyzeTone } from '../utils/watsonFuncs.js'
+import { getTokenTone, analyzeTone } from '../utils/watsonFuncs.js';
 
 
 export default class SingleEntry extends Component {
@@ -28,12 +28,12 @@ export default class SingleEntry extends Component {
       .then(snap => {
         snap.data()
         ? this.setState({ editorState: EditorState.createWithContent(convertFromRaw(snap.data().content)) }) 
-        : this.setState({ editorState: EditorState.createEmpty()})
-    })
+        : this.setState({ editorState: EditorState.createEmpty()});
+    });
   }
   onChange = editorState => {
     // to send data from entry to firebase WHILE USER IS UPDATING: use convertToRaw(editorState.getCurrentContent())
-    this.setState({editorState})
+    this.setState({editorState});
     this.state.rootRef.content 
       ? this.state.rootRef.update({ content: convertToRaw(editorState.getCurrentContent()) })
       : this.state.rootRef.set({ content: convertToRaw(editorState.getCurrentContent()) });
@@ -42,12 +42,12 @@ export default class SingleEntry extends Component {
     const text = this.state.editorState.getCurrentContent().getPlainText();
     const toneInsightId = toneInsightIds.length > 0 ? toneInsightIds.length : 0;
     //only call tone analyzer if length of text is greater than 350 -- to limit api calls
-    if (text.length > 350) getTokenTone().then((token) => analyzeTone(token, text, toneInsightId ))
+    if (text.length > 350) getTokenTone().then((token) => analyzeTone(token, text, toneInsightId ));
   }
 
   getInsightIds = (collectionName) => {
-    const ids = getIds(collectionName)
-    this.setState({ toneInsightIds: ids })
+    const ids = getIds(collectionName);
+    this.setState({ toneInsightIds: ids });
   }
 
   toggleInlineStyle = style => () => 
@@ -62,15 +62,15 @@ export default class SingleEntry extends Component {
   onStrikethrough = this.toggleInlineStyle('STRIKETHROUGH')
 
   onAlignmentChange(alignment){
-    this.setState({ alignment })
+    this.setState({ alignment });
   }
 
   showStyleToolbar(){
-    this.setState({ showStyleToolbar: !this.state.showStyleToolbar })
+    this.setState({ showStyleToolbar: !this.state.showStyleToolbar });
   }
   
   showAlignmentToolbar(){
-    this.setState({ showAlignmentToolbar: !this.state.showAlignmentToolbar })
+    this.setState({ showAlignmentToolbar: !this.state.showAlignmentToolbar });
   }
 
   renderStyleToolbar() {
@@ -79,7 +79,7 @@ export default class SingleEntry extends Component {
         <Button onClick={this.onItalic}>Italic</Button>
         <Button onClick={this.onUnderline}>Underline</Button>
         <Button onClick={this.onStrikethrough}>Strikethrough</Button>
-    </React.Fragment>
+    </React.Fragment>;
   }
 
   renderAlignmentToolbar(){
@@ -87,7 +87,7 @@ export default class SingleEntry extends Component {
         <Button onClick={this.onAlignmentChange.bind(this, 'left')}><FormatAlignLeft/></Button>
         <Button onClick={this.onAlignmentChange.bind(this, 'center')}><FormatAlignCenter/></Button>
         <Button onClick={this.onAlignmentChange.bind(this, 'right')}><FormatAlignRight/></Button>
-    </React.Fragment>
+    </React.Fragment>;
   }
 
   render() {
