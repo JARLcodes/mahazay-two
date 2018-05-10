@@ -28,30 +28,35 @@ export class AllEntries extends Component {
     this.state = {
       entries: []
     };
-  
-  }
 
+  }
+// .where('userId', '==', this.props._user.uid)
   componentDidMount(){
-    getRootRef('entries').get()
-      .then(querySnapshot => {
-        querySnapshot.forEach(entry => this.setState({ 
-          entries: [...this.state.entries, {[entry.id] : entry.data(), journalId: entry.data().journalId }] 
-        }))
+    let entries =[]
+    this.props._user && getRootRef('entries').where('userId', '==', this.props._user.uid).get()
+    .then(querySnapshot => {
+      querySnapshot.forEach(entry => {
+        entries.push({entryId: entry.id, content: entry.data().content, journalId: entry.data().journalId })
+      })
     })
+    .then(() => this.setState({entries}))
+
   }
 
-
+// For entries => each entry has a content key which has an object with the key blocks which is an array of objects , each with the key of text
   render() {
-    const { entries } = this.state;
+
+    const {entries} = this.state
+    console.log("user", this.props._user)
     return (
       <div>
         <Grid container spacing={24}>
         { entries.map( entry => {
           return (
-            <Grid key={Object.keys(entry)} item xs={3} >
+            <Grid key={entry.entryId} item xs={3} >
               <Card>
                 <CardContent>
-                  <Link to={`/journals/${entry.journalId}/entries/${Object.keys(entry)}`}>{"Entry #" + Object.keys(entry)[0]}</Link>
+                  <Link style={{ textDecoration: 'none' }} to={`/journals/${entry.journalId}/entries/${entry.entryId}`}>"{entry.content && entry.content.blocks[0].text ? entry.content.blocks[0].text.substr(0, 20) + "..." : "A Blank Page"}"</Link>
                 </CardContent>
               </Card>
             </Grid>

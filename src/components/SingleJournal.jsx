@@ -19,7 +19,7 @@ export default class SingleJournal extends Component {
 
   render() {
     let entries = []
-    db.collection('entries').where("journalId", "==", this.props.match.params.id ).get()
+    db.collection('entries').get()
       .then(querySnapshot => {
         querySnapshot.forEach(doc => {
           entries.push(doc.data())
