@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom';
 import { getRootRef } from '../utils/componentUtils';
 import  NewJournalForm  from './NewJournalForm.jsx';
 
-
 export default class AllJournals extends Component {
   constructor () {
     super();
