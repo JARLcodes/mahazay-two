@@ -37,9 +37,8 @@ export default class SingleEntry extends Component {
   onChange = editorState => {
     // to send data from entry to firebase WHILE USER IS UPDATING: use convertToRaw(editorState.getCurrentContent())
     this.setState({editorState})
-    this.state.rootRef.content 
-      ? this.state.rootRef.update({ content: convertToRaw(editorState.getCurrentContent()) })
-      : this.state.rootRef.set({ content: convertToRaw(editorState.getCurrentContent()) });
+    //at this point, entry has been created
+    this.state.rootRef.update({ content: convertToRaw(editorState.getCurrentContent()) });
     //analyze input with each change
     const { toneInsightIds, personalityInsightIds } = this.state;
     const text = this.state.editorState.getCurrentContent().getPlainText()
@@ -102,9 +101,8 @@ export default class SingleEntry extends Component {
   render() {
     const { alignment, showStyleToolbar, showAlignmentToolbar, editorState } = this.state;
     if (!editorState) return 'loading';
-   
     
-    return (
+    return ( 
       <div style={styles.singleEntry}>
         <div style={styles.sidebar}> <SingleEntrySidebar/> </div>
         <div style={styles.editor}>

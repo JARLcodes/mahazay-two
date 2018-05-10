@@ -12,7 +12,9 @@ import Poll from '@material-ui/icons/Poll';
 import ImportContacts from '@material-ui/icons/ImportContacts';
 import LibraryBooks from '@material-ui/icons/LibraryBooks';
 import Search from '@material-ui/icons/Search';
-
+// import firebase from 'firebase';
+import { auth } from '../utils/firebase.config';
+import { withAuth } from 'fireview';
 
 const styles = {
     root: {
@@ -45,9 +47,12 @@ const styles = {
     }
 };
 
-export default class Navbar extends Component {
-    
+export class Navbar extends Component {
     render () {
+        const user = this.props._user;
+        const userEmail = user && user.email ? user.email : null;
+        const disabled = user ? false : true;
+        console.log('navbar user', userEmail)
         return (
             <div>
                 <AppBar position="static" style={styles.root}>
@@ -56,23 +61,29 @@ export default class Navbar extends Component {
                             <ArrowBack />
                         </Button>
                         <Button href="/">
-                            <Typography variant="display4">
-                                Mahazay
+                        <div>
+                            <Typography variant="display3">
+                               Mahazay
                             </Typography>
+                            <Typography variant="subheading"
+                                        style={{fontStyle:"italic", textTransform:"lowercase"}}>
+                                ( ma • hā • zay )
+                            </Typography>
+                        </div>
                         </Button>
-                        <Button href="/journals" color="inherit" style={styles.journalButton}>
+                        <Button href="/journals" color="inherit" style={styles.journalButton} disabled={disabled}>
                             <ImportContacts />
                             Journals
                         </Button>
-                        <Button href="/entries" color="inherit" style={styles.entryButton}>
+                        <Button href="/entries" color="inherit" style={styles.entryButton} disabled={disabled}> 
                             <LibraryBooks />
                             Entries
                         </Button>
-                        <Button href="/tracker" color="inherit" style={styles.trackerButton}>
+                        <Button href="/tracker" color="inherit" style={styles.trackerButton} disabled={disabled}>
                             <CheckBox />
                             Tracker
                         </Button>
-                        <Button href="/insights" color="inherit" style={styles.insightButton}>
+                        <Button href="/insights" color="inherit" style={styles.insightButton} disabled={disabled}>
                             <Poll />
                             Insights
                         </Button>
@@ -89,13 +100,18 @@ export default class Navbar extends Component {
                                 ),
                             }}
                         />
-                        <Button href="/login" color="inherit" style={styles.logoutButton}>
+                        { user ?
+                        <Button href="/" color="inherit" style={styles.logoutButton}
+                            onClick={() => auth.signOut()}>
                             <Person />
                             Logout
                         </Button>
+                        : null }
                     </Toolbar>
                 </AppBar>
             </div>
         )
     }
 }
+
+export default withAuth(Navbar);
