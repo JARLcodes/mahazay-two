@@ -39,13 +39,12 @@ export const styles = {
     width: "70%",
     height: "100%",
     boxSizing: "borderBox",
-    border: "1px solid #ddd",
     cursor: "text",
     padding: "20px",
-    borderRadius: "2px",
     marginBottom: "2em",
-    boxShadow: "inset 0px 1px 8px -3px #ABABAB",
-    background: "#fefefe"
+  }, 
+  entry: {
+    display: "flex"
   }
 }
 
