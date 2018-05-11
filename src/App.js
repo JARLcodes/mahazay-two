@@ -5,14 +5,14 @@ import './App.css';
 import { withAuth } from 'fireview';
 
 import history from './history';
-import { 
-  Navbar, 
+import {
+  Navbar,
   SingleEntry,
   Dashboard,
   Home,
   AllEntries,
   AllJournals,
-  SingleJournal, 
+  SingleJournal,
   NewJournalForm
 } from './components/index.js';
 
@@ -23,7 +23,7 @@ class App extends Component {
 
   render() {
     const user = this.props._user;
-    
+
     return (
       <Router history={history}>
         <MuiThemeProvider theme={theme}>
@@ -37,7 +37,7 @@ class App extends Component {
               <Route exact path="/journals/:journalId/entries/:entryId" component={SingleEntry}/>
               <Route exact path="/journals" component={AllJournals} />
               <Route exact path="/journals/:journalId" component={SingleJournal} />
-              <Route exact path="/new-journal" component={NewJournalForm}/>
+              <Route exact path="/:userId/new-journal" component={NewJournalForm}/>
             { user ? <Route exact path="/" component={Dashboard}/>
                     : <Route exact path="/" component={Home}/>}
             { user ? <Route component={Dashboard}/>
