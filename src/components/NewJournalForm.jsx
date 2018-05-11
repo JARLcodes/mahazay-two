@@ -36,8 +36,7 @@ export default class NewJournalForm extends Component {
     this.onChange = this.onChange.bind(this);
     this.addJournal = this.addJournal.bind(this);
   }
-
-
+  
   onChange(event){
     this.setState({ [event.target.name] : event.target.value })
     console.log("state in onchange: ", this.state);
