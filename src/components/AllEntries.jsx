@@ -67,11 +67,11 @@ export class AllEntries extends Component {
                 </CardContent>
               </Card>
             </Grid>
-          )}
+          );}
         )}
         </Grid>
       </div>
-    )
+    );
   }
 }
 

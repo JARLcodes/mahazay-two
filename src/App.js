@@ -14,9 +14,9 @@ import {
   AllJournals,
   SingleJournal,
   NewJournalForm,
-  Insights
+  Insights,
+  Tracker
 } from './components/index.js';
-
 
 const theme = createMuiTheme();
 
@@ -38,12 +38,14 @@ class App extends Component {
               <Route exact path="/journals/:journalId/entries/:entryId" component={SingleEntry} />
               <Route exact path="/journals" component={AllJournals} />
               <Route exact path="/journals/:journalId" component={SingleJournal} />
-              <Route exact path="/:userId/new-journal" component={NewJournalForm} />
               <Route exact path="/insights" component={Insights} />
-            { user ? <Route exact path="/" component={Dashboard} />
-                    : <Route exact path="/" component={Home} />}
-            { user ? <Route component={Dashboard} />
-                    : <Route component={Home} />}
+              <Route exact path="/new-journal" component={NewJournalForm}/>
+              <Route path="/tracker" component={Tracker}/>
+              <Route exact path="/:userId/new-journal" component={NewJournalForm}/>
+            { user ? <Route exact path="/" component={Dashboard}/>
+                    : <Route exact path="/" component={Home}/>}
+            { user ? <Route component={Dashboard}/>
+                    : <Route component={Home}/>}
             </Switch>
             </div>
           </div>

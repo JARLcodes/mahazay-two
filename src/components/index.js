@@ -8,4 +8,5 @@ export { default as AllJournals } from './AllJournals.jsx';
 export { default as SingleJournal } from './SingleJournal.jsx';
 export { default as NewJournalForm } from './NewJournalForm.jsx';
 export { default as Insights } from './insights/Insights.jsx';
+export { default as Tracker } from './Tracker.jsx';
 

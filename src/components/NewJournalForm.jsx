@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import TextField from 'material-ui/TextField';
-import { InputAdornment } from 'material-ui/Input';
+// import { InputAdornment } from 'material-ui/Input';
 import Button from "material-ui/Button";
-import { getRootRef, getIds } from '../utils/componentUtils';
+import { getRootRef } from '../utils/componentUtils';
 
 
 const styles = {
@@ -36,8 +36,7 @@ export default class NewJournalForm extends Component {
     this.onChange = this.onChange.bind(this);
     this.addJournal = this.addJournal.bind(this);
   }
-
-
+  
   onChange(event){
     this.setState({ [event.target.name] : event.target.value })
     console.log("state in onchange: ", this.state);

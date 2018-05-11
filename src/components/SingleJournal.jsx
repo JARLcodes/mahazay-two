@@ -12,21 +12,25 @@ export class SingleJournal extends Component {
   constructor(props){
     super(props);
     this.state = {
-      entries: []
+      entries: [],
     }
     this.addEntry = this.addEntry.bind(this);
 
   }
 
   addEntry(){
-    console.log('this.props', this.props._user.email);
-    getRootRef('entries').add({ dateCreated: new Date(),
+    const todaysEntry = this.state.entries.filter(entry => (new Date(entry.dateCreated) - new Date(new Date().setHours(0,0,0,0)) === 0 ))[0]
+    console.log("ENTRY:", todaysEntry)
+    todaysEntry ? this.props.history.push(`/journals/${this.props.match.params.journalId}/entries/${todaysEntry.entryId}`)
+    :
+    getRootRef('entries').add({ dateCreated: (new Date()).setHours(0,0,0,0),
                                 journalId: this.props.match.params.journalId,
-                                userEmail: this.props._user.email
+                                userId: this.props._user.uid
                               })
       .then(docRef =>
         this.props.history.push(`/journals/${this.props.match.params.journalId}/entries/${docRef.id}`));
-  };
+  }
+  
   componentWillReceiveProps(nextProps){
     if(this.props._user !== nextProps._user){
       let entries = []
@@ -34,7 +38,7 @@ export class SingleJournal extends Component {
       .where('journalId', '==', this.props.match.params.journalId).get()
       .then(querySnapshot => {
         querySnapshot.forEach(entry => {
-          this.setState({entries: [...this.state.entries, {entryId: entry.id, content: entry.data().content, journalId: entry.data().journalId }]})
+          this.setState({entries: [...this.state.entries, {entryId: entry.id, dateCreated: entry.data().dateCreated, content: entry.data().content, journalId: entry.data().journalId }]})
         })
       })
     }
@@ -42,7 +46,7 @@ export class SingleJournal extends Component {
 
   render() {
     const entries = this.state.entries
-    console.log("params",this.props.match.params.journalId ,"entries array:", entries)
+    //this.state.entries.forEach(entry => console.log("the date object for ", entry.entryId, " : ", entry.dateCreated))
     return (
       <div>
         <Grid container spacing={24}>
