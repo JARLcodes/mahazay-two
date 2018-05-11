@@ -4,29 +4,32 @@ import Subheader from 'material-ui/List/ListSubheader';
 import IconButton from 'material-ui/IconButton';
 import SubdirectoryArrowLeft from '@material-ui/icons/SubdirectoryArrowLeft';
 import { Link } from 'react-router-dom';
-
+import { withAuth } from 'fireview';
 import { getRootRef } from '../utils/componentUtils';
 import  NewJournalForm  from './NewJournalForm.jsx';
 
-export default class AllJournals extends Component {
+export class AllJournals extends Component {
   constructor () {
     super();
     this.state = {
-      rootRef: getRootRef('journals'), 
-      journals: [], 
+      rootRef: getRootRef('journals'),
+      journals: [],
       allJournalIds: []
     }
 
   }
 
-  componentDidMount(){
-    const { rootRef } = this.state;
-    rootRef.get()
-      .then(querySnapshot => {
-        querySnapshot.forEach(journal => {
-          this.setState({ journals: [...this.state.journals, journal.data()], allJournalIds: [...this.state.allJournalIds, journal.id] })
+  componentWillReceiveProps(nextProps){
+    if(this.props !== nextProps){
+      const { rootRef } = this.state;
+      rootRef.get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(journal => {
+            this.setState({ journals: [...this.state.journals, journal.data()], allJournalIds: [...this.state.allJournalIds, journal.id] })
+          })
         })
-      })
+        console.log("I rerendered, here's the new user", this.props._user)
+      }
   }
 
   render() {
@@ -44,7 +47,7 @@ export default class AllJournals extends Component {
               <GridListTile key={journalIds[ind]} style={styles.tile}>
                 <Link to={`/journals/${journalIds[ind]}`}>
                   <img src='https://cdn3.iconfinder.com/data/icons/design-flat-icons-vol-2/256/62-512.png' alt={journal.title} style={{height: 150, width: 150}}/>
-                  <GridListTileBar 
+                  <GridListTileBar
                     title={journal.title}
                     subtitle={<span>{journal.description}</span>}
                     actionIcon={
@@ -57,6 +60,7 @@ export default class AllJournals extends Component {
               </GridListTile>
             ))
           }
+          {this.props && this.props._user ? <Link to ={`${this.props._user.uid}/new-journal`}>Add Journal</Link> : null}
         </GridList>
       </div>
     )
@@ -92,3 +96,5 @@ const styles = {
     color: 'rgba(255, 255, 255, 0.54)',
   },
 };
+
+export default withAuth(AllJournals)

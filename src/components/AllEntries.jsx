@@ -26,28 +26,35 @@ export class AllEntries extends Component {
   constructor(){
     super();
     this.state = {
-      entries: []
+      entries: [{entryId: "FAKEID", content: {blocks:[{text:"textttt"}]}, journalId: 1 }]
     };
 
   }
 // .where('userId', '==', this.props._user.uid)
-  componentDidMount(){
-    let entries =[]
-    this.props._user && getRootRef('entries').where('userId', '==', this.props._user.uid).get()
-    .then(querySnapshot => {
-      querySnapshot.forEach(entry => {
-        entries.push({entryId: entry.id, content: entry.data().content, journalId: entry.data().journalId })
-      })
-    })
-    .then(() => this.setState({entries}))
 
+  componentWillReceiveProps(nextProps){
+    if(this.props._user !== nextProps._user){
+       getRootRef('entries').where('userId', '==', nextProps._user.uid).get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(entry => {
+          this.setState({entries: [...this.state.entries, {entryId: entry.id, content: entry.data().content, journalId: entry.data().journalId }]})
+        })
+      })
+      // console.log("QUERY SNAP" , querySnapshot)
+    }
   }
 
 // For entries => each entry has a content key which has an object with the key blocks which is an array of objects , each with the key of text
   render() {
 
     const {entries} = this.state
-    console.log("user", this.props._user)
+    const users = []
+    getRootRef('users').get().then(querySnap => {
+      querySnap.forEach(doc => {
+        users.push({userId: doc.id, data: doc.data()})
+      })
+    })
+    console.log("user", this.props._user, "entries:", entries, "a change is a good thing, here are the users" , users)
     return (
       <div>
         <Grid container spacing={24}>
