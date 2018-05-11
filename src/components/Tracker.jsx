@@ -63,7 +63,7 @@ class Tracker extends Component {
     event.preventDefault();
     const user = this.props._user;
     const userId = user && user.uid ? user.uid : null;
-    this.setState({ habitToAdd : {name: event.target.value, checked: false, userId: userId }});
+    this.setState({ habitToAdd : {name: event.target.value, checked: false, userId: userId, countTracker: 0 }});
   }
 
   handleAddHabit() {
@@ -77,8 +77,9 @@ class Tracker extends Component {
     const habits = this.state.habits;
     query.get()
     .then(snap => snap.forEach(habit => { 
+      console.log('habit data', habit.data())
       habits.filter(targetHabit => targetHabit.name === habit.data().name);
-      db.collection('habits').doc(habit.id).update({checked: !habit.data().checked});
+      db.collection('habits').doc(habit.id).update({checked: !habit.data().checked, countTracker: habit.data().countTracker += 1});
     }));
   }
 
