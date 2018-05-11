@@ -39,10 +39,15 @@ class SingleEntrySidebar extends Component {
   };
 
   addMedia(e){
-    console.log(" event ", e.target.files);
+    const files = e.target.files;
     e.preventDefault();
-    // const file = e.target.value
-    // storage.ref('/images').put(file);
+    const filesToUpload = [];
+    for (let i = 0; i < files.length; i++){
+      filesToUpload.push(new File(files, files[i].name, {
+        type: files[i].type
+      }))
+    };
+    filesToUpload.forEach(file => storage.ref(`/images/${file.name}`).put(file));
   };
 
   deleteEntry(entry){
@@ -58,7 +63,7 @@ class SingleEntrySidebar extends Component {
           label='Media'
           style={styles.addVideo}
         >
-          <input type="file" id="file" style={styles.addVideo} onChange={this.addMedia.bind(this)}/>
+          <input type="file" id="file" style={styles.addVideo} multiple onChange={this.addMedia.bind(this)}/>
         </Button>
         <Button name="image" type="submit">Add Media</Button>
         <Button variant="raised" color="secondary" style={styles.delete} onClick={this.deleteEntry.bind(this, this.props.entry)}>Delete Entry</Button>

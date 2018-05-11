@@ -13,7 +13,8 @@ import {
   AllEntries,
   AllJournals,
   SingleJournal,
-  NewJournalForm
+  NewJournalForm, 
+  Tracker
 } from './components/index.js';
 
 const theme = createMuiTheme();
