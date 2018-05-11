@@ -13,7 +13,8 @@ import {
   AllEntries,
   AllJournals,
   SingleJournal,
-  NewJournalForm, 
+  NewJournalForm,
+  Insights,
   Tracker
 } from './components/index.js';
 
@@ -33,10 +34,11 @@ class App extends Component {
             </div>
             <div className="col-xs-10">
             <Switch>
-              <Route exact path="/entries" component={AllEntries}/>
-              <Route exact path="/journals/:journalId/entries/:entryId" component={SingleEntry}/>
+              <Route exact path="/entries" component={AllEntries} />
+              <Route exact path="/journals/:journalId/entries/:entryId" component={SingleEntry} />
               <Route exact path="/journals" component={AllJournals} />
               <Route exact path="/journals/:journalId" component={SingleJournal} />
+              <Route exact path="/insights" component={Insights} />
               <Route exact path="/new-journal" component={NewJournalForm}/>
               <Route path="/tracker" component={Tracker}/>
               <Route exact path="/:userId/new-journal" component={NewJournalForm}/>

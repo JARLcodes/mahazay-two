@@ -15,7 +15,8 @@ import { Map, withAuth } from 'fireview';
 import { db } from '../utils/firebase.config';
 import { getRootRef } from '../utils/componentUtils';
 import AddBox from '@material-ui/icons/AddBox';
-import Done from '@material-ui/icons/Done'
+import Done from '@material-ui/icons/Done';
+import Grid from 'material-ui/Grid';
 
 const styles = theme => ({
   container: {
@@ -40,7 +41,7 @@ const styles = theme => ({
   }
 });
 
-export default class Tracker extends Component {
+class Tracker extends Component {
   constructor() {
     super();
     this.state = {
@@ -53,14 +54,16 @@ export default class Tracker extends Component {
   }
 
   componentDidMount() {
-    console.log('its a thing', this.state.habits)
     db.collection('habits').get()
-      .then(snaps => snaps.forEach(snap => this.setState({ habits: [...this.state.habits, snap.data() ]})))
+      .then(snaps => snaps.forEach(snap => this.setState({ habits: [...this.state.habits, snap.data()] })
+    ));
   }
 
   handleChange(event) {
     event.preventDefault();
-    this.setState({ habitToAdd : {name: event.target.value, checked: false }});
+    const user = this.props._user;
+    const userId = user && user.uid ? user.uid : null;
+    this.setState({ habitToAdd : {name: event.target.value, checked: false, userId: userId }});
   }
 
   handleAddHabit() {
@@ -73,30 +76,35 @@ export default class Tracker extends Component {
     const query = db.collection('habits').where('name', '==', event.target.name);
     const habits = this.state.habits;
     query.get()
-    .then(snap => snap.forEach(habit => {
-      const checkedHabit = habits.filter(targetHabit => targetHabit.name === habit.data().name);
-      db.collection('habits').doc(habit.id).update({checked: !habit.data().checked})
+    .then(snap => snap.forEach(habit => { 
+      habits.filter(targetHabit => targetHabit.name === habit.data().name);
+      db.collection('habits').doc(habit.id).update({checked: !habit.data().checked});
     }));
   }
 
   render() {
-  const AllHabits = db.collection('habits');
-  const Habit = props => {
+    const AllHabits = db.collection('habits');
+    const user = this.props._user;
+    const userId = user && user.uid ? user.uid : null;
+
+    const Habit = props => {
     const { name } = props;
-    return <TableRow><TableCell>{props.name}</TableCell><TableCell>
-    <Checkbox
-      onClick={this.handleCheck}
-      name={name}
-      label="Simple with controlled value"
-      />
-    </TableCell></TableRow>;};
+      return <TableRow><TableCell variant="subheading">{props.name}</TableCell><TableCell>
+      <Checkbox
+        onClick={this.handleCheck}
+        name={name}
+        label="Simple with controlled value"
+        checked={props.checked}
+        />
+      </TableCell></TableRow>;};
 
     return (
-    <Paper>
-      <form className={styles.container}> 
+    <Grid container justify="left" style={{padding: "1vh"}}>
+      <Grid item>
+      <form style={{alignContent: ""}} className={styles.container}> 
       <TextField
         id="name"
-        label="placeholder"
+        label="Add Tracker?"
         name="habitToAdd"
         className={styles.textField}
         onChange={this.handleChange}
@@ -104,20 +112,22 @@ export default class Tracker extends Component {
       />
       <Button onClick={this.handleAddHabit}>Add</Button>
       </form>
+      </Grid>
     <Table>
       <TableHead>
     <TableRow>
-    <TableCell>Habit</TableCell>
+    <TableCell variant="body-2">Habit</TableCell>
     </TableRow>
       </TableHead>
         <TableBody>
-          <Map from={AllHabits}
+          <Map from={AllHabits.where('userId', '==', userId)}
           Render={Habit}
           />
         </TableBody>
       </Table>
-    </Paper>
+    </Grid>
     );
   }
 }
 
+export default withAuth(Tracker);

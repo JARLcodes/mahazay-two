@@ -29,7 +29,8 @@ export class SingleJournal extends Component {
                               })
       .then(docRef =>
         this.props.history.push(`/journals/${this.props.match.params.journalId}/entries/${docRef.id}`));
-  };
+  }
+  
   componentWillReceiveProps(nextProps){
     if(this.props._user !== nextProps._user){
       let entries = []
