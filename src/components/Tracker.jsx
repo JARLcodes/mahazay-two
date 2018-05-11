@@ -16,6 +16,7 @@ import { db } from '../utils/firebase.config';
 import { getRootRef } from '../utils/componentUtils';
 import AddBox from '@material-ui/icons/AddBox';
 import Done from '@material-ui/icons/Done';
+import Grid from 'material-ui/Grid';
 
 const styles = theme => ({
   container: {
@@ -88,7 +89,7 @@ class Tracker extends Component {
 
     const Habit = props => {
     const { name } = props;
-      return <TableRow><TableCell>{props.name}</TableCell><TableCell>
+      return <TableRow><TableCell variant="subheading">{props.name}</TableCell><TableCell>
       <Checkbox
         onClick={this.handleCheck}
         name={name}
@@ -98,11 +99,12 @@ class Tracker extends Component {
       </TableCell></TableRow>;};
 
     return (
-    <Paper>
-      <form className={styles.container}> 
+    <Grid container justify="left" style={{padding: "1vh"}}>
+      <Grid item>
+      <form style={{alignContent: ""}} className={styles.container}> 
       <TextField
         id="name"
-        label="placeholder"
+        label="Add Tracker?"
         name="habitToAdd"
         className={styles.textField}
         onChange={this.handleChange}
@@ -110,10 +112,11 @@ class Tracker extends Component {
       />
       <Button onClick={this.handleAddHabit}>Add</Button>
       </form>
+      </Grid>
     <Table>
       <TableHead>
     <TableRow>
-    <TableCell>Habit</TableCell>
+    <TableCell variant="body-2">Habit</TableCell>
     </TableRow>
       </TableHead>
         <TableBody>
@@ -122,7 +125,7 @@ class Tracker extends Component {
           />
         </TableBody>
       </Table>
-    </Paper>
+    </Grid>
     );
   }
 }
