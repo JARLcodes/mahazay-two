@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-// import { withStyles, Typography } from 'material-ui/styles';
-// import MenuItem from 'material-ui/Menu/MenuItem';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import Table, {
@@ -9,14 +7,15 @@ import Table, {
   TableHead,
   TableRow
 } from 'material-ui/Table';
-import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
-// import Moment from 'react-moment';
-// import * as moment from 'moment';
+import Checkbox from 'material-ui/Checkbox'
+import Paper from 'material-ui/Paper';
 
 import * as firebase from 'firebase';
 import { Map, withAuth } from 'fireview';
 import { db } from '../utils/firebase.config';
 import { getRootRef } from '../utils/componentUtils';
+import AddBox from '@material-ui/icons/AddBox';
+import Done from '@material-ui/icons/Done'
 
 const styles = theme => ({
   container: {
@@ -37,79 +36,87 @@ const styles = theme => ({
     overflowX: 'auto',
   },
   table: {
-    minWidth: 700
+    minWidth: 500
   }
 });
-
-const AllHabits = db.collection('habits');
-const Habit = props => {
-  const { habit } = props;
-  return <TableRow><TableCell>{props.habit}</TableCell></TableRow>;
-};
 
 export default class Tracker extends Component {
   constructor() {
     super();
     this.state = {
-      selectedDate: {},
       habits: [],
-      habit: '',
-      rootRef: getRootRef('habits')
+      habitToAdd: {}
     };
     this.handleAddHabit = this.handleAddHabit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleCheck = this.handleCheck.bind(this);
+  }
+
+  componentDidMount() {
+    console.log('its a thing', this.state.habits)
+    db.collection('habits').get()
+      .then(snaps => snaps.forEach(snap => this.setState({ habits: [...this.state.habits, snap.data() ]})))
   }
 
   handleChange(event) {
     event.preventDefault();
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({ habitToAdd : {name: event.target.value, checked: false }});
   }
 
   handleAddHabit() {
-    db.collection('habits').add({habit: this.state.habit});
-    this.setState({ habits: [...this.state.habits, this.state.habit] });
+    const habitToAdd = this.state.habitToAdd;
+    db.collection('habits').add(habitToAdd);
+  }
+
+  handleCheck(event) {
+    event.preventDefault();
+    const query = db.collection('habits').where('name', '==', event.target.name);
+    const habits = this.state.habits;
+    query.get()
+    .then(snap => snap.forEach(habit => {
+      const checkedHabit = habits.filter(targetHabit => targetHabit.name === habit.data().name);
+      db.collection('habits').doc(habit.id).update({checked: !habit.data().checked})
+    }));
   }
 
   render() {
-    console.log('the state of habits', this.state.habits);
-    // console.log('just the state of habit', this.state.habit);
+  const AllHabits = db.collection('habits');
+  const Habit = props => {
+    const { name } = props;
+    return <TableRow><TableCell>{props.name}</TableCell><TableCell>
+    <Checkbox
+      onClick={this.handleCheck}
+      name={name}
+      label="Simple with controlled value"
+      />
+    </TableCell></TableRow>;};
 
-    const days = ['Su', 'M', 'T', 'W', 'Th', 'F', 'Sa'];
-    const dummy = ['Water', 'Exercise', 'Meditation', 'Reading'];
-    const userHabits = this.state.habits;
     return (
-      <div>
+    <Paper>
       <form className={styles.container}> 
-        <TextField
+      <TextField
         id="name"
         label="placeholder"
-        name="habit"
+        name="habitToAdd"
         className={styles.textField}
         onChange={this.handleChange}
         margin="normal"
-        />
-        <Button onClick={this.handleAddHabit}>
-          Add
-        </Button>
+      />
+      <Button onClick={this.handleAddHabit}>Add</Button>
       </form>
     <Table>
-     <TableHead>
-      <TableRow>
-        <TableCell>Habit</TableCell>
-        {days.map(day => <TableCell>{day}</TableCell>)}
-      </TableRow>
+      <TableHead>
+    <TableRow>
+    <TableCell>Habit</TableCell>
+    </TableRow>
       </TableHead>
-      <Map from={AllHabits}
-      Render={Habit}
-      />
-      <TableCell>
-        <RadioButtonGroup>
-          <RadioButton
-          label="something"/>
-        </RadioButtonGroup>
-      </TableCell>
+        <TableBody>
+          <Map from={AllHabits}
+          Render={Habit}
+          />
+        </TableBody>
       </Table>
-      </div>
+    </Paper>
     );
   }
 }

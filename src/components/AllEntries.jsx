@@ -36,10 +36,9 @@ export class AllEntries extends Component {
       .then(querySnapshot => {
         querySnapshot.forEach(entry => this.setState({ 
           entries: [...this.state.entries, {[entry.id] : entry.data(), journalId: entry.data().journalId }] 
-        }))
-    })
+        }));
+    });
   }
-
 
   render() {
     const { entries } = this.state;
@@ -55,11 +54,11 @@ export class AllEntries extends Component {
                 </CardContent>
               </Card>
             </Grid>
-          )}
+          );}
         )}
         </Grid>
       </div>
-    )
+    );
   }
 }
 
