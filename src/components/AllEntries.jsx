@@ -26,7 +26,7 @@ export class AllEntries extends Component {
   constructor(){
     super();
     this.state = {
-      entries: [{entryId: "FAKEID", content: {blocks:[{text:"textttt"}]}, journalId: 1 }]
+      entries: []
     };
 
   }
