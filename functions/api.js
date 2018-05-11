@@ -41,7 +41,6 @@ app.get('/api/token/tone_analyzer', function(req, res) {
 const analyzePersonality = (args) => {
   const token = args[0];
   const text = args[1];
-  // console.log(token)
   const personalityAnalyzer = new PersonalityInsightsV3({
     token,
     version_date: process.env.PERSONALITY_INSIGHTS_VERSION_DATE || "2017-10-13"
@@ -54,7 +53,6 @@ const analyzePersonality = (args) => {
     consumption_preferences: true
   };
 
-  // console.log("personalityInsight: ", text)
   return new Promise((resolve, reject) => {
     personalityAnalyzer.profile(params, (err, data) => {
       if(err) return reject(err);
@@ -70,7 +68,10 @@ app.get('/api/entries/:entryId/personalityInsights', (req, res, next) => {
   const text = db.collection('entries')
     .doc(req.params.entryId)
     .get()
-    .then(snap => convertFromRaw(snap.data().content).getPlainText())
+    .then(snap => {
+      if(snap.data().content) return convertFromRaw(snap.data().content).getPlainText()
+      return null;
+    })
   
   const token = getPersonalityToken();
 
@@ -81,20 +82,7 @@ app.get('/api/entries/:entryId/personalityInsights', (req, res, next) => {
     .then(data => db.collection('personalityInsights').doc(req.params.entryId).set(data))
     .then(() => res.status(200).send('ok'))
     .catch(next);
-})
-// if (err) {
-//   callback(err);
-// } else {
-//   return callback;
-//   // console.log("personalityInsight: ", result)
-//   const personalityInsight = JSON.stringify(result, null, 2);
-//   const parsedPersonalityInsight = JSON.parse(personalityInsight)//["personality"]["needs"]["values"]["behavior"]["consumption_preferences"];
-//   db.collection('personalityInsights').doc(personalityInsightId.toString()).set({ parsedPersonalityInsight });
-// }
-// if (err) console.log('Error:', err);
-// else console.log(JSON.stringify(result, null, 2));
-// }
-
+}) 
 
 if (module === require.main){
   const port = process.env.PORT || process.env.VCAP_APP_PORT || 5000;

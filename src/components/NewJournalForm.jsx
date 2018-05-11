@@ -5,20 +5,20 @@ import Button from "material-ui/Button";
 import { getRootRef } from '../utils/componentUtils';
 
 
-const styles = { 
+const styles = {
   addJournalForm: {
-    display: "flex", 
+    display: "flex",
     flexDirection: "column"
-  }, 
+  },
   textField: {
     color: '#FAFAFA',
-    width: "20%", 
-    marginLeft: "7%"
-  }, 
-  addJournalButton: {
-    color: "#A1887F", 
     width: "20%",
-    marginLeft: "7%", 
+    marginLeft: "7%"
+  },
+  addJournalButton: {
+    color: "#A1887F",
+    width: "20%",
+    marginLeft: "7%",
     marginTop: "1em"
   }
 }
@@ -27,25 +27,16 @@ export default class NewJournalForm extends Component {
   constructor(){
     super();
     this.state = {
-      rootRef: getRootRef('journals'), 
-      journals: [], 
-      allJournalIds: [], 
-      title: '', 
+      rootRef: getRootRef('journals'),
+      journals: [],
+      allJournalIds: [],
+      title: '',
       description: ''
     };
     this.onChange = this.onChange.bind(this);
     this.addJournal = this.addJournal.bind(this);
   }
 
-  componentDidMount(){
-    const { rootRef } = this.state;
-    rootRef.get()
-      .then(querySnapshot => {
-        querySnapshot.forEach(journal => {
-          this.setState({ journals: [...this.state.journals, {[journal.id] : journal.data() }], allJournalIds: [...this.state.allJournalIds, journal.id] })
-        })
-      })
-  }
 
   onChange(event){
     this.setState({ [event.target.name] : event.target.value })
@@ -53,12 +44,12 @@ export default class NewJournalForm extends Component {
   }
 
   addJournal(){
-    const data = { title: this.state.title, description: this.state.description };
+    const data = { title: this.state.title, description: this.state.description, userId: this.props.match.params.userId };
     let newJournalId;
     getRootRef('journals').add(data)
       .then(journal => this.props.history.push(`/journals/${journal.id}`))
   }
-  
+
   render() {
     return (
       <div >
