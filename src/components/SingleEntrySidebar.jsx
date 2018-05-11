@@ -18,7 +18,9 @@ const styles = {
   }, 
   delete: {
     alignSelf: 'center', 
-    width: '20%'
+    width: '20%', 
+    backgroundColor: "#EF9A9A", 
+    color: "#fff"
   }, 
   singleEntrySidebar : {
     display: "flex",
@@ -28,29 +30,40 @@ const styles = {
     display: "flex", 
     flexDirection: "column", 
     marginLeft: "10%"
-  }
+  }, 
 }
 class SingleEntrySidebar extends Component {
   state = {
-    mediaToAdd: '',
-    video: '', 
-    image: '', 
-    audio: ''
+    mediaToAdd: [],
+    mediaUrls: []
   };
 
   addMedia(e){
-    console.log(" event ", e.target.files);
+    const files = e.target.files;
     e.preventDefault();
-    // const file = e.target.value
-    // storage.ref('/images').put(file);
+    const filesToUpload = [];
+    for (let i = 0; i < files.length; i++){
+      this.setState({ mediaToAdd: [...this.state.mediaToAdd, new File(files, files[i].name, {
+        type: files[i].type
+      })]})
+    };
+    
   };
+
+  storeMedia(){
+    //add to cloud storage and set urls for uploaded files on local state
+    this.state.mediaToAdd.forEach(file => storage.ref(file.name).put(file)
+      .then(res => this.setState({ mediaUrls: [...this.state.mediaUrls, res.downloadURL]}))
+    );
+    
+  }
 
   deleteEntry(entry){
     entry.delete().then(() => this.props.history.push('/entries'))
   };
 
   render() {
-    const { video, image, audio } = this.state;
+    console.log('this.state', this.state);
     return (
       <div style={styles.singleEntrySidebar}>
         <Add style={styles.addMedia}/>
@@ -58,10 +71,10 @@ class SingleEntrySidebar extends Component {
           label='Media'
           style={styles.addVideo}
         >
-          <input type="file" id="file" style={styles.addVideo} onChange={this.addMedia.bind(this)}/>
+          <input type="file" id="file" style={styles.addVideo} multiple onChange={this.addMedia.bind(this)}/>
         </Button>
-        <Button name="image" type="submit">Add Media</Button>
-        <Button variant="raised" color="secondary" style={styles.delete} onClick={this.deleteEntry.bind(this, this.props.entry)}>Delete Entry</Button>
+        <Button type="submit" onClick={this.storeMedia.bind(this)}>Add Media</Button>
+        <Button variant="raised" style={styles.delete} onClick={this.deleteEntry.bind(this, this.props.entry)}>Delete Entry</Button>
        
       </div>
     )
