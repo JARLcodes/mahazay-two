@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { EditorState, RichUtils, convertFromRaw, convertToRaw, ContentState } from "draft-js";
+import { EditorState, RichUtils, convertFromRaw, convertToRaw } from "draft-js";
 import Editor from 'draft-js-plugins-editor';
 import Button from "material-ui/Button";
 import FormatAlignCenter from '@material-ui/icons/FormatAlignCenter';
@@ -67,15 +67,15 @@ class SingleEntry extends Component {
   onStrikethrough = this.toggleInlineStyle('STRIKETHROUGH')
 
   onAlignmentChange(alignment){
-    this.setState({ alignment })
+    this.setState({ alignment });
   }
 
   showStyleToolbar(){
-    this.setState({ showStyleToolbar: !this.state.showStyleToolbar })
+    this.setState({ showStyleToolbar: !this.state.showStyleToolbar });
   }
   
   showAlignmentToolbar(){
-    this.setState({ showAlignmentToolbar: !this.state.showAlignmentToolbar })
+    this.setState({ showAlignmentToolbar: !this.state.showAlignmentToolbar });
   }
 
   renderStyleToolbar() {
@@ -84,7 +84,7 @@ class SingleEntry extends Component {
         <Button onClick={this.onItalic}>Italic</Button>
         <Button onClick={this.onUnderline}>Underline</Button>
         <Button onClick={this.onStrikethrough}>Strikethrough</Button>
-    </React.Fragment>
+    </React.Fragment>;
   }
 
   renderAlignmentToolbar(){
@@ -92,7 +92,7 @@ class SingleEntry extends Component {
         <Button onClick={this.onAlignmentChange.bind(this, 'left')}><FormatAlignLeft/></Button>
         <Button onClick={this.onAlignmentChange.bind(this, 'center')}><FormatAlignCenter/></Button>
         <Button onClick={this.onAlignmentChange.bind(this, 'right')}><FormatAlignRight/></Button>
-    </React.Fragment>
+    </React.Fragment>;
   }
 
   render() {
