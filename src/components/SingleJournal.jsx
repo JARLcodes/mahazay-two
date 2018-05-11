@@ -19,7 +19,11 @@ export class SingleJournal extends Component {
   }
 
   addEntry(){
-    getRootRef('entries').add({userId: this.props._user.uid, journalId: this.props.match.params.journalId})
+    console.log('this.props', this.props._user.email);
+    getRootRef('entries').add({ dateCreated: new Date(),
+                                journalId: this.props.match.params.journalId,
+                                userEmail: this.props._user.email
+                              })
       .then(docRef =>
         this.props.history.push(`/journals/${this.props.match.params.journalId}/entries/${docRef.id}`));
   };
@@ -60,4 +64,4 @@ export class SingleJournal extends Component {
   }
 }
 
-export default withAuth(SingleJournal)
+export default withAuth(SingleJournal);
