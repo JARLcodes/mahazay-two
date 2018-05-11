@@ -19,7 +19,7 @@ export class SingleJournal extends Component {
   }
 
   addEntry(){
-    getRootRef('entries').add({userId: this.props._user.uid})
+    getRootRef('entries').add({userId: this.props._user.uid, journalId: this.props.match.params.journalId})
       .then(docRef =>
         this.props.history.push(`/journals/${this.props.match.params.journalId}/entries/${docRef.id}`));
   };
@@ -38,7 +38,7 @@ export class SingleJournal extends Component {
 
   render() {
     const entries = this.state.entries
-    console.log("params",this.props.match.params.id ,"example:", entries)
+    console.log("params",this.props.match.params.journalId ,"entries array:", entries)
     return (
       <div>
         <Grid container spacing={24}>

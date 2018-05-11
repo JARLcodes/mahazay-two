@@ -20,9 +20,9 @@ export class AllJournals extends Component {
   }
 
   componentWillReceiveProps(nextProps){
-    if(this.props !== nextProps){
+    if(this.props._user !== nextProps._user){
       const { rootRef } = this.state;
-      rootRef.get()
+      rootRef.where("userId", "==", nextProps._user.uid).get()
         .then(querySnapshot => {
           querySnapshot.forEach(journal => {
             this.setState({ journals: [...this.state.journals, journal.data()], allJournalIds: [...this.state.allJournalIds, journal.id] })
