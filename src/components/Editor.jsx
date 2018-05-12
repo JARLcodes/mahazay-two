@@ -7,20 +7,43 @@ import FormatAlignLeft from '@material-ui/icons/FormatAlignLeft';
 import FormatAlignRight from '@material-ui/icons/FormatAlignRight';
 import { withAuth } from 'fireview';
 
+import { storage } from '../utils/firebase.config';
 import { getRootRef } from '../utils/componentUtils';
-import { plugins, styles } from './../utils/singleEntryUtils';
+import { plugins, styles, confirmMedia, mediaBlockRenderer } from './../utils/singleEntryUtils';
 import SingleEntrySidebar from './SingleEntrySidebar.jsx';
 import { getTokenTone, analyzeTone, analyzePersonality } from '../utils/watsonFuncs.js'
 
 class EditorComponent extends Component {
-  state = {
-    editorState: null, 
-    alignment: 'left', 
-    showStyleToolbar: false, 
-    showAlignmentToolbar: false, 
-    rootRef: this.props.entry
+  constructor(props){
+    super(props);
+    this.state = {
+      editorState: null, 
+      alignment: 'left', 
+      showStyleToolbar: false, 
+      showAlignmentToolbar: false, 
+      showMediaInput: false,
+      mediaUrlValue: '', 
+      urlType: '',
+      rootRef: this.props.entry
+    };
+    this.handleKeyCommand = this.handleKeyCommand.bind(this);
+    this.onURLChange = this.onURLChange.bind(this);
+    this.onURLInputKeyDown = this.onURLInputKeyDown.bind(this);
   }
+
   
+  focus = () => this.refs.editor.focus();
+
+  handleKeyCommand(command) {
+    const {editorState} = this.state;
+    const newState = RichUtils.handleKeyCommand(editorState, command);
+    if (newState) {
+      this.onChange(newState);
+      return true;
+    }
+    return false;
+  }
+
   componentDidMount(){
     this.state.rootRef.get()
       .then(snap => {
@@ -33,6 +56,7 @@ class EditorComponent extends Component {
   onChange = editorState => {
     // to send data from entry to firebase WHILE USER IS UPDATING: use convertToRaw(editorState.getCurrentContent())
     this.setState({editorState})
+    console.log('this is editor state after change', this.state.editorState);
     this.state.rootRef.update({ content: convertToRaw(editorState.getCurrentContent()) });
     //analyze input with each change
     const text = this.state.editorState.getCurrentContent().getPlainText();
@@ -85,8 +109,43 @@ class EditorComponent extends Component {
     </React.Fragment>
   }
 
+ 
+
+  onURLChange(e){
+    const files = e.target.files;
+    const filesToUpload = [];
+    for (let i = 0; i < files.length; i++){
+      filesToUpload.push(new File(files, files[i].name, {
+        type: files[i].type
+      }))
+    }
+
+    filesToUpload.forEach(file => {
+      console.log('file', file)
+      storage.ref(file.name).put(file)
+      .then(res => this.setState({ mediaUrlValue: res.downloadURL }))
+      .then(() => console.log('this is media url value', this.state.mediaUrlValue))
+      .catch(console.error)
+    })
+  }
+
+  onURLInputKeyDown(e) {
+    let newState = this.state.editorState;
+    if (e.which === 13) {
+      this.onChange(confirmMedia(this.state.editorState, this.state.mediaUrlValue, this.state.urlType));
+      // this.onChange(newState);
+      this.setState({ showMediaInput: !this.state.showMediaInput })
+    };
+
+    
+  }
+
+  showMediaInput(type){
+    this.setState({ showMediaInput: !this.state.showMediaInput, urlType: type })
+  }
+
   render() {
-    const { alignment, showStyleToolbar, showAlignmentToolbar, editorState } = this.state;
+    const { alignment, showStyleToolbar, showAlignmentToolbar, showMediaInput, urlValue, urlType, editorState } = this.state;
     if (!editorState) return 'loading';
     
     return ( 
@@ -96,16 +155,37 @@ class EditorComponent extends Component {
           {showStyleToolbar && <div>{this.renderStyleToolbar()}</div>}
           <Button onClick={this.showAlignmentToolbar.bind(this)}>Align</Button>
           {showAlignmentToolbar && <div>{this.renderAlignmentToolbar()}</div>}
-          
+       
+          { showMediaInput 
+            ? <div>
+            <input 
+            type="file" 
+            id="file" 
+            onChange={this.onURLChange}
+            onKeyDown={this.onURLInputKeyDown.bind(this)}
+            />
+            Press Enter to submit
+            </div>
+            : <div>
+              <Button onClick={this.showMediaInput.bind(this, 'image')}>Add Image</Button>
+              <Button onClick={this.showMediaInput.bind(this, 'audio')}>Add Audio</Button>
+              <Button onClick={this.showMediaInput.bind(this, 'video')}>Add Video</Button>
+            </div>
+          }
               <Editor
                 customStyleMap={styles.styleMap}
                 editorState={this.state.editorState}
                 onChange={this.onChange}
+                handleKeyCommand={this.handleKeyCommand}
                 placeholder="...start below"
                 plugins={plugins}
                 textAlignment={alignment}
+                blockRendererFn={mediaBlockRenderer}
+                ref="editor"
               />
-          
+          <audio controls>
+            <source src={'https://firebasestorage.googleapis.com/v0/b/mahazay-c248c.appspot.com/o/Welcome_Rain.mp3?alt=media&token=ebb6e4d6-fee2-44c0-adcf-bc56382ba61b'} type="audio/mp3"/>
+          </audio>
           </div>
   
     );
