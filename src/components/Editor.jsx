@@ -22,6 +22,7 @@ class EditorComponent extends Component {
       showStyleToolbar: false, 
       showAlignmentToolbar: false, 
       showMediaInput: false,
+      showMediaTypeButtons: false,
       mediaUrlValue: '', 
       urlType: '',
       rootRef: this.props.entry
@@ -144,8 +145,12 @@ class EditorComponent extends Component {
     this.setState({ showMediaInput: !this.state.showMediaInput, urlType: type })
   }
 
+  showMediaTypeButtons(){
+    this.setState({ showMediaTypeButtons: !this.state.showMediaTypeButtons })
+  }
+
   render() {
-    const { alignment, showStyleToolbar, showAlignmentToolbar, showMediaInput, urlValue, urlType, editorState } = this.state;
+    const { alignment, showStyleToolbar, showAlignmentToolbar, showMediaInput, urlValue, urlType, showMediaTypeButtons, editorState } = this.state;
     if (!editorState) return 'loading';
     
     return ( 
@@ -155,7 +160,7 @@ class EditorComponent extends Component {
           {showStyleToolbar && <div>{this.renderStyleToolbar()}</div>}
           <Button onClick={this.showAlignmentToolbar.bind(this)}>Align</Button>
           {showAlignmentToolbar && <div>{this.renderAlignmentToolbar()}</div>}
-       
+          {!showMediaTypeButtons && <Button onClick={this.showMediaTypeButtons.bind(this)}>Add Media</Button>}
           { showMediaInput 
             ? <div>
             <input 
@@ -164,12 +169,12 @@ class EditorComponent extends Component {
             onChange={this.onURLChange}
             onKeyDown={this.onURLInputKeyDown.bind(this)}
             />
-            Press Enter to submit
+            <Button>Hit Enter to Submit</Button>
             </div>
             : <div>
-              <Button onClick={this.showMediaInput.bind(this, 'image')}>Add Image</Button>
-              <Button onClick={this.showMediaInput.bind(this, 'audio')}>Add Audio</Button>
-              <Button onClick={this.showMediaInput.bind(this, 'video')}>Add Video</Button>
+              { showMediaTypeButtons && <Button onClick={this.showMediaInput.bind(this, 'image')}>Add Image</Button> }
+              { showMediaTypeButtons && <Button onClick={this.showMediaInput.bind(this, 'audio')}>Add Audio</Button> }
+              { showMediaTypeButtons && <Button onClick={this.showMediaInput.bind(this, 'video')}>Add Video</Button> }
             </div>
           }
               <Editor

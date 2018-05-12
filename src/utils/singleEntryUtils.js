@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactPlayer from 'react-player';
+import Audio from 'react-audioplayer';
 import { EditorState, AtomicBlockUtils, convertToRaw } from 'draft-js';
 import createImagePlugin from 'draft-js-image-plugin';
 import createFocusPlugin from 'draft-js-focus-plugin';
@@ -96,8 +97,9 @@ export const mediaBlockRenderer = function(block) {
   return null;
 }
 
-export const Audio = (props) => {
-  return <audio controls src={props.src} style={styles.media} />;
+export const AudioPlayer = (props) => {
+ 
+  return <audio src={props.src}/>
 };
 
 export const Image = (props) => {
@@ -105,7 +107,7 @@ export const Image = (props) => {
 };
 
 export const Video = (props) => {
-  return <ReactPlayer url={props.src} playing style={styles.media}/>
+  return <ReactPlayer url={props.src} style={styles.media} controls />
 };
 
 export const Media = (props) => {
@@ -117,7 +119,7 @@ export const Media = (props) => {
   
   switch(type){
     case 'audio':
-      media = <Audio src={src} />;
+      media = <AudioPlayer src={src} />;
       break;
     case 'image':
       media = <Image src={src} />;
