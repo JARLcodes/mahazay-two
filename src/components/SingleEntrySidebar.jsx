@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import Button from "material-ui/Button";
 import Add from '@material-ui/icons/Add';
-import Upload from 'material-ui-upload/Upload';
 import { withAuth } from 'fireview';
 
 

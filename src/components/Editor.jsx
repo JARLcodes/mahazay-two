@@ -124,7 +124,7 @@ class EditorComponent extends Component {
       console.log('file', file)
       storage.ref(file.name).put(file)
       .then(res => this.setState({ mediaUrlValue: res.downloadURL }))
-      .then(() => console.log('this is media url value', this.state.mediaUrlValue))
+      // .then(() => console.log('this is media url value', this.state.mediaUrlValue)) 1. all good here
       .catch(console.error)
     })
   }
@@ -132,8 +132,8 @@ class EditorComponent extends Component {
   onURLInputKeyDown(e) {
     let newState = this.state.editorState;
     if (e.which === 13) {
+      // console.log('this.state.mediaUrlValue', this.state.mediaUrlValue); 2. all good here
       this.onChange(confirmMedia(this.state.editorState, this.state.mediaUrlValue, this.state.urlType));
-      // this.onChange(newState);
       this.setState({ showMediaInput: !this.state.showMediaInput })
     };
 
@@ -183,9 +183,6 @@ class EditorComponent extends Component {
                 blockRendererFn={mediaBlockRenderer}
                 ref="editor"
               />
-          <audio controls>
-            <source src={'https://firebasestorage.googleapis.com/v0/b/mahazay-c248c.appspot.com/o/Welcome_Rain.mp3?alt=media&token=ebb6e4d6-fee2-44c0-adcf-bc56382ba61b'} type="audio/mp3"/>
-          </audio>
           </div>
   
     );

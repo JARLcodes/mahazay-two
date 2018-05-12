@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactPlayer from 'react-player';
 import { EditorState, AtomicBlockUtils, convertToRaw } from 'draft-js';
 import createImagePlugin from 'draft-js-image-plugin';
 import createFocusPlugin from 'draft-js-focus-plugin';
@@ -6,6 +7,7 @@ import createBlockDndPlugin from 'draft-js-drag-n-drop-plugin';
 import { composeDecorators } from 'draft-js-plugins-editor';
 import TextField from 'material-ui/TextField';
 import Button from "material-ui/Button";
+
 
 const focusPlugin = createFocusPlugin();
 const blockDndPlugin = createBlockDndPlugin();
@@ -52,7 +54,8 @@ export const styles = {
   }, 
   media: {
     width: "20%", 
-    height: "auto"
+    height: "auto", 
+    zIndex: "1"
   }
 }
 
@@ -60,10 +63,11 @@ export const styles = {
 export const confirmMedia = function(editorState, urlValue, urlType, e){
   if (e) e.preventDefault();
   const contentState = editorState.getCurrentContent();
+  console.log('url value', urlValue); //3. all good here 
   const contentStateWithEntity = contentState.createEntity(
     urlType, 
     'MUTABLE', 
-    {src: urlValue}
+    { urlValue }
   );
   
   const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
@@ -101,16 +105,15 @@ export const Image = (props) => {
 };
 
 export const Video = (props) => {
-  return <video controls src={props.src} style={styles.media} />;
+  return <ReactPlayer url={props.src} playing style={styles.media}/>
 };
 
 export const Media = (props) => {
   let media = null;
   const entity = props.block.getEntityAt(0) ? props.contentState.getEntity(props.block.getEntityAt(0)) : null;
-  console.log(props.block.getEntityAt(0), props.block);
-  const src = entity ? entity.getData().src : null;
+  if (entity) console.log('entity data should have urlValue', entity.getData());
+  const src = entity ? entity.getData().urlValue : null;
   const type = entity ? entity.getType() : 'text';
-  if (entity) console.log('type', entity.getType());
   
   switch(type){
     case 'audio':
@@ -126,7 +129,7 @@ export const Media = (props) => {
       media = null;
       break;
   }
-  console.log(props.block.getEntityAt(0), media)
+  
   return media;
 
 };
