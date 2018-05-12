@@ -39,7 +39,7 @@ class EditorComponent extends Component {
     //only call tone analyzer if length of text is greater than 350 -- to limit api calls
     if (text.length > 350){
       getTokenTone().then((token) => analyzeTone(token, text ));
-      analyzePersonality(this.props.entry.entryId)
+      analyzePersonality(this.props.entry.id)
     } 
     //change to button to limit amout of times we hit watson
   }
