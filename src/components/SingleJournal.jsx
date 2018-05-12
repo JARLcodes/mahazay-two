@@ -1,18 +1,26 @@
 import React, { Component } from 'react';
 import {db} from '../utils/firebase.config'
 import Button from "material-ui/Button";
+import AddIcon from '@material-ui/icons/Add'
 import Card, { CardContent } from 'material-ui/Card';
+import Tooltip from 'material-ui/Tooltip';
 import Grid from 'material-ui/Grid';
 import { withAuth } from 'fireview';
 import { Link } from 'react-router-dom';
+import BigCalendar from 'react-big-calendar';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+import moment from 'moment';
 
 import { getRootRef } from '../utils/componentUtils';
+
+BigCalendar.momentLocalizer(moment);
 
 export class SingleJournal extends Component {
   constructor(props){
     super(props);
     this.state = {
       entries: [],
+      events:[]
     }
     this.addEntry = this.addEntry.bind(this);
 
@@ -30,7 +38,7 @@ export class SingleJournal extends Component {
       .then(docRef =>
         this.props.history.push(`/journals/${this.props.match.params.journalId}/entries/${docRef.id}`));
   }
-  
+
   componentWillReceiveProps(nextProps){
     if(this.props._user !== nextProps._user){
       let entries = []
@@ -38,7 +46,7 @@ export class SingleJournal extends Component {
       .where('journalId', '==', this.props.match.params.journalId).get()
       .then(querySnapshot => {
         querySnapshot.forEach(entry => {
-          this.setState({entries: [...this.state.entries, {entryId: entry.id, dateCreated: entry.data().dateCreated, content: entry.data().content, journalId: entry.data().journalId }]})
+          this.setState({entries: [...this.state.entries, {entryId: entry.id, dateCreated: entry.data().dateCreated, content: entry.data().content, journalId: entry.data().journalId }], events: [...this.state.events, {title: "View Journal Entry", start: new Date(entry.data().dateCreated), end: new Date(entry.data().dateCreated) + 1}]})
         })
       })
     }
@@ -46,10 +54,14 @@ export class SingleJournal extends Component {
 
   render() {
     const entries = this.state.entries
-    //this.state.entries.forEach(entry => console.log("the date object for ", entry.entryId, " : ", entry.dateCreated))
+    const events = this.state.events
     return (
       <div>
-        <Grid container spacing={24}>
+        <div style={{"paddingLeft": 24 + "px", "paddingRight": 24 + "px", "marginBottom": 24 +"px" }}>
+          <BigCalendar events={events} views={['month']} style={{height: 350 + "px"}} />
+
+        </ div>
+        {/* <Grid container spacing={24} style={{"padding-left": 24 + "px", "padding-right": 24 + "px", "margin-bottom": 24 +"px" }}>
         { entries.map( entry => {
           return (
             <Grid key={entry.entryId} item xs={3} >
@@ -61,8 +73,10 @@ export class SingleJournal extends Component {
             </Grid>
           )}
         )}
-        </Grid>
-        <Button onClick={this.addEntry}>New Entry</Button>
+        </Grid> */}
+        <Tooltip title = "Add New Entry" placement="top">
+        <Button variant ="fab" color="primary"  onClick={this.addEntry}><AddIcon /></Button>
+        </Tooltip>
       </div>
     )
   }

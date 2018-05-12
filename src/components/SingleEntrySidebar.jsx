@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import Button from "material-ui/Button";
 import Add from '@material-ui/icons/Add';
-import Upload from 'material-ui-upload/Upload';
 import { withAuth } from 'fireview';
 
 
@@ -15,26 +14,26 @@ const styles = {
   addMedia: {
     margin: 20,
     alignSelf: 'center'
-  }, 
+  },
   delete: {
-    alignSelf: 'center', 
+    alignSelf: 'center',
     width: '20%'
-  }, 
+  },
   singleEntrySidebar : {
     display: "flex",
     flexDirection: "column"
-  }, 
+  },
   addVideo: {
-    display: "flex", 
-    flexDirection: "column", 
+    display: "flex",
+    flexDirection: "column",
     marginLeft: "10%"
   }
 }
 class SingleEntrySidebar extends Component {
   state = {
     mediaToAdd: '',
-    video: '', 
-    image: '', 
+    video: '',
+    image: '',
     audio: ''
   };
 
@@ -62,7 +61,7 @@ class SingleEntrySidebar extends Component {
         </Button>
         <Button name="image" type="submit">Add Media</Button>
         <Button variant="raised" color="secondary" style={styles.delete} onClick={this.deleteEntry.bind(this, this.props.entry)}>Delete Entry</Button>
-       
+
       </div>
     )
   }
