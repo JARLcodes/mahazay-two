@@ -5,6 +5,8 @@ import { withStyles } from 'material-ui/styles';
 import Card, { CardContent } from 'material-ui/Card';
 import Grid from 'material-ui/Grid';
 import { withAuth } from 'fireview';
+import { Player, BigPlayButton } from 'video-react';
+import ReactPlayer from 'react-player';
 
 import { getRootRef } from '../utils/componentUtils';
 
@@ -39,6 +41,7 @@ export class AllEntries extends Component {
           this.setState({entries: [...this.state.entries, {entryId: entry.id, content: entry.data().content, journalId: entry.data().journalId, dateCreated: entry.data().dateCreated }]})
         })
       })
+
     }
   }
 
@@ -67,6 +70,7 @@ export class AllEntries extends Component {
           );}
         )}
         </Grid>
+
       </div>
     );
   }
