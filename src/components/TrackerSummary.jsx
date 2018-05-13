@@ -41,11 +41,12 @@ class TrackerSummary extends Component {
     super();
     this.state = {
       habits: [],
-      habitToAdd: {}
+      habitToAdd: {},
+      dates: []
     };
     this.handleAdd = this.handleAdd.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
+    // this.handleDelete = this.handleDelete.bind(this);
   }
 
   componentDidMount() {
@@ -89,7 +90,7 @@ class TrackerSummary extends Component {
               label="Simple with controlled value"
               checked={props.checked}
               />
-            <Button onClick={this.handleDelete}>X</Button>
+            {/* <Button onClick={this.handleDelete}>X</Button> */}
             </TableCell></TableRow>;};
 
     return (
