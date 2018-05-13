@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withAuth } from 'fireview';
 import { getRootRef, getIds } from '../../utils/componentUtils';
+import {db} from '../../utils/firebase.config'
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
@@ -17,43 +18,43 @@ export class Insights extends Component {
             toneRootRef: getRootRef('toneInsights'),
             tones: []
         }
+        this.filterByTone = this.filterByTone.bind(this);
+        this.getPersonalityInsight = this.getPersonalityInsight.bind(this);
+    }
+
+    getPersonalityInsight (id){
+       return getRootRef('personalityInsights', id);
+    }
+
+    filterByTone(toneName){
+        const tones = this.state.tones
+        return tones.filter(tone => tone.tone_name === toneName)
     }
 
     componentWillReceiveProps(nextProps){
-    
-        // getRootRef('users').get().then(querySnap => {
-        //     querySnap.forEach(doc => {
-        //         users.push(doc)
-        //     })
-        // })
-        // console.log("users: ", users, "user: ", this.props._user)
-
+        console.log("props", this.props, "nextProps", nextProps)
         if(this.props._user !== nextProps._user){
-            const { toneRootRef } = this.state;
-        // const scores = {
+            const { personalityRootRef, toneRootRef } = this.state;
+            // console.log(toneRootRef)
+            // personalityRootRef.get()
+            //     .then(snap => {
+            //         snap.forEach(personalityDoc => {
+            //             // console.log(personalityDoc)
+            //             // console.log(personalityDoc.id, personalityDoc.data())
+            //         })
+            //     })
 
-        // }
-        // console.log(toneRootRef)
+            toneRootRef.where("userId", "==", nextProps._user.uid).get()
+                .then(querySnapshot => {
+                    // console.log(querySnapshot)
+                    querySnapshot.forEach(toneDoc => {
+                        // console.log("toneDoc data: ", toneDoc.data())
+                        toneDoc.data().parsedToneInsight.forEach(toneInsight => {
+                            // console.log("tones: ", toneInsight.tones)
+                            toneInsight.tones.forEach(toneCategory => {
+                                // console.log("tone: ", toneCategory)
 
-        toneRootRef.where("userId", "==", nextProps._user.uid).get()
-            .then(querySnapshot => {
-                // console.log(querySnapshot)
-                querySnapshot.forEach(toneDoc => {
-                    // console.log("toneDoc data: ", toneDoc.data())
-                    toneDoc.data().parsedToneInsight.forEach(toneInsight => {
-                        // console.log("tones: ", toneInsight.tones)
-                        toneInsight.tones.forEach(toneCategory => {
-                            // console.log("props", this.props._user.uid, "nextProps", nextProps._user.uid)
-                            // console.log("tone: ", toneCategory)
-
-                //         // const toneCategoryScoreArr = []
-
-                //         //   if(toneCategory.tone_name){
-                //         //       toneCategoryScoreArr.push(toneCategory.score)
-                //         //   }
-                //         //   const toneAvg = toneCategoryScoreArr.reduce((acc, score) => (acc + score) / toneCategoryScoreArr.length)
-
-                          this.setState({tones: [...this.state.tones, {[toneCategory.tone_name]: toneCategory.score}]})
+                            this.setState({tones: [...this.state.tones, {[toneCategory.tone_name]: toneCategory.score}]})
                         })
                     })
                 })
@@ -65,7 +66,9 @@ export class Insights extends Component {
     render () {
         // const ref = this.state.toneRootRef
         // ref.get().then(snapshot => snapshot.forEach(tone => tone.data().parsedToneInsight.forEach(toneInsight => toneInsight.tones.forEach(toneCategory => console.log(toneCategory.tone_name, ": ", toneCategory.score)))))
-        console.log("tones: ", this.state.tones)
+        // console.log("tones: ", this.state.tones)
+        // console.log(this.state.tones.map(tone => tone.tone_name === "Anger"))
+        console.log(this.getPersonalityInsight("F6NdwZ3uE0Awr0MDN8Zj"))
         
         return (
             <div>
