@@ -41,7 +41,7 @@ export class AllEntries extends Component {
           this.setState({entries: [...this.state.entries, {entryId: entry.id, content: entry.data().content, journalId: entry.data().journalId, dateCreated: entry.data().dateCreated }]})
         })
       })
-
+     
     }
   }
 
@@ -70,7 +70,7 @@ export class AllEntries extends Component {
           );}
         )}
         </Grid>
-
+        
       </div>
     );
   }
