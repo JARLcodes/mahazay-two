@@ -5,6 +5,8 @@ import { withStyles } from 'material-ui/styles';
 import Card, { CardContent } from 'material-ui/Card';
 import Grid from 'material-ui/Grid';
 import { withAuth } from 'fireview';
+import { Player, BigPlayButton } from 'video-react';
+import ReactPlayer from 'react-player';
 
 import { getRootRef } from '../utils/componentUtils';
 
@@ -30,7 +32,7 @@ export class AllEntries extends Component {
     };
 
   }
-// .where('userId', '==', this.props._user.uid)
+
 
   componentWillReceiveProps(nextProps){
     if(this.props._user !== nextProps._user){
@@ -40,7 +42,7 @@ export class AllEntries extends Component {
           this.setState({entries: [...this.state.entries, {entryId: entry.id, content: entry.data().content, journalId: entry.data().journalId }]})
         })
       })
-      // console.log("QUERY SNAP" , querySnapshot)
+     
     }
   }
 
@@ -54,7 +56,6 @@ export class AllEntries extends Component {
         users.push({userId: doc.id, data: doc.data()})
       })
     })
-    console.log("user", this.props._user, "entries:", entries, "a change is a good thing, here are the users" , users)
     return (
       <div>
         <Grid container spacing={24}>
@@ -70,6 +71,7 @@ export class AllEntries extends Component {
           );}
         )}
         </Grid>
+        
       </div>
     );
   }
