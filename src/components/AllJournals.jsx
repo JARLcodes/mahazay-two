@@ -33,7 +33,8 @@ export class AllJournals extends Component {
   }
 
   render() {
-
+    // const ref = this.state.rootRef
+    // ref.get().then(snapshot => snapshot.forEach(journal => console.log(journal.data())))
     const journals = this.state.journals;
     const journalIds = this.state.allJournalIds;
     return (
