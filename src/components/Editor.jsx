@@ -25,6 +25,7 @@ class EditorComponent extends Component {
       showMediaTypeButtons: false,
       mediaUrlValue: '', 
       urlType: '',
+      fileToUpload: {},
       rootRef: this.props.entry
     };
     this.handleKeyCommand = this.handleKeyCommand.bind(this);
@@ -57,7 +58,6 @@ class EditorComponent extends Component {
   onChange = editorState => {
     // to send data from entry to firebase WHILE USER IS UPDATING: use convertToRaw(editorState.getCurrentContent())
     this.setState({editorState})
-    console.log('this is editor state after change', this.state.editorState);
     this.state.rootRef.update({ content: convertToRaw(editorState.getCurrentContent()) });
     //analyze input with each change
     const text = this.state.editorState.getCurrentContent().getPlainText();
@@ -113,32 +113,25 @@ class EditorComponent extends Component {
  
 
   onURLChange(e){
-    const files = e.target.files;
-    const filesToUpload = [];
-    for (let i = 0; i < files.length; i++){
-      filesToUpload.push(new File(files, files[i].name, {
-        type: files[i].type
-      }))
-    }
-
-    filesToUpload.forEach(file => {
-      console.log('file', file)
-      storage.ref(file.name).put(file)
-      .then(res => this.setState({ mediaUrlValue: res.downloadURL }))
-      // .then(() => console.log('this is media url value', this.state.mediaUrlValue)) 1. all good here
-      .catch(console.error)
-    })
+    console.log("1", e.target.files); //1. all good here
+    const file = e.target.files[0];
+    console.log('1.5', file)
+    return this.setState({fileToUpload: file})
+    
   }
 
   onURLInputKeyDown(e) {
-    let newState = this.state.editorState;
+    e.preventDefault();
+    console.log('e', e.which);
     if (e.which === 13) {
-      // console.log('this.state.mediaUrlValue', this.state.mediaUrlValue); 2. all good here
-      this.onChange(confirmMedia(this.state.editorState, this.state.mediaUrlValue, this.state.urlType));
-      this.setState({ showMediaInput: !this.state.showMediaInput })
-    };
-
-    
+    //save the file to storage and set downloadurl on local state
+    console.log('4', this.state.fileToUpload);
+    const file = this.state.fileToUpload;
+    storage.ref(file.name).put(file)
+      .then(res => this.setState({ mediaUrlValue: res.downloadURL, showMediaInput: !this.state.showMediaInput }))
+      .then(() => this.onChange(confirmMedia(this.state.editorState, this.state.mediaUrlValue, this.state.urlType)))
+      .catch(console.error)
+    }    
   }
 
   showMediaInput(type){
@@ -152,7 +145,7 @@ class EditorComponent extends Component {
   render() {
     const { alignment, showStyleToolbar, showAlignmentToolbar, showMediaInput, urlValue, urlType, showMediaTypeButtons, editorState } = this.state;
     if (!editorState) return 'loading';
-    
+    console.log('0', this.state.urlType, '2', this.state.fileToUpload, '6', this.state.mediaUrlValue);
     return ( 
       
         <div style={styles.editor}>

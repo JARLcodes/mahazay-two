@@ -64,13 +64,14 @@ export const styles = {
 export const confirmMedia = function(editorState, urlValue, urlType, e){
   if (e) e.preventDefault();
   const contentState = editorState.getCurrentContent();
-  console.log('url value', urlValue); //3. all good here 
+  console.log('7', urlType); //5. all good here
+  console.log('8', urlValue);
   const contentStateWithEntity = contentState.createEntity(
     urlType, 
     'MUTABLE', 
     { urlValue }
   );
-  
+  console.log('url value in confirm media', urlValue)
   const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
   const newEditorState = EditorState.set(
     editorState, 
@@ -98,7 +99,6 @@ export const mediaBlockRenderer = function(block) {
 }
 
 export const AudioPlayer = (props) => {
- 
   return <audio src={props.src}/>
 };
 
@@ -113,7 +113,7 @@ export const Video = (props) => {
 export const Media = (props) => {
   let media = null;
   const entity = props.block.getEntityAt(0) ? props.contentState.getEntity(props.block.getEntityAt(0)) : null;
-  if (entity) console.log('entity data should have urlValue', entity.getData());
+
   const src = entity ? entity.getData().urlValue : null;
   const type = entity ? entity.getType() : 'text';
   
