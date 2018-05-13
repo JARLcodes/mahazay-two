@@ -28,18 +28,17 @@ export class AllEntries extends Component {
   constructor(){
     super();
     this.state = {
-      entries: [{entryId: "FAKEID", content: {blocks:[{text:"textttt"}]}, journalId: 1 }]
+      entries: []
     };
 
   }
 
-
   componentWillReceiveProps(nextProps){
     if(this.props._user !== nextProps._user){
-       getRootRef('entries').where('userId', '==', nextProps._user.uid).get()
+       getRootRef('entries').where('userId', '==', nextProps._user.uid).orderBy('dateCreated', "desc").get()
       .then(querySnapshot => {
         querySnapshot.forEach(entry => {
-          this.setState({entries: [...this.state.entries, {entryId: entry.id, content: entry.data().content, journalId: entry.data().journalId }]})
+          this.setState({entries: [...this.state.entries, {entryId: entry.id, content: entry.data().content, journalId: entry.data().journalId, dateCreated: entry.data().dateCreated }]})
         })
       })
      
@@ -58,13 +57,13 @@ export class AllEntries extends Component {
     })
     return (
       <div>
-        <Grid container spacing={24}>
+        <Grid container spacing={24} style={{"paddingLeft": 24 + "px", "paddingRight": 24 + "px", "marginBottom": 24 +"px" }}>
         { entries.map( entry => {
           return (
             <Grid key={entry.entryId} item xs={3} >
-              <Card>
+              <Card style={{}}>
                 <CardContent>
-                  <Link style={{ textDecoration: 'none' }} to={`/journals/${entry.journalId}/entries/${entry.entryId}`}>"{entry.content && entry.content.blocks[0].text ? entry.content.blocks[0].text.substr(0, 20) + "..." : "A Blank Page"}"</Link>
+                  <Link style={{ textDecoration: 'none', color: "black" }} to={`/journals/${entry.journalId}/entries/${entry.entryId}`}>"{entry.content && entry.content.blocks[0].text ? entry.content.blocks[0].text.substr(0, 20) + "..." : "A Blank Page"}" <br /> { new Date(entry.dateCreated).toDateString()}</Link>
                 </CardContent>
               </Card>
             </Grid>

@@ -1,20 +1,31 @@
 import React, { Component } from 'react';
 import {db} from '../utils/firebase.config'
 import Button from "material-ui/Button";
+import AddIcon from '@material-ui/icons/Add'
+import Icon from 'material-ui/Icon';
 import Card, { CardContent } from 'material-ui/Card';
+import Tooltip from 'material-ui/Tooltip';
 import Grid from 'material-ui/Grid';
 import { withAuth } from 'fireview';
 import { Link } from 'react-router-dom';
+import BigCalendar from 'react-big-calendar';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+import moment from 'moment';
 
 import { getRootRef } from '../utils/componentUtils';
+
+BigCalendar.momentLocalizer(moment);
 
 export class SingleJournal extends Component {
   constructor(props){
     super(props);
     this.state = {
       entries: [],
+      events:[]
     }
     this.addEntry = this.addEntry.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
+    this.checkColor = this.checkColor.bind(this);
 
   }
 
@@ -30,7 +41,7 @@ export class SingleJournal extends Component {
       .then(docRef =>
         this.props.history.push(`/journals/${this.props.match.params.journalId}/entries/${docRef.id}`));
   }
-  
+
   componentWillReceiveProps(nextProps){
     if(this.props._user !== nextProps._user){
       let entries = []
@@ -38,18 +49,33 @@ export class SingleJournal extends Component {
       .where('journalId', '==', this.props.match.params.journalId).get()
       .then(querySnapshot => {
         querySnapshot.forEach(entry => {
-          this.setState({entries: [...this.state.entries, {entryId: entry.id, dateCreated: entry.data().dateCreated, content: entry.data().content, journalId: entry.data().journalId }]})
+          this.setState({entries: [...this.state.entries, {entryId: entry.id, dateCreated: entry.data().dateCreated, content: entry.data().content, journalId: entry.data().journalId }], events: [...this.state.events, {title: "View Journal Entry", entryId: entry.id, start: new Date(entry.data().dateCreated), end: new Date(entry.data().dateCreated) + 1}]})
         })
       })
     }
   }
 
+  handleSelect(calendarEvent, event){
+    this.props.history.push(`/journals/${this.props.match.params.journalId}/entries/${calendarEvent.entryId}`)
+  }
+
+  checkColor(event, start, end, isSelected){
+    let background;
+    Math.floor((Math.random() * 10)) % 2 === 0 ? background = '#F48FB1' : background ="#81C784"
+
+    return {style : {background}}
+  }
+
   render() {
     const entries = this.state.entries
-    //this.state.entries.forEach(entry => console.log("the date object for ", entry.entryId, " : ", entry.dateCreated))
+    const events = this.state.events
     return (
       <div>
-        <Grid container spacing={24}>
+        <div style={{"paddingLeft": 24 + "px", "paddingRight": 24 + "px", "marginBottom": 24 +"px" }}>
+          <BigCalendar eventPropGetter={this.checkColor} defaultDate={new Date()} events={events} views={['month']} style={{height: 350 + "px"}} onSelectEvent={this.handleSelect} />
+
+        </ div>
+        {/* <Grid container spacing={24} style={{"padding-left": 24 + "px", "padding-right": 24 + "px", "margin-bottom": 24 +"px" }}>
         { entries.map( entry => {
           return (
             <Grid key={entry.entryId} item xs={3} >
@@ -61,8 +87,12 @@ export class SingleJournal extends Component {
             </Grid>
           )}
         )}
+        </Grid> */}
+        <Grid container style={{justifyContent: "flex-end", "paddingLeft": 24 + "px", "paddingRight": 24 + "px", "marginBottom": 10 +"px"}}>
+          <Tooltip title = "Add Today's Entry" placement="top">
+            <Button variant ="fab" color="primary" onClick={this.addEntry}><Icon>edit_icon</Icon></Button>
+          </Tooltip>
         </Grid>
-        <Button onClick={this.addEntry}>New Entry</Button>
       </div>
     )
   }
