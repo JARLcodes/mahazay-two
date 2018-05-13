@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {db} from '../utils/firebase.config'
 import Button from "material-ui/Button";
 import AddIcon from '@material-ui/icons/Add'
+import Icon from 'material-ui/Icon';
 import Card, { CardContent } from 'material-ui/Card';
 import Tooltip from 'material-ui/Tooltip';
 import Grid from 'material-ui/Grid';
@@ -46,7 +47,7 @@ export class SingleJournal extends Component {
       .where('journalId', '==', this.props.match.params.journalId).get()
       .then(querySnapshot => {
         querySnapshot.forEach(entry => {
-          this.setState({entries: [...this.state.entries, {entryId: entry.id, dateCreated: entry.data().dateCreated, content: entry.data().content, journalId: entry.data().journalId }], events: [...this.state.events, {title: "View Journal Entry", start: new Date(entry.data().dateCreated), end: new Date(entry.data().dateCreated) + 1}]})
+          this.setState({entries: [...this.state.entries, {entryId: entry.id, dateCreated: entry.data().dateCreated, content: entry.data().content, journalId: entry.data().journalId }], events: [...this.state.events, {title: "View Journal Entry", entryId: entry.id, start: new Date(entry.data().dateCreated), end: new Date(entry.data().dateCreated) + 1}]})
         })
       })
     }
@@ -58,7 +59,7 @@ export class SingleJournal extends Component {
     return (
       <div>
         <div style={{"paddingLeft": 24 + "px", "paddingRight": 24 + "px", "marginBottom": 24 +"px" }}>
-          <BigCalendar events={events} views={['month']} style={{height: 350 + "px"}} />
+          <BigCalendar defaultDate={new Date()} events={events} views={['month']} style={{height: 350 + "px"}} start={new Date(2015, 1, 0)} end={new Date(2022, 12, 31)} />
 
         </ div>
         {/* <Grid container spacing={24} style={{"padding-left": 24 + "px", "padding-right": 24 + "px", "margin-bottom": 24 +"px" }}>
@@ -74,9 +75,11 @@ export class SingleJournal extends Component {
           )}
         )}
         </Grid> */}
-        <Tooltip title = "Add New Entry" placement="top">
-        <Button variant ="fab" color="primary"  onClick={this.addEntry}><AddIcon /></Button>
-        </Tooltip>
+        <Grid container style={{justifyContent: "flex-end", "paddingLeft": 24 + "px", "paddingRight": 24 + "px", "marginBottom": 10 +"px"}}>
+          <Tooltip title = "Add Today's Entry" placement="top">
+            <Button variant ="fab" color="primary" onClick={this.addEntry}><Icon>edit_icon</Icon></Button>
+          </Tooltip>
+        </Grid>
       </div>
     )
   }
