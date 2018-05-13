@@ -1,50 +1,72 @@
 import React, { Component } from 'react';
 import { withAuth } from 'fireview';
-import { getRootRef } from '../../utils/componentUtils';
+import { getRootRef, getIds } from '../../utils/componentUtils';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import Paper from 'material-ui/Paper';
 import Grid from 'material-ui/Grid';
 
-export default class Insights extends Component {
+export class Insights extends Component {
     constructor () {
         super();
         this.state = {
+            entryIds: [],
+            entryRootRef: getRootRef('entries'),
             personalityRootRef: getRootRef('personalityInsights'),
             toneRootRef: getRootRef('toneInsights'),
-            tones: [],
+            tones: []
         }
     }
 
-    componentDidMount(){
-        // if(this.props._user !== nextProps._user){
-          const { toneRootRef } = this.state;
-          toneRootRef.get()
-            .then(querySnapshot => {
-              querySnapshot.forEach(tone => {
-                  tone.data().parsedToneInsight.forEach(toneInsight => {
-                      toneInsight.tones.forEach(toneCategory => {
-                        // const toneCategoryScoreArr = []
+    componentWillReceiveProps(nextProps){
+    
+        // getRootRef('users').get().then(querySnap => {
+        //     querySnap.forEach(doc => {
+        //         users.push(doc)
+        //     })
+        // })
+        // console.log("users: ", users, "user: ", this.props._user)
 
-                        //   if(toneCategory.tone_name){
-                        //       toneCategoryScoreArr.push(toneCategory.score)
-                        //   }
-                        //   const toneAvg = toneCategoryScoreArr.reduce((acc, score) => (acc + score) / toneCategoryScoreArr.length)
+        if(this.props._user !== nextProps._user){
+            const { toneRootRef } = this.state;
+        // const scores = {
+
+        // }
+        // console.log(toneRootRef)
+
+        toneRootRef.where("userId", "==", nextProps._user.uid).get()
+            .then(querySnapshot => {
+                // console.log(querySnapshot)
+                querySnapshot.forEach(toneDoc => {
+                    // console.log("toneDoc data: ", toneDoc.data())
+                    toneDoc.data().parsedToneInsight.forEach(toneInsight => {
+                        // console.log("tones: ", toneInsight.tones)
+                        toneInsight.tones.forEach(toneCategory => {
+                            // console.log("props", this.props._user.uid, "nextProps", nextProps._user.uid)
+                            // console.log("tone: ", toneCategory)
+
+                //         // const toneCategoryScoreArr = []
+
+                //         //   if(toneCategory.tone_name){
+                //         //       toneCategoryScoreArr.push(toneCategory.score)
+                //         //   }
+                //         //   const toneAvg = toneCategoryScoreArr.reduce((acc, score) => (acc + score) / toneCategoryScoreArr.length)
 
                           this.setState({tones: [...this.state.tones, {[toneCategory.tone_name]: toneCategory.score}]})
-                      })
-                  })
-              })
+                        })
+                    })
+                })
             })
             console.log("I rerendered")
-        //   }
-      }
+        }
+    }
     
     render () {
         // const ref = this.state.toneRootRef
         // ref.get().then(snapshot => snapshot.forEach(tone => tone.data().parsedToneInsight.forEach(toneInsight => toneInsight.tones.forEach(toneCategory => console.log(toneCategory.tone_name, ": ", toneCategory.score)))))
         console.log("tones: ", this.state.tones)
+        
         return (
             <div>
                 <div style={styles.appBar}>
@@ -104,3 +126,4 @@ const styles = {
     }
   };
   
+  export default withAuth(Insights);

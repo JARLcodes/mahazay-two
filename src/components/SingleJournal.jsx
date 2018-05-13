@@ -32,13 +32,13 @@ export class SingleJournal extends Component {
   }
   
   componentWillReceiveProps(nextProps){
+    console.log("props: ", this.props)
     if(this.props._user !== nextProps._user){
       let entries = []
       db.collection('entries')
       .where('journalId', '==', this.props.match.params.journalId).get()
       .then(querySnapshot => {
         querySnapshot.forEach(entry => {
-          console.log(entry)
           this.setState({entries: [...this.state.entries, {entryId: entry.id, dateCreated: entry.data().dateCreated, content: entry.data().content, journalId: entry.data().journalId }]})
         })
       })
@@ -47,7 +47,8 @@ export class SingleJournal extends Component {
 
   render() {
     const entries = this.state.entries
-    this.state.entries.forEach(entry => console.log("the date object for ", entry.entryId, " : ", entry.dateCreated))
+    console.log(entries)
+    // this.state.entries.forEach(entry => console.log("the date object for ", entry.entryId, " : ", entry.dateCreated))
     return (
       <div>
         <Grid container spacing={24}>

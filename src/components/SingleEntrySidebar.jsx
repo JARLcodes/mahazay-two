@@ -8,7 +8,7 @@ import Add from '@material-ui/icons/Add';
 import { withAuth } from 'fireview';
 
 
-import { storage } from '../utils/firebase.config';
+// import { storage } from '../utils/firebase.config';
 
 
 const styles = {
@@ -50,20 +50,20 @@ class SingleEntrySidebar extends Component {
     
   };
 
-  storeMedia(){
-    //add to cloud storage and set urls for uploaded files on local state
-    this.state.mediaToAdd.forEach(file => storage.ref(file.name).put(file)
-      .then(res => this.setState({ mediaUrls: [...this.state.mediaUrls, res.downloadURL]}))
-    );
+  // storeMedia(){
+  //   //add to cloud storage and set urls for uploaded files on local state
+  //   this.state.mediaToAdd.forEach(file => storage.ref(file.name).put(file)
+  //     .then(res => this.setState({ mediaUrls: [...this.state.mediaUrls, res.downloadURL]}))
+  //   );
     
-  }
+  // }
 
   deleteEntry(entry){
     entry.delete().then(() => this.props.history.push('/entries'))
   };
 
   render() {
-    console.log('this.state', this.state);
+    // console.log('this.state', this.state);
     return (
       <div style={styles.singleEntrySidebar}>
         <Add style={styles.addMedia}/>
@@ -73,8 +73,8 @@ class SingleEntrySidebar extends Component {
         >
           <input type="file" id="file" style={styles.addVideo} multiple onChange={this.addMedia.bind(this)}/>
         </Button>
-        <Button type="submit" onClick={this.storeMedia.bind(this)}>Add Media</Button>
-        <Button variant="raised" style={styles.delete} onClick={this.deleteEntry.bind(this, this.props.entry)}>Delete Entry</Button>
+{/*        <Button type="submit" onClick={this.storeMedia.bind(this)}>Add Media</Button>
+    */}        <Button variant="raised" style={styles.delete} onClick={this.deleteEntry.bind(this, this.props.entry)}>Delete Entry</Button>
        
       </div>
     )
