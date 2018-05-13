@@ -60,7 +60,6 @@ export class SingleJournal extends Component {
   }
 
   checkColor(event, start, end, isSelected){
-    console.log(event)
     let background;
     Math.floor((Math.random() * 10)) % 2 === 0 ? background = '#F48FB1' : background ="#81C784"
 
