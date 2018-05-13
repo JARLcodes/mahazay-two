@@ -68,7 +68,7 @@ export class Insights extends Component {
         // ref.get().then(snapshot => snapshot.forEach(tone => tone.data().parsedToneInsight.forEach(toneInsight => toneInsight.tones.forEach(toneCategory => console.log(toneCategory.tone_name, ": ", toneCategory.score)))))
         // console.log("tones: ", this.state.tones)
         // console.log(this.state.tones.map(tone => tone.tone_name === "Anger"))
-        console.log(this.getPersonalityInsight("F6NdwZ3uE0Awr0MDN8Zj"))
+        console.log(this.state.tones)
         
         return (
             <div>
