@@ -4,19 +4,18 @@ import Audio from 'react-audioplayer';
 import { EditorState, AtomicBlockUtils, convertToRaw } from 'draft-js';
 import createImagePlugin from 'draft-js-image-plugin';
 import createFocusPlugin from 'draft-js-focus-plugin';
-import createResizeablePlugin from 'draft-js-resizeable-plugin';
+
 import { composeDecorators } from 'draft-js-plugins-editor';
 import TextField from 'material-ui/TextField';
 import Button from "material-ui/Button";
 
 
 const focusPlugin = createFocusPlugin();
-const resizeablePlugin = createResizeablePlugin();
+
 
 const imagePlugin = createImagePlugin({ 
   decorator: composeDecorators(
-    focusPlugin.decorator,
-    resizeablePlugin.decorator
+    focusPlugin.decorator
   )
 });
 
@@ -33,6 +32,9 @@ export const styles = {
     },
     'UNDERLINE': {
       textDecoration: 'underline'
+    }, 
+    'KARLA': {
+      fontFamily: 'Karla, sans-serif'
     }
   }, 
   singleEntry: {
@@ -43,12 +45,15 @@ export const styles = {
     height: "100%"
   }, 
   editor: {
-    width: "70%",
+    width: "80%",
     height: "100%",
+    border: "1px dotted #454545",
     boxSizing: "borderBox",
+    boxShadow: "inset 0px 1px 8px -3px #ABABAB", 
     cursor: "text",
     padding: "20px",
     marginBottom: "2em",
+    borderRadius: '1em'
   }, 
   entry: {
     display: "flex"
@@ -64,14 +69,12 @@ export const styles = {
 export const confirmMedia = function(editorState, urlValue, urlType, e){
   if (e) e.preventDefault();
   const contentState = editorState.getCurrentContent();
-  console.log('7', urlType); //5. all good here
-  console.log('8', urlValue);
   const contentStateWithEntity = contentState.createEntity(
     urlType, 
     'MUTABLE', 
     { urlValue }
   );
-  console.log('url value in confirm media', urlValue)
+
   const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
   const newEditorState = EditorState.set(
     editorState, 
@@ -125,7 +128,7 @@ const Media = ({
 
   const src = entity ? entity.getData().urlValue : null;
   const type = entity ? entity.getType() : 'text';
-  if (type === 'image') console.log('config', config)
+
   switch(type){
     case 'audio':
       mediaComponent = <AudioPlayer src={src} />;

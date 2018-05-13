@@ -5,6 +5,7 @@ import Button from "material-ui/Button";
 import FormatAlignCenter from '@material-ui/icons/FormatAlignCenter';
 import FormatAlignLeft from '@material-ui/icons/FormatAlignLeft';
 import FormatAlignRight from '@material-ui/icons/FormatAlignRight';
+import Add from '@material-ui/icons/Add';
 import { withAuth } from 'fireview';
 
 import { storage } from '../utils/firebase.config';
@@ -57,8 +58,7 @@ class EditorComponent extends Component {
 
   onChange = editorState => {
     // to send data from entry to firebase WHILE USER IS UPDATING: use convertToRaw(editorState.getCurrentContent())
-    this.setState({editorState})
-    console.log('this is editor state after change', this.state.editorState);
+    this.setState({editorState});
     this.state.rootRef.update({ content: convertToRaw(editorState.getCurrentContent()) });
     //analyze input with each change
     const text = this.state.editorState.getCurrentContent().getPlainText();
@@ -114,19 +114,15 @@ class EditorComponent extends Component {
  
 
   onURLChange(e){
-    console.log("1", e.target.files); //1. all good here
     const file = e.target.files[0];
-    console.log('1.5', file)
     return this.setState({fileToUpload: file})
     
   }
 
   onURLInputKeyDown(e) {
     e.preventDefault();
-    console.log('e', e.which);
     if (e.which === 13) {
     //save the file to storage and set downloadurl on local state
-    console.log('4', this.state.fileToUpload);
     const file = this.state.fileToUpload;
     storage.ref(file.name).put(file)
       .then(res => this.setState({ mediaUrlValue: res.downloadURL, showMediaInput: !this.state.showMediaInput }))
@@ -146,7 +142,7 @@ class EditorComponent extends Component {
   render() {
     const { alignment, showStyleToolbar, showAlignmentToolbar, showMediaInput, urlValue, urlType, showMediaTypeButtons, editorState } = this.state;
     if (!editorState) return 'loading';
-    console.log('0', this.state.urlType, '2', this.state.fileToUpload, '6', this.state.mediaUrlValue);
+
     return ( 
       
         <div style={styles.editor}>
@@ -154,10 +150,11 @@ class EditorComponent extends Component {
           {showStyleToolbar && <div>{this.renderStyleToolbar()}</div>}
           <Button onClick={this.showAlignmentToolbar.bind(this)}>Align</Button>
           {showAlignmentToolbar && <div>{this.renderAlignmentToolbar()}</div>}
-          {!showMediaTypeButtons && <Button onClick={this.showMediaTypeButtons.bind(this)}>Add Media</Button>}
+          {!showMediaTypeButtons && <Button onClick={this.showMediaTypeButtons.bind(this)}><Add /></Button>}
           { showMediaInput 
             ? <div>
             <input 
+            style={{fontFamily:'Karla, sansSerif'}}
             type="file" 
             id="file" 
             onChange={this.onURLChange}

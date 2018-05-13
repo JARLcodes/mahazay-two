@@ -52,7 +52,7 @@ export class Navbar extends Component {
         const user = this.props._user;
         const userEmail = user && user.email ? user.email : null;
         const disabled = user ? false : true;
-        console.log('navbar user', userEmail)
+
         return (
             <div>
                 <AppBar position="static" style={styles.root}>

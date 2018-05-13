@@ -28,13 +28,11 @@ export class AllJournals extends Component {
             this.setState({ journals: [...this.state.journals, journal.data()], allJournalIds: [...this.state.allJournalIds, journal.id] })
           })
         })
-        console.log("I rerendered, here's the new user", this.props._user)
       }
   }
 
   render() {
-    // const ref = this.state.rootRef
-    // ref.get().then(snapshot => snapshot.forEach(journal => console.log(journal.data())))
+  
     const journals = this.state.journals;
     const journalIds = this.state.allJournalIds;
     return (

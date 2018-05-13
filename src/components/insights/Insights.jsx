@@ -25,26 +25,17 @@ export default class Insights extends Component {
               querySnapshot.forEach(tone => {
                   tone.data().parsedToneInsight.forEach(toneInsight => {
                       toneInsight.tones.forEach(toneCategory => {
-                        // const toneCategoryScoreArr = []
-
-                        //   if(toneCategory.tone_name){
-                        //       toneCategoryScoreArr.push(toneCategory.score)
-                        //   }
-                        //   const toneAvg = toneCategoryScoreArr.reduce((acc, score) => (acc + score) / toneCategoryScoreArr.length)
 
                           this.setState({tones: [...this.state.tones, {[toneCategory.tone_name]: toneCategory.score}]})
                       })
                   })
               })
             })
-            console.log("I rerendered")
         //   }
       }
     
     render () {
-        // const ref = this.state.toneRootRef
-        // ref.get().then(snapshot => snapshot.forEach(tone => tone.data().parsedToneInsight.forEach(toneInsight => toneInsight.tones.forEach(toneCategory => console.log(toneCategory.tone_name, ": ", toneCategory.score)))))
-        console.log("tones: ", this.state.tones)
+
         return (
             <div>
                 <div style={styles.appBar}>

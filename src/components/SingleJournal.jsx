@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import {db} from '../utils/firebase.config'
 import Button from "material-ui/Button";
 import AddIcon from '@material-ui/icons/Add'
@@ -16,12 +18,22 @@ import { getRootRef } from '../utils/componentUtils';
 
 BigCalendar.momentLocalizer(moment);
 
+const styles = {
+  delete: {
+    alignSelf: 'center',
+    width: '5%',
+    marginLeft: '2%',
+    backgroundColor: "#EF9A9A",
+    color: "#fff"
+  }
+}
 export class SingleJournal extends Component {
   constructor(props){
     super(props);
     this.state = {
       entries: [],
-      events:[]
+      events:[], 
+      journal: getRootRef('journal', this.props.match.params.journalId)
     }
     this.addEntry = this.addEntry.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
@@ -31,7 +43,6 @@ export class SingleJournal extends Component {
 
   addEntry(){
     const todaysEntry = this.state.entries.filter(entry => (new Date(entry.dateCreated) - new Date(new Date().setHours(0,0,0,0)) === 0 ))[0]
-    console.log("ENTRY:", todaysEntry)
     todaysEntry ? this.props.history.push(`/journals/${this.props.match.params.journalId}/entries/${todaysEntry.entryId}`)
     :
     getRootRef('entries').add({ dateCreated: (new Date()).setHours(0,0,0,0),
@@ -66,6 +77,34 @@ export class SingleJournal extends Component {
     return {style : {background}}
   }
 
+  deleteJournal(journal){
+    confirmAlert({
+      title: 'Confirm to submit', 
+      message: 'Are you sure you want to delete this journal?', 
+      buttons: [
+        {
+          label: 'Yes, delete journal', 
+          onClick: () => {
+            console.log('figure out a way to delete both journal and associated entries');
+            // journal.delete().then(() => {
+            //   this.state.entries.forEach(entry => 
+            //this doesn't work because this.state.entries contains snapshots rather than references to the actual entries
+            //     entry.delete()
+            //       .then(() => this.props.history.push('/journals'))
+            //   );
+              
+            // })
+          }
+        }, 
+        {
+          label: 'No, keep journal', 
+          onClick: () => this.props.history.push(`/journals/${this.props.match.params.journalId}`)
+        }
+      ]
+    })
+    
+  }
+
   render() {
     const entries = this.state.entries
     const events = this.state.events
@@ -74,24 +113,13 @@ export class SingleJournal extends Component {
         <div style={{"paddingLeft": 24 + "px", "paddingRight": 24 + "px", "marginBottom": 24 +"px" }}>
           <BigCalendar eventPropGetter={this.checkColor} defaultDate={new Date()} events={events} views={['month']} style={{height: 350 + "px"}} onSelectEvent={this.handleSelect} />
 
-        </ div>
-        {/* <Grid container spacing={24} style={{"padding-left": 24 + "px", "padding-right": 24 + "px", "margin-bottom": 24 +"px" }}>
-        { entries.map( entry => {
-          return (
-            <Grid key={entry.entryId} item xs={3} >
-              <Card>
-                <CardContent>
-                  <Link style={{ textDecoration: 'none' }} to={`/journals/${entry.journalId}/entries/${entry.entryId}`}>"{entry.content && entry.content.blocks[0].text ? entry.content.blocks[0].text.substr(0, 20) + "..." : "A Blank Page"}"</Link>
-                </CardContent>
-              </Card>
-            </Grid>
-          )}
-        )}
-        </Grid> */}
+        </div>
+
         <Grid container style={{justifyContent: "flex-end", "paddingLeft": 24 + "px", "paddingRight": 24 + "px", "marginBottom": 10 +"px"}}>
           <Tooltip title = "Add Today's Entry" placement="top">
             <Button variant ="fab" color="primary" onClick={this.addEntry}><Icon>edit_icon</Icon></Button>
           </Tooltip>
+          <Button variant="raised" style={styles.delete} onClick={this.deleteJournal.bind(this, this.state.journal)}>Delete Journal</Button>
         </Grid>
       </div>
     )

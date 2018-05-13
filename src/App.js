@@ -19,7 +19,11 @@ import {
 } from './components/index.js';
 
 const theme = createMuiTheme();
-
+const styles = {
+  body: {
+    fontFamily: 'Karla, sansSerif'
+  }
+}
 class App extends Component {
 
   render() {
@@ -28,11 +32,11 @@ class App extends Component {
     return (
       <Router history={history}>
         <MuiThemeProvider theme={theme}>
-          <div className="App">
+          <div className="App" style={styles.body}>
             <div className="col-xs-10">
               <Navbar />
             </div>
-            <div className="col-xs-10">
+            <div className="col-xs-10" >
             <Switch>
               <Route exact path="/entries" component={AllEntries} />
               <Route exact path="/journals/:journalId/entries/:entryId" component={SingleEntry} />
