@@ -25,6 +25,7 @@ export class SingleJournal extends Component {
     }
     this.addEntry = this.addEntry.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
+    this.checkColor = this.checkColor.bind(this);
 
   }
 
@@ -58,13 +59,21 @@ export class SingleJournal extends Component {
     this.props.history.push(`/journals/${this.props.match.params.journalId}/entries/${calendarEvent.entryId}`)
   }
 
+  checkColor(event, start, end, isSelected){
+    console.log(event)
+    let background;
+    Math.floor((Math.random() * 10)) % 2 === 0 ? background = '#F48FB1' : background ="#81C784"
+
+    return {style : {background}}
+  }
+
   render() {
     const entries = this.state.entries
     const events = this.state.events
     return (
       <div>
         <div style={{"paddingLeft": 24 + "px", "paddingRight": 24 + "px", "marginBottom": 24 +"px" }}>
-          <BigCalendar defaultDate={new Date()} events={events} views={['month']} style={{height: 350 + "px"}} onSelectEvent={this.handleSelect} />
+          <BigCalendar eventPropGetter={this.checkColor} defaultDate={new Date()} events={events} views={['month']} style={{height: 350 + "px"}} onSelectEvent={this.handleSelect} />
 
         </ div>
         {/* <Grid container spacing={24} style={{"padding-left": 24 + "px", "padding-right": 24 + "px", "margin-bottom": 24 +"px" }}>
