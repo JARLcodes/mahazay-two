@@ -19,7 +19,9 @@ const styles = {
   addJournalButton: {
     color: "#A1887F",
     width: "20%",
-    marginTop: "1em", 
+    marginTop: "1em",
+    borderRadius: "1em", 
+    textDecoration: "none"
 
   }
 }
@@ -35,7 +37,6 @@ export default class NewJournalForm extends Component {
       description: ''
     };
     this.onChange = this.onChange.bind(this);
-    this.addJournal = this.addJournal.bind(this);
   }
   componentDidMount(){
     getRootRef('journals').get()
@@ -49,15 +50,19 @@ export default class NewJournalForm extends Component {
     this.setState({ [event.target.name] : event.target.value })
   }
 
-  addJournal(){
-    const data = { title: this.state.title, description: this.state.description, userId: this.props.match.params.userId };
-    const titleObjects = this.state.journals.map(journal => { return { title: journal.data.title, id: journal.journalId } })
-    const titleExists = titleObjects ? titleObjects.filter(titleObject => titleObject.title === data.title) : [];
+  addJournal(e){
+    // if user has either pressed enter (e.charCode = 13) from description field or clicked on add journal ( for which e on input is undefined ), will be directed to new or existing journal
+    if (e.which === 13 || !e.charCode){
+      const data = { title: this.state.title, description: this.state.description, userId: this.props.match.params.userId };
+      const titleObjects = this.state.journals.map(journal => { return { title: journal.data.title, id: journal.journalId } })
+      const titleExists = titleObjects ? titleObjects.filter(titleObject => titleObject.title === data.title) : [];
 
-    titleExists.length > 0 
-    ? this.props.history.push(`/journals/${titleExists[0].id}`) 
-    : getRootRef('journals').add(data)
-        .then(journal => this.props.history.push(`/journals/${journal.id}`))
+      titleExists.length > 0 
+      ? this.props.history.push(`/journals/${titleExists[0].id}`) 
+      : getRootRef('journals').add(data)
+          .then(journal => this.props.history.push(`/journals/${journal.id}`))
+    }
+    
     
   }
 
@@ -82,8 +87,9 @@ export default class NewJournalForm extends Component {
             style={styles.textField}
             onChange={this.onChange}
             name="description"
+            onKeyPress={this.addJournal.bind(this)}
           />
-          <Button style={styles.addJournalButton} onClick={this.addJournal}>New Journal</Button>
+          <Button style={styles.addJournalButton} onClick={this.addJournal.bind(this)}>New Journal</Button>
         </form>
       </div>
     )

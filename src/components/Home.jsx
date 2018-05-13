@@ -34,6 +34,9 @@ const styles = theme => ({
   helperText: {
     alignSelf: "center", 
     marginLeft: "1em"
+  }, 
+  allButtons: {
+    borderRadius: "1em"
   }
 });
 
@@ -107,8 +110,8 @@ export default class HomepageForm extends Component {
       <Grid container spacing={24} justify="center"style={styles.gridList}>
         <div>
         <Grid item>
-        <Button onClick={this.toggleShow}>New to Mahazay?</Button>
-        <Button onClick={this.toggleShow}>Already a User?</Button>
+        <Button onClick={this.toggleShow} style={styles.allButtons}>New to Mahazay?</Button>
+        <Button onClick={this.toggleShow} style={styles.allButtons}>Already a User?</Button>
 
           { this.state.signUp && !this.state.login ? 
             <div>
@@ -163,7 +166,7 @@ export default class HomepageForm extends Component {
                       </div>
                 }
                
-              <Button onClick={this.handleSignUp}>
+              <Button onClick={this.handleSignUp} style={styles.allButtons}>
                 Sign Up
               </Button>
             </div> 
@@ -190,7 +193,7 @@ export default class HomepageForm extends Component {
               margin="normal"
               />
             </div> 
-            <Button onClick={this.handleLogin}>
+            <Button onClick={this.handleLogin} style={styles.allButtons}>
              Login
             </Button>
           </div>

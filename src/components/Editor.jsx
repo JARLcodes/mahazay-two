@@ -14,6 +14,8 @@ import { plugins, styles, confirmMedia, mediaBlockRenderer } from './../utils/si
 import SingleEntrySidebar from './SingleEntrySidebar.jsx';
 import { getTokenTone, analyzeTone, analyzePersonality } from '../utils/watsonFuncs.js'
 
+
+
 class EditorComponent extends Component {
   constructor(props){
     super(props);
@@ -96,18 +98,18 @@ class EditorComponent extends Component {
 
   renderStyleToolbar() {
     return <React.Fragment>
-        <Button onClick={this.onBold}>Bold</Button>
-        <Button onClick={this.onItalic}>Italic</Button>
-        <Button onClick={this.onUnderline}>Underline</Button>
-        <Button onClick={this.onStrikethrough}>Strikethrough</Button>
+        <Button onClick={this.onBold} style={styles.allButtons}>Bold</Button>
+        <Button onClick={this.onItalic} style={styles.allButtons}>Italic</Button>
+        <Button onClick={this.onUnderline} style={styles.allButtons}>Underline</Button>
+        <Button onClick={this.onStrikethrough} style={styles.allButtons}>Strikethrough</Button>
     </React.Fragment>
   }
 
   renderAlignmentToolbar(){
     return <React.Fragment>
-        <Button onClick={this.onAlignmentChange.bind(this, 'left')}><FormatAlignLeft/></Button>
-        <Button onClick={this.onAlignmentChange.bind(this, 'center')}><FormatAlignCenter/></Button>
-        <Button onClick={this.onAlignmentChange.bind(this, 'right')}><FormatAlignRight/></Button>
+        <Button onClick={this.onAlignmentChange.bind(this, 'left')} style={styles.allButtons}><FormatAlignLeft/></Button>
+        <Button onClick={this.onAlignmentChange.bind(this, 'center')} style={styles.allButtons}><FormatAlignCenter/></Button>
+        <Button onClick={this.onAlignmentChange.bind(this, 'right')} style={styles.allButtons}><FormatAlignRight/></Button>
     </React.Fragment>
   }
 
@@ -146,11 +148,11 @@ class EditorComponent extends Component {
     return ( 
       
         <div style={styles.editor}>
-          <Button onClick={this.showStyleToolbar.bind(this)}><b>B</b><i>I</i><u>U</u></Button>
+          <Button onClick={this.showStyleToolbar.bind(this)} style={styles.allButtons}><b>B</b><i>I</i><u>U</u></Button>
           {showStyleToolbar && <div>{this.renderStyleToolbar()}</div>}
-          <Button onClick={this.showAlignmentToolbar.bind(this)}>Align</Button>
+          <Button onClick={this.showAlignmentToolbar.bind(this)} style={styles.allButtons}>Align</Button>
           {showAlignmentToolbar && <div>{this.renderAlignmentToolbar()}</div>}
-          {!showMediaTypeButtons && <Button onClick={this.showMediaTypeButtons.bind(this)}><Add /></Button>}
+          {!showMediaTypeButtons && <Button onClick={this.showMediaTypeButtons.bind(this)} style={styles.allButtons}><Add /></Button>}
           { showMediaInput 
             ? <div>
             <input 
@@ -160,12 +162,12 @@ class EditorComponent extends Component {
             onChange={this.onURLChange}
             onKeyDown={this.onURLInputKeyDown.bind(this)}
             />
-            <Button>Hit Enter to Submit</Button>
+            <Button style={styles.allButtons}>Hit Enter to Submit</Button>
             </div>
             : <div>
-              { showMediaTypeButtons && <Button onClick={this.showMediaInput.bind(this, 'image')}>Add Image</Button> }
-              { showMediaTypeButtons && <Button onClick={this.showMediaInput.bind(this, 'audio')}>Add Audio</Button> }
-              { showMediaTypeButtons && <Button onClick={this.showMediaInput.bind(this, 'video')}>Add Video</Button> }
+              { showMediaTypeButtons && <Button onClick={this.showMediaInput.bind(this, 'image')} style={styles.allButtons}>Add Image</Button> }
+              { showMediaTypeButtons && <Button onClick={this.showMediaInput.bind(this, 'audio')} style={styles.allButtons}>Add Audio</Button> }
+              { showMediaTypeButtons && <Button onClick={this.showMediaInput.bind(this, 'video')} style={styles.allButtons}>Add Video</Button> }
             </div>
           }
               <Editor

@@ -3,13 +3,10 @@ import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import {db} from '../utils/firebase.config'
 import Button from "material-ui/Button";
-import AddIcon from '@material-ui/icons/Add'
 import Icon from 'material-ui/Icon';
-import Card, { CardContent } from 'material-ui/Card';
 import Tooltip from 'material-ui/Tooltip';
 import Grid from 'material-ui/Grid';
 import { withAuth } from 'fireview';
-import { Link } from 'react-router-dom';
 import BigCalendar from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment';

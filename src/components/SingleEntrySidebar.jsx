@@ -16,7 +16,8 @@ const styles = {
     alignSelf: 'center',
     width: '20%',
     backgroundColor: "#EF9A9A",
-    color: "#fff"
+    color: "#fff", 
+    borderRadius: "1em"
   },
   singleEntrySidebar : {
     display: "flex",

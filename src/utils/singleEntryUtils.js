@@ -62,6 +62,9 @@ export const styles = {
     width: "20%", 
     height: "auto", 
     zIndex: "1"
+  }, 
+  allButtons: {
+    borderRadius: "1em"
   }
 }
 
