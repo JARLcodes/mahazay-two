@@ -24,6 +24,7 @@ export class SingleJournal extends Component {
       events:[]
     }
     this.addEntry = this.addEntry.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
 
   }
 
@@ -53,13 +54,17 @@ export class SingleJournal extends Component {
     }
   }
 
+  handleSelect(calendarEvent, event){
+    this.props.history.push(`/journals/${this.props.match.params.journalId}/entries/${calendarEvent.entryId}`)
+  }
+
   render() {
     const entries = this.state.entries
     const events = this.state.events
     return (
       <div>
         <div style={{"paddingLeft": 24 + "px", "paddingRight": 24 + "px", "marginBottom": 24 +"px" }}>
-          <BigCalendar defaultDate={new Date()} events={events} views={['month']} style={{height: 350 + "px"}} start={new Date(2015, 1, 0)} end={new Date(2022, 12, 31)} />
+          <BigCalendar defaultDate={new Date()} events={events} views={['month']} style={{height: 350 + "px"}} onSelectEvent={this.handleSelect} />
 
         </ div>
         {/* <Grid container spacing={24} style={{"padding-left": 24 + "px", "padding-right": 24 + "px", "margin-bottom": 24 +"px" }}>
