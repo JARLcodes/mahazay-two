@@ -4,10 +4,11 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import Button from "material-ui/Button";
 import Add from '@material-ui/icons/Add';
+// import Upload from 'material-ui-upload/Upload';
 import { withAuth } from 'fireview';
 
 
-import { storage } from '../utils/firebase.config';
+// import { storage } from '../utils/firebase.config';
 
 
 const styles = {
@@ -49,6 +50,13 @@ class SingleEntrySidebar extends Component {
 
   };
 
+  // storeMedia(){
+  //   //add to cloud storage and set urls for uploaded files on local state
+  //   this.state.mediaToAdd.forEach(file => storage.ref(file.name).put(file)
+  //     .then(res => this.setState({ mediaUrls: [...this.state.mediaUrls, res.downloadURL]}))
+  //   );
+    
+  // }
   storeMedia(){
     //add to cloud storage and set urls for uploaded files on local state
     this.state.mediaToAdd.forEach(file => storage.ref(file.name).put(file)
@@ -62,7 +70,7 @@ class SingleEntrySidebar extends Component {
   };
 
   render() {
-    console.log('this.state', this.state);
+    // console.log('this.state', this.state);
     return (
       <div style={styles.singleEntrySidebar}>
         <Add style={styles.addMedia}/>

@@ -43,6 +43,7 @@ export class SingleJournal extends Component {
   }
 
   componentWillReceiveProps(nextProps){
+    console.log("props: ", this.props)
     if(this.props._user !== nextProps._user){
       db.collection('entries')
       .where('journalId', '==', this.props.match.params.journalId).get()

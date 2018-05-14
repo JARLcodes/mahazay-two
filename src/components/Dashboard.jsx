@@ -13,9 +13,9 @@ import { withAuth } from 'fireview';
 const styles = {
 	profileCard: {
 		maxWidth: 200,
-		background: "#E8EAF6",
-		padding: "3vh 5vh",
-		marginBottom: "8vh"
+		background: "#d1e2ff",
+		padding: "7vh 10vh",
+		marginBottom: "3.5vh",
 	},
   card: {
 		maxWidth: 200,
@@ -35,8 +35,8 @@ const styles = {
 	},
 	mediumIcon: {
 		color: "#616161",
-		width: 40,
-		height: 40
+		width: 80,
+		height: 80
 	}
 };
 
