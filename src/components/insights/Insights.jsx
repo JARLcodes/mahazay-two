@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { withAuth } from 'fireview';
 import { getRootRef, getIds } from '../../utils/componentUtils';
-// import { ToneInsights } from './ToneInsights';
 import { getEntryTone, getJournalTones, getUserTones } from '../../utils/toneUtils.js';
 import { getUserPersonality, getEntryPersonality, getJournalPersonality } from  '../../utils/personalityUtils.js'
 import {db} from '../../utils/firebase.config'
@@ -24,63 +23,11 @@ export class Insights extends Component {
         // this.getPersonalityInsight = this.getPersonalityInsight.bind(this);
     }
 
-    // getPersonalityInsight (id){
-    //    return getRootRef('personalityInsights', id);
-    // }
-
-    componentWillReceiveProps(nextProps){
-        let entryId;
-        const entryIds = [];
-
-        if(this.props._user !== nextProps._user){
-            const { personalityRootRef, toneRootRef } = this.state;
-            // console.log(toneRootRef)
-            // getUserPersonality(userId).get()
-            //     .then(snap => {
-            //         console.log("personality: ", snap)
-            //         snap.forEach(personalityDoc => {
-            //             // console.log(personalityDoc)
-            //             // console.log(personalityDoc.id, personalityDoc.data())
-            //         })
-            //     })
-
-            toneRootRef.where("userId", "==", nextProps._user.uid).get()
-                .then(snap => {
-                    // console.log("tone: ", snap)
-                    snap.forEach(toneDoc => {
-                        // console.log("toneDoc data: ", toneDoc.data())
-                        entryId = toneDoc.data().entryId
-                        if(entryIds.includes(entryId) === false) entryIds.push(entryId)
-                        
-                        toneDoc.data().parsedToneInsight.forEach(toneInsight => {
-                            console.log("tones: ", toneInsight)
-                            toneInsight.tones.forEach(toneCategory => {
-                                // console.log("tone: ", toneCategory)
-
-                            // this.setState({tones: [...this.state.tones, {[toneCategory.tone_name]: toneCategory.score}]})
-                        })
-                    })
-                })
-            })
-            this.setState({userId: nextProps._user.uid, entryIds: entryIds})
-            console.log("I rerendered")
-        }
-    }
+    componentDidMount(){
+      }
     
     render () {
-        // const ref = this.state.toneRootRef
-        // ref.get().then(snapshot => snapshot.forEach(tone => tone.data().parsedToneInsight.forEach(toneInsight => toneInsight.tones.forEach(toneCategory => console.log(toneCategory.tone_name, ": ", toneCategory.score)))))
-        // console.log("tones: ", this.state.tones)
-        // console.log(this.state.tones.map(tone => tone.tone_name === "Anger"))
-        // .reduce((acc, current) => {
-        //     const length = acc.length
-        //     if(length === 0 || acc[length-1] !== current){
-        //         acc.push(current);
-        //     }
-        //     return acc;
-        // }, [])
-        console.log("userId: ", this.state.userId, "entryIds: ", this.state.entryIds)
-        
+
         return (
             <div style={styles.root}>
                 <div style={styles.title}>My Insights</div>

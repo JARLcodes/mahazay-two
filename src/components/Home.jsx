@@ -34,10 +34,9 @@ const styles = theme => ({
   helperText: {
     alignSelf: "center", 
     marginLeft: "1em"
-  },
-  image: {
-    height: 100,
-    width: 100,
+  }, 
+  allButtons: {
+    borderRadius: "1em"
   }
   
 });

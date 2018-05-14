@@ -8,18 +8,21 @@ import { getRootRef } from '../utils/componentUtils';
 const styles = {
   addJournalForm: {
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column", 
+    alignItems: "center"
   },
   textField: {
     color: '#FAFAFA',
-    width: "20%",
-    marginLeft: "7%"
+    width: "20%", 
+    
   },
   addJournalButton: {
     color: "#A1887F",
     width: "20%",
-    marginLeft: "7%",
-    marginTop: "1em"
+    marginTop: "1em",
+    borderRadius: "1em", 
+    textDecoration: "none"
+
   }
 }
 
@@ -34,22 +37,37 @@ export default class NewJournalForm extends Component {
       description: ''
     };
     this.onChange = this.onChange.bind(this);
-    this.addJournal = this.addJournal.bind(this);
   }
-  
+  componentDidMount(){
+    getRootRef('journals').get()
+      .then(querySnap => querySnap.forEach(journalSnap => {
+        const journal = {data: journalSnap.data(), journalId: journalSnap.id};
+        this.setState({journals: [...this.state.journals, journal]})
+      })
+    )
+  }
   onChange(event){
     this.setState({ [event.target.name] : event.target.value })
-    console.log("state in onchange: ", this.state);
   }
 
-  addJournal(){
-    const data = { title: this.state.title, description: this.state.description, userId: this.props.match.params.userId };
-    let newJournalId;
-    getRootRef('journals').add(data)
-      .then(journal => this.props.history.push(`/journals/${journal.id}`))
+  addJournal(e){
+    // if user has either pressed enter (e.charCode = 13) from description field or clicked on add journal ( for which e on input is undefined ), will be directed to new or existing journal
+    if (e.which === 13 || !e.charCode){
+      const data = { title: this.state.title, description: this.state.description, userId: this.props.match.params.userId };
+      const titleObjects = this.state.journals.map(journal => { return { title: journal.data.title, id: journal.journalId } })
+      const titleExists = titleObjects ? titleObjects.filter(titleObject => titleObject.title === data.title) : [];
+
+      titleExists.length > 0 
+      ? this.props.history.push(`/journals/${titleExists[0].id}`) 
+      : getRootRef('journals').add(data)
+          .then(journal => this.props.history.push(`/journals/${journal.id}`))
+    }
+    
+    
   }
 
   render() {
+
     return (
       <div >
         <form style={styles.addJournalForm}>
@@ -69,8 +87,9 @@ export default class NewJournalForm extends Component {
             style={styles.textField}
             onChange={this.onChange}
             name="description"
+            onKeyPress={this.addJournal.bind(this)}
           />
-          <Button style={styles.addJournalButton} onClick={this.addJournal}>New Journal</Button>
+          <Button style={styles.addJournalButton} onClick={this.addJournal.bind(this)}>New Journal</Button>
         </form>
       </div>
     )
