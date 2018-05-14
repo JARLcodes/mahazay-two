@@ -83,8 +83,8 @@ class SingleTracker extends Component {
   habitDone(habitName) {
     let theEntry = this.state.entry;
     if (Object.keys(this.state.entry).length) {
-    console.log('the entry state', this.state.entry);
-    return convertFromRaw(theEntry.data().content).getPlainText().includes(habitName);
+    let entryContent = convertFromRaw(theEntry.data().content).getPlainText().toLowerCase();
+    return entryContent.includes(habitName.toLowerCase());
     }
     // return theEntry.data()
   }
