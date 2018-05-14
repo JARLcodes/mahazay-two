@@ -9,7 +9,6 @@ import Table, {
 } from 'material-ui/Table';
 import Grid from 'material-ui/Grid';
 import Checkbox from 'material-ui/Checkbox';
-import { Link } from 'react-router-dom';
 
 import { Map, withAuth } from 'fireview';
 import { db } from '../utils/firebase.config';
@@ -59,7 +58,7 @@ class TrackerSummary extends Component {
     event.preventDefault();
     const user = this.props._user;
     const userId = user && user.uid ? user.uid : null;
-    this.setState({ habitToAdd : { name: event.target.value, userId: userId } });
+    this.setState({ habitToAdd : { name: event.target.value, userId: userId }});
   }
 
   handleAdd(event) {
@@ -84,9 +83,11 @@ class TrackerSummary extends Component {
     const userId = user && user.uid ? user.uid : null;
     const Habit = props => {
           const { name } = props;
-            return <TableRow><Link to={`/tracker/${name}`}><TableCell>
-             {name}</TableCell></Link><TableCell>
-            </TableCell></TableRow>;};
+            return <TableRow><TableCell>
+             {name}</TableCell><TableCell>
+            </TableCell>
+            {/* <Button href={`/tracker/${name}`}></Button> */}
+            </TableRow>;};
 
     return (
       <Grid container style={{padding: "1vh"}}>
