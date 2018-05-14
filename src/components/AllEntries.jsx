@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import Button from "material-ui/Button";
 import { withStyles } from 'material-ui/styles';
 import Card, { CardContent } from 'material-ui/Card';
 import Grid from 'material-ui/Grid';
 import { withAuth } from 'fireview';
-import { Player, BigPlayButton } from 'video-react';
 import ReactPlayer from 'react-player';
 
 import { getRootRef } from '../utils/componentUtils';
@@ -13,7 +11,8 @@ import { getRootRef } from '../utils/componentUtils';
 
 const styles = {
   card: {
-    minWidth: 275,
+    width: 275,
+    height: 210
   },
   title: {
     marginBottom: 16,
@@ -41,7 +40,7 @@ export class AllEntries extends Component {
           this.setState({entries: [...this.state.entries, {entryId: entry.id, content: entry.data().content, journalId: entry.data().journalId, dateCreated: entry.data().dateCreated }]})
         })
       })
-
+     
     }
   }
 
@@ -70,7 +69,7 @@ export class AllEntries extends Component {
           );}
         )}
         </Grid>
-
+        
       </div>
     );
   }

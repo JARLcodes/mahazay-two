@@ -4,23 +4,21 @@ import Audio from 'react-audioplayer';
 import { EditorState, AtomicBlockUtils, convertToRaw } from 'draft-js';
 import createImagePlugin from 'draft-js-image-plugin';
 import createFocusPlugin from 'draft-js-focus-plugin';
-import createBlockDndPlugin from 'draft-js-drag-n-drop-plugin';
 import { composeDecorators } from 'draft-js-plugins-editor';
 import TextField from 'material-ui/TextField';
 import Button from "material-ui/Button";
 
 
 const focusPlugin = createFocusPlugin();
-const blockDndPlugin = createBlockDndPlugin();
 
-const decorator = composeDecorators(
-  focusPlugin.decorator,
-  blockDndPlugin.decorator
-);
-const imagePlugin = createImagePlugin({ decorator });
+
+const imagePlugin = createImagePlugin({ 
+  decorator: composeDecorators(
+    focusPlugin.decorator
+  )
+});
 
 export const plugins = [
-  blockDndPlugin,
   focusPlugin,
   imagePlugin
 ];
@@ -33,6 +31,9 @@ export const styles = {
     },
     'UNDERLINE': {
       textDecoration: 'underline'
+    }, 
+    'KARLA': {
+      fontFamily: 'Karla, sans-serif'
     }
   }, 
   singleEntry: {
@@ -43,15 +44,15 @@ export const styles = {
     height: "100%"
   }, 
   editor: {
-    width: "70%",
+    width: "80%",
     height: "100%",
+    border: "1px dotted #454545",
     boxSizing: "borderBox",
+    boxShadow: "inset 0px 1px 8px -3px #ABABAB", 
     cursor: "text",
     padding: "20px",
     marginBottom: "2em",
-    border: "dashed",
-    borderWidth: ".1vh",
-    borderColor: "grey"
+    borderRadius: '1em'
   }, 
   entry: {
     display: "flex"
@@ -60,6 +61,9 @@ export const styles = {
     width: "20%", 
     height: "auto", 
     zIndex: "1"
+  }, 
+  allButtons: {
+    borderRadius: "1em"
   }
 }
 
@@ -67,13 +71,11 @@ export const styles = {
 export const confirmMedia = function(editorState, urlValue, urlType, e){
   if (e) e.preventDefault();
   const contentState = editorState.getCurrentContent();
-  console.log('url value', urlValue); //3. all good here 
   const contentStateWithEntity = contentState.createEntity(
     urlType, 
     'MUTABLE', 
     { urlValue }
   );
-  
   const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
   const newEditorState = EditorState.set(
     editorState, 
@@ -100,44 +102,51 @@ export const mediaBlockRenderer = function(block) {
   return null;
 }
 
-export const AudioPlayer = (props) => {
- 
-  return <audio src={props.src}/>
-};
+const AudioPlayer = (props) => ( <audio src={props.src} preload="auto" controls/> );
 
-export const Image = (props) => {
-  return <img src={props.src} style={styles.media} />;
-};
 
-export const Video = (props) => {
-  return <ReactPlayer url={props.src} style={styles.media} controls />
-};
+export const Image = (props) => ( <img src={props.src}  style={styles.media} alt="image cannot be displayed"/> );
 
-export const Media = (props) => {
-  let media = null;
-  const entity = props.block.getEntityAt(0) ? props.contentState.getEntity(props.block.getEntityAt(0)) : null;
-  // if (entity) console.log('entity data should have urlValue', entity.getData());
+const Video = (props) => ( <ReactPlayer url={props.src} style={styles.media} controls /> );
+
+
+const Media = ({
+  block, // eslint-disable-line no-unused-vars
+  blockProps, // eslint-disable-line no-unused-vars
+  customStyleMap, // eslint-disable-line no-unused-vars
+  customStyleFn, // eslint-disable-line no-unused-vars
+  decorator, // eslint-disable-line no-unused-vars
+  forceSelection, // eslint-disable-line no-unused-vars
+  offsetKey, // eslint-disable-line no-unused-vars
+  selection, // eslint-disable-line no-unused-vars
+  tree, // eslint-disable-line no-unused-vars
+  contentState, // eslint-disable-line no-unused-vars
+  style,
+  
+}, config = {}) => {
+  let mediaComponent = null;
+  const entity = block.getEntityAt(0) ? contentState.getEntity(block.getEntityAt(0)) : null;
+
   const src = entity ? entity.getData().urlValue : null;
   const type = entity ? entity.getType() : 'text';
-  
   switch(type){
     case 'audio':
-      media = <AudioPlayer src={src} />;
+      mediaComponent = <AudioPlayer src={src} />;
       break;
     case 'image':
-      media = <Image src={src} />;
+      mediaComponent = <Image src={src} />
       break;
     case 'video':
-      media = <Video src={src} />;
+      mediaComponent = <Video src={src} />;
       break;
     default:
-      media = null;
+      mediaComponent = null;
       break;
   }
   
-  return media;
+  return mediaComponent;
 
-};
+}
 
 
 

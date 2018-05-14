@@ -11,10 +11,10 @@ class SingleEntry extends Component {
   render(){
     return (
     <div style={styles.entry}>
-      <SingleEntrySidebar history={this.props.history} entry={getRootRef('entries', this.props.match.params.entryId)} style={styles.sidebar}/>
-      <Editor history={this.props.history} entry={getRootRef('entries', this.props.match.params.entryId)}/>
-      </div>
-    );
+      <SingleEntrySidebar history={this.props.history} match={this.props.match} entry={getRootRef('entries', this.props.match.params.entryId)} style={styles.sidebar}/>
+      <EditorComponent history={this.props.history} entry={getRootRef('entries', this.props.match.params.entryId)}/>
+    </div>
+    )
   }
 }
 

@@ -5,6 +5,7 @@ import Button from "material-ui/Button";
 import FormatAlignCenter from '@material-ui/icons/FormatAlignCenter';
 import FormatAlignLeft from '@material-ui/icons/FormatAlignLeft';
 import FormatAlignRight from '@material-ui/icons/FormatAlignRight';
+import Add from '@material-ui/icons/Add';
 import { withAuth } from 'fireview';
 
 import { storage } from '../utils/firebase.config';
@@ -12,6 +13,8 @@ import { getRootRef } from '../utils/componentUtils';
 import { plugins, styles, confirmMedia, mediaBlockRenderer } from './../utils/singleEntryUtils';
 import SingleEntrySidebar from './SingleEntrySidebar.jsx';
 import { getTokenTone, analyzeTone, analyzePersonality } from '../utils/watsonFuncs.js'
+
+
 
 class EditorComponent extends Component {
   constructor(props){
@@ -25,6 +28,7 @@ class EditorComponent extends Component {
       showMediaTypeButtons: false,
       mediaUrlValue: '', 
       urlType: '',
+      fileToUpload: {},
       rootRef: this.props.entry
     };
     this.handleKeyCommand = this.handleKeyCommand.bind(this);
@@ -56,16 +60,20 @@ class EditorComponent extends Component {
 
   onChange = editorState => {
     // to send data from entry to firebase WHILE USER IS UPDATING: use convertToRaw(editorState.getCurrentContent())
-    this.setState({editorState})
+    this.setState({editorState});
     this.state.rootRef.update({ content: convertToRaw(editorState.getCurrentContent()) });
+    console.log("props: ", this.props)
     //analyze input with each change
     const text = this.state.editorState.getCurrentContent().getPlainText();
+    const entryId = this.props.entry.id
+    const userId = this.props._user.uid
     //only call tone analyzer if length of text is greater than 350 -- to limit api calls
     if (text.length > 350){
-      getTokenTone().then((token) => analyzeTone(token, text ));
-      analyzePersonality(this.props.entry.entryId)
+      getTokenTone().then((token) => analyzeTone(token, text, entryId, userId));
+      analyzePersonality(entryId, userId)
     } 
     //change to button to limit amout of times we hit watson
+    // console.log(this.state.rootRef)
   }
 
 
@@ -94,49 +102,39 @@ class EditorComponent extends Component {
 
   renderStyleToolbar() {
     return <React.Fragment>
-        <Button onClick={this.onBold}>Bold</Button>
-        <Button onClick={this.onItalic}>Italic</Button>
-        <Button onClick={this.onUnderline}>Underline</Button>
-        <Button onClick={this.onStrikethrough}>Strikethrough</Button>
+        <Button onClick={this.onBold} style={styles.allButtons}>Bold</Button>
+        <Button onClick={this.onItalic} style={styles.allButtons}>Italic</Button>
+        <Button onClick={this.onUnderline} style={styles.allButtons}>Underline</Button>
+        <Button onClick={this.onStrikethrough} style={styles.allButtons}>Strikethrough</Button>
     </React.Fragment>
   }
 
   renderAlignmentToolbar(){
     return <React.Fragment>
-        <Button onClick={this.onAlignmentChange.bind(this, 'left')}><FormatAlignLeft/></Button>
-        <Button onClick={this.onAlignmentChange.bind(this, 'center')}><FormatAlignCenter/></Button>
-        <Button onClick={this.onAlignmentChange.bind(this, 'right')}><FormatAlignRight/></Button>
+        <Button onClick={this.onAlignmentChange.bind(this, 'left')} style={styles.allButtons}><FormatAlignLeft/></Button>
+        <Button onClick={this.onAlignmentChange.bind(this, 'center')} style={styles.allButtons}><FormatAlignCenter/></Button>
+        <Button onClick={this.onAlignmentChange.bind(this, 'right')} style={styles.allButtons}><FormatAlignRight/></Button>
     </React.Fragment>
   }
 
  
 
   onURLChange(e){
-    const files = e.target.files;
-    const filesToUpload = [];
-    for (let i = 0; i < files.length; i++){
-      filesToUpload.push(new File(files, files[i].name, {
-        type: files[i].type
-      }))
-    }
-
-    filesToUpload.forEach(file => {
-      storage.ref(file.name).put(file)
-      .then(res => this.setState({ mediaUrlValue: res.downloadURL }))
-      // .then(() => console.log('this is media url value', this.state.mediaUrlValue)) 1. all good here
-      .catch(console.error)
-    })
+    const file = e.target.files[0];
+    return this.setState({fileToUpload: file})
+    
   }
 
   onURLInputKeyDown(e) {
-    let newState = this.state.editorState;
+    e.preventDefault();
     if (e.which === 13) {
-      // console.log('this.state.mediaUrlValue', this.state.mediaUrlValue); 2. all good here
-      this.onChange(confirmMedia(this.state.editorState, this.state.mediaUrlValue, this.state.urlType));
-      this.setState({ showMediaInput: !this.state.showMediaInput })
-    };
-
-    
+    //save the file to storage and set downloadurl on local state
+    const file = this.state.fileToUpload;
+    storage.ref(file.name).put(file)
+      .then(res => this.setState({ mediaUrlValue: res.downloadURL, showMediaInput: !this.state.showMediaInput }))
+      .then(() => this.onChange(confirmMedia(this.state.editorState, this.state.mediaUrlValue, this.state.urlType)))
+      .catch(console.error)
+    }    
   }
 
   showMediaInput(type){
@@ -150,29 +148,29 @@ class EditorComponent extends Component {
   render() {
     const { alignment, showStyleToolbar, showAlignmentToolbar, showMediaInput, urlValue, urlType, showMediaTypeButtons, editorState } = this.state;
     if (!editorState) return 'loading';
-    
     return ( 
       
         <div style={styles.editor}>
-          <Button onClick={this.showStyleToolbar.bind(this)}><b>B</b><i>I</i><u>U</u></Button>
+          <Button onClick={this.showStyleToolbar.bind(this)} style={styles.allButtons}><b>B</b><i>I</i><u>U</u></Button>
           {showStyleToolbar && <div>{this.renderStyleToolbar()}</div>}
-          <Button onClick={this.showAlignmentToolbar.bind(this)}>Align</Button>
+          <Button onClick={this.showAlignmentToolbar.bind(this)} style={styles.allButtons}>Align</Button>
           {showAlignmentToolbar && <div>{this.renderAlignmentToolbar()}</div>}
-          {!showMediaTypeButtons && <Button onClick={this.showMediaTypeButtons.bind(this)}>Add Media</Button>}
+          {!showMediaTypeButtons && <Button onClick={this.showMediaTypeButtons.bind(this)} style={styles.allButtons}><Add /></Button>}
           { showMediaInput 
             ? <div>
             <input 
+            style={{fontFamily:'Karla, sansSerif'}}
             type="file" 
             id="file" 
             onChange={this.onURLChange}
             onKeyDown={this.onURLInputKeyDown.bind(this)}
             />
-            <Button>Hit Enter to Submit</Button>
+            <Button style={styles.allButtons}>Hit Enter to Submit</Button>
             </div>
             : <div>
-              { showMediaTypeButtons && <Button onClick={this.showMediaInput.bind(this, 'image')}>Add Image</Button> }
-              { showMediaTypeButtons && <Button onClick={this.showMediaInput.bind(this, 'audio')}>Add Audio</Button> }
-              { showMediaTypeButtons && <Button onClick={this.showMediaInput.bind(this, 'video')}>Add Video</Button> }
+              { showMediaTypeButtons && <Button onClick={this.showMediaInput.bind(this, 'image')} style={styles.allButtons}>Add Image</Button> }
+              { showMediaTypeButtons && <Button onClick={this.showMediaInput.bind(this, 'audio')} style={styles.allButtons}>Add Audio</Button> }
+              { showMediaTypeButtons && <Button onClick={this.showMediaInput.bind(this, 'video')} style={styles.allButtons}>Add Video</Button> }
             </div>
           }
               <Editor

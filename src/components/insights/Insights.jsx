@@ -1,61 +1,36 @@
 import React, { Component } from 'react';
 import { withAuth } from 'fireview';
-import { getRootRef } from '../../utils/componentUtils';
+import { getRootRef, getIds } from '../../utils/componentUtils';
+import { getEntryTone, getJournalTones, getUserTones } from '../../utils/toneUtils.js';
+import { getUserPersonality, getEntryPersonality, getJournalPersonality } from  '../../utils/personalityUtils.js'
+import {db} from '../../utils/firebase.config'
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import Paper from 'material-ui/Paper';
 import Grid from 'material-ui/Grid';
 
-export default class Insights extends Component {
+export class Insights extends Component {
     constructor () {
         super();
         this.state = {
+            userId: "",
+            entryIds: [],
             personalityRootRef: getRootRef('personalityInsights'),
             toneRootRef: getRootRef('toneInsights'),
-            tones: [],
+            tones: []
         }
+        // this.getPersonalityInsight = this.getPersonalityInsight.bind(this);
     }
 
     componentDidMount(){
-        // if(this.props._user !== nextProps._user){
-          const { toneRootRef } = this.state;
-          toneRootRef.get()
-            .then(querySnapshot => {
-              querySnapshot.forEach(tone => {
-                  tone.data().parsedToneInsight.forEach(toneInsight => {
-                      toneInsight.tones.forEach(toneCategory => {
-                        // const toneCategoryScoreArr = []
-
-                        //   if(toneCategory.tone_name){
-                        //       toneCategoryScoreArr.push(toneCategory.score)
-                        //   }
-                        //   const toneAvg = toneCategoryScoreArr.reduce((acc, score) => (acc + score) / toneCategoryScoreArr.length)
-
-                          this.setState({tones: [...this.state.tones, {[toneCategory.tone_name]: toneCategory.score}]})
-                      })
-                  })
-              })
-            })
-            console.log("I rerendered")
-        //   }
       }
     
     render () {
-        // const ref = this.state.toneRootRef
-        // ref.get().then(snapshot => snapshot.forEach(tone => tone.data().parsedToneInsight.forEach(toneInsight => toneInsight.tones.forEach(toneCategory => console.log(toneCategory.tone_name, ": ", toneCategory.score)))))
-        console.log("tones: ", this.state.tones)
+
         return (
-            <div>
-                <div style={styles.appBar}>
-                    <AppBar position="static" color="default">
-                        <Toolbar>
-                            <Typography variant="title" color="inherit">
-                                My Insights
-                            </Typography>
-                        </Toolbar>
-                    </AppBar>
-                </div>
+            <div style={styles.root}>
+                <div style={styles.title}>My Insights</div>
                 <Grid container spacing={8} style={styles.grid}>
                     <Grid item xs={12} sm={6}>
                         <Paper style={styles.paper}>Summary</Paper>
@@ -92,9 +67,21 @@ export default class Insights extends Component {
 
 const styles = {
     root: {
-      flexGrow: 1,
+        fontFamily: 'Merienda One',
+        flexGrow: 1,
+        backgroundImage: "url('https://i.pinimg.com/564x/d6/3b/f1/d63bf1221116ebb6102c77e7e9a74808.jpg')",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        opacity: "0.5"
+    },
+    title: {
+        fontFamily: 'Merienda One',
+        fontSize: 40,
+        padding: '3vh',
+        color: '#795548'
     },
     paper: {
+        padding: '5vh',
         textAlign: 'center',
     },
     grid: {
@@ -104,3 +91,4 @@ const styles = {
     }
   };
   
+  export default withAuth(Insights);
