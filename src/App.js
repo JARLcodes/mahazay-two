@@ -15,6 +15,7 @@ import {
   SingleJournal,
   NewJournalForm,
   Insights,
+  TrackerSummary,
   Tracker
 } from './components/index.js';
 
@@ -50,7 +51,8 @@ class App extends Component {
               <Route exact path="/journals/:journalId" component={SingleJournal} />
               <Route exact path="/insights" component={Insights} />
               <Route exact path="/new-journal" component={NewJournalForm}/>
-              <Route path="/tracker" component={Tracker}/>
+              <Route path="/tracker" component={TrackerSummary}/>
+              <Route exact path="/tracker/name" component={Tracker}/>
               <Route exact path="/:userId/new-journal" component={NewJournalForm}/>
             { user ? <Route exact path="/" component={Dashboard}/>
                     : <Route exact path="/" component={Home}/>}

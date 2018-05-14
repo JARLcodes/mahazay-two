@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom';
 import Button from "material-ui/Button";
 import { withAuth } from 'fireview';
 import { confirmAlert } from 'react-confirm-alert';
+import { SingleTracker } from './index';
 
 
 const styles = {
@@ -29,8 +30,8 @@ const styles = {
     marginLeft: "10%"
   },
 }
+
 class SingleEntrySidebar extends Component {
-    
 
   deleteEntry(entry){
     confirmAlert({
@@ -52,10 +53,15 @@ class SingleEntrySidebar extends Component {
 
   render() {
     return (
+      <div>
       <div style={styles.singleEntrySidebar}>
         
         <Button variant="raised" style={styles.delete} onClick={this.deleteEntry.bind(this, this.props.entry)}>Delete Entry</Button>
 
+      </div>
+      <div>
+      <SingleTracker entry={this.props.entry} />
+      </div>
       </div>
     )
   }

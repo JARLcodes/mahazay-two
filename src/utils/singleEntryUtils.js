@@ -37,7 +37,7 @@ export const styles = {
     }
   }, 
   singleEntry: {
-    display: "flex"
+    display: "flex",
   }, 
   sidebar: {
     width: "20%",

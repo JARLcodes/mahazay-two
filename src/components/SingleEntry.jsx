@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import EditorComponent from './Editor.jsx';
-import SingleEntrySidebar from './SingleEntrySidebar.jsx';
 import { withAuth } from 'fireview';
-
 import { getRootRef } from '../utils/componentUtils';
 import { styles } from '../utils/singleEntryUtils';
+
+import {
+  SingleEntrySidebar,
+  EditorComponent } from './index';
 
 class SingleEntry extends Component {
   render(){

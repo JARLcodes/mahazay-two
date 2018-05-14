@@ -52,7 +52,8 @@
         "firebase-serve": "npx -p node@6 firebase serve --only functions,hosting"
     },
     "devDependencies": {
-        "concurrently": "^3.5.1"
+        "concurrently": "^3.5.1",
+        "eslint-plugin-react": "^7.8.2"
     },
     "proxy": {
         "/api": {
