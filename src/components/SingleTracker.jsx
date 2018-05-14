@@ -49,22 +49,25 @@ class SingleTracker extends Component {
     event.persist()
     const user = this.props._user;
     const userId = user && user.uid ? user.uid : null;
-    const userHabits = await db.collection('habits').where("userId", '==', user.uid).get()
-      .then(snapshot => snapshot.forEach(snap => console.log('woooeoeo', snap)));
-      console.log('event', event.target)
-    // console.log('user habits', userHabits)
-    // userHabits.doc().set({ dates: [ new Date() ] }, { merge: true });
-    // this.setState({checked: !this.state.checked})
+    const userHabits = await db.collection('habits').get()
+      .then(snapshot => snapshot.forEach(snap => {
+        console.log('snap data', snap.data().dates)
+        if (snap.data().name === event.target.name) db.collection('habits').doc(`${snap.data()}`).set({dates: new Date()})
+        // if (snap.data().name === event.target.name) snap.data().dates.push(new Date());
+      })
+    )
   }
 
   render() {
     const AllHabits = db.collection('habits');
     const Habit = props => {
       const { name } = props;
+      console.log('the name of the habit', name)
       return <Grid container>
         <Grid item>
         <Typography content="p">{name}
           <Checkbox 
+          name={name}
           onClick={this.handleCheck}
           />
         </Typography>
