@@ -21,9 +21,7 @@ class EditorComponent extends Component {
     super(props);
     this.state = {
       editorState: null, 
-      alignment: 'left', 
       showStyleToolbar: false, 
-      showAlignmentToolbar: false, 
       showMediaInput: false,
       showMediaTypeButtons: false,
       mediaUrlValue: '', 
@@ -88,16 +86,8 @@ class EditorComponent extends Component {
   onUnderline = this.toggleInlineStyle('UNDERLINE')
   onStrikethrough = this.toggleInlineStyle('STRIKETHROUGH')
 
-  onAlignmentChange(alignment){
-    this.setState({ alignment })
-  }
-
   showStyleToolbar(){
     this.setState({ showStyleToolbar: !this.state.showStyleToolbar })
-  }
-  
-  showAlignmentToolbar(){
-    this.setState({ showAlignmentToolbar: !this.state.showAlignmentToolbar })
   }
 
   renderStyleToolbar() {
@@ -109,15 +99,6 @@ class EditorComponent extends Component {
     </React.Fragment>
   }
 
-  renderAlignmentToolbar(){
-    return <React.Fragment>
-        <Button onClick={this.onAlignmentChange.bind(this, 'left')} style={styles.allButtons}><FormatAlignLeft/></Button>
-        <Button onClick={this.onAlignmentChange.bind(this, 'center')} style={styles.allButtons}><FormatAlignCenter/></Button>
-        <Button onClick={this.onAlignmentChange.bind(this, 'right')} style={styles.allButtons}><FormatAlignRight/></Button>
-    </React.Fragment>
-  }
-
- 
 
   onURLChange(e){
     const file = e.target.files[0];
@@ -146,15 +127,15 @@ class EditorComponent extends Component {
   }
 
   render() {
-    const { alignment, showStyleToolbar, showAlignmentToolbar, showMediaInput, urlValue, urlType, showMediaTypeButtons, editorState } = this.state;
+    const { showStyleToolbar, showMediaInput, urlValue, urlType, showMediaTypeButtons, editorState } = this.state;
     if (!editorState) return 'loading';
     return ( 
       
         <div style={styles.editor}>
           <Button onClick={this.showStyleToolbar.bind(this)} style={styles.allButtons}><b>B</b><i>I</i><u>U</u></Button>
           {showStyleToolbar && <div>{this.renderStyleToolbar()}</div>}
-          <Button onClick={this.showAlignmentToolbar.bind(this)} style={styles.allButtons}>Align</Button>
-          {showAlignmentToolbar && <div>{this.renderAlignmentToolbar()}</div>}
+          
+          
           {!showMediaTypeButtons && <Button onClick={this.showMediaTypeButtons.bind(this)} style={styles.allButtons}><Add /></Button>}
           { showMediaInput 
             ? <div>
@@ -180,7 +161,6 @@ class EditorComponent extends Component {
                 handleKeyCommand={this.handleKeyCommand}
                 placeholder="...start below"
                 plugins={plugins}
-                textAlignment={alignment}
                 blockRendererFn={mediaBlockRenderer}
                 ref="editor"
               />
