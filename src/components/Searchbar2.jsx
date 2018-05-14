@@ -6,12 +6,13 @@ import Downshift from 'downshift';
 import TextField from 'material-ui/TextField';
 import keycode from 'keycode';
 import PropTypes from 'prop-types';
+import { convertFromRaw } from 'draft-js';
 
+import { getRootRef } from '../utils/componentUtils';
 
 const styles = {
   root: {
     flexGrow: 1,
-    height: 250,
   },
   container: {
     flexGrow: 1,
@@ -66,32 +67,31 @@ const suggestions = [
   { label: 'Brunei Darussalam' },
 ];
 
-const renderSuggestion = ({ suggestion, index, itemProps, highlightedIndex, selectedItem }) => {
+const renderSuggestion = ({ userEntry, index, itemProps, highlightedIndex, selectedItem }) => {
+  console.log('rendering userEntry suggestion', userEntry);
+  console.log('render suggestion index', index);
+  console.log('render suggestion highlightedIndex', highlightedIndex);
   const isHighlighted = highlightedIndex === index;
-  const isSelected = (selectedItem || '').indexOf(suggestion.label) > -1;
+  // console.log('rendering suggestion isHighlighted', isHighlighted);
+  // const isSelected = (selectedItem || '').indexOf(suggestion.label) > -1;
 
-  return (
-    <MenuItem
-      {...itemProps}
-      key={suggestion.label}
-      selected={isHighlighted}
-      component="div"
-      style={{
-        fontWeight: isSelected ? 500 : 400,
-      }}
-    >
-    {suggestion.label}
-    </MenuItem>
-  )
+  // return (
+  //   <MenuItem
+  //     {...itemProps}
+  //     key={suggestion.label}
+  //     selected={isHighlighted}
+  //     component="div"
+  //     style={{
+  //       fontWeight: isSelected ? 500 : 400,
+  //     }}
+  //   >
+  //   {suggestion.label}
+  //   </MenuItem>
+  // )
+  return <div key={userEntry.id}></div>
 }
 
-renderSuggestion.propTypes = {
-  highlightedIndex: PropTypes.number,
-  index: PropTypes.number,
-  itemProps: PropTypes.object,
-  selectedItem: PropTypes.string,
-  suggestion: PropTypes.shape({ label: PropTypes.string }).isRequired,
-};
+
 
 
 
@@ -108,121 +108,82 @@ const renderInput = inputProps => {
   )
 };
 
-const getSuggestions = inputValue => {
-  let count = 0;
-  return suggestions.filter(suggestion => {
-    const keep = 
-      (!inputValue || suggestion.label.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1) && count < 5;
 
-    count = keep ? count += 1 : count;
-    return keep;
-  });
 
-};
-
-class DownshiftMultiple extends Component {
-  state = {
-    inputValue: '', 
-    selectedItem: []
-  };
-
-  handleKeyDown = event => {
-    const { inputValue, selectedItem } = this.state;
-    if (selectedItem.length && !inputValue.length && keycode(event) === 'backspace') {
-      this.setState({
-        selectedItem: selectedItem.slice(0, selectedItem.length - 1),
-      });
-    }
-  };
-
-  handleInputChange = event => {
-    this.setState({ inputValue: event.target.value });
-  };
-
-  handleChange(item){
-    let { selectedItem } = this.state;
-    if(selectedItem.indexOf(item) === -1){
-      selectedItem = [...selectedItem, item]
+class IntegrationDownshift extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      userEntries: [],  
+      userJournals: []
     };
-    
-    this.setState({
-      inputValue: '', 
-      selectedItem
+    this.getSuggestions = this.getSuggestions.bind(this);
+  };
+
+  componentDidMount(){
+    getRootRef('entries').where('userId', '==', this.props.userId).get()
+      .then(querySnaps => {
+        querySnaps.forEach(entry => {
+          this.setState({ userEntries: [...this.state.userEntries, entry]})
+        })
+      });
+    getRootRef('journals').where('userId', '==', this.props.userId).get()
+      .then(querySnaps => {
+        querySnaps.forEach(journal => {
+          this.setState({ userJournals: [...this.state.userJournals, journal]})
+        })
+      })
+  };
+
+  getSuggestions(inputValue){
+    const { userEntries, userJournals } = this.state;
+    let count = 0;
+    const entryArray = userEntries.filter(entry => {
+      const entryPlainText = convertFromRaw(entry.data().content).getPlainText();
+      const keep = 
+        (!inputValue || entryPlainText.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1) && count < 5;
+     
+      count = keep ? count += 1 : count;
+      return keep;
     })
-
+    // console.log('entryArray in get suggestions', entryArray); //[{suggestion}, {suggestion},...{suggestion}]
+    return entryArray;
+  
   };
 
-  handleDelete = item => () => {
-    const selectedItem = [...this.state.selectedItem];
-    selectedItem.splice(selectedItem.indexOf(item), 1);
-
-    this.setState({ selectedItem });
-  };
-
-  render() {
-    const { inputValue, selectedItem } = this.state;
-    console.log('selectedItem', selectedItem);
+  render(){
     return (
-      <div>
-        <Downshift
-          inputValue={inputValue}
-          onChange={this.handleChange.bind(this)}
-          selectedItem={selectedItem}
-        >
-          {({
-            getInputProps, 
-            getItemProps, 
-            isOpen, 
-            inputValue: inputValue2, 
-            selectedItem: selectedItem2, 
-            highlightedIndex,
-          }) => (
-            <div style={styles.container}>
-              {renderInput({
-                fullWidth: true, 
-                InputProps: getInputProps({
-                  startAdornment: selectedItem.map(item => (
-                    <Chip 
-                      key={item}
-                      tabIndex={-1}
-                      label={item}
-                      onDelete={this.handleDelete(item)}
-                    />
-                  )), 
-                  onChange: this.handleInputChange, 
-                  onKeyDown: this.handleKeyDown, 
-                  placeholder: 'Select multiple countries', 
-                  id: 'integration-downshift-multiple'
-                })
-              })}
-              { isOpen 
-              ? (
-                <Paper style={styles.paper} square>
-                  {getSuggestions(inputValue2).map((suggestion, index) => 
-                    renderSuggestion({
-                      suggestion, index, itemProps: getItemProps({ item: suggestion.label }), 
-                      highlightedIndex, 
-                      selectedItem: selectedItem2,
-                    })
-                  )}
-                </Paper>
-              )
-              : null}
-            </div>
-          )}
-        </Downshift>
-      </div>
+      <div style={styles.root}>
+      <Downshift>
+        {({ getInputProps, getItemProps, isOpen, inputValue, selectedItem, highlightedIndex }) => (
+          <div style={styles.container}>
+            {renderInput({
+              fullWidth: true,
+              InputProps: getInputProps({
+                placeholder: 'Search a country (start with a)',
+                id: 'integration-downshift-simple',
+              }),
+            })}
+            {isOpen ? (
+              <Paper style={styles.paper} square>
+                {this.getSuggestions(inputValue).map((userEntry, index) =>
+                  renderSuggestion({
+                    userEntry,
+                    index,
+                    itemProps: getItemProps({ item: userEntry }),
+                    highlightedIndex,
+                    selectedItem,
+                  }),
+                )}
+              </Paper>
+            ) : null}
+          </div>
+        )}
+      </Downshift>
+    </div>
     )
   }
 }
-
-
-
-
-
-// IntegrationDownshift.propTypes = {
-//   classes: PropTypes.object.isRequired,
-// };
 
 
 export default IntegrationDownshift;

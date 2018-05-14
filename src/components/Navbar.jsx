@@ -92,7 +92,7 @@ class Navbar2 extends Component {
               <Poll />
               Insights
             </Button>
-            <IntegrationDownshift/>
+            { user && <IntegrationDownshift userId={user.uid}/> }
           </Toolbar>
         }
       />
