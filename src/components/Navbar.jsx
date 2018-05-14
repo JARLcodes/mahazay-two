@@ -16,7 +16,7 @@ import ResponsiveMenu from 'react-responsive-navbar';
 import { withAuth } from 'fireview';
 
 import { auth } from '../utils/firebase.config';
-
+import IntegrationDownshift from './Searchbar2.jsx';
 
 const styles = {
   root: {
@@ -49,9 +49,6 @@ const styles = {
   logoutButton: {
       color: "#424242", 
       borderRadius: "1em"
-  },
-  textField: {
-      color: '#FAFAFA'
   }
 };
 
@@ -95,19 +92,7 @@ class Navbar2 extends Component {
               <Poll />
               Insights
             </Button>
-            <TextField
-              id="search"
-              type="search"
-              style={styles.textField}
-              placeholder="Search"
-              InputProps={{
-                endAdornment: (
-                    <InputAdornment position="start">
-                        <Search />
-                    </InputAdornment>
-                ),
-              }}
-            />
+            <IntegrationDownshift/>
           </Toolbar>
         }
       />
