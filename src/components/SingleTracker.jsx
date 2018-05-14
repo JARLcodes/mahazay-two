@@ -37,7 +37,7 @@ class SingleTracker extends Component {
     db.collection('habits').get()
       .then(snaps => snaps.forEach(snap => this.setState({ habits: [...this.state.habits, snap.data()] })
     ))
-    this.props.entry.get().then(entry => console.log('the state of entry', entry.data()))
+    this.props.entry.get().then(entryItem => this.setState({entry: entryItem}))
   }
 
   // handleCheck(event, id) {
@@ -62,17 +62,31 @@ class SingleTracker extends Component {
     //   })
     // );
   // }
-  componentWillReceiveProps(nextProps) {
-    if (this.props !== nextProps) db.collection('habits').get()
-      .then(querySnapshot => querySnapshot.forEach(habit => {
-        if (this.habitDone(habit.data().name)) habit.update({checked: true})
-      }));
+  // componentWillReceiveProps(nextProps) {
+  //   if (this.props !== nextProps) {
+  //     db.collection('habits').get()
+  //     .then(querySnapshot => querySnapshot.forEach(habit => {
+  //       if (this.habitDone(habit.data().name)) habit.update({checked: true})
+  //     }))
+  //   }
+  // }
+
+  componentDidUpdate() {
+    db.collection('habits').get()
+        .then(querySnapshot => querySnapshot.forEach(habit => {
+          if (this.habitDone(habit.data().name)) habit.ref.update({checked: true})
+          console.log('the habit id', habit.id)
+          // habit.update({checked: true})
+        }))
   }
 
   habitDone(habitName) {
-    console.log('the entry state', this.state.entry)
-    return false;
-    // return convertFromRaw(this.state.entry.data().content).getPlainText().includes(habitName);
+    let theEntry = this.state.entry;
+    if (Object.keys(this.state.entry).length) {
+    console.log('the entry state', this.state.entry);
+    return convertFromRaw(theEntry.data().content).getPlainText().includes(habitName);
+    }
+    // return theEntry.data()
   }
 
   render() {

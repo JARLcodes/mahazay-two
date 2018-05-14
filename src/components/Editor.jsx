@@ -62,7 +62,6 @@ class EditorComponent extends Component {
     // to send data from entry to firebase WHILE USER IS UPDATING: use convertToRaw(editorState.getCurrentContent())
     this.setState({editorState});
     this.state.rootRef.update({ content: convertToRaw(editorState.getCurrentContent()) });
-    console.log("props: ", this.props)
     //analyze input with each change
     const text = this.state.editorState.getCurrentContent().getPlainText();
     const entryId = this.props.entry.id
