@@ -51,7 +51,6 @@ class SingleEntrySidebar extends Component {
   };
 
   render() {
-
     return (
       <div style={styles.singleEntrySidebar}>
         

@@ -38,6 +38,7 @@ const styles = theme => ({
   allButtons: {
     borderRadius: "1em"
   }
+  
 });
 
 export default class HomepageForm extends Component {
@@ -106,28 +107,75 @@ export default class HomepageForm extends Component {
 
   render() {
     return (
-      <form className={styles.container}>
-      <Grid container spacing={24} justify="center"style={styles.gridList}>
-        <div>
-        <Grid item>
-        <Button onClick={this.toggleShow} style={styles.allButtons}>New to Mahazay?</Button>
-        <Button onClick={this.toggleShow} style={styles.allButtons}>Already a User?</Button>
+      <div>
+    
+        <form className={styles.container}>
+        <Grid container spacing={24} justify="center" style={styles.gridList}>
+          <div>
+          <Grid item>
+          <Button onClick={this.toggleShow}>New to Mahazay?</Button>
+          <Button onClick={this.toggleShow}>Already a User?</Button>
 
-          { this.state.signUp && !this.state.login ? 
-            <div>
-            {this.state.warning === 'email-error' 
-             ? <div>
-                <TextField
-                error
-                id="emailInput"
-                label="Email"
-                onChange={this.handleChange}
-                name="email"
-                margin="normal"
-                />
-                <FormHelperText id="name-helper-text">Please enter a valid email address</FormHelperText>
-              </div>
-            :
+            { this.state.signUp && !this.state.login ? 
+              <div>
+              {this.state.warning === 'email-error' 
+              ? <div>
+                  <TextField
+                  error
+                  id="emailInput"
+                  label="Email"
+                  onChange={this.handleChange}
+                  name="email"
+                  margin="normal"
+                  />
+                  <FormHelperText id="name-helper-text">Please enter a valid email address</FormHelperText>
+                </div>
+              :
+                <div>
+                  <TextField
+                  id="emailInput"
+                  label="Email"
+                  onChange={this.handleChange}
+                  name="email"
+                  placeholder="Enter Email"
+                  margin="normal"
+                  />
+                </div>
+              }
+            
+                  {this.state.warning === 'password-error'
+                    ? <div style={styles.error}>
+                      <TextField
+                        error
+                        id="name"
+                        label="Password"
+                        onChange={this.handleChange}
+                        name="password"
+                        placeholder="password"
+                        margin="normal"
+                        style={styles.helperText}
+                        />
+                        <FormHelperText id="name-helper-text">Password must be at least 6 characters</FormHelperText>
+                      </div>
+                    : <div>
+                      <TextField
+                        id="name"
+                        label="Password"
+                        onChange={this.handleChange}
+                        name="password"
+                        placeholder="Enter Password"
+                        margin="normal"
+                        />
+                        </div>
+                  }
+                
+                <Button onClick={this.handleSignUp}>
+                  Sign Up
+                </Button>
+              </div> 
+              :
+              this.state.login && !this.state.signUp ?
+              <div>
               <div>
                 <TextField
                 id="emailInput"
@@ -137,71 +185,27 @@ export default class HomepageForm extends Component {
                 placeholder="Enter Email"
                 margin="normal"
                 />
-              </div>
-            }
-          
-                {this.state.warning === 'password-error'
-                  ? <div style={styles.error}>
-                    <TextField
-                      error
-                      id="name"
-                      label="Password"
-                      onChange={this.handleChange}
-                      name="password"
-                      placeholder="password"
-                      margin="normal"
-                      style={styles.helperText}
-                      />
-                      <FormHelperText id="name-helper-text">Password must be at least 6 characters</FormHelperText>
-                    </div>
-                  : <div>
-                    <TextField
-                      id="name"
-                      label="Password"
-                      onChange={this.handleChange}
-                      name="password"
-                      placeholder="Enter Password"
-                      margin="normal"
-                      />
-                      </div>
-                }
-               
-              <Button onClick={this.handleSignUp} style={styles.allButtons}>
-                Sign Up
+            </div>
+            <div>
+                <TextField
+                id="name"
+                label="Password"
+                onChange={this.handleChange}
+                name="password"
+                placeholder="Enter Password"
+                margin="normal"
+                />
+              </div> 
+              <Button onClick={this.handleLogin}>
+              Login
               </Button>
-            </div> 
-            :
-            this.state.login && !this.state.signUp ?
-            <div>
-            <div>
-              <TextField
-              id="emailInput"
-              label="Email"
-              onChange={this.handleChange}
-              name="email"
-              placeholder="Enter Email"
-              margin="normal"
-              />
+            </div>
+            : null}
+            </Grid> 
           </div>
-          <div>
-              <TextField
-              id="name"
-              label="Password"
-              onChange={this.handleChange}
-              name="password"
-              placeholder="Enter Password"
-              margin="normal"
-              />
-            </div> 
-            <Button onClick={this.handleLogin} style={styles.allButtons}>
-             Login
-            </Button>
-          </div>
-          : null}
-          </Grid> 
-        </div>
-        </Grid>
-      </form>
+          </Grid>
+        </form>
+      </div>
     );
   }
 }

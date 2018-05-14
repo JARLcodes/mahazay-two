@@ -4,7 +4,6 @@ import Audio from 'react-audioplayer';
 import { EditorState, AtomicBlockUtils, convertToRaw } from 'draft-js';
 import createImagePlugin from 'draft-js-image-plugin';
 import createFocusPlugin from 'draft-js-focus-plugin';
-
 import { composeDecorators } from 'draft-js-plugins-editor';
 import TextField from 'material-ui/TextField';
 import Button from "material-ui/Button";
@@ -77,7 +76,6 @@ export const confirmMedia = function(editorState, urlValue, urlType, e){
     'MUTABLE', 
     { urlValue }
   );
-
   const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
   const newEditorState = EditorState.set(
     editorState, 
@@ -131,7 +129,6 @@ const Media = ({
 
   const src = entity ? entity.getData().urlValue : null;
   const type = entity ? entity.getType() : 'text';
-
   switch(type){
     case 'audio':
       mediaComponent = <AudioPlayer src={src} />;

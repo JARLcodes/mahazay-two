@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import GridList, { GridListTile, GridListTileBar } from 'material-ui/GridList';
 import Subheader from 'material-ui/List/ListSubheader';
+import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
-import Button from "material-ui/Button";
 import SubdirectoryArrowLeft from '@material-ui/icons/SubdirectoryArrowLeft';
 import { Link } from 'react-router-dom';
 import { withAuth } from 'fireview';
@@ -90,6 +90,7 @@ export class AllJournals extends Component {
                 <Link to={`/journals/${journalIds[ind]}`}>
                   <img src='https://cdn3.iconfinder.com/data/icons/design-flat-icons-vol-2/256/62-512.png' alt={journal.title} style={{height: 150, width: 150}}/>
                   <GridListTileBar
+                    style={{fontFamily: 'Merienda One'}}
                     title={journal.title}
                     subtitle={<span>{journal.description}</span>}
                     actionIcon={
@@ -108,7 +109,6 @@ export class AllJournals extends Component {
     )
   }
 }
-
 
 
 export default withAuth(AllJournals)

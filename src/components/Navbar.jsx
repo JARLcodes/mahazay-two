@@ -5,7 +5,7 @@ import TextField from 'material-ui/TextField';
 import { InputAdornment } from 'material-ui/Input';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
-import ArrowBack from '@material-ui/icons/ArrowBack';
+import Avatar from 'material-ui/Avatar';
 import Person from '@material-ui/icons/Person';
 import CheckBox from '@material-ui/icons/CheckBox';
 import Poll from '@material-ui/icons/Poll';
@@ -49,6 +49,10 @@ const styles = {
   logoutButton: {
       color: "#424242", 
       borderRadius: "1em"
+  }, 
+  image: {
+    height: 75,
+    width: "auto"
   }
 };
 
@@ -68,9 +72,7 @@ class Navbar extends Component {
         menu={
           <Toolbar>
             <div>
-              <Typography variant="display3">
-                  Mahazay
-              </Typography>
+              <img src="https://i.pinimg.com/564x/d6/3b/f1/d63bf1221116ebb6102c77e7e9a74808.jpg" style={styles.image}/>
               <Typography variant="subheading"
                           style={{fontStyle:"italic", textTransform:"lowercase"}}>
                   ( ma • hā • zay )
