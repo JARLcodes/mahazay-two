@@ -52,10 +52,9 @@ class SingleTracker extends Component {
     const userHabits = await db.collection('habits').get()
       .then(snapshot => snapshot.forEach(snap => {
         console.log('snap data', snap.data().dates)
-        if (snap.data().name === event.target.name) db.collection('habits').doc(`${snap.data()}`).set({dates: new Date()})
-        // if (snap.data().name === event.target.name) snap.data().dates.push(new Date());
+        if (snap.data().name === event.target.name) db.collection('habits').doc(snap.id).set({dates: new Date()}, {merge: true});
       })
-    )
+    );
   }
 
   render() {

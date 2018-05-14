@@ -46,7 +46,8 @@ class Tracker extends Component {
     super();
     this.state = {
       habits: [],
-      habitToAdd: {}
+      habitToAdd: {},
+      name: ''
     };
     this.handleAddHabit = this.handleAddHabit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -68,7 +69,8 @@ class Tracker extends Component {
 
   handleAddHabit() {
     const habitToAdd = this.state.habitToAdd;
-    db.collection('habits').add(habitToAdd);
+    db.collection('habits').add(habitToAdd)
+    .then(this.props.history.push(`/tracker`));
   }
 
   handleCheck(event) {
@@ -93,7 +95,6 @@ class Tracker extends Component {
       <Checkbox
         onClick={this.handleCheck}
         name={name}
-        label="Simple with controlled value"
         checked={props.checked}
         />
       </TableCell></TableRow>;};
@@ -101,7 +102,7 @@ class Tracker extends Component {
     return (
     <Grid container justify="left" style={{padding: "1vh"}}>
       <Grid item>
-      <form style={{alignContent: ""}} className={styles.container}> 
+      <form className={styles.container}> 
       <TextField
         id="name"
         label="Add Tracker?"
@@ -109,6 +110,7 @@ class Tracker extends Component {
         className={styles.textField}
         onChange={this.handleChange}
         margin="normal"
+        value={this.state.name}
       />
       <Button onClick={this.handleAddHabit}>Add</Button>
       </form>
