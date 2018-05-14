@@ -9,6 +9,7 @@ import Table, {
 } from 'material-ui/Table';
 import Grid from 'material-ui/Grid';
 import Checkbox from 'material-ui/Checkbox';
+import { Link } from 'react-router-dom';
 
 import { Map, withAuth } from 'fireview';
 import { db } from '../utils/firebase.config';
@@ -41,8 +42,7 @@ class TrackerSummary extends Component {
     super();
     this.state = {
       habits: [],
-      habitToAdd: {},
-      dates: []
+      habitToAdd: {}
     };
     this.handleAdd = this.handleAdd.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -59,14 +59,17 @@ class TrackerSummary extends Component {
     event.preventDefault();
     const user = this.props._user;
     const userId = user && user.uid ? user.uid : null;
-    this.setState({ habitToAdd : {name: event.target.value, checked: false, userId: userId, dates: [] }});
+    this.setState({ habitToAdd : { name: event.target.value, userId: userId } });
   }
 
   handleAdd(event) {
     event.preventDefault();
     const habitToAdd = this.state.habitToAdd;
     db.collection('habits').add(habitToAdd)
-    .then(this.props.history.push(`/tracker`));
+      .then(() => {
+        this.setState({ habitToAdd: { name: '' } });
+        this.props.history.push(`/tracker/${habitToAdd.name}`);
+      });
   }
 
   // handleDelete(habit) {
@@ -77,26 +80,18 @@ class TrackerSummary extends Component {
 
   render() {
     const AllHabits = db.collection('habits');
-    console.log('props', this.props._user)
     const user = this.props._user;
     const userId = user && user.uid ? user.uid : null;
     const Habit = props => {
-      console.log('the state', this.state.habits)
           const { name } = props;
-            return <TableRow><TableCell>{props.name}</TableCell><TableCell>
-            <Checkbox
-              onClick={this.handleCheck}
-              name={name}
-              label="Simple with controlled value"
-              checked={props.checked}
-              />
-            {/* <Button onClick={this.handleDelete}>X</Button> */}
+            return <TableRow><Link to={`/tracker/${name}`}><TableCell>
+             {name}</TableCell></Link><TableCell>
             </TableCell></TableRow>;};
 
     return (
-      <Grid container justify="left" style={{padding: "1vh"}}>
+      <Grid container style={{padding: "1vh"}}>
         <Grid item>
-        <form onSubmit={this.handleAdd} style={{alignContent: ""}} className={styles.container}> 
+        <form onSubmit={this.handleAdd} className={styles.container}> 
         <TextField
           id="name"
           label="Add Tracker?"
@@ -104,22 +99,25 @@ class TrackerSummary extends Component {
           className={styles.textField}
           onChange={this.handleChange}
           margin="normal"
+          value={this.state.habitToAdd.name}
         />
         <Button type="submit">Add</Button>
         </form>
-        </Grid>
+      </Grid>
+
       <Table>
-        <TableHead>
-      <TableRow>
-      <TableCell variant="body-2">Habit</TableCell>
-      </TableRow>
-        </TableHead>
-          <TableBody>
-            <Map from={AllHabits.where('userId', '==', userId)}
-            Render={Habit}
-            />
-          </TableBody>
-        </Table>
+      <TableHead>
+        <TableRow>
+        <TableCell variant="body-2">Habit</TableCell>
+        </TableRow>
+      </TableHead>
+        <TableBody>
+          <Map from={AllHabits.where('userId', '==', userId)}
+          Render={Habit}
+          />
+        </TableBody>
+      </Table>
+
       </Grid>
       );
   }

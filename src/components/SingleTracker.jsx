@@ -1,19 +1,12 @@
 import React, { Component } from 'react';
 import Button from 'material-ui/Button';
-import Table, {
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow
-} from 'material-ui/Table';
 import Grid from 'material-ui/Grid';
 import Checkbox from 'material-ui/Checkbox';
 import Card, { CardContent } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
+
 import { Map, withAuth } from 'fireview';
 import { db } from '../utils/firebase.config';
-
-import { TrackerSummary } from './index';
 
 const styles = {
   grid: {
@@ -32,52 +25,56 @@ const styles = {
 class SingleTracker extends Component {
   constructor() {
     super();
-    // this.state = {
-    //   checked: false,
-    // };
+    this.state = {
+      habits: [],
+      checked: [],
+    };
     this.handleCheck = this.handleCheck.bind(this);
   }
 
   componentDidMount() {
-    const user = this.props && this.props._user ? this.props._user : null;
-    db.collection('habits').get();
-    // const user = this.props._user;
+    db.collection('habits').get()
+      .then(snaps => snaps.forEach(snap => this.setState({ habits: [...this.state.habits, snap.data()] })
+    ));
   }
 
-  async handleCheck(event) {
-    event.preventDefault();
-    event.persist()
-    const user = this.props._user;
-    const userId = user && user.uid ? user.uid : null;
-    const userHabits = await db.collection('habits').get()
-      .then(snapshot => snapshot.forEach(snap => {
-        console.log('snap data', snap.data().dates)
-        if (snap.data().name === event.target.name) db.collection('habits').doc(snap.id).set({dates: new Date()}, {merge: true});
-      })
-    );
+  handleCheck(id) {
+    console.log('thisstate', this.state.habits);
+    console.log('this is the checked array', this.state.checked)
+    const checkedTrackers = this.state.checked;
+    this.setState({ checked: this.state.checked.concat(`${id}`)})
+    db.collection('habits').doc(`${id}`).set({ habits: {dates: new Date()}, checked: true });
+    
+    // db.collection('habits').get()
+    //   .then(snapshot => snapshot.forEach(doc => {
+    //     if (checkedTracker) this.setState({checked: this.state.checked.filter(x => x !== doc.id)});
+    //     else (this.setState({checked: [...this.state.checked, doc.id]}));
+    //   console.log('the state of the snaps', checkedTracker, this.state.checked)
+    //     db.collection('habits').doc(doc.id)
+    //       .update({ dates: [ new Date() ] });
+    //   })
+    // );
   }
 
   render() {
     const AllHabits = db.collection('habits');
+    const habitChecked = this.state.checked;
+    console.log('habit chekced', habitChecked)
+
     const Habit = props => {
       const { name } = props;
-      console.log('the name of the habit', name)
-      return <Grid container>
-        <Grid item>
-        <Typography content="p">{name}
-          <Checkbox 
-          name={name}
-          onClick={this.handleCheck}
-          />
-        </Typography>
-        </Grid>
-      </Grid>;
-    };
+      const checkedArray = this.state.checked;
+      return <div> 
+        {name}
+        <Checkbox
+        onClick={this.handleCheck}
+        />
+        </div>
+    }
 
-    console.log('the props or something', this.state)
     return (
       <Grid style={styles.grid}>
-      <Typography variant="subheading" component="h2">Your Daily Tracker</Typography>
+      <Typography variant="subheading" component="h2">Tracker</Typography>
           <Map from={AllHabits}
           Render={Habit}
           />
