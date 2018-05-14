@@ -34,7 +34,7 @@ class App extends Component {
         <MuiThemeProvider theme={theme}>
           <div className="App" style={styles.body}>
             <div className="col-xs-10">
-              <Navbar />
+              <Navbar history={history}/>
             </div>
             <div className="col-xs-10" >
             <Switch>

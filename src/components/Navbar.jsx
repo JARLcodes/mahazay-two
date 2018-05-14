@@ -16,7 +16,7 @@ import ResponsiveMenu from 'react-responsive-navbar';
 import { withAuth } from 'fireview';
 
 import { auth } from '../utils/firebase.config';
-import IntegrationDownshift from './Searchbar2.jsx';
+import Searchbar from './Searchbar.jsx';
 
 const styles = {
   root: {
@@ -52,12 +52,12 @@ const styles = {
   }
 };
 
-class Navbar2 extends Component {
+class Navbar extends Component {
   render() {
     const user = this.props._user;
     const userEmail = user && user.email ? user.email : null;
     const disabled = user ? false : true;
-
+    console.log('this.props in nav', this.props);
     return (
       <ResponsiveMenu
         menuOpenButton={<div />}
@@ -92,7 +92,7 @@ class Navbar2 extends Component {
               <Poll />
               Insights
             </Button>
-            { user && <IntegrationDownshift userId={user.uid}/> }
+            { user && <Searchbar userId={user.uid} history={this.props.history}/> }
           </Toolbar>
         }
       />
@@ -100,4 +100,4 @@ class Navbar2 extends Component {
   }
 }
 
-export default withAuth(Navbar2);
+export default withAuth(Navbar);

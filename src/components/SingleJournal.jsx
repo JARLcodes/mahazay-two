@@ -30,7 +30,7 @@ export class SingleJournal extends Component {
     this.state = {
       entries: [],
       events:[], 
-      journal: getRootRef('journal', this.props.match.params.journalId)
+      journal: getRootRef('journals', this.props.match.params.journalId) //db.collection('journals')
     }
     this.addEntry = this.addEntry.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
@@ -56,6 +56,7 @@ export class SingleJournal extends Component {
       db.collection('entries')
       .where('journalId', '==', this.props.match.params.journalId).get()
       .then(querySnapshot => {
+        console.log('setting entries on state snap', querySnapshot);
         querySnapshot.forEach(entry => {
           this.setState({entries: [...this.state.entries, {entryId: entry.id, dateCreated: entry.data().dateCreated, content: entry.data().content, journalId: entry.data().journalId }], events: [...this.state.events, {title: "View Journal Entry", entryId: entry.id, start: new Date(entry.data().dateCreated), end: new Date(entry.data().dateCreated) + 1}]})
         })
@@ -81,16 +82,16 @@ export class SingleJournal extends Component {
       buttons: [
         {
           label: 'Yes, delete journal', 
+          message: 'This will also delete all entries in this journal',
           onClick: () => {
-            console.log('figure out a way to delete both journal and associated entries');
-            // journal.delete().then(() => {
-            //   this.state.entries.forEach(entry => 
-            //this doesn't work because this.state.entries contains snapshots rather than references to the actual entries
-            //     entry.delete()
-            //       .then(() => this.props.history.push('/journals'))
-            //   );
-              
-            // })
+            journal.delete()
+              .then(() => {
+                return getRootRef('entries').where('userId', '==', this.props._user.uid).get()
+              })
+              .then(querySnapshot => {
+                querySnapshot.forEach(doc => doc.ref.delete())
+              })
+              .then(() => this.props.history.push('/journals'))
           }
         }, 
         {
