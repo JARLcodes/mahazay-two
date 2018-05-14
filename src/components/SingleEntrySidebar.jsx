@@ -6,6 +6,7 @@ import Button from "material-ui/Button";
 import Add from '@material-ui/icons/Add';
 import { withAuth } from 'fireview';
 
+import { SingleTracker } from './index';
 
 import { storage } from '../utils/firebase.config';
 
@@ -64,6 +65,7 @@ class SingleEntrySidebar extends Component {
   render() {
     console.log('this.state', this.state);
     return (
+      <div>
       <div style={styles.singleEntrySidebar}>
         <Add style={styles.addMedia}/>
         <Button
@@ -75,6 +77,10 @@ class SingleEntrySidebar extends Component {
         <Button type="submit" onClick={this.storeMedia.bind(this)}>Add Media</Button>
         <Button variant="raised" style={styles.delete} onClick={this.deleteEntry.bind(this, this.props.entry)}>Delete Entry</Button>
 
+      </div>
+      <div>
+      <SingleTracker />
+      </div>
       </div>
     )
   }

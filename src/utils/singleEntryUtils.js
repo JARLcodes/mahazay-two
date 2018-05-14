@@ -36,7 +36,7 @@ export const styles = {
     }
   }, 
   singleEntry: {
-    display: "flex"
+    display: "flex",
   }, 
   sidebar: {
     width: "20%",
@@ -49,6 +49,9 @@ export const styles = {
     cursor: "text",
     padding: "20px",
     marginBottom: "2em",
+    border: "dashed",
+    borderWidth: ".1vh",
+    borderColor: "grey"
   }, 
   entry: {
     display: "flex"
@@ -113,7 +116,7 @@ export const Video = (props) => {
 export const Media = (props) => {
   let media = null;
   const entity = props.block.getEntityAt(0) ? props.contentState.getEntity(props.block.getEntityAt(0)) : null;
-  if (entity) console.log('entity data should have urlValue', entity.getData());
+  // if (entity) console.log('entity data should have urlValue', entity.getData());
   const src = entity ? entity.getData().urlValue : null;
   const type = entity ? entity.getType() : 'text';
   

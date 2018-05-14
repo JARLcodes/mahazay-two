@@ -57,7 +57,6 @@ class EditorComponent extends Component {
   onChange = editorState => {
     // to send data from entry to firebase WHILE USER IS UPDATING: use convertToRaw(editorState.getCurrentContent())
     this.setState({editorState})
-    console.log('this is editor state after change', this.state.editorState);
     this.state.rootRef.update({ content: convertToRaw(editorState.getCurrentContent()) });
     //analyze input with each change
     const text = this.state.editorState.getCurrentContent().getPlainText();
@@ -122,7 +121,6 @@ class EditorComponent extends Component {
     }
 
     filesToUpload.forEach(file => {
-      console.log('file', file)
       storage.ref(file.name).put(file)
       .then(res => this.setState({ mediaUrlValue: res.downloadURL }))
       // .then(() => console.log('this is media url value', this.state.mediaUrlValue)) 1. all good here
