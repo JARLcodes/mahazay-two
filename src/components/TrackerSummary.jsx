@@ -58,7 +58,7 @@ class TrackerSummary extends Component {
     event.preventDefault();
     const user = this.props._user;
     const userId = user && user.uid ? user.uid : null;
-    this.setState({ habitToAdd : { name: event.target.value, userId: userId, checked: false }});
+    this.setState({ habitToAdd : { name: event.target.value, userId: userId, dates: {checked: false, date: ''} }});
   }
 
   handleAdd(event) {

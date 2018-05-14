@@ -36,74 +36,50 @@ class SingleTracker extends Component {
   componentDidMount() {
     db.collection('habits').get()
       .then(snaps => snaps.forEach(snap => this.setState({ habits: [...this.state.habits, snap.data()] })
-    ))
-    this.props.entry.get().then(entryItem => this.setState({entry: entryItem}))
+    ));
+    this.props.entry.get().then(entryItem => this.setState({entry: entryItem}));
   }
-
-  // handleCheck(event, id) {
-  //   event.preventDefault();
-  //   console.log('thisstate', this.state.habits);
-  //   const habitsArr = this.state.habits;
-  //   console.log('this is the event', event.target.checked)
-  //   this.setState({ [event.target.name] : event.target.checked})
-  //   // this.setState({ checked: this.state.checked.concat(`${id}`)});
-  //   habitsArr.map(habit => {
-  //     if (habit.name === event.target.name) this.setState({ checked: !this.state.checked })
-  //   });
-    // db.collection('habits').doc(`${id}`).update({ habits: {dates: new Date()}, checked: true });
-    
-    // db.collection('habits').get()
-    //   .then(snapshot => snapshot.forEach(doc => {
-    //     if (checkedTracker) this.setState({checked: this.state.checked.filter(x => x !== doc.id)});
-    //     else (this.setState({checked: [...this.state.checked, doc.id]}));
-    //   console.log('the state of the snaps', checkedTracker, this.state.checked)
-    //     db.collection('habits').doc(doc.id)
-    //       .update({ dates: [ new Date() ] });
-    //   })
-    // );
-  // }
-  // componentWillReceiveProps(nextProps) {
-  //   if (this.props !== nextProps) {
-  //     db.collection('habits').get()
-  //     .then(querySnapshot => querySnapshot.forEach(habit => {
-  //       if (this.habitDone(habit.data().name)) habit.update({checked: true})
-  //     }))
-  //   }
-  // }
 
   componentDidUpdate() {
     db.collection('habits').get()
-        .then(querySnapshot => querySnapshot.forEach(habit => {
-          if (this.habitDone(habit.data().name)) habit.ref.update({checked: true})
-          console.log('the habit id', habit.id)
-          // habit.update({checked: true})
-        }))
+    .then(querySnapshot => querySnapshot.forEach(habit => {
+      if (this.habitDone(habit.data().name)) 
+      {
+        this.props.entry.get().then(snap =>  {
+          return snap.data().dateCreated;
+        })
+        .then(entryDate => habit.ref.update({dates: {checked: true, date: entryDate}}))
+        }
+      }));
   }
 
   habitDone(habitName) {
     let theEntry = this.state.entry;
-    if (Object.keys(this.state.entry).length) {
+    if (Object.keys(this.state.entry).length && habitName) {
     let entryContent = convertFromRaw(theEntry.data().content).getPlainText().toLowerCase();
     return entryContent.includes(habitName.toLowerCase());
     }
-    // return theEntry.data()
   }
 
   render() {
     const AllHabits = db.collection('habits');
-    const habitChecked = this.state.checked;
 
     const Habit = props => {
-      const { name, checked } = props;
+      if (Object.keys(props).length) {
+      const { name, dates } = props;
+      let isChecked = Object.values(dates)[0];
       return <div> 
         {name}
         <Checkbox
         onClick={this.handleCheck}
         name={name}
-        checked={checked}
+        checked={isChecked}
         />
-        </div>
-    }
+        </div>;
+      } else {
+        return <div></div>
+      }
+    };
 
     return (
       <Grid style={styles.grid}>
