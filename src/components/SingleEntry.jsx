@@ -5,7 +5,7 @@ import { styles } from '../utils/singleEntryUtils';
 
 import {
   SingleEntrySidebar,
-  Editor } from './index';
+  EditorComponent } from './index';
 
 class SingleEntry extends Component {
   render(){

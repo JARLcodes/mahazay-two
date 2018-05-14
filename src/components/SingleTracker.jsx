@@ -4,6 +4,7 @@ import Grid from 'material-ui/Grid';
 import Checkbox from 'material-ui/Checkbox';
 import Card, { CardContent } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
+import { convertFromRaw } from 'draft-js';
 
 import { Map, withAuth } from 'fireview';
 import { db } from '../utils/firebase.config';
@@ -27,14 +28,16 @@ class SingleTracker extends Component {
     super();
     this.state = {
       habits: [],
+      entry: {}
     };
-    this.handleCheck = this.handleCheck.bind(this);
+    this.habitDone = this.habitDone.bind(this);
   }
 
   componentDidMount() {
     db.collection('habits').get()
       .then(snaps => snaps.forEach(snap => this.setState({ habits: [...this.state.habits, snap.data()] })
-    ));
+    ))
+    this.props.entry.get().then(entry => console.log('the state of entry', entry.data()))
   }
 
   // handleCheck(event, id) {
@@ -59,18 +62,24 @@ class SingleTracker extends Component {
     //   })
     // );
   // }
-  handleCheck(event) {
-    event.preventDefault();
-    console.log('the props', this.props)
+  componentWillReceiveProps(nextProps) {
+    if (this.props !== nextProps) db.collection('habits').get()
+      .then(querySnapshot => querySnapshot.forEach(habit => {
+        if (this.habitDone(habit.data().name)) habit.update({checked: true})
+      }));
+  }
+
+  habitDone(habitName) {
+    console.log('the entry state', this.state.entry)
+    return false;
+    // return convertFromRaw(this.state.entry.data().content).getPlainText().includes(habitName);
   }
 
   render() {
     const AllHabits = db.collection('habits');
     const habitChecked = this.state.checked;
-    console.log('habit checked', habitChecked)
 
     const Habit = props => {
-      console.log('the props are here', props)
       const { name, checked } = props;
       return <div> 
         {name}
