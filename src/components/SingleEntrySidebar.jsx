@@ -15,22 +15,22 @@ const styles = {
   addMedia: {
     margin: 20,
     alignSelf: 'center'
-  }, 
+  },
   delete: {
-    alignSelf: 'center', 
-    width: '20%', 
-    backgroundColor: "#EF9A9A", 
+    alignSelf: 'center',
+    width: '20%',
+    backgroundColor: "#EF9A9A",
     color: "#fff"
-  }, 
+  },
   singleEntrySidebar : {
     display: "flex",
     flexDirection: "column"
-  }, 
+  },
   addVideo: {
-    display: "flex", 
-    flexDirection: "column", 
+    display: "flex",
+    flexDirection: "column",
     marginLeft: "10%"
-  }, 
+  },
 }
 class SingleEntrySidebar extends Component {
   state = {
@@ -47,7 +47,7 @@ class SingleEntrySidebar extends Component {
         type: files[i].type
       })]})
     };
-    
+
   };
 
   // storeMedia(){
@@ -57,6 +57,13 @@ class SingleEntrySidebar extends Component {
   //   );
     
   // }
+  storeMedia(){
+    //add to cloud storage and set urls for uploaded files on local state
+    this.state.mediaToAdd.forEach(file => storage.ref(file.name).put(file)
+      .then(res => this.setState({ mediaUrls: [...this.state.mediaUrls, res.downloadURL]}))
+    );
+
+  }
 
   deleteEntry(entry){
     entry.delete().then(() => this.props.history.push('/entries'))
@@ -73,9 +80,9 @@ class SingleEntrySidebar extends Component {
         >
           <input type="file" id="file" style={styles.addVideo} multiple onChange={this.addMedia.bind(this)}/>
         </Button>
-{/*        <Button type="submit" onClick={this.storeMedia.bind(this)}>Add Media</Button>
-    */}        <Button variant="raised" style={styles.delete} onClick={this.deleteEntry.bind(this, this.props.entry)}>Delete Entry</Button>
-       
+        <Button type="submit" onClick={this.storeMedia.bind(this)}>Add Media</Button>
+        <Button variant="raised" style={styles.delete} onClick={this.deleteEntry.bind(this, this.props.entry)}>Delete Entry</Button>
+
       </div>
     )
   }
