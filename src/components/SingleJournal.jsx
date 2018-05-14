@@ -43,6 +43,7 @@ export class SingleJournal extends Component {
   }
 
   componentWillReceiveProps(nextProps){
+    console.log("props: ", this.props)
     if(this.props._user !== nextProps._user){
       let entries = []
       db.collection('entries')

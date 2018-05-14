@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import GridList, { GridListTile, GridListTileBar } from 'material-ui/GridList';
 import Subheader from 'material-ui/List/ListSubheader';
+import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import SubdirectoryArrowLeft from '@material-ui/icons/SubdirectoryArrowLeft';
 import { Link } from 'react-router-dom';
@@ -41,7 +42,7 @@ export class AllJournals extends Component {
       <div style={styles.root}>
         <GridList cellHeight={180} style={styles.gridList}>
           <GridListTile key='Subheader' cols={2} style={{height: 'auto'}}>
-            <Subheader component="div" style={styles.subheader}>My Journals</Subheader>
+            <Subheader component="div" style={styles.subheader}><b>My Journals</b></Subheader>
           </GridListTile>
           {
             journals.map((journal, ind) => (
@@ -49,6 +50,7 @@ export class AllJournals extends Component {
                 <Link to={`/journals/${journalIds[ind]}`}>
                   <img src='https://cdn3.iconfinder.com/data/icons/design-flat-icons-vol-2/256/62-512.png' alt={journal.title} style={{height: 150, width: 150}}/>
                   <GridListTileBar
+                    style={{fontFamily: 'Merienda One'}}
                     title={journal.title}
                     subtitle={<span>{journal.description}</span>}
                     actionIcon={
@@ -61,7 +63,7 @@ export class AllJournals extends Component {
               </GridListTile>
             ))
           }
-          {this.props && this.props._user ? <Link to ={`${this.props._user.uid}/new-journal`}>Add Journal</Link> : null}
+          {this.props && this.props._user ? <Link to ={`${this.props._user.uid}/new-journal`} style={styles.hyperlink}><Button style={{fontFamily: 'Merienda One', color: '#FAFAFA'}} variant="raised" color="primary"><b>Add Journal</b></Button></Link> : null}
         </GridList>
       </div>
     )
@@ -76,15 +78,11 @@ const styles = {
     overflow: 'hidden',
   },
   gridList: {
-    borderStyle: 'inset',
-    borderWidth: 'thick',
-    borderColor: '#A1887F'
   },
   subheader: {
-    fontFamily: 'Georgia',
+    fontFamily: 'Merienda One',
     fontSize: 40,
-    fontWeight: 'bold',
-    fontVariant: 'small-caps',
+    padding: '3vh',
     color: '#795548'
   },
   tile: {
@@ -96,6 +94,10 @@ const styles = {
   icon: {
     color: 'rgba(255, 255, 255, 0.54)',
   },
+  hyperlink: {
+    marginTop: "2vh",
+    textDecoration: 'none',
+  }
 };
 
 export default withAuth(AllJournals)
