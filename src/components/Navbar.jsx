@@ -5,7 +5,7 @@ import TextField from 'material-ui/TextField';
 import { InputAdornment } from 'material-ui/Input';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
-import ArrowBack from '@material-ui/icons/ArrowBack';
+import Avatar from 'material-ui/Avatar';
 import Person from '@material-ui/icons/Person';
 import CheckBox from '@material-ui/icons/CheckBox';
 import Poll from '@material-ui/icons/Poll';
@@ -19,31 +19,38 @@ import { withAuth } from 'fireview';
 const styles = {
     root: {
         flexGrow: 1,
-        marginBottom: 50
+        marginBottom: 50,
     },
     toolbar: {
         background: "white"
     },
-    backButton: {
-        color: "#424242"
-    },
     journalButton: {
-        color: "#A1887F"
+        color: "#A1887F",
+        fontFamily: 'Merienda One'
     },
     entryButton: {
-        color: "#82B1FF"
+        color: "#82B1FF",
+        fontFamily: 'Merienda One'
     },
     trackerButton: {
-        color: "#EF9A9A"
+        color: "#EF9A9A",
+        fontFamily: 'Merienda One'
     },
     insightButton: {
-        color: "#9FA8DA"
+        color: "#9FA8DA",
+        fontFamily: 'Merienda One'
     },
     logoutButton: {
-        color: "#424242"
+        color: "#424242",
+        fontFamily: 'Merienda One'
     },
     textField: {
-        color: '#FAFAFA'
+        color: '#FAFAFA',
+        fontFamily: 'Merienda One'
+    },
+    image: {
+        width: 75,
+        height: 75
     }
 };
 
@@ -56,19 +63,14 @@ export class Navbar extends Component {
             <div>
                 <AppBar position="static" style={styles.root}>
                     <Toolbar style={styles.toolbar}>
-                        <Button color="inherit" style={styles.backButton}>
-                            <ArrowBack />
-                        </Button>
                         <Button href="/">
-                        <div>
-                            <Typography variant="display3">
-                               Mahazay
-                            </Typography>
-                            <Typography variant="subheading"
-                                        style={{fontStyle:"italic", textTransform:"lowercase"}}>
-                                ( ma • hā • zay )
-                            </Typography>
-                        </div>
+                            <div>
+                                <img src="https://i.pinimg.com/564x/d6/3b/f1/d63bf1221116ebb6102c77e7e9a74808.jpg" style={styles.image}/>
+                                <Typography variant="subheading"
+                                            style={{color: '#FFAB00', textTransform:"lowercase", fontFamily: 'Merienda One'}}>
+                                    ( ma • hā • zay )
+                                </Typography>
+                            </div>
                         </Button>
                         <Button href="/journals" color="inherit" style={styles.journalButton} disabled={disabled}>
                             <ImportContacts />
@@ -93,8 +95,8 @@ export class Navbar extends Component {
                             placeholder="Search"
                             InputProps={{
                                 endAdornment: (
-                                    <InputAdornment position="start">
-                                        <Search />
+                                    <InputAdornment position="start" style={{fontFamily: 'Merienda One'}}>
+                                        <Search style={{fontFamily: 'Merienda One'}}/>
                                     </InputAdornment>
                                 ),
                             }}

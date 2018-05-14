@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { withAuth } from 'fireview';
 import { getRootRef, getIds } from '../../utils/componentUtils';
+// import { ToneInsights } from './ToneInsights';
+import { getEntryTone, getJournalTones, getUserTones } from '../../utils/toneUtils.js';
+import { getUserPersonality, getEntryPersonality, getJournalPersonality } from  '../../utils/personalityUtils.js'
 import {db} from '../../utils/firebase.config'
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
@@ -12,32 +15,29 @@ export class Insights extends Component {
     constructor () {
         super();
         this.state = {
+            userId: "",
             entryIds: [],
-            entryRootRef: getRootRef('entries'),
             personalityRootRef: getRootRef('personalityInsights'),
             toneRootRef: getRootRef('toneInsights'),
             tones: []
         }
-        this.filterByTone = this.filterByTone.bind(this);
-        this.getPersonalityInsight = this.getPersonalityInsight.bind(this);
+        // this.getPersonalityInsight = this.getPersonalityInsight.bind(this);
     }
 
-    getPersonalityInsight (id){
-       return getRootRef('personalityInsights', id);
-    }
-
-    filterByTone(toneName){
-        const tones = this.state.tones
-        return tones.filter(tone => tone.tone_name === toneName)
-    }
+    // getPersonalityInsight (id){
+    //    return getRootRef('personalityInsights', id);
+    // }
 
     componentWillReceiveProps(nextProps){
-        console.log("props", this.props, "nextProps", nextProps)
+        let entryId;
+        const entryIds = [];
+
         if(this.props._user !== nextProps._user){
             const { personalityRootRef, toneRootRef } = this.state;
             // console.log(toneRootRef)
-            // personalityRootRef.get()
+            // getUserPersonality(userId).get()
             //     .then(snap => {
+            //         console.log("personality: ", snap)
             //         snap.forEach(personalityDoc => {
             //             // console.log(personalityDoc)
             //             // console.log(personalityDoc.id, personalityDoc.data())
@@ -45,20 +45,24 @@ export class Insights extends Component {
             //     })
 
             toneRootRef.where("userId", "==", nextProps._user.uid).get()
-                .then(querySnapshot => {
-                    // console.log(querySnapshot)
-                    querySnapshot.forEach(toneDoc => {
+                .then(snap => {
+                    // console.log("tone: ", snap)
+                    snap.forEach(toneDoc => {
                         // console.log("toneDoc data: ", toneDoc.data())
+                        entryId = toneDoc.data().entryId
+                        if(entryIds.includes(entryId) === false) entryIds.push(entryId)
+                        
                         toneDoc.data().parsedToneInsight.forEach(toneInsight => {
-                            // console.log("tones: ", toneInsight.tones)
+                            console.log("tones: ", toneInsight)
                             toneInsight.tones.forEach(toneCategory => {
                                 // console.log("tone: ", toneCategory)
 
-                            this.setState({tones: [...this.state.tones, {[toneCategory.tone_name]: toneCategory.score}]})
+                            // this.setState({tones: [...this.state.tones, {[toneCategory.tone_name]: toneCategory.score}]})
                         })
                     })
                 })
             })
+            this.setState({userId: nextProps._user.uid, entryIds: entryIds})
             console.log("I rerendered")
         }
     }
@@ -68,19 +72,18 @@ export class Insights extends Component {
         // ref.get().then(snapshot => snapshot.forEach(tone => tone.data().parsedToneInsight.forEach(toneInsight => toneInsight.tones.forEach(toneCategory => console.log(toneCategory.tone_name, ": ", toneCategory.score)))))
         // console.log("tones: ", this.state.tones)
         // console.log(this.state.tones.map(tone => tone.tone_name === "Anger"))
-        console.log(this.state.tones)
+        // .reduce((acc, current) => {
+        //     const length = acc.length
+        //     if(length === 0 || acc[length-1] !== current){
+        //         acc.push(current);
+        //     }
+        //     return acc;
+        // }, [])
+        console.log("userId: ", this.state.userId, "entryIds: ", this.state.entryIds)
         
         return (
-            <div>
-                <div style={styles.appBar}>
-                    <AppBar position="static" color="default">
-                        <Toolbar>
-                            <Typography variant="title" color="inherit">
-                                My Insights
-                            </Typography>
-                        </Toolbar>
-                    </AppBar>
-                </div>
+            <div style={styles.root}>
+                <div style={styles.title}>My Insights</div>
                 <Grid container spacing={8} style={styles.grid}>
                     <Grid item xs={12} sm={6}>
                         <Paper style={styles.paper}>Summary</Paper>
@@ -117,9 +120,21 @@ export class Insights extends Component {
 
 const styles = {
     root: {
-      flexGrow: 1,
+        fontFamily: 'Merienda One',
+        flexGrow: 1,
+        backgroundImage: "url('https://i.pinimg.com/564x/d6/3b/f1/d63bf1221116ebb6102c77e7e9a74808.jpg')",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        opacity: "0.5"
+    },
+    title: {
+        fontFamily: 'Merienda One',
+        fontSize: 40,
+        padding: '3vh',
+        color: '#795548'
     },
     paper: {
+        padding: '5vh',
         textAlign: 'center',
     },
     grid: {

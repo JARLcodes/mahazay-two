@@ -28,6 +28,6 @@ export const analyzeTone = (token, text, entryId, userId) => {
   );
 };
 
-export const analyzePersonality = (entryId) => {
+export const analyzePersonality = (entryId, userId) => {
   return fetch(`/api/entries/${entryId}/personalityInsights`).then(response => response)
 }
