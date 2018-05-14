@@ -26,6 +26,7 @@ const styles = {
     },
     journalButton: {
         color: "#A1887F",
+<<<<<<< HEAD
     },
     entryButton: {
         color: "#82B1FF",
@@ -41,6 +42,29 @@ const styles = {
     },
     textField: {
         color: '#FAFAFA',
+=======
+        fontFamily: 'Merienda One'
+    },
+    entryButton: {
+        color: "#82B1FF",
+        fontFamily: 'Merienda One'
+    },
+    trackerButton: {
+        color: "#EF9A9A",
+        fontFamily: 'Merienda One'
+    },
+    insightButton: {
+        color: "#9FA8DA",
+        fontFamily: 'Merienda One'
+    },
+    logoutButton: {
+        color: "#424242",
+        fontFamily: 'Merienda One'
+    },
+    textField: {
+        color: '#FAFAFA',
+        fontFamily: 'Merienda One'
+>>>>>>> master
     },
     image: {
         width: 75,
@@ -61,7 +85,11 @@ export class Navbar extends Component {
                             <div>
                                 <img src="https://i.pinimg.com/564x/d6/3b/f1/d63bf1221116ebb6102c77e7e9a74808.jpg" style={styles.image}/>
                                 <Typography variant="subheading"
+<<<<<<< HEAD
                                             style={{color: '#cc8c04', textTransform:"lowercase", fontFamily: 'Merienda One'}}>
+=======
+                                            style={{color: '#FFAB00', textTransform:"lowercase", fontFamily: 'Merienda One'}}>
+>>>>>>> master
                                     ( ma • hā • zay )
                                 </Typography>
                             </div>

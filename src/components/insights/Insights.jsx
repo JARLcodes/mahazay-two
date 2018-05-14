@@ -17,6 +17,7 @@ export class Insights extends Component {
         this.state = {
             userId: "",
             entryIds: [],
+<<<<<<< HEAD
             toneRootRef: getRootRef('toneInsights'),
             tones: []
         }
@@ -46,6 +47,35 @@ export class Insights extends Component {
             // })
 
 
+=======
+            personalityRootRef: getRootRef('personalityInsights'),
+            toneRootRef: getRootRef('toneInsights'),
+            tones: []
+        }
+        // this.getPersonalityInsight = this.getPersonalityInsight.bind(this);
+    }
+
+    // getPersonalityInsight (id){
+    //    return getRootRef('personalityInsights', id);
+    // }
+
+    componentWillReceiveProps(nextProps){
+        let entryId;
+        const entryIds = [];
+
+        if(this.props._user !== nextProps._user){
+            const { personalityRootRef, toneRootRef } = this.state;
+            // console.log(toneRootRef)
+            // getUserPersonality(userId).get()
+            //     .then(snap => {
+            //         console.log("personality: ", snap)
+            //         snap.forEach(personalityDoc => {
+            //             // console.log(personalityDoc)
+            //             // console.log(personalityDoc.id, personalityDoc.data())
+            //         })
+            //     })
+
+>>>>>>> master
             toneRootRef.where("userId", "==", nextProps._user.uid).get()
                 .then(snap => {
                     // console.log("tone: ", snap)
@@ -55,7 +85,11 @@ export class Insights extends Component {
                         if(entryIds.includes(entryId) === false) entryIds.push(entryId)
                         
                         toneDoc.data().parsedToneInsight.forEach(toneInsight => {
+<<<<<<< HEAD
                             // console.log("tones: ", toneInsight)
+=======
+                            console.log("tones: ", toneInsight)
+>>>>>>> master
                             toneInsight.tones.forEach(toneCategory => {
                                 // console.log("tone: ", toneCategory)
 
@@ -82,10 +116,14 @@ export class Insights extends Component {
         //     return acc;
         // }, [])
         console.log("userId: ", this.state.userId, "entryIds: ", this.state.entryIds)
+<<<<<<< HEAD
         if(this.state.entryIds.length){
         for(let i = 0; i < this.state.entryIds.length; i++){
                 console.log("ids:", this.state.entryIds[i])
         }}
+=======
+        
+>>>>>>> master
         return (
             <div style={styles.root}>
                 <div style={styles.title}>My Insights</div>
