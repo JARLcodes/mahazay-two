@@ -57,7 +57,7 @@ class Navbar extends Component {
     const user = this.props._user;
     const userEmail = user && user.email ? user.email : null;
     const disabled = user ? false : true;
-    console.log('this.props in nav', this.props);
+    
     return (
       <ResponsiveMenu
         menuOpenButton={<div />}

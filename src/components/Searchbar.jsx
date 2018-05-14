@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import Button from "material-ui/Button";
 import Chip from 'material-ui/Chip/Chip.js';
 import Paper from 'material-ui/Paper/Paper.js';
@@ -32,30 +33,18 @@ const styles = {
 };
 
 
-const renderInput = inputProps => {
-  const { InputProps, ref, ...other } = inputProps;
-  return (
-    <TextField
-      InputProps={{
-        inputRef: ref,
-        ...InputProps, 
-      }}
-      {...other}
-    />
-  )
-};
-
-
 
 class Searchbar extends Component {
   constructor(props){
     super(props);
     this.state = {
       userEntries: [],  
-      userJournals: []
+      userJournals: [], 
+      matchingEntries: []
     };
     this.getSuggestions = this.getSuggestions.bind(this);
     this.renderSuggestion = this.renderSuggestion.bind(this);
+    this.renderInput = this.renderInput.bind(this);
   };
 
   componentDidMount(){
@@ -73,13 +62,43 @@ class Searchbar extends Component {
       })
   };
 
-  goToEntry(entryId, journalId){
-    console.log('this.props', this.props);
-    // this.props.history.push(`/journals/${journalId}/entries/${entryId}`)
+  componentWillReceiveProps(nextProps){
+    console.log('this.props', this.props, 'nextProps', nextProps);
+  }
+
+
+  renderInput(inputProps) {
+    const { InputProps, ref, ...other } = inputProps;
+    // console.log('inputProps', inputProps);
+    return (
+      <TextField
+        InputProps={{
+          inputRef: ref,
+          ...InputProps, 
+        }}
+        {...other}
+        onKeyDown={this.goToEntry.bind(this, InputProps.value)}
+      />
+    )
+  };
+
+  goToEntry(value, e){
+    if (e.which === 8) console.log('backspaceeeeed')
+    const { userEntries } = this.state;
+    console.log('value', value);
+    userEntries.forEach(entry => {
+      const entryPlainText = convertFromRaw(entry.data().content).getPlainText();
+      // console.log('plain text!!!', entryPlainText.includes(value), 'value', value, 'entryPlainText', entryPlainText);
+      const journalId = entry.data().journalId;
+      const entryId = entry.id;
+      if (entryPlainText.includes(value) && e.which === 13) this.props.history.push(`/journals/${journalId}/entries/${entryId}`)
+    })
+    //if(e.which === 13) this.props.history.push(`/journals/${journalId}/entries/${entryId}`)
   }
 
   getSuggestions(inputValue){
-    const { userEntries, userJournals } = this.state;
+    const { userEntries, userJournals, matchingEntries } = this.state;
+    
     let count = 0;
     const entryArray = userEntries.filter(entry => {
       const entryPlainText = convertFromRaw(entry.data().content).getPlainText();
@@ -89,52 +108,58 @@ class Searchbar extends Component {
       count = keep ? count += 1 : count;
       return keep;
     })
-    
+
     return entryArray;
   
   };
 
-  renderSuggestion ({ userEntry, index, itemProps, highlightedIndex, selectedItem }){
+  renderSuggestion({ userEntry, index, itemProps, highlightedIndex, selectedItem }) {
     const isHighlighted = highlightedIndex === index;
     const entryPlainText = convertFromRaw(userEntry.data().content).getPlainText();
-    console.log('selectedItem', selectedItem);
-    const isSelected = (selectedItem || '').indexOf(entryPlainText) > -1;
+    const isSelected = !selectedItem ? (selectedItem || '').indexOf(entryPlainText) > -1 : false;
     
     return (
-      <Button onClick={this.goToEntry.bind(this, userEntry.id, userEntry.data().journalId)}>
+     
         <MenuItem
           {...itemProps}
-          key={userEntry.id}
           selected={isHighlighted}
           component="div"
           style={{
             fontWeight: isSelected ? 500 : 400,
           }}
+          onClick={this.goToEntry.bind(this, userEntry.id, userEntry.data().journalId)}
+          
+          key={userEntry.id}
         >
         {entryPlainText}
         </MenuItem>
-      </Button>
+    
     )
     
-  }
+  };
+
 
   render(){
+   
     return (
       <div style={styles.root}>
-      <Downshift>
-        {({ getInputProps, getItemProps, isOpen, inputValue, selectedItem, highlightedIndex }) => (
+      <Downshift itemToString={item => item === null ? '' : convertFromRaw(item.data().content).getPlainText()}>
+        {({ getInputProps, getItemProps, isOpen, inputValue, selectedItem, highlightedIndex, clearSelection }) => (
           <div style={styles.container}>
-            {renderInput({
+            {this.renderInput({
               fullWidth: true,
               InputProps: getInputProps({
                 placeholder: 'Search by entry',
                 id: 'integration-downshift-simple',
+                onChange: e => {
+                  if(e.target.value === '') clearSelection();
+                }
               }),
             })}
             {isOpen ? (
               <Paper style={styles.paper} square>
                 {this.getSuggestions(inputValue).map((userEntry, index) =>
-                  this.renderSuggestion({
+                  this.renderSuggestion({ 
                     userEntry,
                     index,
                     itemProps: getItemProps({ item: userEntry }),
@@ -153,4 +178,4 @@ class Searchbar extends Component {
 }
 
 
-export default Searchbar;
+export default withRouter(Searchbar);
