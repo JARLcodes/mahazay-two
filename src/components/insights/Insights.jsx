@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { withAuth } from 'fireview';
 import { getRootRef, getIds } from '../../utils/componentUtils';
-// import { ToneInsights } from './ToneInsights';
 import { getEntryTone, getJournalTones, getUserTones } from '../../utils/toneUtils.js';
 import { getUserPersonality, getEntryPersonality, getJournalPersonality } from  '../../utils/personalityUtils.js'
 import {db} from '../../utils/firebase.config'
@@ -24,62 +23,10 @@ export class Insights extends Component {
         // this.getPersonalityInsight = this.getPersonalityInsight.bind(this);
     }
 
-    // getPersonalityInsight (id){
-    //    return getRootRef('personalityInsights', id);
-    // }
-
-    componentWillReceiveProps(nextProps){
-        let entryId;
-        const entryIds = [];
-
-        if(this.props._user !== nextProps._user){
-            const { personalityRootRef, toneRootRef } = this.state;
-            // console.log(toneRootRef)
-            // getUserPersonality(userId).get()
-            //     .then(snap => {
-            //         console.log("personality: ", snap)
-            //         snap.forEach(personalityDoc => {
-            //             // console.log(personalityDoc)
-            //             // console.log(personalityDoc.id, personalityDoc.data())
-            //         })
-            //     })
-
-            toneRootRef.where("userId", "==", nextProps._user.uid).get()
-                .then(snap => {
-                    // console.log("tone: ", snap)
-                    snap.forEach(toneDoc => {
-                        // console.log("toneDoc data: ", toneDoc.data())
-                        entryId = toneDoc.data().entryId
-                        if(entryIds.includes(entryId) === false) entryIds.push(entryId)
-
-                        toneDoc.data().parsedToneInsight.forEach(toneInsight => {
-                            console.log("tones: ", toneInsight)
-                            toneInsight.tones.forEach(toneCategory => {
-                                // console.log("tone: ", toneCategory)
-
-                            // this.setState({tones: [...this.state.tones, {[toneCategory.tone_name]: toneCategory.score}]})
-                        })
-                    })
-                })
-            })
-            this.setState({userId: nextProps._user.uid, entryIds: entryIds})
-            console.log("I rerendered")
-        }
-    }
+    componentDidMount(){
+      }
 
     render () {
-        // const ref = this.state.toneRootRef
-        // ref.get().then(snapshot => snapshot.forEach(tone => tone.data().parsedToneInsight.forEach(toneInsight => toneInsight.tones.forEach(toneCategory => console.log(toneCategory.tone_name, ": ", toneCategory.score)))))
-        // console.log("tones: ", this.state.tones)
-        // console.log(this.state.tones.map(tone => tone.tone_name === "Anger"))
-        // .reduce((acc, current) => {
-        //     const length = acc.length
-        //     if(length === 0 || acc[length-1] !== current){
-        //         acc.push(current);
-        //     }
-        //     return acc;
-        // }, [])
-        console.log("these are the insights:", this.state.tones)
 
         return (
             <div style={styles.root}>
@@ -119,20 +66,20 @@ export class Insights extends Component {
 }
 
 const styles = {
-    root: {
-        fontFamily: 'Merienda One',
-        flexGrow: 1,
-        backgroundImage: "url('https://i.pinimg.com/564x/d6/3b/f1/d63bf1221116ebb6102c77e7e9a74808.jpg')",
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
-        opacity: "0.5"
-    },
-    title: {
-        fontFamily: 'Merienda One',
-        fontSize: 40,
-        padding: '3vh',
-        color: '#795548'
-    },
+    // root: {
+    //     fontFamily: 'Merienda One',
+    //     flexGrow: 1,
+    //     backgroundImage: "url('https://i.pinimg.com/564x/d6/3b/f1/d63bf1221116ebb6102c77e7e9a74808.jpg')",
+    //     backgroundRepeat: "no-repeat",
+    //     backgroundSize: "cover",
+    //     opacity: "0.5"
+    // },
+    // title: {
+    //     fontFamily: 'Merienda One',
+    //     fontSize: 40,
+    //     padding: '3vh',
+    //     color: '#795548'
+    // },
     paper: {
         padding: '5vh',
         textAlign: 'center',

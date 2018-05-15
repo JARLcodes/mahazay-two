@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import Button from "material-ui/Button";
 import { withStyles } from 'material-ui/styles';
 import Card, { CardContent } from 'material-ui/Card';
 import Grid from 'material-ui/Grid';
 import { withAuth } from 'fireview';
-import { Player, BigPlayButton } from 'video-react';
 import ReactPlayer from 'react-player';
 
 import { getRootRef } from '../utils/componentUtils';
@@ -13,7 +11,8 @@ import { getRootRef } from '../utils/componentUtils';
 
 const styles = {
   card: {
-    minWidth: 275,
+    width: 275,
+    height: 210
   },
   title: {
     marginBottom: 16,
@@ -61,7 +60,7 @@ export class AllEntries extends Component {
         { entries.map( entry => {
           return (
             <Grid key={entry.entryId} item xs={3} >
-              <Card style={{}}>
+              <Card>
                 <CardContent>
                   <Link style={{ textDecoration: 'none', color: "black" }} to={`/journals/${entry.journalId}/entries/${entry.entryId}`}>"{entry.content && entry.content.blocks[0].text ? entry.content.blocks[0].text.substr(0, 20) + "..." : "A Blank Page"}" <br /> { new Date(entry.dateCreated).toDateString()}</Link>
                 </CardContent>

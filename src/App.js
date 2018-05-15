@@ -15,11 +15,18 @@ import {
   SingleJournal,
   NewJournalForm,
   Insights,
-  Tracker
+  TrackerSummary
 } from './components/index.js';
 
 const theme = createMuiTheme();
-
+const styles = {
+  nav: {
+    marginBottom: "2em", 
+    marginTop: "0.5em", 
+    borderBottom: "1px dotted #454545",
+    paddingBottom: "1em"
+  }
+}
 class App extends Component {
 
   render() {
@@ -28,11 +35,11 @@ class App extends Component {
     return (
       <Router history={history}>
         <MuiThemeProvider theme={theme}>
-          <div className="App">
-            <div className="col-xs-10">
-              <Navbar />
+          <div className="App" style={styles.body}>
+            <div className="col-xs-10" style={styles.nav}>
+              <Navbar history={history}/>
             </div>
-            <div className="col-xs-10">
+            <div className="col-xs-10" >
             <Switch>
               <Route exact path="/entries" component={AllEntries} />
               <Route exact path="/journals/:journalId/entries/:entryId" component={SingleEntry} />
@@ -40,7 +47,7 @@ class App extends Component {
               <Route exact path="/journals/:journalId" component={SingleJournal} />
               <Route exact path="/insights" component={Insights} />
               <Route exact path="/new-journal" component={NewJournalForm}/>
-              <Route path="/tracker" component={Tracker}/>
+              <Route path="/tracker" component={TrackerSummary}/>
               <Route exact path="/:userId/new-journal" component={NewJournalForm}/>
             { user ? <Route exact path="/" component={Dashboard}/>
                     : <Route exact path="/" component={Home}/>}

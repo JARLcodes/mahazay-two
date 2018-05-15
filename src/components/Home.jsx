@@ -34,10 +34,9 @@ const styles = theme => ({
   helperText: {
     alignSelf: "center", 
     marginLeft: "1em"
-  },
-  image: {
-    height: 100,
-    width: 100,
+  }, 
+  allButtons: {
+    borderRadius: "1em"
   }
   
 });
@@ -76,8 +75,6 @@ export default class HomepageForm extends Component {
   handleSignUp(event) {
     event.preventDefault();
     const { email, password } = this.state;
-    // if (password.length < 6) this.setState({ warning: 'password-error' });
-    // if (!email.includes('@') || !(email.indexOf('.') > email.indexOf('@'))) this.setState({ warning: 'email-error'});
     auth.createUserWithEmailAndPassword(email, password)
     .then(user => {
       return db.collection('users').doc(`${user.uid}`).set({ email: email, password: password });
@@ -144,32 +141,31 @@ export default class HomepageForm extends Component {
                 </div>
               }
             
-                  {this.state.warning === 'password-error'
-                    ? <div style={styles.error}>
-                      <TextField
-                        error
-                        id="name"
-                        label="Password"
-                        onChange={this.handleChange}
-                        name="password"
-                        placeholder="password"
-                        margin="normal"
-                        style={styles.helperText}
-                        />
-                        <FormHelperText id="name-helper-text">Password must be at least 6 characters</FormHelperText>
-                      </div>
-                    : <div>
-                      <TextField
-                        id="name"
-                        label="Password"
-                        onChange={this.handleChange}
-                        name="password"
-                        placeholder="Enter Password"
-                        margin="normal"
-                        />
-                        </div>
-                  }
-                
+            {this.state.warning === 'password-error'
+              ? <div style={styles.error}>
+                <TextField
+                  error
+                  id="name"
+                  label="Password"
+                  onChange={this.handleChange}
+                  name="password"
+                  placeholder="password"
+                  margin="normal"
+                  style={styles.helperText}
+                  />
+                  <FormHelperText id="name-helper-text">Password must be at least 6 characters</FormHelperText>
+                </div>
+              : <div>
+                <TextField
+                  id="name"
+                  label="Password"
+                  onChange={this.handleChange}
+                  name="password"
+                  placeholder="Enter Password"
+                  margin="normal"
+                  />
+                  </div>
+              }
                 <Button onClick={this.handleSignUp}>
                   Sign Up
                 </Button>
@@ -177,6 +173,7 @@ export default class HomepageForm extends Component {
               :
               this.state.login && !this.state.signUp ?
               <div>
+              <form>
               <div>
                 <TextField
                 id="emailInput"
@@ -200,6 +197,7 @@ export default class HomepageForm extends Component {
               <Button onClick={this.handleLogin}>
               Login
               </Button>
+              </form>
             </div>
             : null}
             </Grid> 
