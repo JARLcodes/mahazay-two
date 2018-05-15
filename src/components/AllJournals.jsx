@@ -5,7 +5,7 @@ import Button from 'material-ui/Button';
 import { Link } from 'react-router-dom';
 import { withAuth } from 'fireview';
 import Add from '@material-ui/icons/Add';
-import Card, {CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import Card, {CardContent, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 
 import { getRootRef } from '../utils/componentUtils';
@@ -36,6 +36,11 @@ const styles = {
   addJournal: {
     backgroundColor: "#A1887F",
     border: "1px dotted #454545"
+  },
+  card: {
+    padding: "2vh 2vh",
+    margin: "1vh 1vh",
+    marginBottom: ".1vh"
   }
 };
 
@@ -78,12 +83,12 @@ export class AllJournals extends Component {
             journals.map((journal, ind) => (
               <Grid key={journalIds[ind]}>
                 <Link to={`/journals/${journalIds[ind]}`}>
-                <Card>
-                  <CardMedia 
-                    overlay={<CardTitle title={journal.title} subtitle={journal.description}/>}
-                  >
-                  <img src='https://store.storeimages.cdn-apple.com/4974/as-images.apple.com/is/image/AppleInc/aos/published/images/H/KB/HKB12/HKB12?wid=572&hei=572&fmt=jpeg&qlt=95&op_usm=0.5,0.5&.v=1480984401449' alt=''/>
-                  </CardMedia>
+                <Card style={styles.cards}>
+                  <img src='https://store.storeimages.cdn-apple.com/4974/as-images.apple.com/is/image/AppleInc/aos/published/images/H/KB/HKB12/HKB12?wid=572&hei=572&fmt=jpeg&qlt=95&op_usm=0.5,0.5&.v=1480984401449' alt=""/>
+                  <CardContent>
+                    <Typography variant="title">{journal.title}</Typography> 
+                   <Typography variant="subheading">{journal.description}</Typography>
+                  </CardContent>
                 </Card>
                 </Link>
               </Grid>
@@ -95,4 +100,4 @@ export class AllJournals extends Component {
   }
 }
 
-export default withAuth(AllJournals)
+export default withAuth(AllJournals);
