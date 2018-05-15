@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 import Button from "material-ui/Button";
 import { withAuth } from 'fireview';
 import { confirmAlert } from 'react-confirm-alert';
-import { SingleTracker } from './index';
+import { SingleTracker2 } from './index';
 
 
 const styles = {
@@ -60,7 +60,7 @@ class SingleEntrySidebar extends Component {
 
       </div>
       <div>
-      <SingleTracker entry={this.props.entry} />
+      { this.props._user && <SingleTracker2 entry={this.props.entry} user={this.props._user}/> }
       </div>
       </div>
     )

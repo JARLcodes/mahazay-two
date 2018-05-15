@@ -31,6 +31,7 @@ class SingleTracker extends Component {
       entry: {}
     };
     this.habitDone = this.habitDone.bind(this);
+    this.handleCheck = this.handleCheck.bind(this);
   }
 
   componentDidMount() {
@@ -39,6 +40,8 @@ class SingleTracker extends Component {
     ));
     this.props.entry.get().then(entryItem => this.setState({entry: entryItem}));
   }
+
+
 
   componentDidUpdate() {
     db.collection('habits').get()
@@ -57,6 +60,16 @@ class SingleTracker extends Component {
         }
       }));
   }
+
+  handleCheck(e){
+    console.log('e.target.name', e.target.name, 'user id on props?', this.props);
+    db.collection('habits').where('userId', '==', this.props._user.uid).get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(habit => {
+          
+        })
+  })
+}
 
   habitDone(habitName) {
     let theEntry = this.state.entry;
