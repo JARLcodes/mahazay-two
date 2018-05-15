@@ -5,39 +5,57 @@ import {
   TableRow
 } from 'material-ui/Table';
 import Checkbox from 'material-ui/Checkbox';
+import Check from '@material-ui/icons/Check';
+import Done from '@material-ui/icons/Done';
 
-const generateWeek = () => {
+const styles = {
+  check: {
+    color: 'green', 
+    alignSelf: 'center', 
+  }, 
+  x: {
+    color: 'red', 
+    alignSelf: 'center'
+  }
+}
+
+export const generateWeek = () => {
   let week = [];
   let nextDay;
   let formattedNextDay;
-  for (let i = 0; i < 7; i++){
-    nextDay = moment().add(i, 'days');
+  let j = 2;
+  for (let i = 0; i < 9; i++){
+    if (i < 3){
+      nextDay = moment().subtract(j, 'days')
+      if (j > 0) j--;
+    }
+    else if (3 <= i <= 9) nextDay = moment().add(i, 'days');
     formattedNextDay = `${nextDay.month() + 1}/${nextDay.date()}`;
     week.push(formattedNextDay);
   }
   return week;
-};
+}
 
 export const week = generateWeek();
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 export const Habit = props => {
-  const { name, dates } = props;
+  const { name, completed, dateCompleted } = props;
   return (
     <TableRow key={props}>
       <TableCell>
       {name}
       </TableCell>
         { week.map(day => {
-          let isChecked = false, 
-              alreadyChecked = false;
-          if (dates) { 
-            const dateArray = new Date(Object.values(dates)[1]).toString().split(' ');
-            const formattedDate = `${months.indexOf(dateArray[1]) + 1}/${dateArray[2]}`;
-            if(formattedDate === day) isChecked = true;
-            if (dates[0]) alreadyChecked = Object.values(dates)[0];
+          let isChecked = false;
+          if (props){
+            const dateArray = new Date(dateCompleted).toString().split(' ');
+            const formattedDate = dateArray.length ? `${months.indexOf(dateArray[1]) + 1}/${dateArray[2]}` : '';
+            if (formattedDate === day && completed) isChecked = true;
           }
-          return <TableCell key={day}><Checkbox day={day} checked={isChecked || alreadyChecked}/></TableCell>
+          if (isChecked) return <TableCell key={day}><b style={styles.check}>Y</b></TableCell>
+          else return <TableCell key={day}><b style={styles.x}>X</b></TableCell>
+          
           }) 
         }
     </TableRow>

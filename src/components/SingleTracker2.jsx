@@ -28,10 +28,16 @@ class SingleTracker2 extends Component {
     super();
     this.state = {
       habits: [],
+<<<<<<< HEAD
       entry: {}, 
       isChecked: false
     };
     this.habitDone = this.habitDone.bind(this);
+=======
+      entry: {}
+    };
+    // this.habitDone = this.habitDone.bind(this);
+>>>>>>> 882103c0c75b9e33d8442733c85b99f835e7338b
    
   }
 
@@ -39,6 +45,7 @@ class SingleTracker2 extends Component {
     this.props.entry.get().then(entryItem => this.setState({entry: entryItem}));
     db.collection('habits').where('userId', '==', this.props.user.uid).get()
       .then(querySnapshot => {
+<<<<<<< HEAD
         querySnapshot.forEach(habit => this.setState({ habits: [...this.state.habits, habit] }))
       })
   }
@@ -95,6 +102,73 @@ class SingleTracker2 extends Component {
       // let entryDate = this.state.entry.data().dateCreated;
       // console.log('entry date', entryDate, new Date().setHours(0,0,0,0));
       let isChecked = Object.values(dates)[0];
+=======
+        querySnapshot.forEach(habit => { 
+          console.log('habit being added to state', habit);
+          this.setState({ habits: [...this.state.habits, habit] })
+      })
+    })
+  }
+
+  componentWillReceiveProps(nextProps){
+    const { habits } = this.state;
+    if (nextProps !== this.props && habits.length){
+      console.log('nextprops', nextProps, this.state);
+      
+      console.log('habits in will receive props', habits);
+      // if (habits.length){
+        habits.forEach(habit => {
+          const entryContent = convertFromRaw(this.state.entry.data().content).getPlainText().toLowerCase();
+          console.log('entrycontent', entryContent);
+          const habitWordArray = habit.data().name.split(' ');
+          //according to previous line, completed will be undefined if entryContent does not include one of the habit words. if this is the case, completed needs to be a boolean - false.
+          const completed = !!habitWordArray.filter(word => entryContent.includes(word)).length;
+          const entryDate = this.state.entry.data().dateCreated;
+          habit.ref.update({ dateCompleted: entryDate, completed: completed });
+        })
+      // }
+    }
+   
+  }
+
+  componentDidUpdate(){
+    const { habits } = this.state;
+    if (habits.length){
+      habits.forEach(habit => {
+        const entryContent = convertFromRaw(this.state.entry.data().content).getPlainText().toLowerCase();
+        console.log('entrycontent', entryContent);
+        const habitWordArray = habit.data().name.split(' ');
+        //according to previous line, completed will be undefined if entryContent does not include one of the habit words. if this is the case, completed needs to be a boolean - false.
+        const completed = !!habitWordArray.filter(word => entryContent.includes(word)).length;
+        const entryDate = this.state.entry.data().dateCreated;
+        habit.ref.update({ dateCompleted: entryDate, completed: completed });
+      })
+   
+    }
+  }
+
+  handleCheck(e){
+    e.persist();
+    const { habits } = this.state;
+    if (habits.length){
+      habits.forEach(habit => {
+        const isCompleted = habit.data().completed;
+        if (e.target.name === habit.data().name) habit.ref.update({ completed: !isCompleted });
+      })
+    }
+  }
+
+ 
+
+  render() {
+    
+    const AllHabits = db.collection('habits').where('userId', '==', this.props.user.uid);
+    const Habit = props => {
+      if (Object.keys(props).length) {
+      const { name, dateCompleted, completed } = props;
+      let entryDate = Object.values(this.state.entry).length ? this.state.entry.data().dateCreated : '';
+      let isChecked = entryDate === dateCompleted ? completed : false;
+>>>>>>> 882103c0c75b9e33d8442733c85b99f835e7338b
       
       return <div> 
         {name}
@@ -120,4 +194,8 @@ class SingleTracker2 extends Component {
   }
 }
 
+<<<<<<< HEAD
 export default SingleTracker2;
+=======
+export default SingleTracker2;
+>>>>>>> 882103c0c75b9e33d8442733c85b99f835e7338b
