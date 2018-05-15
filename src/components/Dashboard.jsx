@@ -2,18 +2,19 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import Grid from 'material-ui/Grid';
-import Card, { CardContent } from 'material-ui/Card';
+import Card, { CardContent, CardHeader } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
-
-import Person from '@material-ui/icons/Person';
+import Avatar from 'material-ui/Avatar';
 import ImportContacts from '@material-ui/icons/ImportContacts';
 import LibraryBooks from '@material-ui/icons/LibraryBooks';
 import { withAuth } from 'fireview';
 
+import paperBackground from '../images/paperBackground.jpg';
+
 const styles = {
 	profileCard: {
 		maxWidth: 200,
-		background: "#d1e2ff",
+		background: "white",
 		padding: "7vh 10vh",
 		marginBottom: "3.5vh",
 	},
@@ -28,15 +29,14 @@ const styles = {
     flexWrap: "nowrap",
     overflowX: "auto",
 	},
-	profileIcon: {
-		color: "#616161",
+	bigAvatar : {
 		width: 80,
 		height: 80
 	},
 	mediumIcon: {
 		color: "#616161",
-		width: 80,
-		height: 80
+		width: 60,
+		height: 60
 	}
 };
 
@@ -48,8 +48,15 @@ const Dashboard = (props) => {
 			<Grid>
 				<Link to="/profile" style={{textDecoration:"none"}}>
 				<Card style={styles.profileCard}>
-					<Person style={styles.profileIcon}/>
-					<div>{user.email}</div>
+					<CardHeader
+						avatar={
+							<Avatar	style={styles.bigAvatar}>
+								S
+							</Avatar>
+						}
+						title="Your Profile"
+						subheader={user.email}
+						/>
 				</Card>
 				</Link>
 			</Grid>
