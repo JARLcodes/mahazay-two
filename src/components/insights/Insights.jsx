@@ -9,12 +9,19 @@ import Paper from 'material-ui/Paper';
 import Grid from 'material-ui/Grid';
 import List, { ListItem, ListItemIcon, ListItemText}from 'material-ui/List';
 import ExpansionPanel, { ExpansionPanelDetails, ExpansionPanelSummary } from 'material-ui/ExpansionPanel';
+
 import ThumbUp from '@material-ui/icons/ThumbUp';
 import ThumbDown from '@material-ui/icons/ThumbDown';
 import Face from '@material-ui/icons/Face';
 import Star from '@material-ui/icons/Star';
 import ChatBubble from '@material-ui/icons/ChatBubble';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
+
+const PersonalityTextSummaries = require('personality-text-summary');
+
+// locale is one of {'en', 'es', 'ja', 'ko'}.  version refers to which version of Watson Personality Insights to use, v2 or v3.
+const v3EnglishTextSummaries = new PersonalityTextSummaries({ locale: 'en', version: 'v3' });
 
 export class Insights extends Component {
     constructor () {
@@ -25,6 +32,7 @@ export class Insights extends Component {
             personality: [],
             needs: [],
             values: [],
+            summary: "",
             expanded: null
         }
     }
@@ -39,6 +47,10 @@ export class Insights extends Component {
 
             getRootRef('personalityInsights', this.props.entry.id).get()
             .then(snap => {
+
+                // retrieve the summary for a specified personality profile (json)
+                const textSummary  = v3EnglishTextSummaries.getSummary(snap.data());
+
                 //helper functions
                 const filter = (obj, num) => obj.score === num;
                 const percent = num => Math.floor(num * 100) + "%"
@@ -80,9 +92,9 @@ export class Insights extends Component {
                 valuesArr.forEach(value => {
                     finalValuesArr.push({name: value.name, percentile: percent(value.percentile)})
                 })
-                console.log("finalValuesArr", finalValuesArr)
+                // console.log("finalValuesArr", finalValuesArr)
 
-                this.setState({personalityLikes: likely, personalityUnlikes: unlikely, personality: finalPersonalityArr, needs: finalNeedsArr, values: finalValuesArr})
+                this.setState({personalityLikes: likely, personalityUnlikes: unlikely, personality: finalPersonalityArr, needs: finalNeedsArr, values: finalValuesArr, summary: textSummary})
                     
         })
         console.log("I rerendered")
@@ -97,10 +109,11 @@ export class Insights extends Component {
             personality,
             needs,
             values,
+            summary,
             expanded
         } = this.state;
 
-        console.log("state", this.state.personality)
+        // console.log("state", this.state.personality)
 
         return (
             <div style={styles.root}>
@@ -108,7 +121,10 @@ export class Insights extends Component {
                 <div>
                     <Grid container spacing={8} style={styles.grid}>
                         <Grid item xs={8} sm={4}>
-                            <Paper style={styles.paper}>Summary</Paper>
+                            <Paper style={styles.paper}>
+                                <Typography variant="title" gutterBottom align="center">Summary</Typography>
+                                <Typography variant="subheading" align="justify">{summary}</Typography>
+                            </Paper>
                         </Grid>
                         <Grid item xs={8} sm={4}>
                             <Paper style={styles.paper}>Sunburst Data Visual</Paper>

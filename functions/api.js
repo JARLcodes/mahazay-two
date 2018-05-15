@@ -6,7 +6,7 @@ const { ltAuthServiceTone, ltAuthServicePersonality } = require('./watson.config
 const getPersonalityToken = () => new Promise((resolve, reject) => {
   ltAuthServicePersonality.getToken((err, data) => {
     if(err) return reject(err);
-    resolve(data);
+    return resolve(data);
   });
 });
 const express = require('express');
