@@ -28,16 +28,9 @@ class SingleTracker2 extends Component {
     super();
     this.state = {
       habits: [],
-<<<<<<< HEAD
-      entry: {}, 
-      isChecked: false
-    };
-    this.habitDone = this.habitDone.bind(this);
-=======
       entry: {}
     };
-    // this.habitDone = this.habitDone.bind(this);
->>>>>>> 882103c0c75b9e33d8442733c85b99f835e7338b
+    
    
   }
 
@@ -45,64 +38,6 @@ class SingleTracker2 extends Component {
     this.props.entry.get().then(entryItem => this.setState({entry: entryItem}));
     db.collection('habits').where('userId', '==', this.props.user.uid).get()
       .then(querySnapshot => {
-<<<<<<< HEAD
-        querySnapshot.forEach(habit => this.setState({ habits: [...this.state.habits, habit] }))
-      })
-  }
-
- 
- 
-  // componentDidUpdate() {
-    // then(snap =>  snap.data().dateCreated)
-    // db.collection('habits').where('userId', '==', this.props._user.uid).get()
-    //   .then(querySnapshot => querySnapshot.forEach(habit => {
-    //     if (this.habitDone(habit.data().name)) return this.props.entry.get()
-    //     else return 
-    //   })
-    //   .then(querySnap => )
-      // .then(entryDate => {
-      //   //if the habit was completed on the entry date, then set checked to true
-      //   if (new Date(new Date().setHours(0,0,0,0)) == entryDate) this.setState({ isChecked: true });
-      //   habit.ref.update({dates: {checked: isChecked, date: entryDate}})
-      // })
-      // .catch(console.error('you made a booboo, component did update in single tracker'))
-  //}
-
-  //for user to manually toggle checkbox
-  handleCheck(e){
-    e.persist();
-    db.collection('habits').where('userId', '==', this.props.user.uid).get()
-      .then(querySnapshot => {
-        querySnapshot.forEach(habit => {
-          if (habit.data().name === e.target.name) {
-            console.log('obj.values', Object.values(habit.data().dates)[0])
-            let isChecked = Object.values(habit.data().dates)[0];
-            let dateCompleted = isChecked ? new Date().setHours(0,0,0,0) : '';
-            habit.ref.update({ dates: { checked: isChecked, date: dateCompleted }}) //this should leave dates.date untouched
-          }
-        })
-      })
-  }
-
-  habitDone(habitName) {
-    let theEntry = this.state.entry;
-    if (Object.keys(this.state.entry).length && habitName) {
-      let entryContent = convertFromRaw(theEntry.data().content).getPlainText().toLowerCase();
-      return entryContent.includes(habitName.toLowerCase());
-    }
-  }
-
-  render() {
-    
-    // const AllHabits = db.collection('habits').where('userId', '==', this.props._user.uid);
-    const AllHabits = db.collection('habits');
-    const Habit = props => {
-      if (Object.keys(props).length) {
-      const { name, dates } = props;
-      // let entryDate = this.state.entry.data().dateCreated;
-      // console.log('entry date', entryDate, new Date().setHours(0,0,0,0));
-      let isChecked = Object.values(dates)[0];
-=======
         querySnapshot.forEach(habit => { 
           console.log('habit being added to state', habit);
           this.setState({ habits: [...this.state.habits, habit] })
@@ -168,7 +103,6 @@ class SingleTracker2 extends Component {
       const { name, dateCompleted, completed } = props;
       let entryDate = Object.values(this.state.entry).length ? this.state.entry.data().dateCreated : '';
       let isChecked = entryDate === dateCompleted ? completed : false;
->>>>>>> 882103c0c75b9e33d8442733c85b99f835e7338b
       
       return <div> 
         {name}
@@ -194,8 +128,4 @@ class SingleTracker2 extends Component {
   }
 }
 
-<<<<<<< HEAD
 export default SingleTracker2;
-=======
-export default SingleTracker2;
->>>>>>> 882103c0c75b9e33d8442733c85b99f835e7338b
