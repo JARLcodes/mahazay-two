@@ -52,7 +52,7 @@ export class ToneInsights extends Component {
             const text = convertFromRaw(this.state.entry).getPlainText()
             getTokenTone()
             .then((token) => {
-                return analyzeTone(token, text, entryId, userId)})
+                return analyzeTone.call(this, token, text, entryId, userId)})
             .then( insightObject => {
                 // return db.collection('toneInsights').where("entryId", "==", this.props.entryId).get()
                 // .then(querySnap => {
@@ -66,7 +66,7 @@ export class ToneInsights extends Component {
                 //     else{
                 //         console.log("did not get the newly created tone")}})}
 
-            console.log("Set the object to state:", (insightObject))
+            console.log("Set the object to state:", JSON.stringify(insightObject.response))
             this.setState({...this.state, needsNewInsight: false})
 
             }

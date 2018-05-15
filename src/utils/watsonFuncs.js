@@ -9,12 +9,12 @@ export const  getTokenTone = () => {
   });
 };
 
-export const analyzeTone = (token, text, entryId, userId) => {
+export const analyzeTone = function (token, text, entryId, userId) {
   const toneAnalyzer = new ToneAnalyzerV3({
     token,
     version: '2016-05-19',
   });
-
+ let self = this
   return toneAnalyzer.tone(
     { text, sentences: false },
     function(err, result) {
@@ -27,7 +27,7 @@ export const analyzeTone = (token, text, entryId, userId) => {
       db.collection('toneInsights').doc("Tone Test 3").set({ parsedToneInsight, entryId, userId });
       let insight = { parsedToneInsight, entryId, userId }
       console.log("this is the insight object inside watson Funcs:", insight)
-      return insight
+      self.setState({insight}, ()=> {console.log(self.state)})
     }
   );
 
