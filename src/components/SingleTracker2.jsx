@@ -30,7 +30,7 @@ class SingleTracker2 extends Component {
       habits: [],
       entry: {}
     };
-    // this.habitDone = this.habitDone.bind(this);
+    
    
   }
 

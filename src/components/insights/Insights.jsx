@@ -44,7 +44,7 @@ export class Insights extends Component {
                 const percent = num => Math.floor(num * 100) + "%"
                 
                 //consumption preferences data
-                const consumptionPreferences = Array.from(snap.data().consumption_preferences)
+                const consumptionPreferences = snap.data() ? Array.from(snap.data().consumption_preferences) : [];
                 const flattenedConsumptionArray = []
 
                 consumptionPreferences.forEach(preference => {
@@ -58,7 +58,7 @@ export class Insights extends Component {
                 const unlikely = flattenedConsumptionArray.filter(preference => filter(preference, 0))
 
                 // personality data
-                const personalityArr = Array.from(snap.data().personality)
+                const personalityArr = snap.data() ? Array.from(snap.data().personality) : [];
                 const finalPersonalityArr = []
 
                 personalityArr.forEach(personality => {
@@ -66,7 +66,7 @@ export class Insights extends Component {
                 })
 
                 // needs data
-                const needsArr = Array.from(snap.data().needs)
+                const needsArr = snap.data() ? Array.from(snap.data().needs) : [];
                 const finalNeedsArr = []
 
                 needsArr.forEach(need => {
@@ -74,7 +74,7 @@ export class Insights extends Component {
                 })
 
                 // values data
-                const valuesArr = Array.from(snap.data().values)
+                const valuesArr = snap.data() ? Array.from(snap.data().values) : [];
                 const finalValuesArr = []
 
                 valuesArr.forEach(value => {
