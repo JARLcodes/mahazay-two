@@ -9,6 +9,7 @@ import Table, {
 } from 'material-ui/Table';
 import Grid from 'material-ui/Grid';
 import Checkbox from 'material-ui/Checkbox';
+import moment from 'moment';
 
 import { Map, withAuth } from 'fireview';
 import { db } from '../utils/firebase.config';
@@ -17,10 +18,10 @@ const styles = theme => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
+    marginLeft: '30%',
   },
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
+    
     width: 200,
   },
   menu: {
@@ -71,33 +72,57 @@ class TrackerSummary extends Component {
       });
   }
 
-  // handleDelete(habit) {
-  //   console.log('state', this.state.habits)
-  //   // db.collection('habits').get()
-  //   //   .then(snaps => snaps.forEach(snap => snap.delete()));
-  // }
 
   render() {
     const AllHabits = db.collection('habits');
     const user = this.props._user;
     const userId = user && user.uid ? user.uid : null;
+    const generateWeek = () => {
+      let week = [];
+      let nextDay;
+      let formattedNextDay;
+      for (let i = 0; i < 7; i++){
+        nextDay = moment().add(i, 'days');
+        formattedNextDay = `${nextDay.month() + 1}/${nextDay.date()}`;
+        week.push(formattedNextDay);
+      }
+      return week;
+    };
+    const week = generateWeek();
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const Habit = props => {
-          const { name } = props;
-            return <TableRow><TableCell>
-             {name}</TableCell><TableCell>
-            </TableCell>
-            {/* <Button href={`/tracker/${name}`}></Button> */}
-            </TableRow>;};
+          const { name, dates } = props;
+          let dateArray = Object.values(dates)
+          return (
+            <TableRow key={props}>
+              <TableCell>
+              {name}
+              </TableCell>
+                { week.map(day => {
+                  let isChecked = false, 
+                      alreadyChecked = false;
+                  if (dates) { 
+                    const dateArray = new Date(Object.values(dates)[1]).toString().split(' ');
+                    const formattedDate = `${months.indexOf(dateArray[1]) + 1}/${dateArray[2]}`;
+                    if(formattedDate == day) isChecked = true;
+                    if (dates[0]) alreadyChecked = Object.values(dates)[0];
+                  }
+                  return <TableCell key={day}><Checkbox day={day} checked={isChecked || alreadyChecked}/></TableCell>
+                  }) 
+                }
+            </TableRow>
+          )
+        };
 
     return (
       <Grid container style={{padding: "1vh"}}>
         <Grid item>
-        <form onSubmit={this.handleAdd} className={styles.container}> 
+        <form onSubmit={this.handleAdd} style={styles.container}> 
         <TextField
           id="name"
           label="Add Tracker?"
           name="habitToAdd"
-          className={styles.textField}
+          style={styles.textField}
           onChange={this.handleChange}
           margin="normal"
           value={this.state.habitToAdd.name}
@@ -113,6 +138,8 @@ class TrackerSummary extends Component {
         </TableRow>
       </TableHead>
         <TableBody>
+        <TableCell></TableCell>
+        {week.map(day => <TableCell>{day}</TableCell>)}
           <Map from={AllHabits.where('userId', '==', userId)}
           Render={Habit}
           />
@@ -125,3 +152,6 @@ class TrackerSummary extends Component {
 }
 
 export default withAuth(TrackerSummary);
+
+// const formattedDate = `${months.indexOf(dateArray[1]) + 1}/${dateArray[2]}`;
+//                     console.log('formatted date', formattedDate);
