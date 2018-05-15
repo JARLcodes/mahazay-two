@@ -25,18 +25,13 @@ const styles = {
   },
   subheader: {
     fontSize: 40,
-    fontWeight: 'bold',
     fontVariant: 'small-caps',
-    color: '#795548'
+    color: 'grey'
   },
   tile: {
     backgroundColor: '#BCAAA4',
-    borderStyle: 'inset',
-    borderWidth: 'thick',
+    borderWidth: '.1vh',
     borderColor: '#A1887F'
-  },
-  icon: {
-    color: 'rgba(255, 255, 255, 0.54)',
   },
   addJournal: {
     backgroundColor: "#A1887F",
@@ -77,17 +72,17 @@ export class AllJournals extends Component {
     const journalIds = this.state.allJournalIds;
     return (
       <div style={styles.root}>
-        <GridList cellHeight={180} style={styles.gridList}>
+        <GridList>
           <GridListTile key='Subheader' cols={2} style={{height: 'auto'}}>
-            <Subheader component="div" style={styles.subheader}>My Journals</Subheader>
+            <Subheader style={styles.subheader}>My Journals</Subheader>
             {this.props && this.props._user ? <Button  onClick={this.newJournal.bind(this)}><Add styles={styles.addJournal}/></Button> : null}
           </GridListTile>
          
           {
             journals.map((journal, ind) => (
-              <GridListTile key={journalIds[ind]} style={styles.tile}>
+              <GridListTile key={journalIds[ind]}>
                 <Link to={`/journals/${journalIds[ind]}`}>
-                  <img src='https://cdn3.iconfinder.com/data/icons/design-flat-icons-vol-2/256/62-512.png' alt={journal.title} style={{height: 150, width: 150}}/>
+                  <img src='https://store.storeimages.cdn-apple.com/4974/as-images.apple.com/is/image/AppleInc/aos/published/images/H/KB/HKB12/HKB12?wid=572&hei=572&fmt=jpeg&qlt=95&op_usm=0.5,0.5&.v=1480984401449'/>
                   <GridListTileBar
                     title={journal.title}
                     subtitle={<span>{journal.description}</span>}
