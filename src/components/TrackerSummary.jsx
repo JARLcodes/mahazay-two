@@ -18,10 +18,10 @@ const styles = theme => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
+    marginLeft: '30%',
   },
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
+    
     width: 200,
   },
   menu: {
@@ -72,11 +72,6 @@ class TrackerSummary extends Component {
       });
   }
 
-  // handleDelete(habit) {
-  //   console.log('state', this.state.habits)
-  //   // db.collection('habits').get()
-  //   //   .then(snaps => snaps.forEach(snap => snap.delete()));
-  // }
 
   render() {
     const AllHabits = db.collection('habits');
@@ -104,13 +99,15 @@ class TrackerSummary extends Component {
               {name}
               </TableCell>
                 { week.map(day => {
-                  let isChecked = false;
+                  let isChecked = false, 
+                      alreadyChecked = false;
                   if (dates) { 
                     const dateArray = new Date(Object.values(dates)[1]).toString().split(' ');
                     const formattedDate = `${months.indexOf(dateArray[1]) + 1}/${dateArray[2]}`;
                     if(formattedDate == day) isChecked = true;
+                    if (dates[0]) alreadyChecked = Object.values(dates)[0];
                   }
-                  return <TableCell key={day}><Checkbox day={day} checked={isChecked}/></TableCell>
+                  return <TableCell key={day}><Checkbox day={day} checked={isChecked || alreadyChecked}/></TableCell>
                   }) 
                 }
             </TableRow>
@@ -120,12 +117,12 @@ class TrackerSummary extends Component {
     return (
       <Grid container style={{padding: "1vh"}}>
         <Grid item>
-        <form onSubmit={this.handleAdd} className={styles.container}> 
+        <form onSubmit={this.handleAdd} style={styles.container}> 
         <TextField
           id="name"
           label="Add Tracker?"
           name="habitToAdd"
-          className={styles.textField}
+          style={styles.textField}
           onChange={this.handleChange}
           margin="normal"
           value={this.state.habitToAdd.name}
