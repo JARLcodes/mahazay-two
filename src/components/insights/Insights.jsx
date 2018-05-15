@@ -102,7 +102,7 @@ export class Insights extends Component {
             expanded
         } = this.state;
 
-        console.log("state", this.state.personality)
+        console.log("state", this.state.personality, "entryId:", this.props.entryId)
 
         return (
             <div style={styles.root}>

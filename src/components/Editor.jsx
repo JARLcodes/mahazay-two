@@ -63,16 +63,9 @@ class EditorComponent extends Component {
     //analyze input with each change
     const text = this.state.editorState.getCurrentContent().getPlainText();
     //only call tone analyzer if length of text is greater than 350 -- to limit api calls
-<<<<<<< HEAD
-    // if (text.length > 350){
-    //   getTokenTone().then((token) => analyzeTone(token, text, entryId, userId));
-    //   analyzePersonality(entryId, userId)
-    // }
-=======
     if (text.length > 350){
       analyzePersonality(this.props.entry.entryId)
-    } 
->>>>>>> master
+    }
     //change to button to limit amout of times we hit watson
   }
 

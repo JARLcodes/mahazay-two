@@ -6,6 +6,7 @@ import {VictoryChart, VictoryArea, VictoryTheme, VictoryPolarAxis} from 'victory
 import { getRootRef, getIds } from '../../utils/componentUtils';
 import {db} from '../../utils/firebase.config'
 import { getTokenTone, analyzeTone } from '../../utils/watsonFuncs.js'
+import { user } from 'firebase-functions/lib/providers/auth';
 
 export class ToneInsights extends Component {
     constructor (){
@@ -14,6 +15,7 @@ export class ToneInsights extends Component {
             insight:{},
             entry: {},
             userId: null,
+            journalId: null
         }
         this.getInsight = this.getInsight.bind(this);
     }
@@ -22,7 +24,7 @@ export class ToneInsights extends Component {
             if(! this.state.entry.blocks){
                 getRootRef('entries', this.props.entryId)
                 .get()
-                .then(entry => this.setState({...this.state, entry: entry.data().content, userId: entry.data().userId}))
+                .then(entry => this.setState({...this.state, journalId:entry.data().journalId , entry: entry.data().content, userId: entry.data().userId}))
             }
             if (!this.state.insight.entryId){
                 db.collection('toneInsights').where("entryId", "==", this.props.entryId).get()
@@ -49,10 +51,11 @@ export class ToneInsights extends Component {
         if(this.state.entry.blocks){
             const entryId = this.props.entryId
             const userId = this.state.userId
+            const journalId = this.state.journalId
             const text = convertFromRaw(this.state.entry).getPlainText()
             getTokenTone()
             .then((token) => {
-                return analyzeTone.call(this, token, text, entryId, userId)})
+                return analyzeTone.call(this, token, text, entryId, journalId, userId)})
         }
     }
 
@@ -72,7 +75,7 @@ export class ToneInsights extends Component {
         }
         return(
             <div>
-                <p>:)</p>
+
                 {insight ?
                 <div>
                     <p>These were the tones that were reflected in your entry and their relative</p>
