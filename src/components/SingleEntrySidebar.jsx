@@ -20,7 +20,7 @@ const styles = {
     alignSelf: 'center',
     width: '20%',
     backgroundColor: "#EF9A9A",
-    color: "#fff", 
+    color: "#fff",
     borderRadius: "1em"
   },
   singleEntrySidebar : {
@@ -38,26 +38,26 @@ class SingleEntrySidebar extends Component {
 
   deleteEntry(entry){
     confirmAlert({
-      title: 'Are you sure you want to delete this entry?', 
-      message: '', 
+      title: 'Are you sure you want to delete this entry?',
+      message: '',
       buttons: [
         {
-          label: 'Yes, delete entry', 
+          label: 'Yes, delete entry',
           onClick: () => entry.delete().then(() => this.props.history.push('/entries'))
-        }, 
+        },
         {
           label: 'No, keep entry',
           onClick: () => this.props.history.push(`/journals/${this.props.match.params.journalId}/entries/${this.props.match.params.entryId}`)
         }
       ]
-    }); 
+    });
   }
 
   render() {
     return (
       <div>
       <div style={styles.singleEntrySidebar}>
-        
+
         <Button variant="raised" style={styles.delete} onClick={this.deleteEntry.bind(this, this.props.entry)}>Delete Entry</Button>
 
       </div>

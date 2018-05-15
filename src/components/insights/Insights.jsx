@@ -16,6 +16,8 @@ import Star from '@material-ui/icons/Star';
 import ChatBubble from '@material-ui/icons/ChatBubble';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
+import ToneInsights from './ToneInsights'
+
 export class Insights extends Component {
     constructor () {
         super();
@@ -42,7 +44,7 @@ export class Insights extends Component {
                 //helper functions
                 const filter = (obj, num) => obj.score === num;
                 const percent = num => Math.floor(num * 100) + "%"
-                
+
                 //consumption preferences data
                 const consumptionPreferences = snap.data() ? Array.from(snap.data().consumption_preferences) : [];
                 const flattenedConsumptionArray = []
@@ -83,16 +85,16 @@ export class Insights extends Component {
                 console.log("finalValuesArr", finalValuesArr)
 
                 this.setState({personalityLikes: likely, personalityUnlikes: unlikely, personality: finalPersonalityArr, needs: finalNeedsArr, values: finalValuesArr})
-                    
+
         })
         console.log("I rerendered")
         }
     }
-    
-    
+
+
     render () {
-        const { 
-            personalityLikes, 
+        const {
+            personalityLikes,
             personalityUnlikes,
             personality,
             needs,
@@ -100,7 +102,7 @@ export class Insights extends Component {
             expanded
         } = this.state;
 
-        console.log("state", this.state.personality)
+        console.log("state", this.state.personality, "entryId:", this.props.entryId)
 
         return (
             <div style={styles.root}>
@@ -117,7 +119,7 @@ export class Insights extends Component {
                             <Paper style={styles.paper}>Habits</Paper>
                         </Grid>
                         <Grid item xs={8} sm={4}>
-                            <Paper style={styles.paper}>Moods: ToneInsightsComponent</Paper>
+                            <Paper style={styles.paper}><ToneInsights  entryId = {this.props.entryId}/> </Paper>
                         </Grid>
                     </Grid>
                 </div>
@@ -235,7 +237,7 @@ const styles = {
         alignItems: 'right'
     }
   };
-  
+
   export default withAuth(Insights);
 
 /*

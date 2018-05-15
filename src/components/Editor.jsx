@@ -20,11 +20,11 @@ class EditorComponent extends Component {
   constructor(props){
     super(props);
     this.state = {
-      editorState: null, 
-      showStyleToolbar: false, 
+      editorState: null,
+      showStyleToolbar: false,
       showMediaInput: false,
       showMediaTypeButtons: false,
-      mediaUrlValue: '', 
+      mediaUrlValue: '',
       urlType: '',
       fileToUpload: {},
       rootRef: this.props.entry
@@ -34,7 +34,7 @@ class EditorComponent extends Component {
     this.onURLInputKeyDown = this.onURLInputKeyDown.bind(this);
   }
 
-  
+
   focus = () => this.refs.editor.focus();
 
   handleKeyCommand(command) {
@@ -51,7 +51,7 @@ class EditorComponent extends Component {
     this.state.rootRef.get()
       .then(snap => {
         snap.data() && snap.data().content
-        ? this.setState({ editorState: EditorState.createWithContent(convertFromRaw(snap.data().content)) }) 
+        ? this.setState({ editorState: EditorState.createWithContent(convertFromRaw(snap.data().content)) })
         : this.setState({ editorState: EditorState.createEmpty()})
     })
   };
@@ -65,12 +65,12 @@ class EditorComponent extends Component {
     //only call tone analyzer if length of text is greater than 350 -- to limit api calls
     if (text.length > 350){
       analyzePersonality(this.props.entry.entryId)
-    } 
+    }
     //change to button to limit amout of times we hit watson
   }
 
 
-  toggleInlineStyle = style => () => 
+  toggleInlineStyle = style => () =>
     this.onChange(RichUtils.toggleInlineStyle(
       this.state.editorState,
       style
@@ -98,7 +98,7 @@ class EditorComponent extends Component {
   onURLChange(e){
     const file = e.target.files[0];
     return this.setState({fileToUpload: file})
-    
+
   }
 
   onURLInputKeyDown(e) {
@@ -110,7 +110,7 @@ class EditorComponent extends Component {
       .then(res => this.setState({ mediaUrlValue: res.downloadURL, showMediaInput: !this.state.showMediaInput }))
       .then(() => this.onChange(confirmMedia(this.state.editorState, this.state.mediaUrlValue, this.state.urlType)))
       .catch(console.error)
-    }    
+    }
   }
 
   showMediaInput(type){
@@ -124,20 +124,20 @@ class EditorComponent extends Component {
   render() {
     const { showStyleToolbar, showMediaInput, urlValue, urlType, showMediaTypeButtons, editorState } = this.state;
     if (!editorState) return 'loading';
-    return ( 
-      
+    return (
+
         <div style={styles.editor}>
           <Button onClick={this.showStyleToolbar.bind(this)} style={styles.allButtons}><b>B</b><i>I</i><u>U</u></Button>
           {showStyleToolbar && <div>{this.renderStyleToolbar()}</div>}
-          
-          
+
+
           {!showMediaTypeButtons && <Button onClick={this.showMediaTypeButtons.bind(this)} style={styles.allButtons}><Add /></Button>}
-          { showMediaInput 
+          { showMediaInput
             ? <div>
-            <input 
+            <input
             style={{fontFamily:'Karla, sansSerif'}}
-            type="file" 
-            id="file" 
+            type="file"
+            id="file"
             onChange={this.onURLChange}
             onKeyDown={this.onURLInputKeyDown.bind(this)}
             />
@@ -160,7 +160,7 @@ class EditorComponent extends Component {
                 ref="editor"
               />
           </div>
-  
+
     );
   }
 }
