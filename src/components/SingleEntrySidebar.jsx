@@ -3,13 +3,13 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import Button from "material-ui/Button";
-import Add from '@material-ui/icons/Add';
-// import Upload from 'material-ui-upload/Upload';
 import { withAuth } from 'fireview';
 
 
 import { storage } from '../utils/firebase.config';
 
+import { confirmAlert } from 'react-confirm-alert';
+import { SingleTracker2 } from './index';
 
 const styles = {
   addMedia: {
@@ -20,7 +20,8 @@ const styles = {
     alignSelf: 'center',
     width: '20%',
     backgroundColor: "#EF9A9A",
-    color: "#fff"
+    color: "#fff", 
+    borderRadius: "1em"
   },
   singleEntrySidebar : {
     display: "flex",
@@ -32,57 +33,37 @@ const styles = {
     marginLeft: "10%"
   },
 }
+
 class SingleEntrySidebar extends Component {
-  state = {
-    mediaToAdd: [],
-    mediaUrls: []
-  };
-
-  addMedia(e){
-    const files = e.target.files;
-    e.preventDefault();
-    const filesToUpload = [];
-    for (let i = 0; i < files.length; i++){
-      this.setState({ mediaToAdd: [...this.state.mediaToAdd, new File(files, files[i].name, {
-        type: files[i].type
-      })]})
-    };
-
-  };
-
-  // storeMedia(){
-  //   //add to cloud storage and set urls for uploaded files on local state
-  //   this.state.mediaToAdd.forEach(file => storage.ref(file.name).put(file)
-  //     .then(res => this.setState({ mediaUrls: [...this.state.mediaUrls, res.downloadURL]}))
-  //   );
-    
-  // }
-  storeMedia(){
-    //add to cloud storage and set urls for uploaded files on local state
-    this.state.mediaToAdd.forEach(file => storage.ref(file.name).put(file)
-      .then(res => this.setState({ mediaUrls: [...this.state.mediaUrls, res.downloadURL]}))
-    );
-
-  }
 
   deleteEntry(entry){
-    entry.delete().then(() => this.props.history.push('/entries'))
-  };
+    confirmAlert({
+      title: 'Are you sure you want to delete this entry?', 
+      message: '', 
+      buttons: [
+        {
+          label: 'Yes, delete entry', 
+          onClick: () => entry.delete().then(() => this.props.history.push('/entries'))
+        }, 
+        {
+          label: 'No, keep entry',
+          onClick: () => this.props.history.push(`/journals/${this.props.match.params.journalId}/entries/${this.props.match.params.entryId}`)
+        }
+      ]
+    }); 
+  }
 
   render() {
-    // console.log('this.state', this.state);
     return (
+      <div>
       <div style={styles.singleEntrySidebar}>
-        <Add style={styles.addMedia}/>
-        <Button
-          label='Media'
-          style={styles.addVideo}
-        >
-          <input type="file" id="file" style={styles.addVideo} multiple onChange={this.addMedia.bind(this)}/>
-        </Button>
-        <Button type="submit" onClick={this.storeMedia.bind(this)}>Add Media</Button>
+        
         <Button variant="raised" style={styles.delete} onClick={this.deleteEntry.bind(this, this.props.entry)}>Delete Entry</Button>
 
+      </div>
+      <div>
+      { this.props._user && <SingleTracker2 entry={this.props.entry} user={this.props._user}/> }
+      </div>
       </div>
     )
   }

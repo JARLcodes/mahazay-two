@@ -3,7 +3,6 @@ import EditorComponent from './Editor.jsx';
 import SingleEntrySidebar from './SingleEntrySidebar.jsx';
 import InsightComponent from './insights/Insights.jsx'
 import { withAuth } from 'fireview';
-
 import { getRootRef } from '../utils/componentUtils';
 import { styles } from '../utils/singleEntryUtils';
 

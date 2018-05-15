@@ -61,7 +61,7 @@ const Dashboard = (props) => {
 					<Card style={styles.card}>
 						<ImportContacts style={styles.mediumIcon}/>
 						<CardContent>
-						<Typography>Maybe some preview to journals here</Typography>
+						<Typography>Journals</Typography>
 						</CardContent>
 					</Card>
 					</Link>
@@ -72,7 +72,7 @@ const Dashboard = (props) => {
 					<Card style={styles.card}>
 						<LibraryBooks style={styles.mediumIcon}/>
 						<CardContent>
-						<Typography>Maybe some preview to entries here</Typography>
+						<Typography>Entries</Typography>
 						</CardContent>
 					</Card>
 					</Link>

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { withAuth } from 'fireview';
 import { getRootRef, getIds } from '../../utils/componentUtils';
+import { getEntryTone, getJournalTones, getUserTones } from '../../utils/toneUtils.js';
+import { getUserPersonality, getEntryPersonality, getJournalPersonality } from  '../../utils/personalityUtils.js'
 import {db} from '../../utils/firebase.config'
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
@@ -56,7 +58,6 @@ export class Insights extends Component {
     
     
     render () {
-        console.log("likely: ", this.state.personalityLikes, "unlikely: ", this.state.personalityUnlikes)
         return (
             <div style={styles.root}>
                 <div style={styles.title}>My Insights</div>
