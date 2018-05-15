@@ -106,8 +106,9 @@ class TrackerSummary extends Component {
                 { week.map(day => {
                   let isChecked = false;
                   if (dates) { 
-                    const dateArray = Object.values(dates)[1].toString().split(' ');
-                    console.log('date array', Object.values(dates));
+                    const dateArray = new Date(Object.values(dates)[1]).toString().split(' ');
+                    const formattedDate = `${months.indexOf(dateArray[1]) + 1}/${dateArray[2]}`;
+                    if(formattedDate == day) isChecked = true;
                   }
                   return <TableCell key={day}><Checkbox day={day} checked={isChecked}/></TableCell>
                   }) 

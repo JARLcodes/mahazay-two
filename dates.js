@@ -20,6 +20,7 @@ const generateWeek = () => {
 
 // console.log(generateWeek());
 const dateCreated = new Date(new Date().setHours(0,0,0,0))
+console.log(dateCreated);
 const dateArray = dateCreated.toString().split(' ');
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const formattedDate = `${months.indexOf(dateArray[1]) + 1}/${dateArray[2]}`
