@@ -60,7 +60,7 @@ export class AllEntries extends Component {
         { entries.map( entry => {
           return (
             <Grid key={entry.entryId} item xs={3} >
-              <Card style={{}}>
+              <Card>
                 <CardContent>
                   <Link style={{ textDecoration: 'none', color: "black" }} to={`/journals/${entry.journalId}/entries/${entry.entryId}`}>"{entry.content && entry.content.blocks[0].text ? entry.content.blocks[0].text.substr(0, 20) + "..." : "A Blank Page"}" <br /> { new Date(entry.dateCreated).toDateString()}</Link>
                 </CardContent>

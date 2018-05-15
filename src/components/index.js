@@ -11,5 +11,4 @@ export { default as Insights } from './insights/Insights.jsx';
 export { default as TrackerSummary } from './TrackerSummary.jsx';
 export { default as SingleTracker } from './SingleTracker.jsx';
 export { default as EditorComponent } from './Editor.jsx';
-export { default as Tracker } from './Tracker.jsx';
 

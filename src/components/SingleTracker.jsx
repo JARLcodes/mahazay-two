@@ -51,9 +51,9 @@ class SingleTracker extends Component {
         .then(entryDate => {
           let isChecked = false;
           //if the habit was completed on the entry date, then set checked to true
-          if(new Date(new Date().setHours(0,0,0,0)) == entryDate) isChecked = true;
-          habit.ref.update({dates: {checked: isChecked, date: entryDate}})
-        })
+          if (new Date().setHours(0,0,0,0) == entryDate) isChecked = true;
+          habit.ref.update({ dates: {checked: isChecked, date: entryDate} });
+        });
         }
       }));
   }
@@ -73,6 +73,8 @@ class SingleTracker extends Component {
       if (Object.keys(props).length) {
       const { name, dates } = props;
       let isChecked = Object.values(dates)[0];
+      console.log('the is checked', isChecked)
+  
       return <div> 
         {name}
         <Checkbox
@@ -82,7 +84,7 @@ class SingleTracker extends Component {
         />
         </div>;
       } else {
-        return <div></div>
+        return <div></div>;
       }
     };
 
