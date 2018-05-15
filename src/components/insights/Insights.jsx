@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { withAuth } from 'fireview';
 import { getRootRef, getIds } from '../../utils/componentUtils';
-import { getEntryTone, getJournalTones, getUserTones } from '../../utils/toneUtils.js';
-import { getUserPersonality, getEntryPersonality, getJournalPersonality } from  '../../utils/personalityUtils.js'
 import {db} from '../../utils/firebase.config'
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
@@ -10,15 +8,13 @@ import Typography from 'material-ui/Typography';
 import Paper from 'material-ui/Paper';
 import Grid from 'material-ui/Grid';
 import List, { ListItem, ListItemIcon, ListItemText}from 'material-ui/List';
+import ExpansionPanel, { ExpansionPanelDetails, ExpansionPanelSummary } from 'material-ui/ExpansionPanel';
 import ThumbUp from '@material-ui/icons/ThumbUp';
 import ThumbDown from '@material-ui/icons/ThumbDown';
 import Face from '@material-ui/icons/Face';
 import Star from '@material-ui/icons/Star';
 import ChatBubble from '@material-ui/icons/ChatBubble';
-
-
-
-
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 export class Insights extends Component {
     constructor () {
@@ -28,8 +24,13 @@ export class Insights extends Component {
             personalityUnlikes: [],
             personality: [],
             needs: [],
-            values: []
+            values: [],
+            expanded: null
         }
+    }
+
+    handleChange = panel => (event, expanded) => {
+        this.setState({expanded: expanded ? panel : false})
     }
 
     componentWillReceiveProps(nextProps){
@@ -90,100 +91,123 @@ export class Insights extends Component {
     
     
     render () {
+        const { 
+            personalityLikes, 
+            personalityUnlikes,
+            personality,
+            needs,
+            values,
+            expanded
+        } = this.state;
+
         console.log("state", this.state.personality)
+
         return (
             <div style={styles.root}>
                 <div style={styles.title}>My Insights</div>
-                <Grid container spacing={8} style={styles.grid}>
-                    <Grid item xs={12} sm={6}>
-                        <Paper style={styles.paper}>Summary</Paper>
+                <div>
+                    <Grid container spacing={8} style={styles.grid}>
+                        <Grid item xs={8} sm={4}>
+                            <Paper style={styles.paper}>Summary</Paper>
+                        </Grid>
+                        <Grid item xs={8} sm={4}>
+                            <Paper style={styles.paper}>Sunburst Data Visual</Paper>
+                        </Grid>
+                        <Grid item xs={8} sm={4}>
+                            <Paper style={styles.paper}>Habits</Paper>
+                        </Grid>
+                        <Grid item xs={8} sm={4}>
+                            <Paper style={styles.paper}>Moods: ToneInsightsComponent</Paper>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={6} sm={3}>
-                        <Paper style={styles.paper}>
+                </div>
+                <div>
+                    <ExpansionPanel expanded={expanded === 'panel1'} onChange={this.handleChange('panel1')}>
+                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                             <Typography variant="title" gutterBottom align="center">You are likely to...</Typography>
+                        </ExpansionPanelSummary>
+                        <ExpansionPanelDetails>
                             <List style={styles.list}>
-                                {
-                                    this.state.personalityLikes.map((like, ind) => (
-                                        <ListItem key={ind}>
-                                        <ListItemIcon><ThumbUp/></ListItemIcon>
-                                        {like.name.slice(9)}
-                                        </ListItem>
-                                    ))
-                                }
+                            {
+                                personalityLikes.map((like, ind) => (
+                                    <ListItem key={ind}>
+                                    <ListItemIcon><ThumbUp/></ListItemIcon>
+                                    {like.name.slice(9)}
+                                    </ListItem>
+                                ))
+                            }
                             </List>
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={6} sm={3}>
-                        <Paper style={styles.paper}>
+                        </ExpansionPanelDetails>
+                    </ExpansionPanel>
+                    <ExpansionPanel expanded={expanded === 'panel2'} onChange={this.handleChange('panel2')}>
+                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                             <Typography variant="title" gutterBottom align="center">You are unlikely to...</Typography>
+                        </ExpansionPanelSummary>
+                        <ExpansionPanelDetails>
                             <List style={styles.list}>
-                                {
-                                    this.state.personalityUnlikes.map((unlike, ind) => (
-                                        <ListItem key={ind}>
-                                        <ListItemIcon><ThumbDown/></ListItemIcon>
-                                        {unlike.name.slice(9)}
-                                        </ListItem>
-                                    ))
-                                }
+                            {
+                                personalityUnlikes.map((unlike, ind) => (
+                                    <ListItem key={ind}>
+                                    <ListItemIcon><ThumbDown/></ListItemIcon>
+                                    {unlike.name.slice(9)}
+                                    </ListItem>
+                                ))
+                            }
                             </List>
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={6} sm={3}>
-                        <Paper style={styles.paper}>Habits</Paper>
-                    </Grid>
-                    <Grid item xs={6} sm={3}>
-                        <Paper style={styles.paper}>Moods: ToneInsightsComponent</Paper>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <Paper style={styles.paper}>Sunburst Data Visual</Paper>
-                    </Grid>
-                    <Grid item xs={8} sm={4}>
-                        <Paper style={styles.paper}>
-                            <Typography variant="title" gutterBottom align="center">I have...</Typography>
+                        </ExpansionPanelDetails>
+                    </ExpansionPanel>
+                    <ExpansionPanel expanded={expanded === 'panel3'} onChange={this.handleChange('panel3')}>
+                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                            <Typography variant="title" gutterBottom align="center">My Personality</Typography>
+                        </ExpansionPanelSummary>
+                        <ExpansionPanelDetails>
                             <List style={styles.list}>
-                                {
-                                    this.state.personality.map((personality, ind) => (
-                                        <ListItem key={ind}>
-                                        <ListItemIcon><Face/></ListItemIcon>
-                                        {personality.name}: {personality.percentile}
-                                        </ListItem>
-                                    ))
-                                }
+                            {
+                                personality.map((personality, ind) => (
+                                    <ListItem key={ind}>
+                                    <ListItemIcon><Face/></ListItemIcon>
+                                    {personality.name}: {personality.percentile}
+                                    </ListItem>
+                                ))
+                            }
                             </List>
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={8} sm={4}>
-                        <Paper style={styles.paper}>
-                            <Typography variant="title" gutterBottom align="center">I need...</Typography>
+                        </ExpansionPanelDetails>
+                    </ExpansionPanel>
+                    <ExpansionPanel expanded={expanded === 'panel4'} onChange={this.handleChange('panel4')}>
+                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                            <Typography variant="title" gutterBottom align="center">My Needs</Typography>
+                        </ExpansionPanelSummary>
+                        <ExpansionPanelDetails>
                             <List style={styles.list}>
-                                {
-                                    this.state.needs.map((need, ind) => (
-                                        <ListItem key={ind}>
-                                        <ListItemIcon><Star/></ListItemIcon>
-                                        {need.name}: {need.percentile}
-                                        </ListItem>
-                                    ))
-                                }
+                            {
+                                needs.map((need, ind) => (
+                                    <ListItem key={ind}>
+                                    <ListItemIcon><Star/></ListItemIcon>
+                                    {need.name}: {need.percentile}
+                                    </ListItem>
+                                ))
+                            }
                             </List>
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={8} sm={4}>
-                        <Paper style={styles.paper}>
-                        <Typography variant="title" gutterBottom align="center">I value...</Typography>
+                        </ExpansionPanelDetails>
+                    </ExpansionPanel>
+                    <ExpansionPanel expanded={expanded === 'panel5'} onChange={this.handleChange('panel5')}>
+                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                            <Typography variant="title" gutterBottom align="center">My Values</Typography>
+                        </ExpansionPanelSummary>
+                        <ExpansionPanelDetails>
                             <List style={styles.list}>
-                                {
-                                    this.state.values.map((value, ind) => (
-                                        <ListItem key={ind}>
-                                        <ListItemIcon><ChatBubble/></ListItemIcon>
-                                        {value.name}: {value.percentile}
-                                        </ListItem>
-                                    ))
-                                }
+                            {
+                                values.map((value, ind) => (
+                                    <ListItem key={ind}>
+                                    <ListItemIcon><ChatBubble/></ListItemIcon>
+                                    {value.name}: {value.percentile}
+                                    </ListItem>
+                                ))
+                            }
                             </List>
-                        </Paper>
-                    </Grid>
-                    
-                    </Grid>
+                        </ExpansionPanelDetails>
+                    </ExpansionPanel>
+                </div>
             </div>
         )
     }
@@ -214,3 +238,25 @@ const styles = {
   
   export default withAuth(Insights);
 
+/*
+  <Grid item xs={6} sm={3}>
+  <Paper style={styles.paper}>
+
+  </Paper>
+</Grid>
+<Grid item xs={8} sm={4}>
+  <Paper style={styles.paper}>
+
+  </Paper>
+</Grid>
+<Grid item xs={8} sm={4}>
+  <Paper style={styles.paper}>
+
+  </Paper>
+</Grid>
+<Grid item xs={8} sm={4}>
+  <Paper style={styles.paper}>
+
+  </Paper>
+</Grid>
+*/
