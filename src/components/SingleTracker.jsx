@@ -50,9 +50,11 @@ class SingleTracker extends Component {
         })
         .then(entryDate => {
           let isChecked = false;
-          if (new Date(new Date().setHours(0,0,0,0) === entryDate)) isChecked = true;
-          habit.ref.update({dates: {checked: isChecked, date: entryDate}});
-      })}
+          //if the habit was completed on the entry date, then set checked to true
+          if (new Date().setHours(0,0,0,0) == entryDate) isChecked = true;
+          habit.ref.update({ dates: {checked: isChecked, date: entryDate} });
+        });
+        }
       }));
   }
 

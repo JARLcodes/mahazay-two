@@ -66,20 +66,20 @@ export class Insights extends Component {
 }
 
 const styles = {
-    root: {
-        fontFamily: 'Merienda One',
-        flexGrow: 1,
-        backgroundImage: "url('https://i.pinimg.com/564x/d6/3b/f1/d63bf1221116ebb6102c77e7e9a74808.jpg')",
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
-        opacity: "0.5"
-    },
-    title: {
-        fontFamily: 'Merienda One',
-        fontSize: 40,
-        padding: '3vh',
-        color: '#795548'
-    },
+    // root: {
+    //     fontFamily: 'Merienda One',
+    //     flexGrow: 1,
+    //     backgroundImage: "url('https://i.pinimg.com/564x/d6/3b/f1/d63bf1221116ebb6102c77e7e9a74808.jpg')",
+    //     backgroundRepeat: "no-repeat",
+    //     backgroundSize: "cover",
+    //     opacity: "0.5"
+    // },
+    // title: {
+    //     fontFamily: 'Merienda One',
+    //     fontSize: 40,
+    //     padding: '3vh',
+    //     color: '#795548'
+    // },
     paper: {
         padding: '5vh',
         textAlign: 'center',

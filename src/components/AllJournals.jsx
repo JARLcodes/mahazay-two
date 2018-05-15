@@ -24,7 +24,6 @@ const styles = {
     borderColor: '#A1887F'
   },
   subheader: {
-    fontFamily: 'Georgia',
     fontSize: 40,
     fontWeight: 'bold',
     fontVariant: 'small-caps',
@@ -90,7 +89,6 @@ export class AllJournals extends Component {
                 <Link to={`/journals/${journalIds[ind]}`}>
                   <img src='https://cdn3.iconfinder.com/data/icons/design-flat-icons-vol-2/256/62-512.png' alt={journal.title} style={{height: 150, width: 150}}/>
                   <GridListTileBar
-                    style={{fontFamily: 'Merienda One'}}
                     title={journal.title}
                     subtitle={<span>{journal.description}</span>}
                     actionIcon={

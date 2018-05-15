@@ -25,7 +25,7 @@ const styles = {
     fontFamily: 'Karla, sansSerif'
   }, 
   nav: {
-    marginBottom: "5em", 
+    marginBottom: "2em", 
     marginTop: "0.5em", 
     borderBottom: "1px dotted #454545",
     paddingBottom: "1em"

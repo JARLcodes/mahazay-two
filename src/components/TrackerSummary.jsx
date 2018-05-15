@@ -10,17 +10,19 @@ import Table, {
 import Grid from 'material-ui/Grid';
 import Checkbox from 'material-ui/Checkbox';
 
+
 import { Map, withAuth } from 'fireview';
 import { db } from '../utils/firebase.config';
+import { Habit, week } from '../utils/trackerSummaryUtils';
 
 const styles = theme => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
+    marginLeft: '30%',
   },
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
+    
     width: 200,
   },
   menu: {
@@ -71,33 +73,23 @@ class TrackerSummary extends Component {
       });
   }
 
-  // handleDelete(habit) {
-  //   console.log('state', this.state.habits)
-  //   // db.collection('habits').get()
-  //   //   .then(snaps => snaps.forEach(snap => snap.delete()));
-  // }
 
   render() {
     const AllHabits = db.collection('habits');
     const user = this.props._user;
     const userId = user && user.uid ? user.uid : null;
-    const Habit = props => {
-          const { name } = props;
-            return <TableRow><TableCell>
-             {name}</TableCell><TableCell>
-            </TableCell>
-            {/* <Button href={`/tracker/${name}`}></Button> */}
-            </TableRow>;};
+    
+
 
     return (
-      <Grid container style={{padding: "1vh"}}>
+      <Grid container style={{marginLeft: "5%", paddingRight: "15%", marginBottom: "5%", display: 'flex', flexDirection: "column"}}>
         <Grid item>
-        <form onSubmit={this.handleAdd} className={styles.container}> 
+        <form onSubmit={this.handleAdd} style={{ alignSelf: "center" }}> 
         <TextField
           id="name"
-          label="Add Tracker?"
+          label="Add Habit?"
           name="habitToAdd"
-          className={styles.textField}
+          style={styles.textField}
           onChange={this.handleChange}
           margin="normal"
           value={this.state.habitToAdd.name}
@@ -109,10 +101,12 @@ class TrackerSummary extends Component {
       <Table>
       <TableHead>
         <TableRow>
-        <TableCell variant="body-2">Habit</TableCell>
+        <TableCell variant="body-2">Habits</TableCell>
         </TableRow>
       </TableHead>
         <TableBody>
+        <TableCell></TableCell>
+        {week.map(day => <TableCell key={day}><b>{day}</b></TableCell>)}
           <Map from={AllHabits.where('userId', '==', userId)}
           Render={Habit}
           />
@@ -125,3 +119,6 @@ class TrackerSummary extends Component {
 }
 
 export default withAuth(TrackerSummary);
+
+// const formattedDate = `${months.indexOf(dateArray[1]) + 1}/${dateArray[2]}`;
+//                     console.log('formatted date', formattedDate);
