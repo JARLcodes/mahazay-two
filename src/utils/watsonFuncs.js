@@ -9,7 +9,7 @@ export const  getTokenTone = () => {
   });
 };
 
-export const analyzeTone = function (token, text, entryId, userId) {
+export const analyzeTone = function (token, text, entryId,journalId, userId) {
   const toneAnalyzer = new ToneAnalyzerV3({
     token,
     version: '2016-05-19',
@@ -22,18 +22,17 @@ export const analyzeTone = function (token, text, entryId, userId) {
         return console.log(err);
       }
       const toneInsight = JSON.stringify(result, null, 2);
-      console.log("toneInsightOrig: ", result)
       const parsedToneInsight = JSON.parse(toneInsight)["document_tone"]["tone_categories"];
-      db.collection('toneInsights').doc("Tone Test 3").set({ parsedToneInsight, entryId, userId });
-      let insight = { parsedToneInsight, entryId, userId }
-      console.log("this is the insight object inside watson Funcs:", insight)
-      self.setState({insight}, ()=> {console.log(self.state)})
+      db.collection('toneInsights').doc(entryId).set({ parsedToneInsight, entryId, journalId, userId });
+      let insight = {text, parsedToneInsight, entryId, journalId, userId }
+      self.setState({insight})
     }
   );
 
 
 };
 
+//for if we work on summaries:
 // export const analyzeToneSummary = (token, text, userId) => {
 //   const toneAnalyzer = new ToneAnalyzerV3({
 //     token,

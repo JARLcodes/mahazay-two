@@ -36,6 +36,7 @@
         "react-router": "^4.2.0",
         "react-router-dom": "^4.2.2",
         "react-scripts": "1.1.4",
+        "victory": "^0.26.0",
         "video-react": "^0.10.5",
         "watson-developer-cloud": "^3.4.1"
     },
