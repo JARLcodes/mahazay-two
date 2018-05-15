@@ -9,8 +9,6 @@ import ImportContacts from '@material-ui/icons/ImportContacts';
 import LibraryBooks from '@material-ui/icons/LibraryBooks';
 import { withAuth } from 'fireview';
 
-import paperBackground from '../images/paperBackground.jpg';
-
 const styles = {
 	profileCard: {
 		maxWidth: 200,
@@ -20,7 +18,7 @@ const styles = {
 	},
   card: {
 		maxWidth: 200,
-		background: "#FFFDE7",
+		background: "white",
 		padding: "4vh 4vh",
 		margin: "2vh 2vh"
 	},
@@ -54,7 +52,7 @@ const Dashboard = (props) => {
 								S
 							</Avatar>
 						}
-						title="Your Profile"
+						title={`Welcome, ${user.email}`}
 						subheader={user.email}
 						/>
 				</Card>
@@ -84,6 +82,7 @@ const Dashboard = (props) => {
 					</Card>
 					</Link>
 				</Grid>
+
 			</Grid>
 		</div>
 	);
