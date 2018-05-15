@@ -9,10 +9,11 @@ import Table, {
 } from 'material-ui/Table';
 import Grid from 'material-ui/Grid';
 import Checkbox from 'material-ui/Checkbox';
-import moment from 'moment';
+
 
 import { Map, withAuth } from 'fireview';
 import { db } from '../utils/firebase.config';
+import { Habit, week } from '../utils/trackerSummaryUtils';
 
 const styles = theme => ({
   container: {
@@ -77,50 +78,16 @@ class TrackerSummary extends Component {
     const AllHabits = db.collection('habits');
     const user = this.props._user;
     const userId = user && user.uid ? user.uid : null;
-    const generateWeek = () => {
-      let week = [];
-      let nextDay;
-      let formattedNextDay;
-      for (let i = 0; i < 7; i++){
-        nextDay = moment().add(i, 'days');
-        formattedNextDay = `${nextDay.month() + 1}/${nextDay.date()}`;
-        week.push(formattedNextDay);
-      }
-      return week;
-    };
-    const week = generateWeek();
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const Habit = props => {
-          const { name, dates } = props;
-          let dateArray = Object.values(dates)
-          return (
-            <TableRow key={props}>
-              <TableCell>
-              {name}
-              </TableCell>
-                { week.map(day => {
-                  let isChecked = false, 
-                      alreadyChecked = false;
-                  if (dates) { 
-                    const dateArray = new Date(Object.values(dates)[1]).toString().split(' ');
-                    const formattedDate = `${months.indexOf(dateArray[1]) + 1}/${dateArray[2]}`;
-                    if(formattedDate == day) isChecked = true;
-                    if (dates[0]) alreadyChecked = Object.values(dates)[0];
-                  }
-                  return <TableCell key={day}><Checkbox day={day} checked={isChecked || alreadyChecked}/></TableCell>
-                  }) 
-                }
-            </TableRow>
-          )
-        };
+    
+
 
     return (
-      <Grid container style={{padding: "1vh"}}>
+      <Grid container style={{marginLeft: "5%", paddingRight: "15%", marginBottom: "5%", display: 'flex', flexDirection: "column"}}>
         <Grid item>
-        <form onSubmit={this.handleAdd} style={styles.container}> 
+        <form onSubmit={this.handleAdd} style={{ alignSelf: "center" }}> 
         <TextField
           id="name"
-          label="Add Tracker?"
+          label="Add Habit?"
           name="habitToAdd"
           style={styles.textField}
           onChange={this.handleChange}
@@ -134,12 +101,12 @@ class TrackerSummary extends Component {
       <Table>
       <TableHead>
         <TableRow>
-        <TableCell variant="body-2">Habit</TableCell>
+        <TableCell variant="body-2">Habits</TableCell>
         </TableRow>
       </TableHead>
         <TableBody>
         <TableCell></TableCell>
-        {week.map(day => <TableCell>{day}</TableCell>)}
+        {week.map(day => <TableCell key={day}><b>{day}</b></TableCell>)}
           <Map from={AllHabits.where('userId', '==', userId)}
           Render={Habit}
           />
