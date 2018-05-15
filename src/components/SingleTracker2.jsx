@@ -71,12 +71,12 @@ class SingleTracker2 extends Component {
     if (habits.length){
       habits.forEach(habit => {
         const entryContent = convertFromRaw(this.state.entry.data().content).getPlainText().toLowerCase();
-        console.log('entrycontent', entryContent);
         const habitWordArray = habit.data().name.split(' ');
         //according to previous line, completed will be undefined if entryContent does not include one of the habit words. if this is the case, completed needs to be a boolean - false.
         const completed = !!habitWordArray.filter(word => entryContent.includes(word)).length;
-        const entryDate = this.state.entry.data().dateCreated;
-        habit.ref.update({ dateCompleted: entryDate, completed: completed });
+        const entryDate = new Date(this.state.entry.data().dateCreated);
+        console.log('entry date', new Date(entryDate).toString());
+        habit.ref.update({ datesCompleted: [...habit.data().datesCompleted, entryDate] });
       })
    
     }
@@ -87,8 +87,11 @@ class SingleTracker2 extends Component {
     const { habits } = this.state;
     if (habits.length){
       habits.forEach(habit => {
-        const isCompleted = habit.data().completed;
-        if (e.target.name === habit.data().name) habit.ref.update({ completed: !isCompleted });
+        const datesCompleted = habit.data().datesCompleted;
+        const entryDate = new Date(this.state.entry.data().dateCreated);
+        if (datesCompleted.includes(entryDate)) datesCompleted.filter(date => date !== entryDate);
+        else if (!datesCompleted.includes(entryDate)) datesCompleted.push(entryDate);
+        if (e.target.name === habit.data().name) habit.ref.update({ datesCompleted: datesCompleted });
       })
     }
   }
@@ -100,9 +103,10 @@ class SingleTracker2 extends Component {
     const AllHabits = db.collection('habits').where('userId', '==', this.props.user.uid);
     const Habit = props => {
       if (Object.keys(props).length) {
-      const { name, dateCompleted, completed } = props;
-      let entryDate = Object.values(this.state.entry).length ? this.state.entry.data().dateCreated : '';
-      let isChecked = entryDate === dateCompleted ? completed : false;
+      const { name, datesCompleted } = props;
+      let entryDate = Object.values(this.state.entry).length ? new Date(this.state.entry.data().dateCreated) : '';
+      console.log('dates completed', datesCompleted, 'entry date', entryDate);
+      let isChecked = datesCompleted.includes(entryDate) ? true : false;
       
       return <div> 
         {name}
