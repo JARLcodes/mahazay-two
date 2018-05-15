@@ -75,8 +75,6 @@ export default class HomepageForm extends Component {
   handleSignUp(event) {
     event.preventDefault();
     const { email, password } = this.state;
-    // if (password.length < 6) this.setState({ warning: 'password-error' });
-    // if (!email.includes('@') || !(email.indexOf('.') > email.indexOf('@'))) this.setState({ warning: 'email-error'});
     auth.createUserWithEmailAndPassword(email, password)
     .then(user => {
       return db.collection('users').doc(`${user.uid}`).set({ email: email, password: password });
@@ -168,7 +166,7 @@ export default class HomepageForm extends Component {
                   />
                   </div>
               }
-                <Button type="submit" onClick={this.handleSignUp}>
+                <Button onClick={this.handleSignUp}>
                   Sign Up
                 </Button>
               </div> 
@@ -196,7 +194,7 @@ export default class HomepageForm extends Component {
                 margin="normal"
                 />
               </div> 
-              <Button type="submit" onClick={this.handleLogin}>
+              <Button onClick={this.handleLogin}>
               Login
               </Button>
               </form>
