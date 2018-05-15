@@ -4,6 +4,10 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import Button from "material-ui/Button";
 import { withAuth } from 'fireview';
+
+
+import { storage } from '../utils/firebase.config';
+
 import { confirmAlert } from 'react-confirm-alert';
 import { SingleTracker2 } from './index';
 

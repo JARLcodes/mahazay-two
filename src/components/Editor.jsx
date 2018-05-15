@@ -12,7 +12,7 @@ import { storage } from '../utils/firebase.config';
 import { getRootRef } from '../utils/componentUtils';
 import { plugins, styles, confirmMedia, mediaBlockRenderer } from './../utils/singleEntryUtils';
 import SingleEntrySidebar from './SingleEntrySidebar.jsx';
-import { getTokenTone, analyzeTone, analyzePersonality } from '../utils/watsonFuncs.js'
+import { analyzePersonality } from '../utils/watsonFuncs.js'
 
 
 
@@ -62,15 +62,18 @@ class EditorComponent extends Component {
     this.state.rootRef.update({ content: convertToRaw(editorState.getCurrentContent()) });
     //analyze input with each change
     const text = this.state.editorState.getCurrentContent().getPlainText();
-    const entryId = this.props.entry.id
-    const userId = this.props._user.uid
     //only call tone analyzer if length of text is greater than 350 -- to limit api calls
+<<<<<<< HEAD
     // if (text.length > 350){
     //   getTokenTone().then((token) => analyzeTone(token, text, entryId, userId));
     //   analyzePersonality(entryId, userId)
     // }
+=======
+    if (text.length > 350){
+      analyzePersonality(this.props.entry.entryId)
+    } 
+>>>>>>> master
     //change to button to limit amout of times we hit watson
-    // console.log(this.state.rootRef)
   }
 
 
