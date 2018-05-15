@@ -11,7 +11,7 @@ import { storage } from '../utils/firebase.config';
 import { getRootRef } from '../utils/componentUtils';
 import { plugins, styles, confirmMedia, mediaBlockRenderer } from './../utils/singleEntryUtils';
 import SingleEntrySidebar from './SingleEntrySidebar.jsx';
-import { getTokenTone, analyzeTone, analyzePersonality } from '../utils/watsonFuncs.js'
+import { analyzePersonality } from '../utils/watsonFuncs.js'
 
 class EditorComponent extends Component {
   constructor(props){
@@ -58,20 +58,14 @@ class EditorComponent extends Component {
   onChange = editorState => {
     // to send data from entry to firebase WHILE USER IS UPDATING: use convertToRaw(editorState.getCurrentContent())
     this.setState({editorState})
-    console.log('this is editor state after change', this.state.editorState);
     this.state.rootRef.update({ content: convertToRaw(editorState.getCurrentContent()) });
-    console.log("props: ", this.props)
     //analyze input with each change
     const text = this.state.editorState.getCurrentContent().getPlainText();
-    const entryId = this.props.entry.id
-    const userId = this.props._user.uid
     //only call tone analyzer if length of text is greater than 350 -- to limit api calls
     if (text.length > 350){
-      getTokenTone().then((token) => analyzeTone(token, text, entryId, userId));
-      analyzePersonality(entryId, userId)
+      analyzePersonality(this.props.entry.entryId)
     } 
     //change to button to limit amout of times we hit watson
-    // console.log(this.state.rootRef)
   }
 
 

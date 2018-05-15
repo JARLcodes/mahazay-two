@@ -8,7 +8,7 @@ import Add from '@material-ui/icons/Add';
 import { withAuth } from 'fireview';
 
 
-// import { storage } from '../utils/firebase.config';
+import { storage } from '../utils/firebase.config';
 
 
 const styles = {
