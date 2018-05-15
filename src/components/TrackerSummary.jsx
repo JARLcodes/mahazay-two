@@ -9,6 +9,7 @@ import Table, {
 } from 'material-ui/Table';
 import Grid from 'material-ui/Grid';
 import Checkbox from 'material-ui/Checkbox';
+import moment from 'moment';
 
 import { Map, withAuth } from 'fireview';
 import { db } from '../utils/firebase.config';
@@ -81,13 +82,39 @@ class TrackerSummary extends Component {
     const AllHabits = db.collection('habits');
     const user = this.props._user;
     const userId = user && user.uid ? user.uid : null;
+    const generateWeek = () => {
+      let week = [];
+      let nextDay;
+      let formattedNextDay;
+      for (let i = 0; i < 7; i++){
+        nextDay = moment().add(i, 'days');
+        formattedNextDay = `${nextDay.month() + 1}/${nextDay.date()}`;
+        week.push(formattedNextDay);
+      }
+      return week;
+    };
+    const week = generateWeek();
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const Habit = props => {
-          const { name } = props;
-            return <TableRow><TableCell>
-             {name}</TableCell><TableCell>
-            </TableCell>
-            {/* <Button href={`/tracker/${name}`}></Button> */}
-            </TableRow>;};
+          const { name, dates } = props;
+          let dateArray = Object.values(dates)
+          return (
+            <TableRow key={props}>
+              <TableCell>
+              {name}
+              </TableCell>
+                { week.map(day => {
+                  let isChecked = false;
+                  if (dates) { 
+                    const dateArray = Object.values(dates)[1].toString().split(' ');
+                    console.log('date array', Object.values(dates));
+                  }
+                  return <TableCell key={day}><Checkbox day={day} checked={isChecked}/></TableCell>
+                  }) 
+                }
+            </TableRow>
+          )
+        };
 
     return (
       <Grid container style={{padding: "1vh"}}>
@@ -113,6 +140,8 @@ class TrackerSummary extends Component {
         </TableRow>
       </TableHead>
         <TableBody>
+        <TableCell></TableCell>
+        {week.map(day => <TableCell>{day}</TableCell>)}
           <Map from={AllHabits.where('userId', '==', userId)}
           Render={Habit}
           />
@@ -125,3 +154,6 @@ class TrackerSummary extends Component {
 }
 
 export default withAuth(TrackerSummary);
+
+// const formattedDate = `${months.indexOf(dateArray[1]) + 1}/${dateArray[2]}`;
+//                     console.log('formatted date', formattedDate);

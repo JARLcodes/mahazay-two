@@ -48,7 +48,12 @@ class SingleTracker extends Component {
         this.props.entry.get().then(snap =>  {
           return snap.data().dateCreated;
         })
-        .then(entryDate => habit.ref.update({dates: {checked: true, date: entryDate}}))
+        .then(entryDate => {
+          let isChecked = false;
+          //if the habit was completed on the entry date, then set checked to true
+          if(new Date(new Date().setHours(0,0,0,0)) == entryDate) isChecked = true;
+          habit.ref.update({dates: {checked: isChecked, date: entryDate}})
+        })
         }
       }));
   }
