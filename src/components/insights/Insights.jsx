@@ -12,15 +12,18 @@ import Grid from 'material-ui/Grid';
 import List, { ListItem, ListItemIcon, ListItemText}from 'material-ui/List';
 import ThumbUp from '@material-ui/icons/ThumbUp';
 import ThumbDown from '@material-ui/icons/ThumbDown';
+import Face from '@material-ui/icons/Face';
+import Star from '@material-ui/icons/Star';
+import ChatBubble from '@material-ui/icons/ChatBubble';
+
+
+
 
 
 export class Insights extends Component {
     constructor () {
         super();
         this.state = {
-            entryIds: [],
-            toneRootRef: getRootRef('toneInsights'),
-            tones: [],
             personalityLikes: [],
             personalityUnlikes: [],
             personality: [],
@@ -32,10 +35,14 @@ export class Insights extends Component {
     componentWillReceiveProps(nextProps){
 
         if(this.props._user !== nextProps._user){
-            const { toneRootRef } = this.state;
 
             getRootRef('personalityInsights', this.props.entry.id).get()
             .then(snap => {
+                //helper functions
+                const filter = (obj, num) => obj.score === num;
+                const percent = num => Math.floor(num * 100) + "%"
+                
+                //consumption preferences data
                 const consumptionPreferences = Array.from(snap.data().consumption_preferences)
                 const flattenedConsumptionArray = []
 
@@ -46,10 +53,35 @@ export class Insights extends Component {
                     })
                 })
 
-                const filter = (obj, num) => obj.score === num;
                 const likely = flattenedConsumptionArray.filter(preference => filter(preference, 1))
                 const unlikely = flattenedConsumptionArray.filter(preference => filter(preference, 0))
-                this.setState({personalityLikes: likely, personalityUnlikes: unlikely})
+
+                // personality data
+                const personalityArr = Array.from(snap.data().personality)
+                const finalPersonalityArr = []
+
+                personalityArr.forEach(personality => {
+                    finalPersonalityArr.push({name: personality.name, percentile: percent(personality.percentile)})
+                })
+
+                // needs data
+                const needsArr = Array.from(snap.data().needs)
+                const finalNeedsArr = []
+
+                needsArr.forEach(need => {
+                    finalNeedsArr.push({name: need.name, percentile: percent(need.percentile)})
+                })
+
+                // values data
+                const valuesArr = Array.from(snap.data().values)
+                const finalValuesArr = []
+
+                valuesArr.forEach(value => {
+                    finalValuesArr.push({name: value.name, percentile: percent(value.percentile)})
+                })
+                console.log("finalValuesArr", finalValuesArr)
+
+                this.setState({personalityLikes: likely, personalityUnlikes: unlikely, personality: finalPersonalityArr, needs: finalNeedsArr, values: finalValuesArr})
                     
         })
         console.log("I rerendered")
@@ -58,6 +90,7 @@ export class Insights extends Component {
     
     
     render () {
+        console.log("state", this.state.personality)
         return (
             <div style={styles.root}>
                 <div style={styles.title}>My Insights</div>
@@ -105,14 +138,51 @@ export class Insights extends Component {
                         <Paper style={styles.paper}>Sunburst Data Visual</Paper>
                     </Grid>
                     <Grid item xs={8} sm={4}>
-                        <Paper style={styles.paper}>Personality</Paper>
+                        <Paper style={styles.paper}>
+                            <Typography variant="title" gutterBottom align="center">I have...</Typography>
+                            <List style={styles.list}>
+                                {
+                                    this.state.personality.map((personality, ind) => (
+                                        <ListItem key={ind}>
+                                        <ListItemIcon><Face/></ListItemIcon>
+                                        {personality.name}: {personality.percentile}
+                                        </ListItem>
+                                    ))
+                                }
+                            </List>
+                        </Paper>
                     </Grid>
                     <Grid item xs={8} sm={4}>
-                        <Paper style={styles.paper}>Needs</Paper>
+                        <Paper style={styles.paper}>
+                            <Typography variant="title" gutterBottom align="center">I need...</Typography>
+                            <List style={styles.list}>
+                                {
+                                    this.state.needs.map((need, ind) => (
+                                        <ListItem key={ind}>
+                                        <ListItemIcon><Star/></ListItemIcon>
+                                        {need.name}: {need.percentile}
+                                        </ListItem>
+                                    ))
+                                }
+                            </List>
+                        </Paper>
                     </Grid>
                     <Grid item xs={8} sm={4}>
-                        <Paper style={styles.paper}>Values</Paper>
+                        <Paper style={styles.paper}>
+                        <Typography variant="title" gutterBottom align="center">I value...</Typography>
+                            <List style={styles.list}>
+                                {
+                                    this.state.values.map((value, ind) => (
+                                        <ListItem key={ind}>
+                                        <ListItemIcon><ChatBubble/></ListItemIcon>
+                                        {value.name}: {value.percentile}
+                                        </ListItem>
+                                    ))
+                                }
+                            </List>
+                        </Paper>
                     </Grid>
+                    
                     </Grid>
             </div>
         )
