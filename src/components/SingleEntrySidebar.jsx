@@ -7,7 +7,6 @@ import { withAuth } from 'fireview';
 import { confirmAlert } from 'react-confirm-alert';
 import { SingleTracker2 } from './index';
 
-
 const styles = {
   addMedia: {
     margin: 20,
@@ -47,9 +46,8 @@ class SingleEntrySidebar extends Component {
           onClick: () => this.props.history.push(`/journals/${this.props.match.params.journalId}/entries/${this.props.match.params.entryId}`)
         }
       ]
-    })
-    
-  };
+    }); 
+  }
 
   render() {
     return (

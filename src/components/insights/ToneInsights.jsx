@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withAuth } from 'fireview';
 import { getRootRef, getIds } from '../../utils/componentUtils';
-import {db} from '../../utils/firebase.config'
+import { db } from '../../utils/firebase.config'
 
 export class ToneInsights extends Component {
     constructor(props){

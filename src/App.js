@@ -15,15 +15,11 @@ import {
   SingleJournal,
   NewJournalForm,
   Insights,
-  TrackerSummary,
-  Tracker
+  TrackerSummary
 } from './components/index.js';
 
 const theme = createMuiTheme();
 const styles = {
-  body: {
-    fontFamily: 'Karla, sansSerif'
-  }, 
   nav: {
     marginBottom: "2em", 
     marginTop: "0.5em", 
@@ -52,7 +48,6 @@ class App extends Component {
               <Route exact path="/insights" component={Insights} />
               <Route exact path="/new-journal" component={NewJournalForm}/>
               <Route path="/tracker" component={TrackerSummary}/>
-              <Route exact path="/tracker/name" component={Tracker}/>
               <Route exact path="/:userId/new-journal" component={NewJournalForm}/>
             { user ? <Route exact path="/" component={Dashboard}/>
                     : <Route exact path="/" component={Home}/>}
