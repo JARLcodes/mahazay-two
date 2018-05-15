@@ -51,7 +51,7 @@ export class Insights extends Component {
                         // console.log("toneDoc data: ", toneDoc.data())
                         entryId = toneDoc.data().entryId
                         if(entryIds.includes(entryId) === false) entryIds.push(entryId)
-                        
+
                         toneDoc.data().parsedToneInsight.forEach(toneInsight => {
                             console.log("tones: ", toneInsight)
                             toneInsight.tones.forEach(toneCategory => {
@@ -66,7 +66,7 @@ export class Insights extends Component {
             console.log("I rerendered")
         }
     }
-    
+
     render () {
         // const ref = this.state.toneRootRef
         // ref.get().then(snapshot => snapshot.forEach(tone => tone.data().parsedToneInsight.forEach(toneInsight => toneInsight.tones.forEach(toneCategory => console.log(toneCategory.tone_name, ": ", toneCategory.score)))))
@@ -79,8 +79,8 @@ export class Insights extends Component {
         //     }
         //     return acc;
         // }, [])
-        console.log("userId: ", this.state.userId, "entryIds: ", this.state.entryIds)
-        
+        console.log("these are the insights:", this.state.tones)
+
         return (
             <div style={styles.root}>
                 <div style={styles.title}>My Insights</div>
@@ -143,5 +143,5 @@ const styles = {
         alignContent: 'center'
     }
   };
-  
+
   export default withAuth(Insights);

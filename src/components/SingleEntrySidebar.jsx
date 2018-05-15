@@ -8,7 +8,7 @@ import Add from '@material-ui/icons/Add';
 import { withAuth } from 'fireview';
 
 
-// import { storage } from '../utils/firebase.config';
+import { storage } from '../utils/firebase.config';
 
 
 const styles = {
@@ -55,7 +55,7 @@ class SingleEntrySidebar extends Component {
   //   this.state.mediaToAdd.forEach(file => storage.ref(file.name).put(file)
   //     .then(res => this.setState({ mediaUrls: [...this.state.mediaUrls, res.downloadURL]}))
   //   );
-    
+
   // }
   storeMedia(){
     //add to cloud storage and set urls for uploaded files on local state

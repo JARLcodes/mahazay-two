@@ -14,20 +14,45 @@ export const analyzeTone = (token, text, entryId, userId) => {
     token,
     version: '2016-05-19',
   });
-  
-  toneAnalyzer.tone(
+
+  return toneAnalyzer.tone(
     { text, sentences: false },
     function(err, result) {
       if (err) {
         return console.log(err);
       }
       const toneInsight = JSON.stringify(result, null, 2);
+      console.log("toneInsightOrig: ", result)
       const parsedToneInsight = JSON.parse(toneInsight)["document_tone"]["tone_categories"];
-      db.collection('toneInsights').add({ parsedToneInsight, entryId, userId });
+      db.collection('toneInsights').doc("Tone Test 3").set({ parsedToneInsight, entryId, userId });
+      let insight = { parsedToneInsight, entryId, userId }
+      console.log("this is the insight object inside watson Funcs:", insight)
+      return insight
     }
   );
+
+
 };
 
+// export const analyzeToneSummary = (token, text, userId) => {
+//   const toneAnalyzer = new ToneAnalyzerV3({
+//     token,
+//     version: '2016-05-19',
+//   });
+
+//   toneAnalyzer.tone(
+//     { text, sentences: false },
+//     function(err, result) {
+//       if (err) {
+//         return console.log(err);
+//       }
+//       const toneInsight = JSON.stringify(result, null, 2);
+//       const parsedToneInsight = JSON.parse(toneInsight)["document_tone"]["tone_categories"];
+//       db.collection('toneSummary').doc(userId).set({ parsedToneInsight, userId });
+//     }
+//   );
+// };
+
 export const analyzePersonality = (entryId, userId) => {
-  return fetch(`/api/entries/${entryId}/personalityInsights`).then(response => response)
+  return fetch(`/api/entries/${entryId}/personalityInsights`, {userId}).then(response => response)
 }

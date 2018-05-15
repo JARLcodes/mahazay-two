@@ -17,13 +17,13 @@ class EditorComponent extends Component {
   constructor(props){
     super(props);
     this.state = {
-      editorState: null, 
-      alignment: 'left', 
-      showStyleToolbar: false, 
-      showAlignmentToolbar: false, 
+      editorState: null,
+      alignment: 'left',
+      showStyleToolbar: false,
+      showAlignmentToolbar: false,
       showMediaInput: false,
       showMediaTypeButtons: false,
-      mediaUrlValue: '', 
+      mediaUrlValue: '',
       urlType: '',
       fileToUpload: {},
       rootRef: this.props.entry
@@ -33,7 +33,7 @@ class EditorComponent extends Component {
     this.onURLInputKeyDown = this.onURLInputKeyDown.bind(this);
   }
 
-  
+
   focus = () => this.refs.editor.focus();
 
   handleKeyCommand(command) {
@@ -50,7 +50,7 @@ class EditorComponent extends Component {
     this.state.rootRef.get()
       .then(snap => {
         snap.data() && snap.data().content
-        ? this.setState({ editorState: EditorState.createWithContent(convertFromRaw(snap.data().content)) }) 
+        ? this.setState({ editorState: EditorState.createWithContent(convertFromRaw(snap.data().content)) })
         : this.setState({ editorState: EditorState.createEmpty()})
     })
   };
@@ -66,16 +66,16 @@ class EditorComponent extends Component {
     const entryId = this.props.entry.id
     const userId = this.props._user.uid
     //only call tone analyzer if length of text is greater than 350 -- to limit api calls
-    if (text.length > 350){
-      getTokenTone().then((token) => analyzeTone(token, text, entryId, userId));
-      analyzePersonality(entryId, userId)
-    } 
+    // if (text.length > 350){
+    //   getTokenTone().then((token) => analyzeTone(token, text, entryId, userId));
+    //   analyzePersonality(entryId, userId)
+    // }
     //change to button to limit amout of times we hit watson
     // console.log(this.state.rootRef)
   }
 
 
-  toggleInlineStyle = style => () => 
+  toggleInlineStyle = style => () =>
     this.onChange(RichUtils.toggleInlineStyle(
       this.state.editorState,
       style
@@ -93,7 +93,7 @@ class EditorComponent extends Component {
   showStyleToolbar(){
     this.setState({ showStyleToolbar: !this.state.showStyleToolbar })
   }
-  
+
   showAlignmentToolbar(){
     this.setState({ showAlignmentToolbar: !this.state.showAlignmentToolbar })
   }
@@ -115,14 +115,14 @@ class EditorComponent extends Component {
     </React.Fragment>
   }
 
- 
+
 
   onURLChange(e){
     console.log("1", e.target.files); //1. all good here
     const file = e.target.files[0];
     console.log('1.5', file)
     return this.setState({fileToUpload: file})
-    
+
   }
 
   onURLInputKeyDown(e) {
@@ -136,7 +136,7 @@ class EditorComponent extends Component {
       .then(res => this.setState({ mediaUrlValue: res.downloadURL, showMediaInput: !this.state.showMediaInput }))
       .then(() => this.onChange(confirmMedia(this.state.editorState, this.state.mediaUrlValue, this.state.urlType)))
       .catch(console.error)
-    }    
+    }
   }
 
   showMediaInput(type){
@@ -151,19 +151,19 @@ class EditorComponent extends Component {
     const { alignment, showStyleToolbar, showAlignmentToolbar, showMediaInput, urlValue, urlType, showMediaTypeButtons, editorState } = this.state;
     if (!editorState) return 'loading';
     console.log('0', this.state.urlType, '2', this.state.fileToUpload, '6', this.state.mediaUrlValue);
-    return ( 
-      
+    return (
+
         <div style={styles.editor}>
           <Button onClick={this.showStyleToolbar.bind(this)}><b>B</b><i>I</i><u>U</u></Button>
           {showStyleToolbar && <div>{this.renderStyleToolbar()}</div>}
           <Button onClick={this.showAlignmentToolbar.bind(this)}>Align</Button>
           {showAlignmentToolbar && <div>{this.renderAlignmentToolbar()}</div>}
           {!showMediaTypeButtons && <Button onClick={this.showMediaTypeButtons.bind(this)}>Add Media</Button>}
-          { showMediaInput 
+          { showMediaInput
             ? <div>
-            <input 
-            type="file" 
-            id="file" 
+            <input
+            type="file"
+            id="file"
             onChange={this.onURLChange}
             onKeyDown={this.onURLInputKeyDown.bind(this)}
             />
@@ -187,7 +187,7 @@ class EditorComponent extends Component {
                 ref="editor"
               />
           </div>
-  
+
     );
   }
 }

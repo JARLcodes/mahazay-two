@@ -1,38 +1,84 @@
 import React, { Component } from 'react';
 import { withAuth } from 'fireview';
+import { EditorState, RichUtils, convertFromRaw, convertToRaw, ContentState } from "draft-js";
+
 import { getRootRef, getIds } from '../../utils/componentUtils';
 import {db} from '../../utils/firebase.config'
+import { getTokenTone, analyzeTone } from '../../utils/watsonFuncs.js'
 
 export class ToneInsights extends Component {
-    constructor(props){
-        super(props);
+    constructor (){
+        super();
         this.state = {
-            usertones: []
+            insight:{},
+            entry: {},
+            userId: null,
+            needsNewInsight: true
         }
-        this.getUserTones = this.getUserTones.bind(this);
+        this.getInsight = this.getInsight.bind(this);
     }
-    //get tone insights by user takes a userId and returns an array of 
-    getUserTones(userId){
-        getRootRef('toneInsights').where('userId', '==', userId)
-    }
-    //get tone insights by entry
-    getEntryTone(entryId){
-        getRootRef('toneInsights', entryId)
-    }
-    //get tone insights by journal
-    // getJournalTones = (journalId) => {
-    //     getRootRef('toneInsights', journalId)
 
-    // }
-    componentWillReceiveProps(newProps){
-        getRootRef('toneInsights').where('userId', '==', newProps._user.uid).get()
-            .then(snap => console.log(snap))
+    componentDidMount(){
+            if(! this.state.entry.blocks){
+                getRootRef('entries', this.props.entryId)
+                .get()
+                .then(entry => this.setState({...this.state, entry: entry.data().content, userId: entry.data().userId}))
+            }
+            if (!this.state.insight.entryId){
+                db.collection('toneInsights').where("entryId", "==", this.props.entryId).get()
+            .then(querySnap => {
+                const helperArr = []
+                querySnap.forEach(snap => {
+                    helperArr.push(snap.data())
+                })
+                if(helperArr[0]){
+                    console.log("hit the db query for the insight and set the state insight obj")
+                    this.setState({...this.state,insight:helperArr[0], needsNewInsight: false})}
+                else{
+                    console.log("got nothing here")
+                    this.getInsight()
+                }
+            })}
+            console.log("userrr:", this.props._user)
+
+    }
+
+
+
+    getInsight(){
+        if(this.state.entry.blocks){
+            const entryId = this.props.entryId
+            const userId = this.state.userId
+            const text = convertFromRaw(this.state.entry).getPlainText()
+            getTokenTone()
+            .then((token) => {
+                return analyzeTone(token, text, entryId, userId)})
+            .then( insightObject => {
+                // return db.collection('toneInsights').where("entryId", "==", this.props.entryId).get()
+                // .then(querySnap => {
+                //     const helperArr = []
+                //     querySnap.forEach(snap => {
+                //         helperArr.push(snap.data())
+                //     })
+                //     if(helperArr[0]){
+                //         console.log("got the newly created insight")
+                //         this.setState({...this.state,insight:helperArr[0], needsNewInsight: false})}
+                //     else{
+                //         console.log("did not get the newly created tone")}})}
+
+            console.log("Set the object to state:", (insightObject))
+            this.setState({...this.state, needsNewInsight: false})
+
+            }
+            )
+
+        }
     }
 
     render(){
-        console.log("state: ", this.state, "props: ", this.props)
+        console.log("state: ", this.state)
         return(
-            <div></div>
+            <div>Insights :)</div>
         )
     }
 }
