@@ -143,39 +143,39 @@ export default class HomepageForm extends Component {
                 </div>
               }
             
-                  {this.state.warning === 'password-error'
-                    ? <div style={styles.error}>
-                      <TextField
-                        error
-                        id="name"
-                        label="Password"
-                        onChange={this.handleChange}
-                        name="password"
-                        placeholder="password"
-                        margin="normal"
-                        style={styles.helperText}
-                        />
-                        <FormHelperText id="name-helper-text">Password must be at least 6 characters</FormHelperText>
-                      </div>
-                    : <div>
-                      <TextField
-                        id="name"
-                        label="Password"
-                        onChange={this.handleChange}
-                        name="password"
-                        placeholder="Enter Password"
-                        margin="normal"
-                        />
-                        </div>
-                  }
-                
-                <Button onClick={this.handleSignUp}>
+            {this.state.warning === 'password-error'
+              ? <div style={styles.error}>
+                <TextField
+                  error
+                  id="name"
+                  label="Password"
+                  onChange={this.handleChange}
+                  name="password"
+                  placeholder="password"
+                  margin="normal"
+                  style={styles.helperText}
+                  />
+                  <FormHelperText id="name-helper-text">Password must be at least 6 characters</FormHelperText>
+                </div>
+              : <div>
+                <TextField
+                  id="name"
+                  label="Password"
+                  onChange={this.handleChange}
+                  name="password"
+                  placeholder="Enter Password"
+                  margin="normal"
+                  />
+                  </div>
+              }
+                <Button type="submit" onClick={this.handleSignUp}>
                   Sign Up
                 </Button>
               </div> 
               :
               this.state.login && !this.state.signUp ?
               <div>
+              <form>
               <div>
                 <TextField
                 id="emailInput"
@@ -196,9 +196,10 @@ export default class HomepageForm extends Component {
                 margin="normal"
                 />
               </div> 
-              <Button onClick={this.handleLogin}>
+              <Button type="submit" onClick={this.handleLogin}>
               Login
               </Button>
+              </form>
             </div>
             : null}
             </Grid> 

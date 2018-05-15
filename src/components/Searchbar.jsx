@@ -32,8 +32,6 @@ const styles = {
   },
 };
 
-
-
 class Searchbar extends Component {
   constructor(props){
     super(props);
@@ -45,7 +43,7 @@ class Searchbar extends Component {
     this.getSuggestions = this.getSuggestions.bind(this);
     this.renderSuggestion = this.renderSuggestion.bind(this);
     this.renderInput = this.renderInput.bind(this);
-  };
+  }
 
   componentDidMount(){
     getRootRef('entries').where('userId', '==', this.props.userId).get()
@@ -176,6 +174,5 @@ class Searchbar extends Component {
     )
   }
 }
-
 
 export default withRouter(Searchbar);
