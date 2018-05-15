@@ -71,7 +71,7 @@ class SingleTracker2 extends Component {
             console.log('obj.values', Object.values(habit.data().dates)[0])
             let isChecked = Object.values(habit.data().dates)[0];
             let dateCompleted = isChecked ? new Date().setHours(0,0,0,0) : '';
-            habit.ref.update({ dates: { checked: isChecked, date: dateCompleted }}) //this should leave dates.date untouched
+            habit.ref.update({ dateCompleted: { checked: isChecked, date: dateCompleted }}) //this should leave dates.date untouched
           }
         })
       })
@@ -94,8 +94,8 @@ class SingleTracker2 extends Component {
       const { name, dates } = props;
       // let entryDate = this.state.entry.data().dateCreated;
       // console.log('entry date', entryDate, new Date().setHours(0,0,0,0));
-      let isChecked = Object.values(dates)[0];
-      
+      //let isChecked = Object.values(dates)[0];
+      let isChecked = false;
       return <div> 
         {name}
         <Checkbox
