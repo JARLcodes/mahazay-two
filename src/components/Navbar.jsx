@@ -31,27 +31,27 @@ const styles = {
   journalButton: {
     color: "#A1887F", 
     padding: "1em 1em",
-    fontSize: "1em"
+    
   },
   entryButton: {
     color: "#82B1FF", 
     padding: "1em 1em",
-    fontSize: "1em"
+   
   },
   trackerButton: {
     color: "#EF9A9A", 
     padding: "1em 1em",
-    fontSize: "1em"
+  
   },
   insightButton: {
     color: "#9FA8DA", 
     padding: "1em 1em",
-    fontSize: "1em"
+    
   },
   logoutButton: {
     color: "#424242", 
     padding: "1em 1em",
-    fontSize: "1em"
+   
   }, 
   image: {
     height: 75,
