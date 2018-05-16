@@ -29,7 +29,8 @@ export class SingleJournal extends Component {
     super(props);
     this.state = {
       entries: [],
-      events:[], 
+      events:[],
+      insights: [],
       journal: getRootRef('journals', this.props.match.params.journalId) //db.collection('journals')
     }
     this.addEntry = this.addEntry.bind(this);
@@ -58,9 +59,18 @@ export class SingleJournal extends Component {
       .then(querySnapshot => {
         console.log('setting entries on state snap', querySnapshot);
         querySnapshot.forEach(entry => {
-          this.setState({entries: [...this.state.entries, {entryId: entry.id, dateCreated: entry.data().dateCreated, content: entry.data().content, journalId: entry.data().journalId }], events: [...this.state.events, {title: "View Journal Entry", entryId: entry.id, start: new Date(entry.data().dateCreated), end: new Date(entry.data().dateCreated) + 1}]})
+          this.setState({...this.state, entries: [...this.state.entries, {entryId: entry.id, dateCreated: entry.data().dateCreated, content: entry.data().content, journalId: entry.data().journalId }], events: [...this.state.events, {title: "View Journal Entry", entryId: entry.id, start: new Date(entry.data().dateCreated), end: new Date(entry.data().dateCreated) + 1}]})
         })
       })
+      db.collection('toneInsights')
+      .where('journalId', '==', this.props.match.params.journalId).get()
+      .then(querySnapshot => {
+        console.log('setting insights on state snap', querySnapshot);
+        querySnapshot.forEach(insight => {
+          this.setState({...this.state, insights: [...this.state.insights,{entryId: insight.data().entryId, parsedInsight: insight.data().parsedToneInsight, }]})
+        })
+      })
+      console.log("HIT THIS AT THE END IN RECEIVE PROPS")
     }
   }
 
@@ -70,18 +80,84 @@ export class SingleJournal extends Component {
 
   checkColor(event, start, end, isSelected){
     let background;
-    Math.floor((Math.random() * 10)) % 2 === 0 ? background = '#F48FB1' : background ="#81C784"
+    let arrInsights = this.state.insights;
+    console.log("arrof insights:", arrInsights, "event.entryId:", event.entryId)
+    let correctInsight = arrInsights.filter(insight => {
+      return insight.entryId == event.entryId})[0]
+    let arr = [];
+    let highest = {};
+    console.log("correctInsight: ", correctInsight)
+    if(correctInsight){
+      correctInsight.parsedInsight.forEach(
+          category => {
+              category.tones.forEach(tone => {
+                  arr.push({emotion: tone["tone_name"], score: tone.score})
+              })
+          }
+      )
+    }
+    console.log("arr:", arr)
+    arr.forEach(tone => {
+      if((!highest.score || tone.score > highest.score) && tone.emotion !== "Emotional Range" ){
+        highest = tone
+      }
+    })
+    console.log("HIGHEST:", highest)
+    switch(highest.emotion) {
+      case "Anger" :
+        background = "#C62828"
+        break;
+      case "Disgust" :
+        background = "#827717"
+        break;
+      case "Fear" :
+        background = "#757575"
+        break;
+      case "Joy" :
+        background = "#F3E5F5"
+        break;
+      case "Sadness" :
+        background = "#546E7A"
+        break;
+      case "Analytical" :
+        background = "#FFB74D"
+        break;
+      case "Confident" :
+        background = "#FFFF00"
+        break;
+      case "Tenative" :
+        background = "#BCAAA4"
+        break;
+      case "Openness" :
+        background = "#B2FF59"
+        break;
+      case "Conscientiousness" :
+        background = "#69F0AE"
+        break;
+      case "Agreeableness" :
+        background = "#80D8FF"
+        break;
+      case "Extraversion" :
+        background = "#9C27B0"
+        break;
+      default:
+        background = "#FFF3E0"
+        break;
+      }
+
+
+    // Math.floor((Math.random() * 10)) % 2 === 0 ? background = '#F48FB1' : background ="#81C784"
 
     return {style : {background}}
   }
 
   deleteJournal(journal){
     confirmAlert({
-      title: 'Confirm to submit', 
-      message: 'Are you sure you want to delete this journal?', 
+      title: 'Confirm to submit',
+      message: 'Are you sure you want to delete this journal?',
       buttons: [
         {
-          label: 'Yes, delete journal', 
+          label: 'Yes, delete journal',
           message: 'This will also delete all entries in this journal',
           onClick: () => {
             journal.delete()
@@ -93,19 +169,20 @@ export class SingleJournal extends Component {
               })
               .then(() => this.props.history.push('/journals'))
           }
-        }, 
+        },
         {
-          label: 'No, keep journal', 
+          label: 'No, keep journal',
           onClick: () => this.props.history.push(`/journals/${this.props.match.params.journalId}`)
         }
       ]
     })
-    
+
   }
 
   render() {
     const entries = this.state.entries
     const events = this.state.events
+    console.log("state in render", this.state)
     return (
       <div>
         <div style={{"paddingLeft": 24 + "px", "paddingRight": 24 + "px", "marginBottom": 24 +"px" }}>
