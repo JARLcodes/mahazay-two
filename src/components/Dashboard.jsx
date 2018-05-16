@@ -14,13 +14,15 @@ const styles = {
 		maxWidth: 200,
 		background: "white",
 		padding: "7vh 10vh",
-		marginBottom: "3.5vh",
+		margin: "3.5vh 2vh",
+		borderRadius: ".5em .5em"
 	},
   card: {
 		maxWidth: 200,
 		background: "white",
 		padding: "4vh 4vh",
-		margin: "2vh 2vh"
+		margin: "2vh 2vh",
+		borderRadius: ".5em .5em"
 	},
   gridList: {
     display: "flex",
@@ -38,7 +40,7 @@ const styles = {
 	}
 };
 
-const Dashboard = (props) => {
+const Dashboard = props => {
 	const user = props && props._user ? props._user : 'tina you fat lard';
 	return (
 	<div>

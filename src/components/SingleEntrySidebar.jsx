@@ -4,10 +4,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import Button from "material-ui/Button";
 import { withAuth } from 'fireview';
-
-
 import { storage } from '../utils/firebase.config';
-
 import { confirmAlert } from 'react-confirm-alert';
 import { SingleTracker2 } from './index';
 
@@ -33,7 +30,7 @@ const styles = {
     flexDirection: "column",
     marginLeft: "10%"
   },
-}
+};
 
 class SingleEntrySidebar extends Component {
 
@@ -59,15 +56,12 @@ class SingleEntrySidebar extends Component {
       <div>
       { this.props._user && <SingleTracker2 entry={this.props.entry} user={this.props._user}/> }
       <div style={styles.singleEntrySidebar}>
-
-        <Button variant="raised" style={styles.delete} onClick={this.deleteEntry.bind(this, this.props.entry)}>Delete Entry</Button>
-
+        <Button variant="raised" style={styles.delete} onClick={this.deleteEntry.bind(this, this.props.entry)}>
+          Delete Entry
+        </Button>
       </div>
-     
-      
-     
       </div>
-    )
+    );
   }
 }
 

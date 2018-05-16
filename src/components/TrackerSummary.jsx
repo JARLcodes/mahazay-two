@@ -10,7 +10,6 @@ import Table, {
 import Grid from 'material-ui/Grid';
 import Checkbox from 'material-ui/Checkbox';
 
-
 import { Map, withAuth } from 'fireview';
 import { db } from '../utils/firebase.config';
 import { generateWeek, months } from '../utils/trackerSummaryUtils';

@@ -15,13 +15,11 @@ import  NewJournalForm  from './NewJournalForm.jsx';
 const styles = {
   root: {
     display: 'flex',
-    flexWrap: 'wrap',
+    flexWrap: 'nowrap',
     justifyContent: 'space-around',
-    overflow: 'hidden',
-    alignContent: "flex-start"
+    overflow: 'hidden'
   },
   gridList: {
-    height: "auto",
     spacing: "1em"
   },
   subheader: {
@@ -30,7 +28,7 @@ const styles = {
     color: 'grey'
   },
   image: {
-    width: "50vh",
+    width: "60vh",
     height: "auto"
   },
   addIcon: {
@@ -82,7 +80,7 @@ export class AllJournals extends Component {
             <GridListTile key={journalIds[ind]}>
               <Link to={`/journals/${journalIds[ind]}`}>
               <GridListTileBar
-                  title={<Typography style={{textTransform: "capitalize", color: "#BDBDBD"}}variant="title">{journal.title}</Typography>}
+                  title={<Typography style={{textTransform: "capitalize", color: "#BDBDBD"}} variant="title">{journal.title}</Typography>}
                   subtitle={<Typography variant="subheading" style={{color: "#9E9E9E"}}>{journal.description}</Typography>}
                   titlePosition="top"
                 />

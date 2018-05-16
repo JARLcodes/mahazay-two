@@ -17,7 +17,7 @@ const styles = {
     color: 'red', 
     alignSelf: 'center'
   }
-}
+};
 
 
 //weeksAgo will be an integer that represents the number of weeks prior to the current week
@@ -41,7 +41,7 @@ export const generateWeek = weeksAgo => {
     week.push(formattedNextDay);
   }
   return week;
-}
+};
 
 export const week = generateWeek();
 export const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
