@@ -77,7 +77,7 @@ export class AllJournals extends Component {
               ? <div>
                   <Subheader component="div" style={styles.subheader}>Journals</Subheader> 
                   <Button onClick={this.newJournal.bind(this)}><Add style={styles.addIcon}/></Button>
-              </div> 
+                </div> 
               : <div>
                   <Subheader component="div" style={styles.subheader}>No Journals Made</Subheader>
                   <Button onClick={this.newJournal.bind(this)}><Add style={styles.addIcon}/></Button>

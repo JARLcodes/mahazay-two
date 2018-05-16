@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import TextField from 'material-ui/TextField';
-// import { InputAdornment } from 'material-ui/Input';
 import Button from "material-ui/Button";
 import { getRootRef } from '../utils/componentUtils';
+import Add from '@material-ui/icons/Add';
 
 
 const styles = {
@@ -23,6 +23,11 @@ const styles = {
     borderRadius: "0.5em", 
     textDecoration: "none"
 
+  }, 
+  addIcon: {
+    color: "grey", 
+    width: 15, 
+    height: "auto"
   }
 }
 
@@ -89,7 +94,7 @@ export default class NewJournalForm extends Component {
             name="description"
             onKeyPress={this.addJournal.bind(this)}
           />
-          <Button style={styles.addJournalButton} onClick={this.addJournal.bind(this)}>New Journal</Button>
+          <Button style={styles.addJournalButton} onClick={this.addJournal.bind(this)}><Add style={styles.addIcon}/></Button>
         </form>
       </div>
     )
