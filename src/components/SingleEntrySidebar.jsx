@@ -6,7 +6,7 @@ import Button from "material-ui/Button";
 import { withAuth } from 'fireview';
 import { storage } from '../utils/firebase.config';
 import { confirmAlert } from 'react-confirm-alert';
-import { SingleTracker2 } from './index';
+import { SingleTracker } from './index';
 
 const styles = {
   addMedia: {
@@ -57,7 +57,7 @@ class SingleEntrySidebar extends Component {
   render() {
     return (
       <div>
-      { this.props._user && <SingleTracker2 entry={this.props.entry} user={this.props._user}/> }
+      { this.props._user && <SingleTracker entry={this.props.entry} user={this.props._user}/> }
       <div style={styles.singleEntrySidebar}>
         <Button variant="raised" style={styles.delete} onClick={this.deleteEntry.bind(this, this.props.entry)}>
           Delete Entry
