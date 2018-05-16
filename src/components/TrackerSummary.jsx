@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import TextField from 'material-ui/TextField';
+import { confirmAlert } from 'react-confirm-alert';
 import Button from 'material-ui/Button';
 import Table, {
   TableBody,
@@ -45,8 +47,8 @@ const styles = theme => ({
 });
 
 class TrackerSummary extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       habits: [],
       habitToAdd: {}, 
@@ -83,30 +85,43 @@ class TrackerSummary extends Component {
 
   deleteHabit(e){
     e.preventDefault();
-    console.log('e.target', e.target.value);
-    // confirmAlert({
-    //   title: 'Are you sure you want to delete this entry?',
-    //   message: '',
-    //   buttons: [
-    //     {
-    //       label: 'Yes, delete entry',
-    //       onClick: () => entry.delete().then(() => this.props.history.push('/entries'))
-    //     },
-    //     {
-    //       label: 'No, keep entry',
-    //       onClick: () => this.props.history.push(`/journals/${this.props.match.params.journalId}/entries/${this.props.match.params.entryId}`)
-    //     }
-    //   ]
-    // });
+    e.persist();
+    console.log('e.target.name', e.target.name);
+    
+    confirmAlert({
+      title: `Are you sure you don't want to track ${e.target.name} anymore?`,
+      message: `Click yes to confirm, no to keep tracking ${e.target.name}`,
+      buttons: [
+        {
+          label: 'Yes, stop tracking',
+          onClick: () => {
+            db.collection('habits').where('name', '==', e.target.name).get()
+              .then(querySnapshot => {
+                querySnapshot.forEach(habit => {
+                  if (habit.data().name === e.target.name) return habit.ref.delete();
+                })
+            })
+          .then(() => this.props.history.push('/tracker'))
+          .catch(console.error);
+          }
+        },
+        {
+          label: 'No, keep tracking',
+          onClick: () => this.props.history.push(`/tracker`)
+        }
+      ]
+    });
   }
 
+
   resetToThisWeek(){
-    this.setState({ weeksAgo: 0 })
+    this.setState({ weeksAgo: 0 });
+    this.setState({ week: this.getWeek() });
   }
 
   getWeeksAgo(){
     console.log('this.state.weeksAgo before decrement', this.state.weeksAgo);
-    this.setState({ weeksAgo: this.state.weeksAgo++ });
+    this.setState({ weeksAgo: this.state.weeksAgo += 1 });
     console.log('this.state.weeksAgo after increment', this.state.weeksAgo);
     this.setState({ week: this.getWeek() })
   }
@@ -120,13 +135,13 @@ class TrackerSummary extends Component {
     const user = this.props._user;
     const userId = user && user.uid ? user.uid : null;
     const { week } = this.state;
-
+    console.log('this.state', this.state);
     const Habit = props => {
       const { name, datesCompleted } = props;
       return (
         <TableRow key={props}>
           <TableCell style={{ display: 'flex'}}>
-            <form onSubmit={this.deleteHabit.bind(this)} ><Button type="submit" value={name}>{name}</Button></form>
+            <form onSubmit={this.deleteHabit.bind(this)} name={name} value={name}><Button type="submit">{name}</Button></form>
           </TableCell>
           
             { week.map(day => {

@@ -95,14 +95,21 @@ class SingleTracker2 extends Component {
             let datesCompleted = [];
             habit.data().datesCompleted.forEach(date => datesCompleted.push(date));
             let updatedDatesCompleted = datesCompleted.filter(date => date - entryDate !== 0);
-            if (e.target.name === habit.data().name) habit.ref.update({ datesCompleted: updatedDatesCompleted })
+            if (e.target.name === habit.data().name) habit.ref.update({ datesCompleted: updatedDatesCompleted }).then(() => {
+              this.props.entry.get().then(entry=> {
+                if (this.props.history) this.props.history.push(`/journals/${entry.data().journalId}/entries/${entry.id}`);
+            })
+            })
           }
           //if datesCompleted does not include entryDate, then add it
           else {
             console.log('habit data', habit.data())
-            if (e.target.name === habit.data().name) habit.ref.update({ datesCompleted: [...habit.data().datesCompleted, entryDate] })
-          }
-        }
+            if (e.target.name === habit.data().name) habit.ref.update({ datesCompleted: [...habit.data().datesCompleted, entryDate] }).then(() => {
+              this.props.entry.get().then(entry => {
+                if (this.props.history) this.props.history.push(`/journals/${entry.data().journalId}/entries/${entry.id}`);
+              })
+            })
+        }}
       })
     }
   }
