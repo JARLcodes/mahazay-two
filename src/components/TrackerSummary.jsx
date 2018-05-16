@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import TextField from 'material-ui/TextField';
+import Subheader from 'material-ui/List/ListSubheader';
 import { confirmAlert } from 'react-confirm-alert';
 import Button from 'material-ui/Button';
 import Table, {
@@ -10,6 +11,7 @@ import Table, {
   TableRow
 } from 'material-ui/Table';
 import Grid from 'material-ui/Grid';
+import Add from '@material-ui/icons/Add';
 import Checkbox from 'material-ui/Checkbox';
 
 import { Map, withAuth } from 'fireview';
@@ -43,7 +45,7 @@ const styles = theme => ({
   x: {
     color: 'red', 
     alignSelf: 'center'
-  }
+  }, 
 });
 
 class TrackerSummary extends Component {
@@ -120,9 +122,7 @@ class TrackerSummary extends Component {
   }
 
   getWeeksAgo(){
-    console.log('this.state.weeksAgo before decrement', this.state.weeksAgo);
     this.setState({ weeksAgo: this.state.weeksAgo += 1 });
-    console.log('this.state.weeksAgo after increment', this.state.weeksAgo);
     this.setState({ week: this.getWeek() })
   }
 
@@ -141,7 +141,7 @@ class TrackerSummary extends Component {
       return (
         <TableRow key={props}>
           <TableCell style={{ display: 'flex'}}>
-            <form onSubmit={this.deleteHabit.bind(this)} name={name} value={name}><Button type="submit">{name}</Button></form>
+            <form onSubmit={this.deleteHabit.bind(this)} name={name} value={name}><Button type="submit" style={{color: 'grey'}}>{name}</Button></form>
           </TableCell>
           
             { week.map(day => {
@@ -176,8 +176,9 @@ class TrackerSummary extends Component {
 
     return (
       <Grid container style={{marginLeft: "5%", paddingRight: "15%", marginBottom: "5%", display: 'flex', flexDirection: "column"}}>
+         <Subheader component="div" style={{ fontSize: "2.5em", fontVariant: 'small-caps',color: 'grey'}}>Your Habits</Subheader>
         <Grid item>
-        <form onSubmit={this.handleAdd} style={{ alignSelf: "center" }}> 
+        <form onSubmit={this.handleAdd} style={{ marginLeft: "5%" }}> 
         <TextField
           id="name"
           label="Add Habit?"
@@ -187,21 +188,20 @@ class TrackerSummary extends Component {
           margin="normal"
           value={this.state.habitToAdd.name}
         />
-        <Button type="submit">Add</Button>
+        <Button type="submit"><Add style={{color: "grey", width: 30, height: "auto"}}/></Button>
         </form>
       </Grid>
 
       <Table>
       <TableHead>
         <TableRow>
-        <TableCell><Button onClick={this.getWeeksAgo.bind(this)}>Previous Week</Button></TableCell>
-        <TableCell><Button onClick={this.resetToThisWeek.bind(this)}>This Week</Button></TableCell>
-        <TableCell variant="body-2">Habits</TableCell>
+        <TableCell><Button onClick={this.getWeeksAgo.bind(this)} style={{color: 'grey'}}>Previous Week</Button></TableCell>
+        <TableCell><Button onClick={this.resetToThisWeek.bind(this)} style={{color: 'grey'}}>This Week</Button></TableCell>
         </TableRow>
       </TableHead>
         <TableBody>
         <TableCell></TableCell>
-        {week.map(day => <TableCell key={day}><b>{day}</b></TableCell>)}
+        {week.map(day => <TableCell key={day}><b style={{color: 'grey'}}>{day}</b></TableCell>)}
           <Map from={AllHabits.where('userId', '==', userId)}
           Render={Habit}
           />
