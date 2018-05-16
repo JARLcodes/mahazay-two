@@ -21,7 +21,7 @@ import {
 const theme = createMuiTheme();
 const styles = {
   nav: {
-    marginBottom: "2em", 
+    marginBottom: "1em", 
     marginTop: "0.5em", 
     
     paddingBottom: "1em"

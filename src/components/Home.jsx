@@ -107,7 +107,7 @@ export default class HomepageForm extends Component {
     return (
       <div>
     
-        <form className={styles.container}>
+        <form style={styles.container}>
         <Grid container spacing={24} justify="center" style={styles.gridList}>
           <div>
           <Grid item>
