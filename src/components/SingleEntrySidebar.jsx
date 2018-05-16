@@ -35,20 +35,23 @@ const styles = {
 class SingleEntrySidebar extends Component {
 
   deleteEntry(entry){
-    confirmAlert({
-      title: 'Are you sure you want to delete this entry?',
-      message: '',
-      buttons: [
-        {
-          label: 'Yes, delete entry',
-          onClick: () => entry.delete().then(() => this.props.history.push('/entries'))
-        },
-        {
-          label: 'No, keep entry',
-          onClick: () => this.props.history.push(`/journals/${this.props.match.params.journalId}/entries/${this.props.match.params.entryId}`)
-        }
-      ]
-    });
+    
+      confirmAlert({
+        title: 'Are you sure you want to delete this entry?',
+        message: '',
+        buttons: [
+          {
+            label: 'Yes, delete entry',
+            onClick: () => entry.delete().then(() => this.props.history.push('/entries'))
+          },
+          {
+            label: 'No, keep entry',
+            onClick: () => this.props.history.push(`/journals/${this.props.match.params.journalId}/entries/${this.props.match.params.entryId}`)
+          }
+        ]
+      });
+    
+   
   }
 
   render() {
