@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import { withAuth } from 'fireview';
-import { getRootRef, getIds } from '../../utils/componentUtils';
-import {db} from '../../utils/firebase.config'
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
+import { getRootRef } from '../../utils/componentUtils';
 import Typography from 'material-ui/Typography';
 import Paper from 'material-ui/Paper';
 import Grid from 'material-ui/Grid';
-import List, { ListItem, ListItemIcon, ListItemText}from 'material-ui/List';
+import List, { ListItem, ListItemIcon }from 'material-ui/List';
 import ExpansionPanel, { ExpansionPanelDetails, ExpansionPanelSummary } from 'material-ui/ExpansionPanel';
 import ThumbUp from '@material-ui/icons/ThumbUp';
 import ThumbDown from '@material-ui/icons/ThumbDown';
@@ -16,7 +13,7 @@ import Star from '@material-ui/icons/Star';
 import ChatBubble from '@material-ui/icons/ChatBubble';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-import ToneInsights from './ToneInsights'
+import ToneInsights from './ToneInsights';
 
 export class Insights extends Component {
     constructor () {
@@ -28,11 +25,11 @@ export class Insights extends Component {
             needs: [],
             values: [],
             expanded: null
-        }
+        };
     }
 
     handleChange = panel => (event, expanded) => {
-        this.setState({expanded: expanded ? panel : false})
+        this.setState({expanded: expanded ? panel : false});
     }
 
     componentWillReceiveProps(nextProps){
@@ -43,54 +40,49 @@ export class Insights extends Component {
             .then(snap => {
                 //helper functions
                 const filter = (obj, num) => obj.score === num;
-                const percent = num => Math.floor(num * 100) + "%"
+                const percent = num => Math.floor(num * 100) + "%";
 
                 //consumption preferences data
                 const consumptionPreferences = snap.data() ? Array.from(snap.data().consumption_preferences) : [];
-                const flattenedConsumptionArray = []
+                const flattenedConsumptionArray = [];
 
                 consumptionPreferences.forEach(preference => {
                     Array.from(preference.consumption_preferences)
                     .forEach(realPreference => {
-                        flattenedConsumptionArray.push({name: realPreference.name, score: realPreference.score})
-                    })
-                })
+                        flattenedConsumptionArray.push({name: realPreference.name, score: realPreference.score});
+                    });
+                });
 
-                const likely = flattenedConsumptionArray.filter(preference => filter(preference, 1))
-                const unlikely = flattenedConsumptionArray.filter(preference => filter(preference, 0))
+                const likely = flattenedConsumptionArray.filter(preference => filter(preference, 1));
+                const unlikely = flattenedConsumptionArray.filter(preference => filter(preference, 0));
 
                 // personality data
                 const personalityArr = snap.data() ? Array.from(snap.data().personality) : [];
-                const finalPersonalityArr = []
+                const finalPersonalityArr = [];
 
                 personalityArr.forEach(personality => {
-                    finalPersonalityArr.push({name: personality.name, percentile: percent(personality.percentile)})
-                })
+                    finalPersonalityArr.push({name: personality.name, percentile: percent(personality.percentile)});
+                });
 
                 // needs data
                 const needsArr = snap.data() ? Array.from(snap.data().needs) : [];
-                const finalNeedsArr = []
+                const finalNeedsArr = [];
 
                 needsArr.forEach(need => {
-                    finalNeedsArr.push({name: need.name, percentile: percent(need.percentile)})
-                })
+                    finalNeedsArr.push({name: need.name, percentile: percent(need.percentile)});
+                });
 
                 // values data
                 const valuesArr = snap.data() ? Array.from(snap.data().values) : [];
-                const finalValuesArr = []
+                const finalValuesArr = [];
 
                 valuesArr.forEach(value => {
-                    finalValuesArr.push({name: value.name, percentile: percent(value.percentile)})
-                })
-                console.log("finalValuesArr", finalValuesArr)
-
-                this.setState({personalityLikes: likely, personalityUnlikes: unlikely, personality: finalPersonalityArr, needs: finalNeedsArr, values: finalValuesArr})
-
-        })
-        console.log("I rerendered")
+                    finalValuesArr.push({name: value.name, percentile: percent(value.percentile)});
+                });
+                this.setState({personalityLikes: likely, personalityUnlikes: unlikely, personality: finalPersonalityArr, needs: finalNeedsArr, values: finalValuesArr});
+         });
         }
     }
-
 
     render () {
         const {
@@ -102,11 +94,10 @@ export class Insights extends Component {
             expanded
         } = this.state;
 
-        console.log("state", this.state.personality, "entryId:", this.props.entryId)
+        console.log("state", this.state.personality, "entryId:", this.props.entryId);
 
         return (
-            <div style={styles.root}>
-                <div style={styles.title}>My Insights</div>
+            <div>
                 <div>
                     <Grid container spacing={8} style={styles.grid}>
                         <Grid item xs={8} sm={4}>
@@ -211,7 +202,7 @@ export class Insights extends Component {
                     </ExpansionPanel>
                 </div>
             </div>
-        )
+        );
     }
 }
 

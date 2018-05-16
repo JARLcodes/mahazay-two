@@ -47,8 +47,8 @@ class SingleTracker2 extends Component {
     this.props.entry.get().then(entryItem => this.setState({entry: entryItem}));
     db.collection('habits').where('userId', '==', this.props.user.uid).get()
       .then(querySnapshot => {
-        querySnapshot.forEach(habit => this.setState({ habits: [...this.state.habits, habit] }))
-    })
+        querySnapshot.forEach(habit => this.setState({ habits: [...this.state.habits, habit] }));
+    });
   }
 
 
@@ -63,11 +63,11 @@ class SingleTracker2 extends Component {
         //to toggle: if datesCompleted includes entryDate and completed is false, then remove it
         if (!completed && entryDate) {
           let datesCompletedArr = [];
-          console.log('habit data in component did update completed false', habit.data())
+          console.log('habit data in component did update completed false', habit.data());
           habit.data().datesCompleted.forEach(date => datesCompletedArr.push(date));
           // let updatedDatesCompleted = [];
           let updatedDatesCompleted = datesCompletedArr.filter(date => date - entryDate !== 0);
-          habit.ref.update({ datesCompleted: updatedDatesCompleted })
+          habit.ref.update({ datesCompleted: updatedDatesCompleted });
         }
         //if datesCompleted does not include entryDate and completed is true, then add it
         else {
@@ -76,7 +76,7 @@ class SingleTracker2 extends Component {
           }
         }
        
-      })
+      });
    
     }
   }
@@ -93,15 +93,15 @@ class SingleTracker2 extends Component {
             let datesCompleted = [];
             habit.data().datesCompleted.forEach(date => datesCompleted.push(date));
             let updatedDatesCompleted = datesCompleted.filter(date => date - entryDate !== 0);
-            if (e.target.name === habit.data().name) habit.ref.update({ datesCompleted: updatedDatesCompleted })
+            if (e.target.name === habit.data().name) habit.ref.update({ datesCompleted: updatedDatesCompleted });
           }
           //if datesCompleted does not include entryDate, then add it
           else {
-            console.log('habit data', habit.data())
-            if (e.target.name === habit.data().name) habit.ref.update({ datesCompleted: [...habit.data().datesCompleted, entryDate] })
+            console.log('habit data', habit.data());
+            if (e.target.name === habit.data().name) habit.ref.update({ datesCompleted: [...habit.data().datesCompleted, entryDate] });
           }
         }
-      })
+      });
     }
   }
 
@@ -128,7 +128,7 @@ class SingleTracker2 extends Component {
         <Typography style={styles.habitName}>{name}</Typography>
         </div>;
       } else {
-        return <div></div>
+        return <div></div>;
       }
     };
 

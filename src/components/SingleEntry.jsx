@@ -8,6 +8,7 @@ import Button from "material-ui/Button";
 import { getRootRef } from '../utils/componentUtils';
 import { styles } from '../utils/singleEntryUtils';
 import { ToneInsights } from './insights/ToneInsights';
+import ArrowDownward from '@material-ui/icons/ArrowDownward';
 
 class SingleEntry extends Component {
   constructor(){
@@ -29,9 +30,8 @@ class SingleEntry extends Component {
           <SingleEntrySidebar item xs={4} history={this.props.history} entry={getRootRef('entries', this.props.match.params.entryId)} style={styles.sidebar}/>
           <EditorComponent item xs={8} history={this.props.history} entry={getRootRef('entries', this.props.match.params.entryId)}/>
         </div>
-
         <div style={{ gridColumnEnd: 'span 12' }}>
-          <Button onClick = {this.clickHandler} > Get Insights! </Button>
+          <Button style={{fontSize: "2vh"}} onClick={this.clickHandler}>Your Insights</Button><div><ArrowDownward /></div>
           {this.state.showInsight && <InsightComponent item xs={12} history={this.props.history} entry={getRootRef('entries', this.props.match.params.entryId)} entryId = {this.props.match.params.entryId}/>}
         </div>
       </div>
