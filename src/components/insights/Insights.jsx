@@ -52,7 +52,7 @@ export class Insights extends Component {
             .then(snap => {
 
                 // retrieve the summary for a specified personality profile (json)
-                const textSummary  = v3EnglishTextSummaries.getSummary(snap.data());
+                const textSummary  = snap.data() ? v3EnglishTextSummaries.getSummary(snap.data()) : '';
 
                 //sunburst data visualization
                 const element = this.myRef.current;

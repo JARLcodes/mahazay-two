@@ -36,7 +36,7 @@ export class ToneInsights extends Component {
                     helperArr.push(snap.data())
                 })
                 //&& (Math.abs(helperArr[0].text.length - text.length) <= 10) )
-                if(helperArr[0] && (Math.abs(helperArr[0].text.length - text.length) <= 10)) {
+                if(helperArr[0]) {
                     console.log("helper[0]:", helperArr[0], "Text:", text)
                     this.setState({...this.state,insight:helperArr[0]})
                 }
