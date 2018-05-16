@@ -13,7 +13,7 @@ import Checkbox from 'material-ui/Checkbox';
 
 import { Map, withAuth } from 'fireview';
 import { db } from '../utils/firebase.config';
-import { Habit, generateWeek } from '../utils/trackerSummaryUtils';
+import { generateWeek, months } from '../utils/trackerSummaryUtils';
 
 const styles = theme => ({
   container: {
@@ -34,6 +34,14 @@ const styles = theme => ({
   },
   table: {
     minWidth: 500
+  }, 
+  check: {
+    color: 'green', 
+    alignSelf: 'center', 
+  }, 
+  x: {
+    color: 'red', 
+    alignSelf: 'center'
   }
 });
 
@@ -95,6 +103,42 @@ class TrackerSummary extends Component {
     const userId = user && user.uid ? user.uid : null;
     const { week } = this.state;
 
+    const Habit = props => {
+      const { name, datesCompleted } = props;
+      return (
+        <TableRow key={props}>
+          <TableCell>
+          {name}
+          </TableCell>
+            { week.map(day => {
+             
+              if (props){
+                const datesCompletedArr = [];
+                datesCompleted.forEach(date => datesCompletedArr.push(new Date(date).toString().split(' ')));
+                const formattedDatesCompleted = datesCompletedArr.map(date => `${date[0]} ${months.indexOf(date[1]) + 1}/${date[2]}`);
+                let isChecked = false;
+                const datesMatch = day => {
+                  for (let i = 0; i < formattedDatesCompleted.length; i++){
+                    if (formattedDatesCompleted[i] === day) return true;
+                  }
+                  return false;
+                }
+                if (datesMatch(day)) {
+                  console.log('days match!', day);
+                  return <TableCell key={day}><b style={{color: 'green'}}>Y</b></TableCell>
+                }
+                else if (!datesMatch(day)) return <TableCell key={day}><b style={{ color: 'red' }}>X</b></TableCell>
+              }
+              
+              
+              
+              }) 
+            }
+        </TableRow>
+      )
+    };
+    
+
 
     return (
       <Grid container style={{marginLeft: "5%", paddingRight: "15%", marginBottom: "5%", display: 'flex', flexDirection: "column"}}>
@@ -136,6 +180,3 @@ class TrackerSummary extends Component {
 }
 
 export default withAuth(TrackerSummary);
-
-// const formattedDate = `${months.indexOf(dateArray[1]) + 1}/${dateArray[2]}`;
-//                     console.log('formatted date', formattedDate);
