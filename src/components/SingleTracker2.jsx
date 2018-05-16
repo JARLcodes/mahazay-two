@@ -118,13 +118,12 @@ class SingleTracker2 extends Component {
     
     const AllHabits = db.collection('habits').where('userId', '==', this.props.user.uid);
     const Habit = props => {
-      if (Object.keys(props).length) {
+      if (Object.keys(props).length && this.state.entry) {
       const { name, datesCompleted } = props;
       const datesCompletedArr = [];
       datesCompleted.forEach(date => datesCompletedArr.push(date));
       let entryDate = Object.values(this.state.entry).length ? this.state.entry.data().dateCreated : '';
       let isChecked = datesCompletedArr.includes(entryDate);
-      console.log('is checked', isChecked);
       return <div style={styles.habit}> 
         
         <Checkbox
