@@ -7,6 +7,8 @@ import firebase from 'firebase';
 import { auth, db } from '../utils/firebase.config';
 import { withTheme } from 'material-ui/styles';
 
+import { storage } from '../utils/firebase.config';
+
 const styles = theme => ({
   container: {
     display: 'flex',
@@ -51,7 +53,9 @@ export class HomepageForm extends Component {
       signUp: false,
       login: true,
       warning: 'none',
-      user: {}
+      user: {}, 
+      fileToUpload: {}, 
+      fileDownloadUrlValue: ''
     };
     this.handleChange = this.handleChange.bind(this);
     this.toggleShow = this.toggleShow.bind(this);
@@ -102,9 +106,14 @@ export class HomepageForm extends Component {
       if (user) this.setState({ user });
       else this.setState({ user: null });
     });
-	}
+  }
+
+  
+
+ 
 
   render() {
+    
     return (
       <div>
     
@@ -167,9 +176,8 @@ export class HomepageForm extends Component {
                   />
                   </div>
               }
-                <Button onClick={this.handleSignUp}>
-                  Sign Up
-                </Button>
+                <Button onClick={this.handleSignUp}> Sign Up </Button>
+
               </div> 
               :
               this.state.login && !this.state.signUp ?
