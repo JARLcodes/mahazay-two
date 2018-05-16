@@ -74,8 +74,17 @@ export class AllJournals extends Component {
       <div style={styles.root}>
         <GridList cellHeight="auto" style={styles.gridList} cols={3}>
         <GridListTile key="Subheader" cols={3}>
-          <Subheader component="div" style={styles.subheader}>Journals</Subheader>
-            {this.props && this.props._user ? <Button onClick={this.newJournal.bind(this)}><Add style={styles.addIcon}/></Button> : null}
+          
+            {this.props && this.props._user && journals.length > 0
+              ? <div>
+                  <Subheader component="div" style={styles.subheader}>Journals</Subheader> 
+                  <Button onClick={this.newJournal.bind(this)}><Add style={styles.addIcon}/></Button>
+              </div> 
+              : <div>
+                  <Subheader component="div" style={styles.subheader}>No Journals Made</Subheader>
+                  <Button onClick={this.newJournal.bind(this)}><Add style={styles.addIcon}/></Button>
+                </div>
+            }
           </GridListTile>
           {
             journals.map((journal, ind) => (

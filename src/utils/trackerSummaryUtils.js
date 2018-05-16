@@ -44,29 +44,41 @@ export const generateWeek = weeksAgo => {
 };
 
 export const week = generateWeek();
-const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+export const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-export const Habit = props => {
-  const { name, completed, dateCompleted } = props;
+const datesMatch = (date, day) => date === day;
+
+const Habit = props => {
+  const { name, datesCompleted } = props;
   return (
     <TableRow key={props}>
       <TableCell>
       {name}
       </TableCell>
         { week.map(day => {
-          let isChecked = false;
+         
           if (props){
-            const dateArray = new Date(dateCompleted).toString().split(' ');
-            console.log('date array', dateArray, day);
-            const formattedDateCompleted = dateArray.length ? `${dateArray[0]} ${months.indexOf(dateArray[1]) + 1}/${dateArray[2]}` : '';
-            console.log('formatted date', formattedDateCompleted, day);
-            if (formattedDateCompleted == day && completed) isChecked = true;
+            const datesCompletedArr = [];
+            datesCompleted.forEach(date => datesCompletedArr.push(new Date(date).toString().split(' ')));
+            const formattedDatesCompleted = datesCompletedArr.map(date => `${date[0]} ${months.indexOf(date[1]) + 1}/${date[2]}`);
+            let isChecked = false;
+            const datesMatch = day => {
+              for (let i = 0; i < formattedDatesCompleted.length; i++){
+                if (formattedDatesCompleted[i] === day) return true;
+              }
+              return false;
+            }
+            if (datesMatch(day)) {
+              console.log('days match!', day);
+              return <TableCell key={day}><b style={styles.check}>Y</b></TableCell>
+            }
+            else if (!datesMatch(day)) return <TableCell key={day}><b style={styles.x}>X</b></TableCell>
           }
-          if (isChecked) return <TableCell key={day}><b style={styles.check}>Y</b></TableCell>;
-          else return <TableCell key={day}><b style={styles.x}>X</b></TableCell>;
+          
+          
           
           }) 
         }
     </TableRow>
-  );
+  )
 };

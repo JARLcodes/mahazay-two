@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import Card, { CardContent } from 'material-ui/Card';
+import Typography from 'material-ui/Typography';
+import Subheader from 'material-ui/List/ListSubheader';
+import Button from 'material-ui/Button';
 import Grid from 'material-ui/Grid';
 import { withAuth } from 'fireview';
 import ReactPlayer from 'react-player';
@@ -21,6 +24,14 @@ const styles = theme => ({
   pos: {
     marginBottom: 12,
   },
+  subheader: {
+    fontSize: "2.5em",
+    fontVariant: 'small-caps',
+    color: 'grey'
+  }, 
+  subheaderWrapper: {
+    marginLeft: "38%"
+  }
 });
 
 export class AllEntries extends Component {
@@ -43,6 +54,9 @@ export class AllEntries extends Component {
 
     }
   }
+  goToJournals(){
+    this.props.history.push('/journals');
+  }
 
 // For entries => each entry has a content key which has an object with the key blocks which is an array of objects , each with the key of text
   render() {
@@ -56,17 +70,21 @@ export class AllEntries extends Component {
     return (
       <div>
         <Grid container spacing={24} style={{"paddingLeft": 24 + "px", "paddingRight": 24 + "px", "marginBottom": 24 +"px" }}>
-        { entries.map( entry => {
-          return (
-            <Grid key={entry.entryId} item xs={3} >
-              <Card>
-                <CardContent>
-                  <Link style={{ textDecoration: 'none', color: "black" }} to={`/journals/${entry.journalId}/entries/${entry.entryId}`}>"{entry.content && entry.content.blocks[0].text ? entry.content.blocks[0].text.substr(0, 20) + "..." : "A Blank Page"}" <br /> { new Date(entry.dateCreated).toDateString()}</Link>
-                </CardContent>
-              </Card>
-            </Grid>
-          );}
-        )}
+        { entries.length > 0
+          ? entries.map( entry => {
+            return (
+              <Grid key={entry.entryId} item xs={3} >
+                <Card>
+                  <CardContent>
+                    <Link style={{ textDecoration: 'none', color: "black" }} to={`/journals/${entry.journalId}/entries/${entry.entryId}`}>"{entry.content && entry.content.blocks[0].text ? entry.content.blocks[0].text.substr(0, 20) + "..." : "A Blank Page"}" <br /> { new Date(entry.dateCreated).toDateString()}</Link>
+                  </CardContent>
+                </Card>
+              </Grid>
+              );
+            })
+          : <div style={styles.subheaderWrapper}><Subheader component="div" style={styles.subheader}>No entries made</Subheader><Button onClick={this.goToJournals.bind(this)}>go to journals</Button></div> 
+          
+        }
         </Grid>
 
       </div>

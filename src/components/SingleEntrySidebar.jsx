@@ -8,6 +8,7 @@ import { storage } from '../utils/firebase.config';
 import { confirmAlert } from 'react-confirm-alert';
 import { SingleTracker2 } from './index';
 import { withTheme } from 'material-ui/styles';
+import { SingleTracker } from './index';
 
 
 const styles = theme => ({
@@ -37,26 +38,29 @@ const styles = theme => ({
 class SingleEntrySidebar extends Component {
 
   deleteEntry(entry){
-    confirmAlert({
-      title: 'Are you sure you want to delete this entry?',
-      message: '',
-      buttons: [
-        {
-          label: 'Yes, delete entry',
-          onClick: () => entry.delete().then(() => this.props.history.push('/entries'))
-        },
-        {
-          label: 'No, keep entry',
-          onClick: () => this.props.history.push(`/journals/${this.props.match.params.journalId}/entries/${this.props.match.params.entryId}`)
-        }
-      ]
-    });
+    
+      confirmAlert({
+        title: 'Are you sure you want to delete this entry?',
+        message: '',
+        buttons: [
+          {
+            label: 'Yes, delete entry',
+            onClick: () => entry.delete().then(() => this.props.history.push('/entries'))
+          },
+          {
+            label: 'No, keep entry',
+            onClick: () => this.props.history.push(`/journals/${this.props.match.params.journalId}/entries/${this.props.match.params.entryId}`)
+          }
+        ]
+      });
+    
+   
   }
 
   render() {
     return (
       <div>
-      { this.props._user && <SingleTracker2 entry={this.props.entry} user={this.props._user}/> }
+      { this.props._user && <SingleTracker entry={this.props.entry} user={this.props._user}/> }
       <div style={styles.singleEntrySidebar}>
         <Button variant="raised" style={styles.delete} onClick={this.deleteEntry.bind(this, this.props.entry)}>
           Delete Entry

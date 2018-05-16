@@ -24,10 +24,6 @@ const styles = theme => ({
   root: {
     flexGrow: 1
   },
-  logoutButton: {
-    padding: "1em 1em",
-    fontSize: "1em"
-  }, 
   search: {
     justify: 'flexEnd'
   }
