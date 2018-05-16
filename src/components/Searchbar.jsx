@@ -6,6 +6,8 @@ import Paper from 'material-ui/Paper/Paper.js';
 import MenuItem from 'material-ui/Menu/MenuItem.js';
 import Downshift from 'downshift';
 import TextField from 'material-ui/TextField';
+import InputAdornment from 'material-ui/Input/InputAdornment';
+import Search from '@material-ui/icons/Search';
 import keycode from 'keycode';
 import PropTypes from 'prop-types';
 import { convertFromRaw } from 'draft-js';
@@ -30,6 +32,10 @@ const styles = {
   inputRoot: {
     flexWrap: 'wrap',
   },
+  textField: {
+    width: "50%", 
+    position: 'flexEnd'
+  }
 };
 
 class Searchbar extends Component {
@@ -72,26 +78,26 @@ class Searchbar extends Component {
       <TextField
         InputProps={{
           inputRef: ref,
-          ...InputProps, 
+          ...InputProps,
+          endAdornment: <InputAdornment position="start"><Search/></InputAdornment>, 
         }}
         {...other}
         onKeyDown={this.goToEntry.bind(this, InputProps.value)}
+        style={styles.textField}
       />
     )
   };
 
   goToEntry(value, e){
-    if (e.which === 8) console.log('backspaceeeeed')
     const { userEntries } = this.state;
     console.log('value', value);
     userEntries.forEach(entry => {
       const entryPlainText = convertFromRaw(entry.data().content).getPlainText();
-      // console.log('plain text!!!', entryPlainText.includes(value), 'value', value, 'entryPlainText', entryPlainText);
       const journalId = entry.data().journalId;
       const entryId = entry.id;
       if (entryPlainText.includes(value) && e.which === 13) this.props.history.push(`/journals/${journalId}/entries/${entryId}`)
     })
-    //if(e.which === 13) this.props.history.push(`/journals/${journalId}/entries/${entryId}`)
+    
   }
 
   getSuggestions(inputValue){
