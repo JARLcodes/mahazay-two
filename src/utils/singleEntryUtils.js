@@ -45,7 +45,7 @@ export const styles = {
   }, 
   editor: {
     width: "80%",
-    height: "100%",
+    minHeight: "500px",
     border: "1px dotted #454545",
     boxSizing: "borderBox",
     boxShadow: "inset 0px 1px 8px -3px #ABABAB", 

@@ -13,27 +13,21 @@ const styles = {
   grid: {
 		maxWidth: 200,
 		padding: "2vh 2vh",
-    marginLeft: "2vh", 
-    marginRight: "2vh",
-    marginBottom: "2vh",
-    border: "dashed",
+    margin: "0vh 2vh 2vh 2vh",
     borderWidth: ".1vh",
-    borderRadius: '1em',
     borderColor: "grey", 
     display: "flex",
     flexDirection: "column",
-    position: "sticky"
-  }, 
-  title: {
-    justify: 'flexStart', 
+    position: "sticky", 
+    border: "1px dotted #454545",
+    borderRadius: "1em"
   }, 
   habit: {
     display: 'flex', 
-    paddingTop: '1vh'
-    
+    direction: 'column'
   }, 
   habitName: {
-    paddingTop: '2vh'
+    paddingTop: "2vh"
   }
 };
 
@@ -69,7 +63,8 @@ class SingleTracker2 extends Component {
         const completed = !!habitWordArray.filter(word => entryContent.includes(word)).length;
         const entryDate = new Date(this.state.entry.data().dateCreated);
         console.log('entry date', new Date(entryDate).toString());
-        habit.ref.update({ datesCompleted: [...habit.data().datesCompleted, entryDate] });
+        
+        if (habit) habit.ref.update({ datesCompleted: [...habit.data().datesCompleted, entryDate] });
       })
    
     }
@@ -102,6 +97,7 @@ class SingleTracker2 extends Component {
       let isChecked = datesCompleted.includes(entryDate) ? true : false;
       
       return <div style={styles.habit}> 
+        
         <Checkbox
           onClick={this.handleCheck.bind(this)}
           name={name}
@@ -116,7 +112,7 @@ class SingleTracker2 extends Component {
 
     return (
       <Grid style={styles.grid}>
-      <Typography variant="subheading" component="h2" style={styles.title}>Your Habits</Typography>
+      <Typography variant="subheading" component="h2">Tracker</Typography>
           <Map from={AllHabits}
           Render={Habit}
           />
