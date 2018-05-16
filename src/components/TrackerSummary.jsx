@@ -88,7 +88,7 @@ class TrackerSummary extends Component {
   deleteHabit(e){
     e.preventDefault();
     e.persist();
-    console.log('e.target.name', e.target.name);
+
     
     confirmAlert({
       title: `Are you sure you don't want to track ${e.target.name} anymore?`,
@@ -118,7 +118,7 @@ class TrackerSummary extends Component {
 
   resetToThisWeek(){
     this.setState({ weeksAgo: 0 });
-    this.setState({ week: this.getWeek() });
+    this.setState({ week: this.getWeek(0) });
   }
 
   getWeeksAgo(){
@@ -126,7 +126,8 @@ class TrackerSummary extends Component {
     this.setState({ week: this.getWeek() })
   }
 
-  getWeek(){
+  getWeek(weeksAgo){
+    if (weeksAgo === 0) return generateWeek(weeksAgo);
     return generateWeek(this.state.weeksAgo);
   }
 
@@ -135,13 +136,12 @@ class TrackerSummary extends Component {
     const user = this.props._user;
     const userId = user && user.uid ? user.uid : null;
     const { week } = this.state;
-    console.log('this.state', this.state);
     const Habit = props => {
       const { name, datesCompleted } = props;
       return (
         <TableRow key={props}>
           <TableCell style={{ display: 'flex'}}>
-            <form onSubmit={this.deleteHabit.bind(this)} name={name} value={name}><Button type="submit" style={{color: 'grey'}}>{name}</Button></form>
+            <form onSubmit={this.deleteHabit.bind(this)} name={name} value={name}><Button type="submit" style={{color: "grey"}}>{name}</Button></form>
           </TableCell>
           
             { week.map(day => {
@@ -157,11 +157,8 @@ class TrackerSummary extends Component {
                   }
                   return false;
                 }
-                if (datesMatch(day)) {
-                  console.log('days match!', day);
-                  return <TableCell key={day}><b style={{color: 'green'}}>Y</b></TableCell>
-                }
-                else if (!datesMatch(day)) return <TableCell key={day}><b style={{ color: 'red' }}>X</b></TableCell>
+                if (datesMatch(day)) return <TableCell key={day}><b style={{color: '#3ace3a'}}>Y</b></TableCell>
+                else if (!datesMatch(day)) return <TableCell key={day}><b style={{ color: '#dd7777' }}>X</b></TableCell>
               }
               
               

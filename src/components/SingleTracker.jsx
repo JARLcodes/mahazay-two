@@ -102,7 +102,6 @@ class SingleTracker extends Component {
           }
           //if datesCompleted does not include entryDate, then add it
           else {
-            console.log('habit data', habit.data())
             if (e.target.name === habit.data().name) habit.ref.update({ datesCompleted: [...habit.data().datesCompleted, entryDate] }).then(() => {
               this.props.entry.get().then(entry => {
                 if (this.props.history) this.props.history.push(`/journals/${entry.data().journalId}/entries/${entry.id}`);
