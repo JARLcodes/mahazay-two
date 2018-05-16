@@ -15,19 +15,19 @@ const styles = {
 		maxWidth: 200,
     border: "1px dotted #454545",
     borderWidth: ".1vh",
-    borderColor: "grey", 
+    borderColor: "grey",
     display: "flex",
     flexDirection: "column",
-    position: "sticky", 
-    borderRadius: "0.5em", 
+    position: "sticky",
+    borderRadius: "0.5em",
     border: "0em 1em 1em 2em"
-  }, 
+  },
   habit: {
-    display: 'flex', 
+    display: 'flex',
     borderLeft: "2em"
-  }, 
+  },
   habitName: {
-    justify: 'flexStart', 
+    justify: 'flexStart',
     paddingTop: '1em'
   }
 };
@@ -39,8 +39,8 @@ class SingleTracker2 extends Component {
       habits: [],
       entry: {}
     };
-    
-   
+
+
   }
 
   componentDidMount() {
@@ -75,9 +75,9 @@ class SingleTracker2 extends Component {
             habit.ref.update({ datesCompleted: [...habit.data().datesCompleted, entryDate]});
           }
         }
-       
+
       })
-   
+
     }
   }
 
@@ -105,7 +105,7 @@ class SingleTracker2 extends Component {
     }
   }
 
- 
+
 
   render() {
     if (Object.values(this.state.entry).length) console.log('entry date', this.state.entry.data().dateCreated);
@@ -118,8 +118,8 @@ class SingleTracker2 extends Component {
       let entryDate = Object.values(this.state.entry).length ? this.state.entry.data().dateCreated : '';
       let isChecked = datesCompletedArr.includes(entryDate);
       console.log('is checked', isChecked);
-      return <div style={styles.habit}> 
-        
+      return <div style={styles.habit}>
+
         <Checkbox
           onClick={this.handleCheck.bind(this)}
           name={name}

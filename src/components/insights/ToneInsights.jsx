@@ -30,16 +30,18 @@ export class ToneInsights extends Component {
                 db.collection('toneInsights').where("entryId", "==", this.props.entryId).get()
             .then(querySnap => {
                 const helperArr = []
+                const text = convertFromRaw(this.state.entry).getPlainText()
                 querySnap.forEach(snap => {
                     helperArr.push(snap.data())
                 })
-                if(helperArr[0]){
-                    console.log("hit the db query for the insight and set the state insight obj")
+                //&& (Math.abs(helperArr[0].text.length - text.length) <= 10) )
+                if(helperArr[0] && (Math.abs(helperArr[0].text.length - text.length) <= 10)) {
+                    console.log("helper[0]:", helperArr[0], "Text:", text)
                     this.setState({...this.state,insight:helperArr[0]})
                 }
                 else{
-                    console.log("got nothing here")
-                    this.getInsight()
+                    console.log("text:", text)
+                    this.getInsight(text)
                 }
             })}
 
@@ -47,12 +49,11 @@ export class ToneInsights extends Component {
     }
 
 
-    getInsight(){
+    getInsight(text){
         if(this.state.entry.blocks){
             const entryId = this.props.entryId
             const userId = this.state.userId
             const journalId = this.state.journalId
-            const text = convertFromRaw(this.state.entry).getPlainText()
             getTokenTone()
             .then((token) => {
                 return analyzeTone.call(this, token, text, entryId, journalId, userId)})
