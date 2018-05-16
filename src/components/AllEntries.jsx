@@ -8,7 +8,6 @@ import ReactPlayer from 'react-player';
 
 import { getRootRef } from '../utils/componentUtils';
 
-
 const styles = {
   card: {
     width: 300,
@@ -38,22 +37,22 @@ export class AllEntries extends Component {
        getRootRef('entries').where('userId', '==', nextProps._user.uid).orderBy('dateCreated', "desc").get()
       .then(querySnapshot => {
         querySnapshot.forEach(entry => {
-          this.setState({entries: [...this.state.entries, {entryId: entry.id, content: entry.data().content, journalId: entry.data().journalId, dateCreated: entry.data().dateCreated }]})
-        })
-      })
+          this.setState({entries: [...this.state.entries, {entryId: entry.id, content: entry.data().content, journalId: entry.data().journalId, dateCreated: entry.data().dateCreated }]});
+        });
+      });
 
     }
   }
 
 // For entries => each entry has a content key which has an object with the key blocks which is an array of objects , each with the key of text
   render() {
-    const {entries} = this.state
-    const users = []
+    const {entries} = this.state;
+    const users = [];
     getRootRef('users').get().then(querySnap => {
       querySnap.forEach(doc => {
         users.push({userId: doc.id, data: doc.data()});
-      })
-    })
+      });
+    });
     return (
       <div>
         <Grid container spacing={24} style={{"paddingLeft": 24 + "px", "paddingRight": 24 + "px", "marginBottom": 24 +"px" }}>

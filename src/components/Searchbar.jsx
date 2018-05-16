@@ -55,19 +55,16 @@ class Searchbar extends Component {
     getRootRef('entries').where('userId', '==', this.props.userId).get()
       .then(querySnaps => {
         querySnaps.forEach(entry => {
-          this.setState({ userEntries: [...this.state.userEntries, entry]})
-        })
+          this.setState({ userEntries: [...this.state.userEntries, entry]});
+        });
       });
     getRootRef('journals').where('userId', '==', this.props.userId).get()
       .then(querySnaps => {
         querySnaps.forEach(journal => {
-          this.setState({ userJournals: [...this.state.userJournals, journal]})
-        })
-      })
-  };
-
- 
-
+          this.setState({ userJournals: [...this.state.userJournals, journal]});
+        });
+      });
+  }
 
   renderInput(inputProps) {
     const { InputProps, ref, ...other } = inputProps;
@@ -83,8 +80,8 @@ class Searchbar extends Component {
         onKeyDown={this.goToEntry.bind(this, InputProps.value)}
         style={styles.textField}
       />
-    )
-  };
+    );
+  }
 
   goToEntry(value, e){
     const { userEntries } = this.state;
@@ -130,16 +127,12 @@ class Searchbar extends Component {
             fontWeight: isSelected ? 500 : 400,
           }}
           onClick={this.goToEntry.bind(this, userEntry.id, userEntry.data().journalId)}
-          
           key={userEntry.id}
         >
         {entryPlainText}
         </MenuItem>
-    
-    )
-    
-  };
-
+    );
+  }
 
   render(){
    

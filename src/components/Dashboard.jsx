@@ -40,7 +40,7 @@ const styles = {
 	}
 };
 
-const Dashboard = (props) => {
+const Dashboard = props => {
 	const user = props && props._user ? props._user : 'tina you fat lard';
 	return (
 	<div>

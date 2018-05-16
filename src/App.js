@@ -23,11 +23,12 @@ const styles = {
   nav: {
     paddingBottom: "1em"
   }
-}
+};
+
 class App extends Component {
 
   render() {
-    const user = this.props._user;
+  const user = this.props._user;
 
     return (
       <Router history={history}>

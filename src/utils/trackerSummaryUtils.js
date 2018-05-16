@@ -17,7 +17,7 @@ const styles = {
     color: 'red', 
     alignSelf: 'center'
   }
-}
+};
 
 
 //weeksAgo will be an integer that represents the number of weeks prior to the current week
@@ -41,11 +41,10 @@ export const generateWeek = weeksAgo => {
     week.push(formattedNextDay);
   }
   return week;
-}
+};
 
 export const week = generateWeek();
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
 
 export const Habit = props => {
   const { name, completed, dateCompleted } = props;
@@ -58,16 +57,16 @@ export const Habit = props => {
           let isChecked = false;
           if (props){
             const dateArray = new Date(dateCompleted).toString().split(' ');
-            console.log('date array', dateArray, day)
+            console.log('date array', dateArray, day);
             const formattedDateCompleted = dateArray.length ? `${dateArray[0]} ${months.indexOf(dateArray[1]) + 1}/${dateArray[2]}` : '';
             console.log('formatted date', formattedDateCompleted, day);
             if (formattedDateCompleted == day && completed) isChecked = true;
           }
-          if (isChecked) return <TableCell key={day}><b style={styles.check}>Y</b></TableCell>
-          else return <TableCell key={day}><b style={styles.x}>X</b></TableCell>
+          if (isChecked) return <TableCell key={day}><b style={styles.check}>Y</b></TableCell>;
+          else return <TableCell key={day}><b style={styles.x}>X</b></TableCell>;
           
           }) 
         }
     </TableRow>
-  )
+  );
 };
