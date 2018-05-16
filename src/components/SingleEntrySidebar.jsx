@@ -6,9 +6,12 @@ import Button from "material-ui/Button";
 import { withAuth } from 'fireview';
 import { storage } from '../utils/firebase.config';
 import { confirmAlert } from 'react-confirm-alert';
+import { SingleTracker2 } from './index';
+import { withTheme } from 'material-ui/styles';
 import { SingleTracker } from './index';
 
-const styles = {
+
+const styles = theme => ({
   addMedia: {
     margin: 20,
     alignSelf: 'center'
@@ -30,7 +33,7 @@ const styles = {
     flexDirection: "column",
     marginLeft: "10%"
   },
-};
+});
 
 class SingleEntrySidebar extends Component {
 
@@ -68,4 +71,4 @@ class SingleEntrySidebar extends Component {
   }
 }
 
-export default withAuth(SingleEntrySidebar);
+export default withTheme()(withAuth(SingleEntrySidebar));

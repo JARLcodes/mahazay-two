@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { EditorState, RichUtils, convertFromRaw, convertToRaw, ContentState } from "draft-js";
 import Editor from 'draft-js-plugins-editor';
+import { withTheme } from 'material-ui/styles';
 import Button from "material-ui/Button";
 import FormatAlignCenter from '@material-ui/icons/FormatAlignCenter';
 import FormatAlignLeft from '@material-ui/icons/FormatAlignLeft';
@@ -166,4 +167,4 @@ class EditorComponent extends Component {
 }
 
 
-export default withAuth(EditorComponent);
+export default withTheme()(withAuth(EditorComponent));
