@@ -186,7 +186,7 @@ class TrackerSummary extends Component {
           margin="normal"
           value={this.state.habitToAdd.name}
         />
-        <Button type="submit"><Add style={{color: "grey", width: 30, height: "auto"}}/></Button>
+        <Button type="submit"><Add style={{color: "grey", width: 15, height: "auto"}}/></Button>
         </form>
       </Grid>
 

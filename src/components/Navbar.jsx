@@ -24,9 +24,7 @@ const styles = theme => ({
   root: {
     flexGrow: 1
   },
-  search: {
-    justify: 'flexEnd'
-  }
+  
 });
 
 class Navbar extends Component {
@@ -58,11 +56,11 @@ class Navbar extends Component {
               <LibraryBooks />
               Entries
             </Button>
-            <Button href="/tracker" color="inherit" style={{color: "#EF9A9A"}} disabled={disabled}>
+            <Button href="/tracker" color="inherit" style={{color: "#EF9A9A", marginRight: "30%"}} disabled={disabled}>
               <CheckBox />
               Tracker
             </Button>
-            { user && <Searchbar style={styles.search} userId={user.uid} history={this.props.history}/> }
+            { user && <Searchbar style={{justify: 'flexEnd'}} userId={user.uid} history={this.props.history}/> }
             { user ? 
               <Button href="/" color="inherit" style={{color: "#424242"}}
                   onClick={() => auth.signOut()}>
