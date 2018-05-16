@@ -27,8 +27,8 @@ class SingleEntry extends Component {
     return (
       <div>
         <div style={{display: "flex"}}>
-          <SingleEntrySidebar item xs={4} history={this.props.history} match={this.props.match} entry={getRootRef('entries', this.props.match.params.entryId)} style={{width: "20%", height: "100%"}}/>
-          <EditorComponent item xs={8} history={this.props.history} match={this.props.match} entry={getRootRef('entries', this.props.match.params.entryId)}/>
+          <SingleEntrySidebar item xs={4} history={this.props.history} match={this.props.match} entry={getRootRef('entries', this.props.match.params.entryId)} style={{width: "20%", height: "100%", marginRight: "15%"}}/>
+          <EditorComponent item xs={8} history={this.props.history} match={this.props.match} entry={getRootRef('entries', this.props.match.params.entryId)} style={{marginLeft: "15%"}}/>
         </div>
 
         <div style={{ gridColumnEnd: 'span 12' }}>

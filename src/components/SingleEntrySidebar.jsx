@@ -11,30 +11,6 @@ import { withTheme } from 'material-ui/styles';
 import { SingleTracker } from './index';
 
 
-const styles = theme => ({
-  addMedia: {
-    margin: 20,
-    alignSelf: 'center'
-  },
-  delete: {
-    alignSelf: 'center',
-    width: '20%',
-    backgroundColor: "#EF9A9A",
-    color: "#fff",
-    borderRadius: "0.5em"
-  },
-  singleEntrySidebar : {
-    display: "flex",
-    flexDirection: "column",
-    margin: "0em 2em 2em 2em"
-  },
-  addVideo: {
-    display: "flex",
-    flexDirection: "column",
-    marginLeft: "10%"
-  },
-});
-
 class SingleEntrySidebar extends Component {
 
   deleteEntry(entry){
@@ -61,8 +37,8 @@ class SingleEntrySidebar extends Component {
     return (
       <div>
       { this.props._user && <SingleTracker entry={this.props.entry} user={this.props._user}/> }
-      <div style={styles.singleEntrySidebar}>
-        <Button variant="raised" style={styles.delete} onClick={this.deleteEntry.bind(this, this.props.entry)}>
+      <div style={{display: "flex", flexDirection: "column", margin: "0em 2em 2em 2em"}}>
+        <Button variant="raised" style={{alignSelf: 'center', width: '20%', backgroundColor: "#EF9A9A", color: "#fff", borderRadius: "0.5em"}} onClick={this.deleteEntry.bind(this, this.props.entry)}>
           Delete Entry
         </Button>
       </div>

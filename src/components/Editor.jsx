@@ -143,9 +143,9 @@ class EditorComponent extends Component {
       <CircularProgress />
     );
     return (
-        <div style={{ width: "80%", minHeight: "500px", border: "1px dotted #454545", boxSizing: "borderBox", boxShadow: "inset 0px 1px 8px -3px #ABABAB",  cursor: "text",
-        paddingRight: "2vh",
+        <div style={{ width: "80%", minHeight: "500px", border: "1px dotted #454545", boxSizing: "borderBox", boxShadow: "inset 0px 1px 8px -3px #ABABAB",  cursor: "text", paddingRight: "2vh",
         marginBottom: "2em",
+        marginLeft: "2em",
         borderRadius: '0.5em', }}>
           <Button onClick={this.showStyleToolbar.bind(this)} style={{borderRadius: "0.5em"}}><b>B</b><i>I</i><u>U</u></Button>
           {showStyleToolbar && <div>{this.renderStyleToolbar()}</div>}
