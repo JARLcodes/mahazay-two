@@ -45,27 +45,6 @@ class SingleTracker2 extends Component {
     })
   }
 
-  componentWillReceiveProps(nextProps){
-    const { habits } = this.state;
-    if (nextProps !== this.props && habits.length){
-      console.log('nextprops', nextProps, this.state);
-      
-      console.log('habits in will receive props', habits);
-      // if (habits.length){
-        habits.forEach(habit => {
-          const entryContent = convertFromRaw(this.state.entry.data().content).getPlainText().toLowerCase();
-          console.log('entrycontent', entryContent);
-          const habitWordArray = habit.data().name.split(' ');
-          //according to previous line, completed will be undefined if entryContent does not include one of the habit words. if this is the case, completed needs to be a boolean - false.
-          const completed = !!habitWordArray.filter(word => entryContent.includes(word)).length;
-          const entryDate = this.state.entry.data().dateCreated;
-          habit.ref.update({ dateCompleted: entryDate, completed: completed });
-        })
-      // }
-    }
-   
-  }
-
   componentDidUpdate(){
     const { habits } = this.state;
     if (habits.length){

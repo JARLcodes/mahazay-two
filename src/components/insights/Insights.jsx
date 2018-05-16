@@ -1,94 +1,264 @@
 import React, { Component } from 'react';
 import { withAuth } from 'fireview';
 import { getRootRef, getIds } from '../../utils/componentUtils';
-import { getEntryTone, getJournalTones, getUserTones } from '../../utils/toneUtils.js';
-import { getUserPersonality, getEntryPersonality, getJournalPersonality } from  '../../utils/personalityUtils.js'
 import {db} from '../../utils/firebase.config'
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import Paper from 'material-ui/Paper';
 import Grid from 'material-ui/Grid';
+import List, { ListItem, ListItemIcon, ListItemText}from 'material-ui/List';
+import ExpansionPanel, { ExpansionPanelDetails, ExpansionPanelSummary } from 'material-ui/ExpansionPanel';
+import ThumbUp from '@material-ui/icons/ThumbUp';
+import ThumbDown from '@material-ui/icons/ThumbDown';
+import Face from '@material-ui/icons/Face';
+import Star from '@material-ui/icons/Star';
+import ChatBubble from '@material-ui/icons/ChatBubble';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
+import ToneInsights from './ToneInsights'
 
 export class Insights extends Component {
     constructor () {
         super();
         this.state = {
-            userId: "",
-            entryIds: [],
-            personalityRootRef: getRootRef('personalityInsights'),
-            toneRootRef: getRootRef('toneInsights'),
-            tones: []
+            personalityLikes: [],
+            personalityUnlikes: [],
+            personality: [],
+            needs: [],
+            values: [],
+            expanded: null
         }
-        // this.getPersonalityInsight = this.getPersonalityInsight.bind(this);
     }
 
-    componentDidMount(){
-      }
-    
+    handleChange = panel => (event, expanded) => {
+        this.setState({expanded: expanded ? panel : false})
+    }
+
+    componentWillReceiveProps(nextProps){
+
+        if(this.props._user !== nextProps._user){
+
+            getRootRef('personalityInsights', this.props.entry.id).get()
+            .then(snap => {
+                //helper functions
+                const filter = (obj, num) => obj.score === num;
+                const percent = num => Math.floor(num * 100) + "%"
+
+                //consumption preferences data
+                const consumptionPreferences = snap.data() ? Array.from(snap.data().consumption_preferences) : [];
+                const flattenedConsumptionArray = []
+
+                consumptionPreferences.forEach(preference => {
+                    Array.from(preference.consumption_preferences)
+                    .forEach(realPreference => {
+                        flattenedConsumptionArray.push({name: realPreference.name, score: realPreference.score})
+                    })
+                })
+
+                const likely = flattenedConsumptionArray.filter(preference => filter(preference, 1))
+                const unlikely = flattenedConsumptionArray.filter(preference => filter(preference, 0))
+
+                // personality data
+                const personalityArr = snap.data() ? Array.from(snap.data().personality) : [];
+                const finalPersonalityArr = []
+
+                personalityArr.forEach(personality => {
+                    finalPersonalityArr.push({name: personality.name, percentile: percent(personality.percentile)})
+                })
+
+                // needs data
+                const needsArr = snap.data() ? Array.from(snap.data().needs) : [];
+                const finalNeedsArr = []
+
+                needsArr.forEach(need => {
+                    finalNeedsArr.push({name: need.name, percentile: percent(need.percentile)})
+                })
+
+                // values data
+                const valuesArr = snap.data() ? Array.from(snap.data().values) : [];
+                const finalValuesArr = []
+
+                valuesArr.forEach(value => {
+                    finalValuesArr.push({name: value.name, percentile: percent(value.percentile)})
+                })
+                console.log("finalValuesArr", finalValuesArr)
+
+                this.setState({personalityLikes: likely, personalityUnlikes: unlikely, personality: finalPersonalityArr, needs: finalNeedsArr, values: finalValuesArr})
+
+        })
+        console.log("I rerendered")
+        }
+    }
+
+
     render () {
+        const {
+            personalityLikes,
+            personalityUnlikes,
+            personality,
+            needs,
+            values,
+            expanded
+        } = this.state;
+
+        console.log("state", this.state.personality, "entryId:", this.props.entryId)
 
         return (
             <div style={styles.root}>
                 <div style={styles.title}>My Insights</div>
-                <Grid container spacing={8} style={styles.grid}>
-                    <Grid item xs={12} sm={6}>
-                        <Paper style={styles.paper}>Summary</Paper>
+                <div>
+                    <Grid container spacing={8} style={styles.grid}>
+                        <Grid item xs={8} sm={4}>
+                            <Paper style={styles.paper}>Summary</Paper>
+                        </Grid>
+                        <Grid item xs={8} sm={4}>
+                            <Paper style={styles.paper}>Sunburst Data Visual</Paper>
+                        </Grid>
+                        <Grid item xs={8} sm={4}>
+                            <Paper style={styles.paper}>Habits</Paper>
+                        </Grid>
+                        <Grid item xs={8} sm={4}>
+                            <Paper style={styles.paper}><ToneInsights  entryId = {this.props.entryId}/> </Paper>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={6} sm={3}>
-                        <Paper style={styles.paper}>You are likely to...</Paper>
-                    </Grid>
-                    <Grid item xs={6} sm={3}>
-                        <Paper style={styles.paper}>You are unlikely to...</Paper>
-                    </Grid>
-                    <Grid item xs={6} sm={3}>
-                        <Paper style={styles.paper}>Habits</Paper>
-                    </Grid>
-                    <Grid item xs={6} sm={3}>
-                        <Paper style={styles.paper}>Moods</Paper>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <Paper style={styles.paper}>Sunburst Data Visual</Paper>
-                    </Grid>
-                    <Grid item xs={8} sm={4}>
-                        <Paper style={styles.paper}>Personality</Paper>
-                    </Grid>
-                    <Grid item xs={8} sm={4}>
-                        <Paper style={styles.paper}>Needs</Paper>
-                    </Grid>
-                    <Grid item xs={8} sm={4}>
-                        <Paper style={styles.paper}>Values</Paper>
-                    </Grid>
-                    </Grid>
+                </div>
+                <div>
+                    <ExpansionPanel expanded={expanded === 'panel1'} onChange={this.handleChange('panel1')}>
+                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                            <Typography variant="title" gutterBottom align="center">You are likely to...</Typography>
+                        </ExpansionPanelSummary>
+                        <ExpansionPanelDetails>
+                            <List style={styles.list}>
+                            {
+                                personalityLikes.map((like, ind) => (
+                                    <ListItem key={ind}>
+                                    <ListItemIcon><ThumbUp/></ListItemIcon>
+                                    {like.name.slice(9)}
+                                    </ListItem>
+                                ))
+                            }
+                            </List>
+                        </ExpansionPanelDetails>
+                    </ExpansionPanel>
+                    <ExpansionPanel expanded={expanded === 'panel2'} onChange={this.handleChange('panel2')}>
+                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                            <Typography variant="title" gutterBottom align="center">You are unlikely to...</Typography>
+                        </ExpansionPanelSummary>
+                        <ExpansionPanelDetails>
+                            <List style={styles.list}>
+                            {
+                                personalityUnlikes.map((unlike, ind) => (
+                                    <ListItem key={ind}>
+                                    <ListItemIcon><ThumbDown/></ListItemIcon>
+                                    {unlike.name.slice(9)}
+                                    </ListItem>
+                                ))
+                            }
+                            </List>
+                        </ExpansionPanelDetails>
+                    </ExpansionPanel>
+                    <ExpansionPanel expanded={expanded === 'panel3'} onChange={this.handleChange('panel3')}>
+                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                            <Typography variant="title" gutterBottom align="center">My Personality</Typography>
+                        </ExpansionPanelSummary>
+                        <ExpansionPanelDetails>
+                            <List style={styles.list}>
+                            {
+                                personality.map((personality, ind) => (
+                                    <ListItem key={ind}>
+                                    <ListItemIcon><Face/></ListItemIcon>
+                                    {personality.name}: {personality.percentile}
+                                    </ListItem>
+                                ))
+                            }
+                            </List>
+                        </ExpansionPanelDetails>
+                    </ExpansionPanel>
+                    <ExpansionPanel expanded={expanded === 'panel4'} onChange={this.handleChange('panel4')}>
+                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                            <Typography variant="title" gutterBottom align="center">My Needs</Typography>
+                        </ExpansionPanelSummary>
+                        <ExpansionPanelDetails>
+                            <List style={styles.list}>
+                            {
+                                needs.map((need, ind) => (
+                                    <ListItem key={ind}>
+                                    <ListItemIcon><Star/></ListItemIcon>
+                                    {need.name}: {need.percentile}
+                                    </ListItem>
+                                ))
+                            }
+                            </List>
+                        </ExpansionPanelDetails>
+                    </ExpansionPanel>
+                    <ExpansionPanel expanded={expanded === 'panel5'} onChange={this.handleChange('panel5')}>
+                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                            <Typography variant="title" gutterBottom align="center">My Values</Typography>
+                        </ExpansionPanelSummary>
+                        <ExpansionPanelDetails>
+                            <List style={styles.list}>
+                            {
+                                values.map((value, ind) => (
+                                    <ListItem key={ind}>
+                                    <ListItemIcon><ChatBubble/></ListItemIcon>
+                                    {value.name}: {value.percentile}
+                                    </ListItem>
+                                ))
+                            }
+                            </List>
+                        </ExpansionPanelDetails>
+                    </ExpansionPanel>
+                </div>
             </div>
         )
     }
 }
 
 const styles = {
-    // root: {
-    //     fontFamily: 'Merienda One',
-    //     flexGrow: 1,
-    //     backgroundImage: "url('https://i.pinimg.com/564x/d6/3b/f1/d63bf1221116ebb6102c77e7e9a74808.jpg')",
-    //     backgroundRepeat: "no-repeat",
-    //     backgroundSize: "cover",
-    //     opacity: "0.5"
-    // },
-    // title: {
-    //     fontFamily: 'Merienda One',
-    //     fontSize: 40,
-    //     padding: '3vh',
-    //     color: '#795548'
-    // },
+    root: {
+        flexGrow: 1,
+    },
+    title: {
+        fontSize: 40,
+        padding: '3vh',
+        color: '#795548'
+    },
     paper: {
         padding: '5vh',
         textAlign: 'center',
     },
     grid: {
         justifyContent: 'space-around',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         alignContent: 'center'
+    },
+    list: {
+        alignItems: 'right'
     }
   };
-  
+
   export default withAuth(Insights);
+
+/*
+  <Grid item xs={6} sm={3}>
+  <Paper style={styles.paper}>
+
+  </Paper>
+</Grid>
+<Grid item xs={8} sm={4}>
+  <Paper style={styles.paper}>
+
+  </Paper>
+</Grid>
+<Grid item xs={8} sm={4}>
+  <Paper style={styles.paper}>
+
+  </Paper>
+</Grid>
+<Grid item xs={8} sm={4}>
+  <Paper style={styles.paper}>
+
+  </Paper>
+</Grid>
+*/

@@ -19,6 +19,7 @@ const styles = {
   }
 }
 
+<<<<<<< HEAD
 
 //weeksAgo will be an integer that represents the number of weeks prior to the current week
 //generateFirstDay returns the date of the first day of the week (first day = sunday) you would like to see
@@ -38,6 +39,20 @@ export const generateWeek = weeksAgo => {
     firstDay = generateFirstDay(weeksAgo);
     nextDay = firstDay.add(i, 'days');
     formattedNextDay = `${days[nextDay.day()]} ${nextDay.month() + 1}/${nextDay.date()}`;
+=======
+export const generateWeek = () => {
+  let week = [];
+  let nextDay;
+  let formattedNextDay;
+  let j = 2;
+  for (let i = 0; i < 9; i++){
+    if (i < 3){
+      nextDay = moment().subtract(j, 'days')
+      if (j > 0) j--;
+    }
+    else if (3 <= i <= 9) nextDay = moment().add(i, 'days');
+    formattedNextDay = `${nextDay.month() + 1}/${nextDay.date()}`;
+>>>>>>> master
     week.push(formattedNextDay);
   }
   return week;
@@ -58,10 +73,15 @@ export const Habit = props => {
           let isChecked = false;
           if (props){
             const dateArray = new Date(dateCompleted).toString().split(' ');
+<<<<<<< HEAD
             console.log('date array', dateArray, day)
             const formattedDateCompleted = dateArray.length ? `${dateArray[0]} ${months.indexOf(dateArray[1]) + 1}/${dateArray[2]}` : '';
             console.log('formatted date', formattedDateCompleted, day);
             if (formattedDateCompleted == day && completed) isChecked = true;
+=======
+            const formattedDate = dateArray.length ? `${months.indexOf(dateArray[1]) + 1}/${dateArray[2]}` : '';
+            if (formattedDate === day && completed) isChecked = true;
+>>>>>>> master
           }
           if (isChecked) return <TableCell key={day}><b style={styles.check}>Y</b></TableCell>
           else return <TableCell key={day}><b style={styles.x}>X</b></TableCell>
