@@ -12,33 +12,33 @@ const styles = theme => ({
     display: 'flex',
     flexWrap: 'wrap',
   },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200,
-  },
-  menu: {
-    width: 200,
-  },
-  gridList: {
-    display: "flex",
-    flexWrap: "nowrap",
-    overflowX: "auto",
-  },
-  signUp: {
-    background: "blue"
-  }, 
-  error: {
-    display: "flex", 
-    flexDirection: "column"
-  }, 
-  helperText: {
-    alignSelf: "center", 
-    marginLeft: "1em"
-  }, 
-  allButtons: {
-    borderRadius: "0.5em"
-  }
+  // textField: {
+  //   marginLeft: theme.spacing.unit,
+  //   marginRight: theme.spacing.unit,
+  //   width: 200,
+  // },
+  // menu: {
+  //   width: 200,
+  // },
+  // gridList: {
+  //   display: "flex",
+  //   flexWrap: "nowrap",
+  //   overflowX: "auto",
+  // },
+  // signUp: {
+  //   background: "blue"
+  // }, 
+  // error: {
+  //   display: "flex", 
+  //   flexDirection: "column"
+  // }, 
+  // helperText: {
+  //   alignSelf: "center", 
+  //   marginLeft: "1em"
+  // }, 
+  // allButtons: {
+  //   borderRadius: "0.5em"
+  // }
   
 });
 
