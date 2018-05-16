@@ -25,7 +25,8 @@ const styles = {
       marginBottom: 50
   },
   toolbar: {
-      background: "white"
+      background: "white", 
+      display: 'flex'
   },
   backButton: {
       color: "#424242", 
@@ -55,6 +56,9 @@ const styles = {
     height: 75,
     width: "auto",
     paddingRight: "3em"
+  }, 
+  search: {
+    justify: 'flexEnd'
   }
 };
 
@@ -72,7 +76,7 @@ class Navbar extends Component {
         largeMenuClassName="large-menu-classname"
         smallMenuClassName="small-menu-classname"
         menu={
-          <Toolbar>
+          <Toolbar style={styles.toolbar}>
             <Link to="/" style={{textDecoration:"none"}}>
               <img src="https://i.pinimg.com/564x/d6/3b/f1/d63bf1221116ebb6102c77e7e9a74808.jpg" style={styles.image}/>
               <Typography variant="headline">
@@ -95,7 +99,7 @@ class Navbar extends Component {
               <Poll />
               Insights
             </Button>
-            { user && <Searchbar userId={user.uid} history={this.props.history}/> }
+            { user && <Searchbar style={styles.search} userId={user.uid} history={this.props.history}/> }
             { user ? 
               <Button href="/" color="inherit" style={styles.logoutButton}
                   onClick={() => auth.signOut()}>

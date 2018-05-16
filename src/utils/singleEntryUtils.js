@@ -50,9 +50,9 @@ export const styles = {
     boxSizing: "borderBox",
     boxShadow: "inset 0px 1px 8px -3px #ABABAB", 
     cursor: "text",
-    padding: "20px",
+    paddingRight: "2vh",
     marginBottom: "2em",
-    borderRadius: '1em'
+    borderRadius: '1em', 
   }, 
   entry: {
     display: "flex"
