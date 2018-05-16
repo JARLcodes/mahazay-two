@@ -2,7 +2,6 @@
 import { db } from './firebase.config.js';
 const ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
 
-
 export const  getTokenTone = () => {
   return fetch('/api/token/tone_analyzer').then(response => {
     return response.text();
@@ -14,7 +13,7 @@ export const analyzeTone = function (token, text, entryId,journalId, userId) {
     token,
     version: '2016-05-19',
   });
- let self = this
+ let self = this;
   return toneAnalyzer.tone(
     { text, sentences: false },
     function(err, result) {
@@ -24,8 +23,8 @@ export const analyzeTone = function (token, text, entryId,journalId, userId) {
       const toneInsight = JSON.stringify(result, null, 2);
       const parsedToneInsight = JSON.parse(toneInsight)["document_tone"]["tone_categories"];
       db.collection('toneInsights').doc(entryId).set({ parsedToneInsight, entryId, journalId, userId });
-      let insight = {text, parsedToneInsight, entryId, journalId, userId }
-      self.setState({insight})
+      let insight = {text, parsedToneInsight, entryId, journalId, userId };
+      self.setState({insight});
     }
   );
 
@@ -54,4 +53,4 @@ export const analyzeTone = function (token, text, entryId,journalId, userId) {
 
 export const analyzePersonality = (entryId, userId) => {
   return fetch(`/api/entries/${entryId}/personalityInsights`).then(response => response)
-}
+};

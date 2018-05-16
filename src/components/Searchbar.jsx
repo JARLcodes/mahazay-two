@@ -6,6 +6,8 @@ import Paper from 'material-ui/Paper/Paper.js';
 import MenuItem from 'material-ui/Menu/MenuItem.js';
 import Downshift from 'downshift';
 import TextField from 'material-ui/TextField';
+import InputAdornment from 'material-ui/Input/InputAdornment';
+import Search from '@material-ui/icons/Search';
 import keycode from 'keycode';
 import PropTypes from 'prop-types';
 import { convertFromRaw } from 'draft-js';
@@ -30,6 +32,10 @@ const styles = {
   inputRoot: {
     flexWrap: 'wrap',
   },
+  textField: {
+    width: "50%", 
+    position: 'flexEnd'
+  }
 };
 
 class Searchbar extends Component {
@@ -49,21 +55,16 @@ class Searchbar extends Component {
     getRootRef('entries').where('userId', '==', this.props.userId).get()
       .then(querySnaps => {
         querySnaps.forEach(entry => {
-          this.setState({ userEntries: [...this.state.userEntries, entry]})
-        })
+          this.setState({ userEntries: [...this.state.userEntries, entry]});
+        });
       });
     getRootRef('journals').where('userId', '==', this.props.userId).get()
       .then(querySnaps => {
         querySnaps.forEach(journal => {
-          this.setState({ userJournals: [...this.state.userJournals, journal]})
-        })
-      })
-  };
-
-  componentWillReceiveProps(nextProps){
-    console.log('this.props', this.props, 'nextProps', nextProps);
+          this.setState({ userJournals: [...this.state.userJournals, journal]});
+        });
+      });
   }
-
 
   renderInput(inputProps) {
     const { InputProps, ref, ...other } = inputProps;
@@ -72,26 +73,26 @@ class Searchbar extends Component {
       <TextField
         InputProps={{
           inputRef: ref,
-          ...InputProps, 
+          ...InputProps,
+          endAdornment: <InputAdornment position="start"><Search/></InputAdornment>, 
         }}
         {...other}
         onKeyDown={this.goToEntry.bind(this, InputProps.value)}
+        style={styles.textField}
       />
-    )
-  };
+    );
+  }
 
   goToEntry(value, e){
-    if (e.which === 8) console.log('backspaceeeeed')
     const { userEntries } = this.state;
     console.log('value', value);
     userEntries.forEach(entry => {
       const entryPlainText = convertFromRaw(entry.data().content).getPlainText();
-      // console.log('plain text!!!', entryPlainText.includes(value), 'value', value, 'entryPlainText', entryPlainText);
       const journalId = entry.data().journalId;
       const entryId = entry.id;
       if (entryPlainText.includes(value) && e.which === 13) this.props.history.push(`/journals/${journalId}/entries/${entryId}`)
     })
-    //if(e.which === 13) this.props.history.push(`/journals/${journalId}/entries/${entryId}`)
+    
   }
 
   getSuggestions(inputValue){
@@ -126,16 +127,12 @@ class Searchbar extends Component {
             fontWeight: isSelected ? 500 : 400,
           }}
           onClick={this.goToEntry.bind(this, userEntry.id, userEntry.data().journalId)}
-          
           key={userEntry.id}
         >
         {entryPlainText}
         </MenuItem>
-    
-    )
-    
-  };
-
+    );
+  }
 
   render(){
    
@@ -147,7 +144,7 @@ class Searchbar extends Component {
             {this.renderInput({
               fullWidth: true,
               InputProps: getInputProps({
-                placeholder: 'Search by entry',
+                placeholder: 'Search',
                 id: 'integration-downshift-simple',
                 onChange: e => {
                   if(e.target.value === '') clearSelection();

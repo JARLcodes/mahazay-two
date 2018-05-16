@@ -21,22 +21,20 @@ import {
 const theme = createMuiTheme();
 const styles = {
   nav: {
-    marginBottom: "2em", 
-    marginTop: "0.5em", 
-    borderBottom: "1px dotted #454545",
     paddingBottom: "1em"
   }
-}
+};
+
 class App extends Component {
 
   render() {
-    const user = this.props._user;
+  const user = this.props._user;
 
     return (
       <Router history={history}>
         <MuiThemeProvider theme={theme}>
           <div className="App" style={styles.body}>
-            <div className="col-xs-10" style={styles.nav}>
+            <div style={styles.nav}>
               <Navbar history={history}/>
             </div>
             <div className="col-xs-10" >
@@ -61,6 +59,5 @@ class App extends Component {
     );
   }
 }
-
 
 export default withAuth(App);

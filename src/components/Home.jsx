@@ -36,7 +36,7 @@ const styles = theme => ({
     marginLeft: "1em"
   }, 
   allButtons: {
-    borderRadius: "1em"
+    borderRadius: "0.5em"
   }
   
 });
@@ -107,7 +107,7 @@ export default class HomepageForm extends Component {
     return (
       <div>
     
-        <form className={styles.container}>
+        <form style={styles.container}>
         <Grid container spacing={24} justify="center" style={styles.gridList}>
           <div>
           <Grid item>
