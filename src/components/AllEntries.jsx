@@ -12,7 +12,8 @@ import { getRootRef } from '../utils/componentUtils';
 const styles = {
   card: {
     width: 300,
-    height: 400
+    height: 400,
+    borderRadius: ".5em .5em"
   },
   title: {
     marginBottom: 16,
@@ -46,7 +47,6 @@ export class AllEntries extends Component {
 
 // For entries => each entry has a content key which has an object with the key blocks which is an array of objects , each with the key of text
   render() {
-
     const {entries} = this.state
     const users = []
     getRootRef('users').get().then(querySnap => {

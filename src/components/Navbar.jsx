@@ -24,7 +24,8 @@ const styles = {
     flexGrow: 1
   },
   toolbar: {
-    background: "white"
+    background: "#FAFAFA",
+    padding: "1em 1em"
   },
   journalButton: {
     color: "#A1887F", 
@@ -72,7 +73,7 @@ class Navbar extends Component {
         largeMenuClassName="large-menu-classname"
         smallMenuClassName="small-menu-classname"
         menu={
-          <Toolbar>
+          <Toolbar style={styles.toolbar}>
             <Link to="/" style={{textDecoration:"none"}}>
               <img src="https://i.pinimg.com/564x/d6/3b/f1/d63bf1221116ebb6102c77e7e9a74808.jpg" style={styles.image}/>
             </Link>
