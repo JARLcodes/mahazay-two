@@ -33,7 +33,7 @@ class SingleEntry extends Component {
 
         <div style={{ gridColumnEnd: 'span 12' }}>
           <Button onClick = {this.clickHandler} > Get Insights! </Button>
-          {this.state.showInsight && <InsightComponent item xs={12} history={this.props.history} entry={getRootRef('entries', this.props.match.params.entryId)} entryId = {this.props.match.params.entryId}/>}
+          {this.state.showInsight && <InsightComponent item xs={12} history={this.props.history} entry={getRootRef('entries', this.props.match.params.entryId)} entryId={this.props.match.params.entryId}/>}
         </div>
       </div>
     )
