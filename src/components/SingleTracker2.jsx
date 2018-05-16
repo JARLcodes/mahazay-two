@@ -54,7 +54,7 @@ class SingleTracker2 extends Component {
 
   componentDidUpdate(){
     const { habits } = this.state;
-    if (habits.length && this.state.entry.data().content){
+    if (habits.length && this.state.entry.data() && this.state.entry.data().content){
       habits.forEach(habit => {
         const entryContent = convertFromRaw(this.state.entry.data().content).getPlainText().toLowerCase();
         const habitWordArray = habit.data().name.split(' ');
@@ -63,7 +63,6 @@ class SingleTracker2 extends Component {
         //to toggle: if datesCompleted includes entryDate and completed is false, then remove it
         if (!completed && entryDate) {
           let datesCompletedArr = [];
-          console.log('habit data in component did update completed false', habit.data())
           habit.data().datesCompleted.forEach(date => datesCompletedArr.push(date));
           // let updatedDatesCompleted = [];
           let updatedDatesCompleted = datesCompletedArr.filter(date => date - entryDate !== 0);
@@ -105,10 +104,9 @@ class SingleTracker2 extends Component {
     }
   }
 
- 
 
   render() {
-    if (Object.values(this.state.entry).length) console.log('entry date', this.state.entry.data().dateCreated);
+    
     const AllHabits = db.collection('habits').where('userId', '==', this.props.user.uid);
     const Habit = props => {
       if (Object.keys(props).length) {
