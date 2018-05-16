@@ -12,9 +12,25 @@ import { CircularProgress } from 'material-ui/Progress';
 
 import { storage } from '../utils/firebase.config';
 import { getRootRef } from '../utils/componentUtils';
-import { plugins, styles, confirmMedia, mediaBlockRenderer } from './../utils/singleEntryUtils';
+import { plugins, confirmMedia, mediaBlockRenderer } from './../utils/singleEntryUtils';
 import SingleEntrySidebar from './SingleEntrySidebar.jsx';
 import { analyzePersonality } from '../utils/watsonFuncs.js';
+
+
+export const styles = theme => ({
+  styleMap: {
+    'STRIKETHROUGH': {
+      textDecoration: 'line-through',
+    },
+    'UNDERLINE': {
+      textDecoration: 'underline'
+    }, 
+    'KARLA': {
+      fontFamily: 'Karla, sans-serif'
+    }
+  }
+});
+
 
 class EditorComponent extends Component {
   constructor(props){
@@ -87,10 +103,10 @@ class EditorComponent extends Component {
 
   renderStyleToolbar() {
     return <React.Fragment>
-        <Button onClick={this.onBold} style={styles.allButtons}>Bold</Button>
-        <Button onClick={this.onItalic} style={styles.allButtons}>Italic</Button>
-        <Button onClick={this.onUnderline} style={styles.allButtons}>Underline</Button>
-        <Button onClick={this.onStrikethrough} style={styles.allButtons}>Strikethrough</Button>
+        <Button onClick={this.onBold} style={{borderRadius: "0.5em"}}>Bold</Button>
+        <Button onClick={this.onItalic} style={{borderRadius: "0.5em"}}>Italic</Button>
+        <Button onClick={this.onUnderline} style={{borderRadius: "0.5em"}}>Underline</Button>
+        <Button onClick={this.onStrikethrough} style={{borderRadius: "0.5em"}}>Strikethrough</Button>
     </React.Fragment>;
   }
 
@@ -127,12 +143,15 @@ class EditorComponent extends Component {
       <CircularProgress />
     );
     return (
-        <div style={styles.editor}>
-          <Button onClick={this.showStyleToolbar.bind(this)} style={styles.allButtons}><b>B</b><i>I</i><u>U</u></Button>
+        <div style={{ width: "80%", minHeight: "500px", border: "1px dotted #454545", boxSizing: "borderBox", boxShadow: "inset 0px 1px 8px -3px #ABABAB",  cursor: "text",
+        paddingRight: "2vh",
+        marginBottom: "2em",
+        borderRadius: '0.5em', }}>
+          <Button onClick={this.showStyleToolbar.bind(this)} style={{borderRadius: "0.5em"}}><b>B</b><i>I</i><u>U</u></Button>
           {showStyleToolbar && <div>{this.renderStyleToolbar()}</div>}
 
 
-          {!showMediaTypeButtons && <Button onClick={this.showMediaTypeButtons.bind(this)} style={styles.allButtons}><Add /></Button>}
+          {!showMediaTypeButtons && <Button onClick={this.showMediaTypeButtons.bind(this)} style={{borderRadius: "0.5em"}}><Add /></Button>}
           { showMediaInput
             ? <div>
             <input
@@ -142,12 +161,12 @@ class EditorComponent extends Component {
             onChange={this.onURLChange}
             onKeyDown={this.onURLInputKeyDown.bind(this)}
             />
-            <Button style={styles.allButtons}>Hit Enter to Submit</Button>
+            <Button style={{borderRadius: "0.5em"}}>Hit Enter to Submit</Button>
             </div>
             : <div>
-              { showMediaTypeButtons && <Button onClick={this.showMediaInput.bind(this, 'image')} style={styles.allButtons}>Add Image</Button> }
-              { showMediaTypeButtons && <Button onClick={this.showMediaInput.bind(this, 'audio')} style={styles.allButtons}>Add Audio</Button> }
-              { showMediaTypeButtons && <Button onClick={this.showMediaInput.bind(this, 'video')} style={styles.allButtons}>Add Video</Button> }
+              { showMediaTypeButtons && <Button onClick={this.showMediaInput.bind(this, 'image')} style={{borderRadius: "0.5em"}}>Add Image</Button> }
+              { showMediaTypeButtons && <Button onClick={this.showMediaInput.bind(this, 'audio')} style={{borderRadius: "0.5em"}}>Add Audio</Button> }
+              { showMediaTypeButtons && <Button onClick={this.showMediaInput.bind(this, 'video')} style={{borderRadius: "0.5em"}}>Add Video</Button> }
             </div>
           }
               <Editor
