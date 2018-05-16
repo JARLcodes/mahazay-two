@@ -19,11 +19,6 @@ import {
 } from './components/index.js';
 
 const theme = createMuiTheme();
-const styles = {
-  nav: {
-    paddingBottom: "1em"
-  }
-};
 
 class App extends Component {
 
@@ -33,8 +28,8 @@ class App extends Component {
     return (
       <Router history={history}>
         <MuiThemeProvider theme={theme}>
-          <div className="App" style={styles.body}>
-            <div style={styles.nav}>
+          <div className="App">
+            <div>
               <Navbar history={history}/>
             </div>
             <div className="col-xs-10" >

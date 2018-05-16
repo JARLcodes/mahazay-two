@@ -29,7 +29,6 @@ export class AllEntries extends Component {
     this.state = {
       entries: []
     };
-
   }
 
   componentWillReceiveProps(nextProps){

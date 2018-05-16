@@ -24,34 +24,29 @@ const styles = {
     flexGrow: 1
   },
   toolbar: {
-      background: "#FAFAFA", 
-      display: 'flex',
-      padding: ".5em .5em"
+    background: "#FAFAFA", 
+    display: 'flex',
+    padding: ".5em .5em"
   },
   journalButton: {
     color: "#A1887F", 
-    padding: "1em 1em",
-    fontSize: "1em"
+    padding: "1em 1em"
   },
   entryButton: {
     color: "#82B1FF", 
-    padding: "1em 1em",
-    fontSize: "1em"
+    padding: "1em 1em"
   },
   trackerButton: {
     color: "#EF9A9A", 
-    padding: "1em 1em",
-    fontSize: "1em"
+    padding: "1em 1em"
   },
   insightButton: {
     color: "#9FA8DA", 
-    padding: "1em 1em",
-    fontSize: "1em"
+    padding: "1em 1em"
   },
   logoutButton: {
     color: "#424242", 
-    padding: "1em 1em",
-    fontSize: "1em"
+    padding: "1em 1em"
   }, 
   image: {
     height: 75,

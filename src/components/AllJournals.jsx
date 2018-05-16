@@ -38,6 +38,12 @@ const styles = {
   },
 };
 
+
+// if (process.env.NODE_ENV !== 'production') {
+//   const {whyDidYouUpdate} = require('why-did-you-update');
+//   whyDidYouUpdate(React);
+// }
+
 export class AllJournals extends Component {
   constructor () {
     super();
@@ -72,7 +78,11 @@ export class AllJournals extends Component {
       <div style={styles.root}>
         <GridList cellHeight="auto" style={styles.gridList} cols={3}>
         <GridListTile key="Subheader" cols={3}>
-          <Subheader component="div" style={styles.subheader}>Journals</Subheader>
+          <Subheader 
+            component="div" 
+            style={styles.subheader}>Journals
+          </Subheader>
+
             {this.props && this.props._user ? <Button onClick={this.newJournal.bind(this)}><Add style={styles.addIcon}/></Button> : null}
           </GridListTile>
           {
@@ -80,13 +90,13 @@ export class AllJournals extends Component {
             <GridListTile key={journalIds[ind]}>
               <Link to={`/journals/${journalIds[ind]}`}>
               <GridListTileBar
-                  title={<Typography style={{textTransform: "capitalize", color: "#BDBDBD"}} variant="title">{journal.title}</Typography>}
-                  subtitle={<Typography variant="subheading" style={{color: "#9E9E9E"}}>{journal.description}</Typography>}
-                  titlePosition="top"
-                />
-                <img src={image} style={styles.image} alt=""/>
-                </Link>
-                </GridListTile>
+                title={<Typography style={{textTransform: "capitalize", color: "#BDBDBD"}} variant="title">{journal.title}</Typography>}
+                subtitle={<Typography variant="subheading" style={{color: "#9E9E9E"}}>{journal.description}</Typography>}
+                titlePosition="top"
+              />
+              <img src={image} style={styles.image} alt=""/>
+            </Link>
+           </GridListTile>
             ))
           }
          </GridList>

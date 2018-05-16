@@ -90,27 +90,23 @@ class Searchbar extends Component {
       const entryPlainText = convertFromRaw(entry.data().content).getPlainText();
       const journalId = entry.data().journalId;
       const entryId = entry.id;
-      if (entryPlainText.includes(value) && e.which === 13) this.props.history.push(`/journals/${journalId}/entries/${entryId}`)
-    })
+      if (entryPlainText.includes(value) && e.which === 13) this.props.history.push(`/journals/${journalId}/entries/${entryId}`);
+    });
     
   }
 
   getSuggestions(inputValue){
     const { userEntries, userJournals, matchingEntries } = this.state;
-    
     let count = 0;
     const entryArray = userEntries.filter(entry => {
       const entryPlainText = convertFromRaw(entry.data().content).getPlainText();
       const keep = 
         (!inputValue || entryPlainText.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1) && count < 5;
-     
       count = keep ? count += 1 : count;
       return keep;
-    })
-
+    });
     return entryArray;
-  
-  };
+  }
 
   renderSuggestion({ userEntry, index, itemProps, highlightedIndex, selectedItem }) {
     const isHighlighted = highlightedIndex === index;
@@ -118,7 +114,6 @@ class Searchbar extends Component {
     const isSelected = !selectedItem ? (selectedItem || '').indexOf(entryPlainText) > -1 : false;
     
     return (
-     
         <MenuItem
           {...itemProps}
           selected={isHighlighted}
@@ -168,7 +163,7 @@ class Searchbar extends Component {
         )}
       </Downshift>
     </div>
-    )
+    );
   }
 }
 

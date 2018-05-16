@@ -8,9 +8,7 @@ import { composeDecorators } from 'draft-js-plugins-editor';
 import TextField from 'material-ui/TextField';
 import Button from "material-ui/Button";
 
-
 const focusPlugin = createFocusPlugin();
-
 
 const imagePlugin = createImagePlugin({ 
   decorator: composeDecorators(
@@ -36,12 +34,12 @@ export const styles = {
       fontFamily: 'Karla, sans-serif'
     }
   }, 
-  singleEntry: {
-    display: "flex",
+  entry: {
+    display: "flex"
   }, 
   sidebar: {
-    width: "20%",
-    height: "100%"
+    display: "flex",
+    flexDirection: "column"
   }, 
   editor: {
     width: "80%",
@@ -53,10 +51,7 @@ export const styles = {
     paddingRight: "2vh",
     marginBottom: "2em",
     borderRadius: '0.5em', 
-  }, 
-  entry: {
-    display: "flex"
-  }, 
+  },
   media: {
     width: "20%", 
     height: "auto", 
@@ -65,7 +60,7 @@ export const styles = {
   allButtons: {
     borderRadius: "0.5em"
   }
-}
+};
 
 
 export const confirmMedia = function(editorState, urlValue, urlType, e){
@@ -88,7 +83,7 @@ export const confirmMedia = function(editorState, urlValue, urlType, e){
     ' '
   );
   return newState;
-}
+};
 
 export const mediaBlockRenderer = function(block) {
   
@@ -100,7 +95,7 @@ export const mediaBlockRenderer = function(block) {
   }
 
   return null;
-}
+};
 
 const AudioPlayer = (props) => ( <audio src={props.src} preload="auto" controls/> );
 
@@ -134,7 +129,7 @@ const Media = ({
       mediaComponent = <AudioPlayer src={src} />;
       break;
     case 'image':
-      mediaComponent = <Image src={src} />
+      mediaComponent = <Image src={src} />;
       break;
     case 'video':
       mediaComponent = <Video src={src} />;
@@ -146,7 +141,7 @@ const Media = ({
   
   return mediaComponent;
 
-}
+};
 
 
 

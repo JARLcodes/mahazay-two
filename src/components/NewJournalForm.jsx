@@ -24,7 +24,7 @@ const styles = {
     textDecoration: "none"
 
   }
-}
+};
 
 export default class NewJournalForm extends Component {
   constructor(){
@@ -42,25 +42,25 @@ export default class NewJournalForm extends Component {
     getRootRef('journals').get()
       .then(querySnap => querySnap.forEach(journalSnap => {
         const journal = {data: journalSnap.data(), journalId: journalSnap.id};
-        this.setState({journals: [...this.state.journals, journal]})
+        this.setState({journals: [...this.state.journals, journal]});
       })
-    )
+    );
   }
   onChange(event){
-    this.setState({ [event.target.name] : event.target.value })
+    this.setState({ [event.target.name] : event.target.value });
   }
 
   addJournal(e){
     // if user has either pressed enter (e.charCode = 13) from description field or clicked on add journal ( for which e on input is undefined ), will be directed to new or existing journal
     if (e.which === 13 || !e.charCode){
       const data = { title: this.state.title, description: this.state.description, userId: this.props.match.params.userId };
-      const titleObjects = this.state.journals.map(journal => { return { title: journal.data.title, id: journal.journalId } })
+      const titleObjects = this.state.journals.map(journal => { return { title: journal.data.title, id: journal.journalId }; });
       const titleExists = titleObjects ? titleObjects.filter(titleObject => titleObject.title === data.title) : [];
 
       titleExists.length > 0 
       ? this.props.history.push(`/journals/${titleExists[0].id}`) 
       : getRootRef('journals').add(data)
-          .then(journal => this.props.history.push(`/journals/${journal.id}`))
+          .then(journal => this.props.history.push(`/journals/${journal.id}`));
     }
     
     
@@ -92,6 +92,6 @@ export default class NewJournalForm extends Component {
           <Button style={styles.addJournalButton} onClick={this.addJournal.bind(this)}>New Journal</Button>
         </form>
       </div>
-    )
+    );
   }
 }

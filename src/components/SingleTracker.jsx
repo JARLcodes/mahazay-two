@@ -64,9 +64,9 @@ class SingleTracker extends Component {
     db.collection('habits').where('userId', '==', this.props._user.uid).get()
       .then(querySnapshot => {
         querySnapshot.forEach(habit => {
-          
-        })
-  })
+          // wait on this one
+        });
+  });
 }
 
   habitDone(habitName) {
@@ -84,7 +84,7 @@ class SingleTracker extends Component {
       if (Object.keys(props).length) {
       const { name, dates } = props;
       let isChecked = Object.values(dates)[0];
-      console.log('the is checked', isChecked)
+      console.log('the is checked', isChecked);
   
       return <div> 
         {name}
