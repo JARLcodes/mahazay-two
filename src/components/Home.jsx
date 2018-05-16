@@ -36,7 +36,7 @@ const styles = theme => ({
     marginLeft: "1em"
   }, 
   allButtons: {
-    borderRadius: "1em"
+    borderRadius: "0.5em"
   }
   
 });

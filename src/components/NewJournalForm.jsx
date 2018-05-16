@@ -20,7 +20,7 @@ const styles = {
     color: "#A1887F",
     width: "20%",
     marginTop: "1em",
-    borderRadius: "1em", 
+    borderRadius: "0.5em", 
     textDecoration: "none"
 
   }

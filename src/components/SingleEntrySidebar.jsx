@@ -21,11 +21,12 @@ const styles = {
     width: '20%',
     backgroundColor: "#EF9A9A",
     color: "#fff",
-    borderRadius: "1em"
+    borderRadius: "0.5em"
   },
   singleEntrySidebar : {
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column", 
+    margin: "0em 2em 2em 2em"
   },
   addVideo: {
     display: "flex",
