@@ -21,40 +21,40 @@ import Searchbar from './Searchbar.jsx';
 
 const styles = {
   root: {
-      flexGrow: 1,
-      marginBottom: 50
+    flexGrow: 1
   },
   toolbar: {
-      background: "white"
-  },
-  backButton: {
-      color: "#424242", 
-     padding: "2em 1em"
+    background: "white"
   },
   journalButton: {
-      color: "#A1887F", 
-     padding: "1em 1em"
+    color: "#A1887F", 
+    padding: "1em 1em",
+    fontSize: "1em"
   },
   entryButton: {
-      color: "#82B1FF", 
-     padding: "1em 1em"
+    color: "#82B1FF", 
+    padding: "1em 1em",
+    fontSize: "1em"
   },
   trackerButton: {
-      color: "#EF9A9A", 
-     padding: "1em 1em"
+    color: "#EF9A9A", 
+    padding: "1em 1em",
+    fontSize: "1em"
   },
   insightButton: {
-      color: "#9FA8DA", 
-     padding: "1em 1em"
+    color: "#9FA8DA", 
+    padding: "1em 1em",
+    fontSize: "1em"
   },
   logoutButton: {
-      color: "#424242", 
-     padding: "1em 1em",
+    color: "#424242", 
+    padding: "1em 1em",
+    fontSize: "1em"
   }, 
   image: {
     height: 75,
     width: "auto",
-    paddingRight: "3em"
+    paddingRight: "1em"
   }
 };
 
@@ -75,9 +75,9 @@ class Navbar extends Component {
           <Toolbar>
             <Link to="/" style={{textDecoration:"none"}}>
               <img src="https://i.pinimg.com/564x/d6/3b/f1/d63bf1221116ebb6102c77e7e9a74808.jpg" style={styles.image}/>
-              <Typography variant="headline">
-                   MA • HĀ • ZAY
-              </Typography>
+            </Link>
+            <Link to="/" style={{textDecoration:"none", padding: ".5em .5em"}}>
+              <Typography variant="display1">MA•HĀ•ZAY</Typography>
             </Link>
             <Button href="/journals" color="inherit" style={styles.journalButton} disabled={disabled}>
               <ImportContacts />
