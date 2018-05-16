@@ -25,7 +25,7 @@ const styles = theme => ({
   },
   singleEntrySidebar : {
     display: "flex",
-    flexDirection: "column", 
+    flexDirection: "column",
     margin: "0em 2em 2em 2em"
   },
   addVideo: {

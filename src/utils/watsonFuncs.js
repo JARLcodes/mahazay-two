@@ -22,11 +22,13 @@ export const analyzeTone = function (token, text, entryId,journalId, userId) {
       }
       const toneInsight = JSON.stringify(result, null, 2);
       const parsedToneInsight = JSON.parse(toneInsight)["document_tone"]["tone_categories"];
-      db.collection('toneInsights').doc(entryId).set({ parsedToneInsight, entryId, journalId, userId });
+      db.collection('toneInsights').doc(entryId).set({text, parsedToneInsight, entryId, journalId, userId });
       let insight = {text, parsedToneInsight, entryId, journalId, userId };
       self.setState({insight});
     }
   );
+
+
 };
 
 //for if we work on summaries:
