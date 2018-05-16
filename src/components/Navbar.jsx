@@ -75,7 +75,7 @@ class Navbar extends Component {
           <Toolbar>
             <Link to="/" style={{textDecoration:"none"}}>
               <img src="https://i.pinimg.com/564x/d6/3b/f1/d63bf1221116ebb6102c77e7e9a74808.jpg" style={styles.image}/>
-              <Typography variant="title">
+              <Typography variant="headline">
                    MA • HĀ • ZAY
               </Typography>
             </Link>
