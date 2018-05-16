@@ -10,48 +10,17 @@ import ImportContacts from '@material-ui/icons/ImportContacts';
 import LibraryBooks from '@material-ui/icons/LibraryBooks';
 import { withAuth } from 'fireview';
 
-const styles = theme => ({
-	profileCard: {
-		maxWidth: 200,
-		background: "white",
-		padding: "7vh 10vh",
-		margin: "3.5vh 2vh",
-		borderRadius: ".5em .5em"
-	},
-  card: {
-		maxWidth: 200,
-		background: "white",
-		padding: "4vh 4vh",
-		margin: "2vh 2vh",
-		borderRadius: ".5em .5em"
-	},
-  gridList: {
-    display: "flex",
-    flexWrap: "nowrap",
-    overflowX: "auto",
-	},
-	bigAvatar : {
-		width: 80,
-		height: 80
-	},
-	mediumIcon: {
-		color: "#616161",
-		width: 60,
-		height: 60
-	}
-});
-
 const Dashboard = props => {
 	const user = props && props._user ? props._user : 'tina you fat lard';
 	return (
 	<div>
-		<Grid container spacing={24} justify="center" style={styles.gridList}>
-			<Grid>
-				<Link to="/profile" style={{textDecoration:"none"}}>
-				<Card style={styles.profileCard}>
+		<Grid container spacing={24} justify="center" style={{ display: "flex", flexWrap: "nowrap", overflowX: "auto" }}>
+			<Grid item>
+				<Link to="/profile" style={{ textDecoration:"none" }}>
+				<Card style={{ maxWidth: 200, background: "white", padding: "4vh 8vh", margin: "4vh 2vh", borderRadius: ".5em .5em" }}>
 					<CardHeader
 						avatar={
-							<Avatar	style={styles.bigAvatar}>
+							<Avatar	style={{ width: 80, height: 80 }}>
 								S
 							</Avatar>
 						}
@@ -63,11 +32,11 @@ const Dashboard = props => {
 			</Grid>
 		</Grid>
 
-		<Grid container spacing={24} justify="center" style={styles.gridList}>
+		<Grid container spacing={24} justify="center" style={{ display: "flex", flexWrap: "nowrap", overflowX: "auto" }}>
 				<Grid>
-					<Link to='/journals' style={{textDecoration:"none"}}>
-					<Card style={styles.card}>
-						<ImportContacts style={styles.mediumIcon}/>
+					<Link to='/journals' style={{ textDecoration:"none" }}>
+					<Card style={{ maxWidth: 200, background: "white", padding: "4vh 4vh", margin: "2vh 2vh", borderRadius: ".5em .5em" }}>
+						<ImportContacts style={{ color: "#616161", width: 60, height: 60 }}/>
 						<CardContent>
 						<Typography>Journals</Typography>
 						</CardContent>
@@ -76,9 +45,9 @@ const Dashboard = props => {
 				</Grid>
 
 				<Grid>
-					<Link to="/entries" style={{textDecoration:"none"}}>
-					<Card style={styles.card}>
-						<LibraryBooks style={styles.mediumIcon}/>
+					<Link to="/entries" style={{ textDecoration:"none" }}>
+					<Card style={{ maxWidth: 200, background: "white", padding: "4vh 4vh", margin: "2vh 2vh", borderRadius: ".5em .5em" }}>
+						<LibraryBooks style={{ color: "#616161", width: 60, height: 60 }}/>
 						<CardContent>
 						<Typography>Entries</Typography>
 						</CardContent>
