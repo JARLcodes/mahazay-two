@@ -21,9 +21,6 @@ import {
 const theme = createMuiTheme();
 const styles = {
   nav: {
-    marginBottom: "1em", 
-    marginTop: "0.5em", 
-    
     paddingBottom: "1em"
   }
 }
@@ -36,7 +33,7 @@ class App extends Component {
       <Router history={history}>
         <MuiThemeProvider theme={theme}>
           <div className="App" style={styles.body}>
-            <div className="col-xs-10" style={styles.nav}>
+            <div style={styles.nav}>
               <Navbar history={history}/>
             </div>
             <div className="col-xs-10" >
