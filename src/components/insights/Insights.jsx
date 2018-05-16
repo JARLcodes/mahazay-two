@@ -3,8 +3,9 @@ import { withAuth } from 'fireview';
 import { getRootRef, getIds } from '../../utils/componentUtils';
 import {db} from '../../utils/firebase.config';
 import PersonalitySunburstChart from 'personality-sunburst-chart/lib/charts/v3-d3v4';
-
 import ToneInsights from './ToneInsights'
+
+import { withTheme } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
@@ -123,7 +124,11 @@ export class Insights extends Component {
 
         return (
             <div style={styles.root}>
-                <div style={styles.title}>My Insights</div>
+                <div style={{
+                    fontSize: 40,
+                    padding: '3vh',
+                    color: '#795548'
+                }}>My Insights</div>
                 <div>
                     <Grid container spacing={8} style={styles.grid}>
                         <Grid item xs={8} sm={4}>
@@ -237,14 +242,9 @@ export class Insights extends Component {
     }
 }
 
-const styles = {
+const styles = theme => ({
     root: {
         flexGrow: 1,
-    },
-    title: {
-        fontSize: 40,
-        padding: '3vh',
-        color: '#795548'
     },
     paper: {
         padding: '5vh',
@@ -258,6 +258,6 @@ const styles = {
     list: {
         alignItems: 'right'
     }
-  };
+  });
 
-  export default withAuth(Insights);
+  export default withTheme()(withAuth(Insights));

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { withTheme } from 'material-ui/styles';
 
 import Grid from 'material-ui/Grid';
 import Card, { CardContent, CardHeader } from 'material-ui/Card';
@@ -9,7 +10,7 @@ import ImportContacts from '@material-ui/icons/ImportContacts';
 import LibraryBooks from '@material-ui/icons/LibraryBooks';
 import { withAuth } from 'fireview';
 
-const styles = {
+const styles = theme => ({
 	profileCard: {
 		maxWidth: 200,
 		background: "white",
@@ -38,7 +39,7 @@ const styles = {
 		width: 60,
 		height: 60
 	}
-};
+});
 
 const Dashboard = props => {
 	const user = props && props._user ? props._user : 'tina you fat lard';
@@ -90,4 +91,4 @@ const Dashboard = props => {
 	);
 };
 
-export default withAuth(Dashboard);
+export default withTheme()(withAuth(Dashboard));

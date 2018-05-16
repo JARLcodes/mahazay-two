@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import { withStyles } from 'material-ui/styles';
 import Card, { CardContent } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 import Subheader from 'material-ui/List/ListSubheader';
@@ -8,10 +7,11 @@ import Button from 'material-ui/Button';
 import Grid from 'material-ui/Grid';
 import { withAuth } from 'fireview';
 import ReactPlayer from 'react-player';
+import { withTheme } from 'material-ui/styles';
 
 import { getRootRef } from '../utils/componentUtils';
 
-const styles = {
+const styles = theme => ({
   card: {
     width: 300,
     height: 400,
@@ -32,7 +32,7 @@ const styles = {
   subheaderWrapper: {
     marginLeft: "38%"
   }
-};
+});
 
 export class AllEntries extends Component {
   constructor(){
@@ -92,4 +92,4 @@ export class AllEntries extends Component {
   }
 }
 
-export default withAuth(withStyles(styles)(AllEntries));
+export default withTheme()(withAuth(AllEntries));

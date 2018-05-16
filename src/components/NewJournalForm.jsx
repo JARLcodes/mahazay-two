@@ -3,9 +3,9 @@ import TextField from 'material-ui/TextField';
 // import { InputAdornment } from 'material-ui/Input';
 import Button from "material-ui/Button";
 import { getRootRef } from '../utils/componentUtils';
+import { withTheme } from 'material-ui/styles';
 
-
-const styles = {
+const styles = theme => ({
   addJournalForm: {
     display: "flex",
     flexDirection: "column", 
@@ -24,9 +24,9 @@ const styles = {
     textDecoration: "none"
 
   }
-}
+});
 
-export default class NewJournalForm extends Component {
+export class NewJournalForm extends Component {
   constructor(){
     super();
     this.state = {
@@ -95,3 +95,5 @@ export default class NewJournalForm extends Component {
     )
   }
 }
+
+export default withTheme()(NewJournalForm);

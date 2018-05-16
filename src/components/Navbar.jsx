@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withTheme } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import TextField from 'material-ui/TextField';
@@ -19,49 +20,14 @@ import { withAuth } from 'fireview';
 import { auth } from '../utils/firebase.config';
 import Searchbar from './Searchbar.jsx';
 
-const styles = {
+const styles = theme => ({
   root: {
     flexGrow: 1
   },
-  toolbar: {
-      background: "#FAFAFA", 
-      display: 'flex',
-      padding: ".5em .5em"
-  },
-  journalButton: {
-    color: "#A1887F", 
-    padding: "1em 1em",
-    
-  },
-  entryButton: {
-    color: "#82B1FF", 
-    padding: "1em 1em",
-   
-  },
-  trackerButton: {
-    color: "#EF9A9A", 
-    padding: "1em 1em",
-  
-  },
-  insightButton: {
-    color: "#9FA8DA", 
-    padding: "1em 1em",
-    
-  },
-  logoutButton: {
-    color: "#424242", 
-    padding: "1em 1em",
-   
-  }, 
-  image: {
-    height: 75,
-    width: "auto",
-    paddingRight: "3em"
-  }, 
   search: {
     justify: 'flexEnd'
   }
-};
+});
 
 class Navbar extends Component {
   render() {
@@ -77,32 +43,28 @@ class Navbar extends Component {
         largeMenuClassName="large-menu-classname"
         smallMenuClassName="small-menu-classname"
         menu={
-          <Toolbar style={styles.toolbar}>
+          <Toolbar style={{background: "#FAFAFA", display: 'flex', padding: ".5em .5em"}}>
             <Link to="/" style={{textDecoration:"none"}}>
-              <img src="https://i.pinimg.com/564x/d6/3b/f1/d63bf1221116ebb6102c77e7e9a74808.jpg" style={styles.image}/>
+              <img src="https://i.pinimg.com/564x/d6/3b/f1/d63bf1221116ebb6102c77e7e9a74808.jpg" style={{height: 75, width: 75, paddingRight: "1em"}}/>
             </Link>
             <Link to="/" style={{textDecoration:"none"}}>
               <Typography variant="display1">MA•HĀ•ZAY</Typography>
             </Link>
-            <Button href="/journals" color="inherit" style={styles.journalButton} disabled={disabled}>
+            <Button href="/journals" color="inherit" style={{color: "#A1887F"}} disabled={disabled}>
               <ImportContacts />
               Journals
             </Button>
-            <Button href="/entries" color="inherit" style={styles.entryButton} disabled={disabled}> 
+            <Button href="/entries" color="inherit" style={{color: "#82B1FF"}} disabled={disabled}> 
               <LibraryBooks />
               Entries
             </Button>
-            <Button href="/tracker" color="inherit" style={styles.trackerButton} disabled={disabled}>
+            <Button href="/tracker" color="inherit" style={{color: "#EF9A9A"}} disabled={disabled}>
               <CheckBox />
               Tracker
             </Button>
-            <Button href="/insights" color="inherit" style={styles.insightButton} disabled={disabled}>
-              <Poll />
-              Insights
-            </Button>
             { user && <Searchbar style={styles.search} userId={user.uid} history={this.props.history}/> }
             { user ? 
-              <Button href="/" color="inherit" style={styles.logoutButton}
+              <Button href="/" color="inherit" style={{color: "#424242"}}
                   onClick={() => auth.signOut()}>
                   <Person />
                   Logout
@@ -115,4 +77,4 @@ class Navbar extends Component {
   }
 }
 
-export default withAuth(Navbar);
+export default withTheme()(withAuth(Navbar));

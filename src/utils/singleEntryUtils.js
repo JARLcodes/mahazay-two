@@ -24,7 +24,7 @@ export const plugins = [
 ];
 
 
-export const styles = {
+export const styles = theme => ({
   styleMap: {
     'STRIKETHROUGH': {
       textDecoration: 'line-through',
@@ -65,7 +65,7 @@ export const styles = {
   allButtons: {
     borderRadius: "0.5em"
   }
-}
+});
 
 
 export const confirmMedia = function(editorState, urlValue, urlType, e){

@@ -10,12 +10,13 @@ import { withAuth } from 'fireview';
 import BigCalendar from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment';
+import { withTheme } from 'material-ui/styles';
 
 import { getRootRef } from '../utils/componentUtils';
 
 BigCalendar.momentLocalizer(moment);
 
-const styles = {
+const styles = theme =>({
   delete: {
     alignSelf: 'center',
     width: '5%',
@@ -23,7 +24,8 @@ const styles = {
     backgroundColor: "#EF9A9A",
     color: "#fff"
   }
-}
+})
+
 export class SingleJournal extends Component {
   constructor(props){
     super(props);
@@ -124,4 +126,4 @@ export class SingleJournal extends Component {
   }
 }
 
-export default withAuth(SingleJournal);
+export default withTheme()(withAuth(SingleJournal));

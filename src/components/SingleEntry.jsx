@@ -4,6 +4,7 @@ import SingleEntrySidebar from './SingleEntrySidebar.jsx';
 import InsightComponent from './insights/Insights.jsx'
 import { withAuth } from 'fireview';
 import Button from "material-ui/Button";
+import { withTheme } from 'material-ui/styles';
 
 import { getRootRef } from '../utils/componentUtils';
 import { styles } from '../utils/singleEntryUtils';
@@ -39,4 +40,4 @@ class SingleEntry extends Component {
   }
 }
 
-export default withAuth(SingleEntry);
+export default withTheme()(withAuth(SingleEntry));

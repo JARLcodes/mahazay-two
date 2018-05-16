@@ -5,43 +5,44 @@ import Button from 'material-ui/Button';
 import Grid from 'material-ui/Grid';
 import firebase from 'firebase';
 import { auth, db } from '../utils/firebase.config';
+import { withTheme } from 'material-ui/styles';
 
 const styles = theme => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
   },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200,
-  },
-  menu: {
-    width: 200,
-  },
-  gridList: {
-    display: "flex",
-    flexWrap: "nowrap",
-    overflowX: "auto",
-  },
-  signUp: {
-    background: "blue"
-  }, 
-  error: {
-    display: "flex", 
-    flexDirection: "column"
-  }, 
-  helperText: {
-    alignSelf: "center", 
-    marginLeft: "1em"
-  }, 
-  allButtons: {
-    borderRadius: "0.5em"
-  }
+  // textField: {
+  //   marginLeft: theme.spacing.unit,
+  //   marginRight: theme.spacing.unit,
+  //   width: 200,
+  // },
+  // menu: {
+  //   width: 200,
+  // },
+  // gridList: {
+  //   display: "flex",
+  //   flexWrap: "nowrap",
+  //   overflowX: "auto",
+  // },
+  // signUp: {
+  //   background: "blue"
+  // }, 
+  // error: {
+  //   display: "flex", 
+  //   flexDirection: "column"
+  // }, 
+  // helperText: {
+  //   alignSelf: "center", 
+  //   marginLeft: "1em"
+  // }, 
+  // allButtons: {
+  //   borderRadius: "0.5em"
+  // }
   
 });
 
-export default class HomepageForm extends Component {
+export class HomepageForm extends Component {
   constructor() {
     super();
     this.state = {
@@ -208,3 +209,5 @@ export default class HomepageForm extends Component {
     );
   }
 }
+
+export default withTheme()(HomepageForm);
