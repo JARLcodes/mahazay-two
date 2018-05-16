@@ -4,6 +4,7 @@ import SingleEntrySidebar from './SingleEntrySidebar.jsx';
 import InsightComponent from './insights/Insights.jsx'
 import { withAuth } from 'fireview';
 import Button from "material-ui/Button";
+import { withTheme } from 'material-ui/styles';
 
 import { getRootRef } from '../utils/componentUtils';
 import { styles } from '../utils/singleEntryUtils';
@@ -26,8 +27,8 @@ class SingleEntry extends Component {
     return (
       <div>
         <div style={styles.entry}>
-          <SingleEntrySidebar item xs={4} history={this.props.history} entry={getRootRef('entries', this.props.match.params.entryId)} style={styles.sidebar}/>
-          <EditorComponent item xs={8} history={this.props.history} entry={getRootRef('entries', this.props.match.params.entryId)}/>
+          <SingleEntrySidebar item xs={4} history={this.props.history} match={this.props.match} entry={getRootRef('entries', this.props.match.params.entryId)} style={styles.sidebar}/>
+          <EditorComponent item xs={8} history={this.props.history} match={this.props.match} entry={getRootRef('entries', this.props.match.params.entryId)}/>
         </div>
 
         <div style={{ gridColumnEnd: 'span 12' }}>
@@ -39,4 +40,4 @@ class SingleEntry extends Component {
   }
 }
 
-export default withAuth(SingleEntry);
+export default withTheme()(withAuth(SingleEntry));

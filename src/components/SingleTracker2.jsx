@@ -6,12 +6,12 @@ import Checkbox from 'material-ui/Checkbox';
 import Card, { CardContent } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 import { convertFromRaw } from 'draft-js';
-import { confirmAlert } from 'react-confirm-alert';
+import { withTheme } from 'material-ui/styles';
 
 import { Map, withAuth } from 'fireview';
 import { db } from '../utils/firebase.config';
 
-const styles = {
+const styles = theme => ({
   grid: {
 		maxWidth: 200,
     border: "1px dotted #454545",
@@ -21,8 +21,7 @@ const styles = {
     flexDirection: "column",
     position: "sticky",
     borderRadius: "0.5em",
-    border: "0em 1em 1em 2em",
-    minHeight: '400px'
+    border: "0em 1em 1em 2em"
   },
   habit: {
     display: 'flex',
@@ -32,7 +31,7 @@ const styles = {
     justify: 'flexStart',
     paddingTop: '1em'
   }
-};
+});
 
 class SingleTracker2 extends Component {
   constructor() {
@@ -95,21 +94,14 @@ class SingleTracker2 extends Component {
             let datesCompleted = [];
             habit.data().datesCompleted.forEach(date => datesCompleted.push(date));
             let updatedDatesCompleted = datesCompleted.filter(date => date - entryDate !== 0);
-            if (e.target.name === habit.data().name) habit.ref.update({ datesCompleted: updatedDatesCompleted }).then(() => {
-              this.props.entry.get().then(entry=> {
-                if (this.props.history) this.props.history.push(`/journals/${entry.data().journalId}/entries/${entry.id}`);
-            })
-            })
+            if (e.target.name === habit.data().name) habit.ref.update({ datesCompleted: updatedDatesCompleted })
           }
           //if datesCompleted does not include entryDate, then add it
           else {
             console.log('habit data', habit.data())
-            if (e.target.name === habit.data().name) habit.ref.update({ datesCompleted: [...habit.data().datesCompleted, entryDate] }).then(() => {
-              this.props.entry.get().then(entry => {
-                if (this.props.history) this.props.history.push(`/journals/${entry.data().journalId}/entries/${entry.id}`);
-              })
-            })
-        }}
+            if (e.target.name === habit.data().name) habit.ref.update({ datesCompleted: [...habit.data().datesCompleted, entryDate] })
+          }
+        }
       })
     }
   }
@@ -143,7 +135,7 @@ class SingleTracker2 extends Component {
 
     return (
       <Grid style={styles.grid}>
-      <Typography variant="heading" component="h2">Your Habits</Typography>
+      <Typography variant="subheading" component="h2">Your Habits</Typography>
           <Map from={AllHabits}
           Render={Habit}
           />
@@ -152,4 +144,4 @@ class SingleTracker2 extends Component {
   }
 }
 
-export default SingleTracker2;
+export default withTheme()(SingleTracker2);

@@ -1,32 +1,13 @@
 import React, { Component } from 'react';
 import TextField from 'material-ui/TextField';
-// import { InputAdornment } from 'material-ui/Input';
+import Subheader from 'material-ui/List/ListSubheader';
 import Button from "material-ui/Button";
 import { getRootRef } from '../utils/componentUtils';
+import Add from '@material-ui/icons/Add';
+import { withTheme } from 'material-ui/styles';
 
 
-const styles = {
-  addJournalForm: {
-    display: "flex",
-    flexDirection: "column", 
-    alignItems: "center"
-  },
-  textField: {
-    color: '#FAFAFA',
-    width: "20%", 
-    
-  },
-  addJournalButton: {
-    color: "#A1887F",
-    width: "20%",
-    marginTop: "1em",
-    borderRadius: "0.5em", 
-    textDecoration: "none"
-
-  }
-}
-
-export default class NewJournalForm extends Component {
+export class NewJournalForm extends Component {
   constructor(){
     super();
     this.state = {
@@ -69,12 +50,13 @@ export default class NewJournalForm extends Component {
   render() {
 
     return (
-      <div >
-        <form style={styles.addJournalForm}>
+      <div>
+        <Subheader component="div" variant="display1" style={{ fontSize: "2.5em", fontVariant: 'small-caps', color: 'grey' }}>New Journal</Subheader>
+        <form style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: "5%"}}>
           <TextField
             id="search"
             type="search"
-            style={styles.textField}
+            style={{ color: '#FAFAFA', width: "20%",}}
             label="Title"
             onChange={this.onChange}
             name="title"
@@ -84,14 +66,16 @@ export default class NewJournalForm extends Component {
             label="Description"
             multiline
             rowsMax="4"
-            style={styles.textField}
+            style={{ color: '#FAFAFA', width: "20%" }}
             onChange={this.onChange}
             name="description"
             onKeyPress={this.addJournal.bind(this)}
           />
-          <Button style={styles.addJournalButton} onClick={this.addJournal.bind(this)}>New Journal</Button>
+          <Button style={{ color: "#A1887F", width: "20%", marginTop: "1em", borderRadius: "0.5em", textDecoration: "none"}} onClick={this.addJournal.bind(this)}><Add style={{ color: "grey", width: 15, height: "auto"}}/></Button>
         </form>
       </div>
     )
   }
 }
+
+export default withTheme()(NewJournalForm);
