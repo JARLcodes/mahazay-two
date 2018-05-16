@@ -41,8 +41,6 @@ class SingleTracker extends Component {
     this.props.entry.get().then(entryItem => this.setState({entry: entryItem}));
   }
 
-
-
   componentDidUpdate() {
     db.collection('habits').get()
     .then(querySnapshot => querySnapshot.forEach(habit => {

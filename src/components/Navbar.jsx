@@ -24,12 +24,9 @@ const styles = {
     flexGrow: 1
   },
   toolbar: {
-      background: "white", 
-      display: 'flex'
-  },
-  backButton: {
-      color: "#424242", 
-     padding: "2em 1em"
+      background: "#FAFAFA", 
+      display: 'flex',
+      padding: ".5em .5em"
   },
   journalButton: {
     color: "#A1887F", 
@@ -84,7 +81,7 @@ class Navbar extends Component {
             <Link to="/" style={{textDecoration:"none"}}>
               <img src="https://i.pinimg.com/564x/d6/3b/f1/d63bf1221116ebb6102c77e7e9a74808.jpg" style={styles.image}/>
             </Link>
-            <Link to="/" style={{textDecoration:"none", padding: ".5em .5em"}}>
+            <Link to="/" style={{textDecoration:"none"}}>
               <Typography variant="display1">MA•HĀ•ZAY</Typography>
             </Link>
             <Button href="/journals" color="inherit" style={styles.journalButton} disabled={disabled}>

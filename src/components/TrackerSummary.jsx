@@ -10,7 +10,6 @@ import Table, {
 import Grid from 'material-ui/Grid';
 import Checkbox from 'material-ui/Checkbox';
 
-
 import { Map, withAuth } from 'fireview';
 import { db } from '../utils/firebase.config';
 import { Habit, generateWeek } from '../utils/trackerSummaryUtils';
@@ -94,7 +93,6 @@ class TrackerSummary extends Component {
     const user = this.props._user;
     const userId = user && user.uid ? user.uid : null;
     const { week } = this.state;
-
 
     return (
       <Grid container style={{marginLeft: "5%", paddingRight: "15%", marginBottom: "5%", display: 'flex', flexDirection: "column"}}>
