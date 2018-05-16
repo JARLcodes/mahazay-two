@@ -16,6 +16,7 @@ import Face from '@material-ui/icons/Face';
 import Star from '@material-ui/icons/Star';
 import ChatBubble from '@material-ui/icons/ChatBubble';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import PersonalitySunburstChart from 'personality-sunburst-chart/lib/charts/v3-d3v4';
 
 
 const PersonalityTextSummaries = require('personality-text-summary');
@@ -35,6 +36,7 @@ export class Insights extends Component {
             summary: "",
             expanded: null
         }
+        this.myRef = React.createRef();
     }
 
     handleChange = panel => (event, expanded) => {
@@ -50,6 +52,14 @@ export class Insights extends Component {
 
                 // retrieve the summary for a specified personality profile (json)
                 const textSummary  = v3EnglishTextSummaries.getSummary(snap.data());
+
+                //sunburst data visualization
+                const element = this.myRef.current;
+                const chart = new PersonalitySunburstChart({
+                  'element': element,
+                  'version': 'v3'
+                });
+                const sunburst = chart.show(snap.data());
 
                 //helper functions
                 const filter = (obj, num) => obj.score === num;
@@ -92,7 +102,6 @@ export class Insights extends Component {
                 valuesArr.forEach(value => {
                     finalValuesArr.push({name: value.name, percentile: percent(value.percentile)})
                 })
-                // console.log("finalValuesArr", finalValuesArr)
 
                 this.setState({personalityLikes: likely, personalityUnlikes: unlikely, personality: finalPersonalityArr, needs: finalNeedsArr, values: finalValuesArr, summary: textSummary})
                     
@@ -113,8 +122,6 @@ export class Insights extends Component {
             expanded
         } = this.state;
 
-        // console.log("state", this.state.personality)
-
         return (
             <div style={styles.root}>
                 <div style={styles.title}>My Insights</div>
@@ -127,7 +134,9 @@ export class Insights extends Component {
                             </Paper>
                         </Grid>
                         <Grid item xs={8} sm={4}>
-                            <Paper style={styles.paper}>Sunburst Data Visual</Paper>
+                            <Paper style={styles.paper}>
+                                <div ref={this.myRef} />
+                            </Paper>
                         </Grid>
                         <Grid item xs={8} sm={4}>
                             <Paper style={styles.paper}>Habits</Paper>
@@ -253,26 +262,3 @@ const styles = {
   };
   
   export default withAuth(Insights);
-
-/*
-  <Grid item xs={6} sm={3}>
-  <Paper style={styles.paper}>
-
-  </Paper>
-</Grid>
-<Grid item xs={8} sm={4}>
-  <Paper style={styles.paper}>
-
-  </Paper>
-</Grid>
-<Grid item xs={8} sm={4}>
-  <Paper style={styles.paper}>
-
-  </Paper>
-</Grid>
-<Grid item xs={8} sm={4}>
-  <Paper style={styles.paper}>
-
-  </Paper>
-</Grid>
-*/
