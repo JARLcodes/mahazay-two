@@ -24,16 +24,12 @@ const styles = {
     flexGrow: 1
   },
   toolbar: {
-<<<<<<< HEAD
       background: "white", 
       display: 'flex'
   },
   backButton: {
       color: "#424242", 
      padding: "2em 1em"
-=======
-    background: "white"
->>>>>>> master
   },
   journalButton: {
     color: "#A1887F", 
@@ -63,14 +59,10 @@ const styles = {
   image: {
     height: 75,
     width: "auto",
-<<<<<<< HEAD
     paddingRight: "3em"
   }, 
   search: {
     justify: 'flexEnd'
-=======
-    paddingRight: "1em"
->>>>>>> master
   }
 };
 

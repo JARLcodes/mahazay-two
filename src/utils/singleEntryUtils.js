@@ -52,7 +52,7 @@ export const styles = {
     cursor: "text",
     paddingRight: "2vh",
     marginBottom: "2em",
-    borderRadius: '1em', 
+    borderRadius: '0.5em', 
   }, 
   entry: {
     display: "flex"
@@ -63,7 +63,7 @@ export const styles = {
     zIndex: "1"
   }, 
   allButtons: {
-    borderRadius: "1em"
+    borderRadius: "0.5em"
   }
 }
 
