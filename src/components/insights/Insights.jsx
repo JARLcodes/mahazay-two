@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { withAuth } from 'fireview';
 import { getRootRef, getIds } from '../../utils/componentUtils';
-import {db} from '../../utils/firebase.config'
+import {db} from '../../utils/firebase.config';
+import PersonalitySunburstChart from 'personality-sunburst-chart/lib/charts/v3-d3v4';
+
+import ToneInsights from './ToneInsights'
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
@@ -16,15 +19,10 @@ import Face from '@material-ui/icons/Face';
 import Star from '@material-ui/icons/Star';
 import ChatBubble from '@material-ui/icons/ChatBubble';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import PersonalitySunburstChart from 'personality-sunburst-chart/lib/charts/v3-d3v4';
-
 
 const PersonalityTextSummaries = require('personality-text-summary');
-
 // locale is one of {'en', 'es', 'ja', 'ko'}.  version refers to which version of Watson Personality Insights to use, v2 or v3.
 const v3EnglishTextSummaries = new PersonalityTextSummaries({ locale: 'en', version: 'v3' });
-
-import ToneInsights from './ToneInsights'
 
 export class Insights extends Component {
     constructor () {
