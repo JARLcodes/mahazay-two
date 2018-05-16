@@ -56,14 +56,15 @@ class SingleEntrySidebar extends Component {
   render() {
     return (
       <div>
+      { this.props._user && <SingleTracker2 entry={this.props.entry} user={this.props._user}/> }
       <div style={styles.singleEntrySidebar}>
 
         <Button variant="raised" style={styles.delete} onClick={this.deleteEntry.bind(this, this.props.entry)}>Delete Entry</Button>
 
       </div>
-      <div>
-      { this.props._user && <SingleTracker2 entry={this.props.entry} user={this.props._user}/> }
-      </div>
+     
+      
+     
       </div>
     )
   }
