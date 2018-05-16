@@ -11,8 +11,8 @@ import { getRootRef } from '../utils/componentUtils';
 
 const styles = {
   card: {
-    width: 275,
-    height: 210
+    width: 300,
+    height: 400
   },
   title: {
     marginBottom: 16,
@@ -51,7 +51,7 @@ export class AllEntries extends Component {
     const users = []
     getRootRef('users').get().then(querySnap => {
       querySnap.forEach(doc => {
-        users.push({userId: doc.id, data: doc.data()})
+        users.push({userId: doc.id, data: doc.data()});
       })
     })
     return (

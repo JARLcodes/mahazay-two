@@ -6,7 +6,8 @@ import Button from 'material-ui/Button';
 import { Link } from 'react-router-dom';
 import { withAuth } from 'fireview';
 import Add from '@material-ui/icons/Add';
-import image from '../images/notebook.jpg';
+import image from '../images/whiteBook.jpg';
+import Typography from 'material-ui/Typography';
 
 import { getRootRef } from '../utils/componentUtils';
 import  NewJournalForm  from './NewJournalForm.jsx';
@@ -16,22 +17,27 @@ const styles = {
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    alignContent: "flex-start"
   },
   gridList: {
-    width: 500,
     height: "auto",
-    spacing: 2
+    spacing: "1em"
   },
   subheader: {
-    fontSize: "3em",
+    fontSize: "2.5em",
     fontVariant: 'small-caps',
     color: 'grey'
   },
   image: {
     width: "50vh",
-    height: "auto",
-  }
+    height: "auto"
+  },
+  addIcon: {
+    color: "grey", 
+    width: 30,
+    height: "auto"
+  },
 };
 
 export class AllJournals extends Component {
@@ -65,21 +71,22 @@ export class AllJournals extends Component {
     const journalIds = this.state.allJournalIds;
 
     return (
-      <div className={styles.root}>
-        <GridList cellHeight="auto" className={styles.gridList} cols={2}>
-        <GridListTile key="Subheader" cols={2}>
+      <div style={styles.root}>
+        <GridList cellHeight="auto" style={styles.gridList} cols={3}>
+        <GridListTile key="Subheader" cols={3}>
           <Subheader component="div" style={styles.subheader}>Journals</Subheader>
-            {this.props && this.props._user ? <Button onClick={this.newJournal.bind(this)}><Add/></Button> : null}
+            {this.props && this.props._user ? <Button onClick={this.newJournal.bind(this)}><Add style={styles.addIcon}/></Button> : null}
           </GridListTile>
           {
             journals.map((journal, ind) => (
             <GridListTile key={journalIds[ind]}>
               <Link to={`/journals/${journalIds[ind]}`}>
-                <img src={image} style={styles.image} alt=""/>
-                <GridListTileBar
-                  title={journal.title}
-                  subtitle={<span>{journal.description}</span>}
+              <GridListTileBar
+                  title={<Typography style={{textTransform: "capitalize", color: "#BDBDBD"}}variant="title">{journal.title}</Typography>}
+                  subtitle={<Typography variant="subheading" style={{color: "#9E9E9E"}}>{journal.description}</Typography>}
+                  titlePosition="top"
                 />
+                <img src={image} style={styles.image} alt=""/>
                 </Link>
                 </GridListTile>
             ))
