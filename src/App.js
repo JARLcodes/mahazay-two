@@ -18,7 +18,21 @@ import {
   TrackerSummary
 } from './components/index.js';
 
-const theme = createMuiTheme();
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#9e9e9e'
+    },
+    secondary: {
+      main: '#ffc107'
+    },
+    text: {
+      primary: '#212121',
+      secondary: '#757575',
+    },
+    divider: '#bdbdbd',
+  }
+});
 const styles = {
   nav: {
     paddingBottom: "1em"
