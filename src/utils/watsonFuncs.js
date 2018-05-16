@@ -50,5 +50,5 @@ export const analyzeTone = function (token, text, entryId,journalId, userId) {
 // };
 
 export const analyzePersonality = (entryId, userId) => {
-  return fetch(`/api/entries/${entryId}/personalityInsights`).then(response => response)
+  if(entryId) return fetch(`/api/entries/${entryId}/personalityInsights`).then(response => response)
 };

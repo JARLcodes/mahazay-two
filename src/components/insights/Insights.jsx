@@ -105,8 +105,7 @@ export class Insights extends Component {
 
                 this.setState({personalityLikes: likely, personalityUnlikes: unlikely, personality: finalPersonalityArr, needs: finalNeedsArr, values: finalValuesArr, summary: textSummary})
                     
-        })
-        console.log("I rerendered")
+            })
         }
     }
 
