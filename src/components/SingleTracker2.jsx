@@ -13,13 +13,27 @@ const styles = {
   grid: {
 		maxWidth: 200,
 		padding: "2vh 2vh",
-    margin: "2vh 2vh",
+    marginLeft: "2vh", 
+    marginRight: "2vh",
+    marginBottom: "2vh",
     border: "dashed",
     borderWidth: ".1vh",
+    borderRadius: '1em',
     borderColor: "grey", 
     display: "flex",
     flexDirection: "column",
     position: "sticky"
+  }, 
+  title: {
+    justify: 'flexStart', 
+  }, 
+  habit: {
+    display: 'flex', 
+    paddingTop: '1vh'
+    
+  }, 
+  habitName: {
+    paddingTop: '2vh'
   }
 };
 
@@ -104,13 +118,13 @@ class SingleTracker2 extends Component {
       let entryDate = Object.values(this.state.entry).length ? this.state.entry.data().dateCreated : '';
       let isChecked = entryDate === dateCompleted ? completed : false;
       
-      return <div> 
-        {name}
+      return <div style={styles.habit}> 
         <Checkbox
           onClick={this.handleCheck.bind(this)}
           name={name}
           checked={isChecked}
         />
+        <Typography style={styles.habitName}>{name}</Typography>
         </div>;
       } else {
         return <div></div>
@@ -119,7 +133,7 @@ class SingleTracker2 extends Component {
 
     return (
       <Grid style={styles.grid}>
-      <Typography variant="subheading" component="h2">Tracker</Typography>
+      <Typography variant="subheading" component="h2" style={styles.title}>Your Habits</Typography>
           <Map from={AllHabits}
           Render={Habit}
           />
