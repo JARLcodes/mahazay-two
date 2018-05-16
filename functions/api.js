@@ -65,6 +65,7 @@ const clean = obj => JSON.parse(JSON.stringify(obj))
 const tap = msg => data => (console.log(msg, data), data)
 
 app.get('/api/entries/:entryId/personalityInsights', (req, res, next) => {
+
   const text = db.collection('entries')
     .doc(req.params.entryId)
     .get()
