@@ -6,7 +6,6 @@ import { getRootRef } from '../utils/componentUtils';
 import Add from '@material-ui/icons/Add';
 import { withTheme } from 'material-ui/styles';
 
-
 export class NewJournalForm extends Component {
   constructor(){
     super();
@@ -42,9 +41,7 @@ export class NewJournalForm extends Component {
       ? this.props.history.push(`/journals/${titleExists[0].id}`) 
       : getRootRef('journals').add(data)
           .then(journal => this.props.history.push(`/journals/${journal.id}`))
-    }
-    
-    
+    }  
   }
 
   render() {

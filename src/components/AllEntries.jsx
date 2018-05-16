@@ -82,7 +82,7 @@ export class AllEntries extends Component {
               </Grid>
               );
             })
-          : <div style={styles.subheaderWrapper}><Subheader component="div" style={styles.subheader}>No entries made</Subheader><Button onClick={this.goToJournals.bind(this)}>go to journals</Button></div> 
+          : <div style={{ marginLeft: "38%" }}><Subheader component="div" style={{ fontSize: "2.5em", fontVariant: 'small-caps', color: 'grey' }}>No entries made</Subheader><Button onClick={this.goToJournals.bind(this)}>go to journals</Button></div> 
           
         }
         </Grid>

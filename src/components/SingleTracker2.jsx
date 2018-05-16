@@ -40,8 +40,6 @@ class SingleTracker2 extends Component {
       habits: [],
       entry: {}
     };
-
-
   }
 
   componentDidMount() {
@@ -76,9 +74,7 @@ class SingleTracker2 extends Component {
             habit.ref.update({ datesCompleted: [...habit.data().datesCompleted, entryDate]});
           }
         }
-
       })
-
     }
   }
 
@@ -106,8 +102,6 @@ class SingleTracker2 extends Component {
     }
   }
 
-
-
   render() {
     if (Object.values(this.state.entry).length) console.log('entry date', this.state.entry.data().dateCreated);
     const AllHabits = db.collection('habits').where('userId', '==', this.props.user.uid);
@@ -119,14 +113,14 @@ class SingleTracker2 extends Component {
       let entryDate = Object.values(this.state.entry).length ? this.state.entry.data().dateCreated : '';
       let isChecked = datesCompletedArr.includes(entryDate);
       console.log('is checked', isChecked);
-      return <div style={styles.habit}>
+      return <div style={{display: 'flex', borderLeft: "2em"}}>
 
         <Checkbox
           onClick={this.handleCheck.bind(this)}
           name={name}
           checked={isChecked}
         />
-        <Typography style={styles.habitName}>{name}</Typography>
+        <Typography style={{justify: 'flexStart', paddingTop: '1em'}}>{name}</Typography>
         </div>;
       } else {
         return <div></div>
@@ -134,7 +128,7 @@ class SingleTracker2 extends Component {
     };
 
     return (
-      <Grid style={styles.grid}>
+      <Grid style={{justify: 'flexStart', paddingTop: '1em'}}>
       <Typography variant="subheading" component="h2">Your Habits</Typography>
           <Map from={AllHabits}
           Render={Habit}

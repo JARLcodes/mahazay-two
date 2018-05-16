@@ -20,13 +20,6 @@ import { withAuth } from 'fireview';
 import { auth } from '../utils/firebase.config';
 import Searchbar from './Searchbar.jsx';
 
-const styles = theme => ({
-  root: {
-    flexGrow: 1
-  },
-  
-});
-
 class Navbar extends Component {
   render() {
     const user = this.props._user;
@@ -41,22 +34,22 @@ class Navbar extends Component {
         largeMenuClassName="large-menu-classname"
         smallMenuClassName="small-menu-classname"
         menu={
-          <Toolbar style={{background: "#FAFAFA", display: 'flex', padding: ".5em .5em"}}>
+          <Toolbar style={{ background: "#FAFAFA", display: 'flex', padding: ".3em .3em"}}>
             <Link to="/" style={{textDecoration:"none"}}>
-              <img src="https://i.pinimg.com/564x/d6/3b/f1/d63bf1221116ebb6102c77e7e9a74808.jpg" style={{height: 75, width: 75, paddingRight: "1em"}}/>
+              <img src="https://i.pinimg.com/564x/d6/3b/f1/d63bf1221116ebb6102c77e7e9a74808.jpg" style={{ height: 75, width: 75, paddingRight: "1em" }}/>
             </Link>
             <Link to="/" style={{textDecoration:"none"}}>
               <Typography variant="display1">MA•HĀ•ZAY</Typography>
             </Link>
-            <Button href="/journals" color="inherit" style={{color: "#A1887F"}} disabled={disabled}>
+            <Button href="/journals" color="inherit" style={{color: "#A1887F", padding: "1em 1em"}} disabled={disabled}>
               <ImportContacts />
               Journals
             </Button>
-            <Button href="/entries" color="inherit" style={{color: "#82B1FF"}} disabled={disabled}> 
+            <Button href="/entries" color="inherit" style={{color: "#82B1FF", padding: "1em 1em"}} disabled={disabled}> 
               <LibraryBooks />
               Entries
             </Button>
-            <Button href="/tracker" color="inherit" style={{color: "#EF9A9A", marginRight: "30%"}} disabled={disabled}>
+            <Button href="/tracker" color="inherit" style={{color: "#EF9A9A", padding: "1em 1em", marginRight: "20%"}} disabled={disabled}>
               <CheckBox />
               Tracker
             </Button>
