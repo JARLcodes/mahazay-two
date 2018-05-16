@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withAuth } from 'fireview';
 import { EditorState, RichUtils, convertFromRaw, convertToRaw, ContentState } from "draft-js";
 import {VictoryChart, VictoryArea, VictoryTheme, VictoryPolarAxis} from 'victory'
+import { withTheme } from 'material-ui/styles';
 
 import { getRootRef, getIds } from '../../utils/componentUtils';
 import {db} from '../../utils/firebase.config'
@@ -100,5 +101,5 @@ export class ToneInsights extends Component {
     }
 }
 
-export default withAuth(ToneInsights);
+export default withTheme()(withAuth(ToneInsights));
 
