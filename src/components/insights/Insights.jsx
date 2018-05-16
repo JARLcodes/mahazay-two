@@ -52,7 +52,7 @@ export class Insights extends Component {
             .then(snap => {
 
                 // retrieve the summary for a specified personality profile (json)
-                const textSummary  = v3EnglishTextSummaries.getSummary(snap.data());
+                const textSummary  = snap.data() ? v3EnglishTextSummaries.getSummary(snap.data()) : '';
 
                 //sunburst data visualization
                 const element = this.myRef.current;
@@ -127,31 +127,42 @@ export class Insights extends Component {
                 <div style={{
                     fontSize: 40,
                     padding: '3vh',
-                    color: '#795548'
+                    backgroundColor: '#616161',
+                    color: '#fff'
                 }}>My Insights</div>
-                <div>
-                    <Grid container spacing={8} style={styles.grid}>
-                        <Grid item xs={8} sm={4}>
-                            <Paper style={styles.paper}>
-                                <Typography variant="title" gutterBottom align="center">Summary</Typography>
-                                <Typography variant="subheading" align="justify">{summary}</Typography>
+                <div style={{backgroundColor: '#9e9e9e'}}>
+                    <Grid container spacing={8} zeroMinWidth style={{
+                        justifyContent: 'space-around',
+                        alignItems: 'flex-start',
+                        alignContent: 'center',
+                    }}>
+                        <Grid item xs={24} sm={12} zeroMinWidth>
+                            <Paper style={{
+                                padding: '5vh',
+                                textAlign: 'center',
+                            }}>
+                                <Typography variant="title" gutterBottom align="center" style={{color: '#757575'}}>Summary</Typography>
+                                <Typography variant="subheading" align="center">{summary}</Typography>
                             </Paper>
                         </Grid>
-                        <Grid item xs={8} sm={4}>
-                            <Paper style={styles.paper}>
+                        <Grid item xs={12} sm={6} zeroMinWidth>
+                            <Paper style={{
+                                padding: '5vh',
+                                textAlign: 'center',
+                            }}>
                                 <div ref={this.myRef} />
                             </Paper>
                         </Grid>
-                        <Grid item xs={8} sm={4}>
-                            <Paper style={styles.paper}>Habits</Paper>
-                        </Grid>
-                        <Grid item xs={8} sm={4}>
-                            <Paper style={styles.paper}><ToneInsights  entryId = {this.props.entryId}/> </Paper>
+                        <Grid item xs={12} sm={6} zeroMinWidth>
+                            <Paper style={{
+                                padding: '5vh',
+                                textAlign: 'center',
+                            }}><ToneInsights entryId = {this.props.entryId}/> </Paper>
                         </Grid>
                     </Grid>
                 </div>
                 <div>
-                    <ExpansionPanel expanded={expanded === 'panel1'} onChange={this.handleChange('panel1')}>
+                    <ExpansionPanel expanded={expanded === 'panel1'} onChange={this.handleChange('panel1')} style={{backgroundColor: '#ffc107'}}>
                         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                             <Typography variant="title" gutterBottom align="center">You are likely to...</Typography>
                         </ExpansionPanelSummary>
@@ -168,7 +179,7 @@ export class Insights extends Component {
                             </List>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
-                    <ExpansionPanel expanded={expanded === 'panel2'} onChange={this.handleChange('panel2')}>
+                    <ExpansionPanel expanded={expanded === 'panel2'} onChange={this.handleChange('panel2')} style={{backgroundColor: '#ffb300'}}>
                         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                             <Typography variant="title" gutterBottom align="center">You are unlikely to...</Typography>
                         </ExpansionPanelSummary>
@@ -185,7 +196,7 @@ export class Insights extends Component {
                             </List>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
-                    <ExpansionPanel expanded={expanded === 'panel3'} onChange={this.handleChange('panel3')}>
+                    <ExpansionPanel expanded={expanded === 'panel3'} onChange={this.handleChange('panel3')} style={{backgroundColor: '#ffa000'}}>
                         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                             <Typography variant="title" gutterBottom align="center">My Personality</Typography>
                         </ExpansionPanelSummary>
@@ -202,7 +213,7 @@ export class Insights extends Component {
                             </List>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
-                    <ExpansionPanel expanded={expanded === 'panel4'} onChange={this.handleChange('panel4')}>
+                    <ExpansionPanel expanded={expanded === 'panel4'} onChange={this.handleChange('panel4')} style={{backgroundColor: '#ff8f00'}}>
                         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                             <Typography variant="title" gutterBottom align="center">My Needs</Typography>
                         </ExpansionPanelSummary>
@@ -219,7 +230,7 @@ export class Insights extends Component {
                             </List>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
-                    <ExpansionPanel expanded={expanded === 'panel5'} onChange={this.handleChange('panel5')}>
+                    <ExpansionPanel expanded={expanded === 'panel5'} onChange={this.handleChange('panel5')} style={{backgroundColor: '#ff6f00'}}>
                         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                             <Typography variant="title" gutterBottom align="center">My Values</Typography>
                         </ExpansionPanelSummary>
@@ -245,15 +256,13 @@ export class Insights extends Component {
 const styles = theme => ({
     root: {
         flexGrow: 1,
-    },
-    paper: {
-        padding: '5vh',
-        textAlign: 'center',
+        bakgroundColor: '#9e9e9e'
     },
     grid: {
         justifyContent: 'space-around',
         alignItems: 'flex-start',
-        alignContent: 'center'
+        alignContent: 'center',
+        backgroundColor: theme.palette.primary.main
     },
     list: {
         alignItems: 'right'

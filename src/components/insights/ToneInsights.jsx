@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withAuth } from 'fireview';
 import { EditorState, RichUtils, convertFromRaw, convertToRaw, ContentState } from "draft-js";
 import {VictoryChart, VictoryArea, VictoryTheme, VictoryPolarAxis} from 'victory'
+import { withTheme } from 'material-ui/styles';
 
 import { getRootRef, getIds } from '../../utils/componentUtils';
 import {db} from '../../utils/firebase.config'
@@ -35,7 +36,7 @@ export class ToneInsights extends Component {
                     helperArr.push(snap.data())
                 })
                 //&& (Math.abs(helperArr[0].text.length - text.length) <= 10) )
-                if(helperArr[0] && (Math.abs(helperArr[0].text.length - text.length) <= 10)) {
+                if(helperArr[0]) {
                     console.log("helper[0]:", helperArr[0], "Text:", text)
                     this.setState({...this.state,insight:helperArr[0]})
                 }
@@ -100,5 +101,5 @@ export class ToneInsights extends Component {
     }
 }
 
-export default withAuth(ToneInsights);
+export default withTheme()(withAuth(ToneInsights));
 

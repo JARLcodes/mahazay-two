@@ -105,9 +105,9 @@ export const mediaBlockRenderer = function(block) {
 const AudioPlayer = (props) => ( <audio src={props.src} preload="auto" controls/> );
 
 
-export const Image = (props) => ( <img src={props.src}  style={styles.media} alt="image cannot be displayed"/> );
+export const Image = (props) => ( <img src={props.src}  style={{width: "20%", height: "auto", zIndex: "1"}} alt="image cannot be displayed"/> );
 
-const Video = (props) => ( <ReactPlayer url={props.src} style={styles.media} controls /> );
+const Video = (props) => ( <ReactPlayer url={props.src} style={{width: "20%", height: "auto", zIndex: "1"}} controls /> );
 
 
 const Media = ({
