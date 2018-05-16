@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 import Button from 'material-ui/Button';
 import Grid from 'material-ui/Grid';
@@ -12,28 +13,22 @@ import { db } from '../utils/firebase.config';
 const styles = {
   grid: {
 		maxWidth: 200,
-		padding: "2vh 2vh",
-    marginLeft: "2vh", 
-    marginRight: "2vh",
-    marginBottom: "2vh",
-    border: "dashed",
+    border: "1px dotted #454545",
     borderWidth: ".1vh",
-    borderRadius: '1em',
     borderColor: "grey", 
     display: "flex",
     flexDirection: "column",
-    position: "sticky"
-  }, 
-  title: {
-    justify: 'flexStart', 
+    position: "sticky", 
+    borderRadius: "0.5em", 
+    border: "0em 1em 1em 2em"
   }, 
   habit: {
     display: 'flex', 
-    paddingTop: '1vh'
-    
+    borderLeft: "2em"
   }, 
   habitName: {
-    paddingTop: '2vh'
+    justify: 'flexStart', 
+    paddingTop: '1em'
   }
 };
 
@@ -44,7 +39,7 @@ class SingleTracker2 extends Component {
       habits: [],
       entry: {}
     };
-    // this.habitDone = this.habitDone.bind(this);
+    
    
   }
 
@@ -52,24 +47,35 @@ class SingleTracker2 extends Component {
     this.props.entry.get().then(entryItem => this.setState({entry: entryItem}));
     db.collection('habits').where('userId', '==', this.props.user.uid).get()
       .then(querySnapshot => {
-        querySnapshot.forEach(habit => { 
-          console.log('habit being added to state', habit);
-          this.setState({ habits: [...this.state.habits, habit] })
-      })
+        querySnapshot.forEach(habit => this.setState({ habits: [...this.state.habits, habit] }))
     })
   }
 
+
   componentDidUpdate(){
     const { habits } = this.state;
-    if (habits.length){
+    if (habits.length && this.state.entry.data().content){
       habits.forEach(habit => {
         const entryContent = convertFromRaw(this.state.entry.data().content).getPlainText().toLowerCase();
         const habitWordArray = habit.data().name.split(' ');
-        //according to previous line, completed will be undefined if entryContent does not include one of the habit words. if this is the case, completed needs to be a boolean - false.
-        const completed = !!habitWordArray.filter(word => entryContent.includes(word)).length;
-        const entryDate = new Date(this.state.entry.data().dateCreated);
-        console.log('entry date', new Date(entryDate).toString());
-        habit.ref.update({ datesCompleted: [...habit.data().datesCompleted, entryDate] });
+        const completed = !!habitWordArray.filter(word => entryContent.includes(word.toLowerCase())).length;
+        const entryDate = completed ? this.state.entry.data().dateCreated : '';
+        //to toggle: if datesCompleted includes entryDate and completed is false, then remove it
+        if (!completed && entryDate) {
+          let datesCompletedArr = [];
+          console.log('habit data in component did update completed false', habit.data())
+          habit.data().datesCompleted.forEach(date => datesCompletedArr.push(date));
+          // let updatedDatesCompleted = [];
+          let updatedDatesCompleted = datesCompletedArr.filter(date => date - entryDate !== 0);
+          habit.ref.update({ datesCompleted: updatedDatesCompleted })
+        }
+        //if datesCompleted does not include entryDate and completed is true, then add it
+        else {
+          if (entryDate){
+            habit.ref.update({ datesCompleted: [...habit.data().datesCompleted, entryDate]});
+          }
+        }
+       
       })
    
     }
@@ -80,11 +86,21 @@ class SingleTracker2 extends Component {
     const { habits } = this.state;
     if (habits.length){
       habits.forEach(habit => {
-        const datesCompleted = habit.data().datesCompleted;
-        const entryDate = new Date(this.state.entry.data().dateCreated);
-        if (datesCompleted.includes(entryDate)) datesCompleted.filter(date => date !== entryDate);
-        else if (!datesCompleted.includes(entryDate)) datesCompleted.push(entryDate);
-        if (e.target.name === habit.data().name) habit.ref.update({ datesCompleted: datesCompleted });
+        if (Object.values(this.state.entry.data()).length) {
+          let entryDate = this.state.entry.data().dateCreated;
+          //to toggle: if datesCompleted includes entryDate, then take it out
+          if (habit.data().datesCompleted.includes(entryDate)){
+            let datesCompleted = [];
+            habit.data().datesCompleted.forEach(date => datesCompleted.push(date));
+            let updatedDatesCompleted = datesCompleted.filter(date => date - entryDate !== 0);
+            if (e.target.name === habit.data().name) habit.ref.update({ datesCompleted: updatedDatesCompleted })
+          }
+          //if datesCompleted does not include entryDate, then add it
+          else {
+            console.log('habit data', habit.data())
+            if (e.target.name === habit.data().name) habit.ref.update({ datesCompleted: [...habit.data().datesCompleted, entryDate] })
+          }
+        }
       })
     }
   }
@@ -92,16 +108,18 @@ class SingleTracker2 extends Component {
  
 
   render() {
-    
+    if (Object.values(this.state.entry).length) console.log('entry date', this.state.entry.data().dateCreated);
     const AllHabits = db.collection('habits').where('userId', '==', this.props.user.uid);
     const Habit = props => {
       if (Object.keys(props).length) {
       const { name, datesCompleted } = props;
-      let entryDate = Object.values(this.state.entry).length ? new Date(this.state.entry.data().dateCreated) : '';
-      console.log('dates completed', datesCompleted, 'entry date', entryDate);
-      let isChecked = datesCompleted.includes(entryDate) ? true : false;
-      
+      const datesCompletedArr = [];
+      datesCompleted.forEach(date => datesCompletedArr.push(date));
+      let entryDate = Object.values(this.state.entry).length ? this.state.entry.data().dateCreated : '';
+      let isChecked = datesCompletedArr.includes(entryDate);
+      console.log('is checked', isChecked);
       return <div style={styles.habit}> 
+        
         <Checkbox
           onClick={this.handleCheck.bind(this)}
           name={name}
@@ -116,7 +134,7 @@ class SingleTracker2 extends Component {
 
     return (
       <Grid style={styles.grid}>
-      <Typography variant="subheading" component="h2" style={styles.title}>Your Habits</Typography>
+      <Typography variant="subheading" component="h2">Your Habits</Typography>
           <Map from={AllHabits}
           Render={Habit}
           />

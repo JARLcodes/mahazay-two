@@ -23,6 +23,8 @@ const styles = {
   nav: {
     marginBottom: "1em", 
     marginTop: "0.5em", 
+    
+    paddingBottom: "1em"
   }
 }
 class App extends Component {
@@ -59,6 +61,5 @@ class App extends Component {
     );
   }
 }
-
 
 export default withAuth(App);

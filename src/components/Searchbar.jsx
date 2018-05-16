@@ -66,9 +66,7 @@ class Searchbar extends Component {
       })
   };
 
-  componentWillReceiveProps(nextProps){
-    console.log('this.props', this.props, 'nextProps', nextProps);
-  }
+ 
 
 
   renderInput(inputProps) {

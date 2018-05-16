@@ -24,8 +24,12 @@ const styles = {
     flexGrow: 1
   },
   toolbar: {
-    background: "#FAFAFA",
-    padding: "1em 1em"
+      background: "white", 
+      display: 'flex'
+  },
+  backButton: {
+      color: "#424242", 
+     padding: "2em 1em"
   },
   journalButton: {
     color: "#A1887F", 
@@ -55,7 +59,10 @@ const styles = {
   image: {
     height: 75,
     width: "auto",
-    paddingRight: "1em"
+    paddingRight: "3em"
+  }, 
+  search: {
+    justify: 'flexEnd'
   }
 };
 
@@ -96,7 +103,7 @@ class Navbar extends Component {
               <Poll />
               Insights
             </Button>
-            { user && <Searchbar userId={user.uid} history={this.props.history}/> }
+            { user && <Searchbar style={styles.search} userId={user.uid} history={this.props.history}/> }
             { user ? 
               <Button href="/" color="inherit" style={styles.logoutButton}
                   onClick={() => auth.signOut()}>
