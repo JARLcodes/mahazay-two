@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
+import { MuiThemeProvider, createMuiTheme, withTheme } from 'material-ui/styles';
 import './App.css';
 import { withAuth } from 'fireview';
 
@@ -33,11 +33,6 @@ const theme = createMuiTheme({
     divider: '#bdbdbd',
   }
 });
-const styles = {
-  nav: {
-    paddingBottom: "1em"
-  }
-};
 
 class App extends Component {
 
@@ -47,8 +42,8 @@ class App extends Component {
     return (
       <Router history={history}>
         <MuiThemeProvider theme={theme}>
-          <div className="App" style={styles.body}>
-            <div style={styles.nav}>
+          <div className="App">
+            <div style={{paddingBottom: "1em"}}>
               <Navbar history={history}/>
             </div>
             <div className="col-xs-10" >
@@ -74,4 +69,4 @@ class App extends Component {
   }
 }
 
-export default withAuth(App);
+export default withTheme()(withAuth(App));

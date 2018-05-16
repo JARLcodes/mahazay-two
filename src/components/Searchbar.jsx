@@ -11,10 +11,11 @@ import Search from '@material-ui/icons/Search';
 import keycode from 'keycode';
 import PropTypes from 'prop-types';
 import { convertFromRaw } from 'draft-js';
+import { withTheme } from 'material-ui/styles';
 
 import { getRootRef } from '../utils/componentUtils';
 
-const styles = {
+const styles = theme => ({
   root: {
     flexGrow: 1,
   },
@@ -36,7 +37,7 @@ const styles = {
     width: "50%", 
     position: 'flexEnd'
   }
-};
+});
 
 class Searchbar extends Component {
   constructor(props){
@@ -172,4 +173,4 @@ class Searchbar extends Component {
   }
 }
 
-export default withRouter(Searchbar);
+export default withTheme()(withRouter(Searchbar));

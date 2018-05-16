@@ -5,6 +5,8 @@ import Subheader from 'material-ui/List/ListSubheader';
 import Button from 'material-ui/Button';
 import { Link } from 'react-router-dom';
 import { withAuth } from 'fireview';
+import { withTheme } from 'material-ui/styles';
+
 import Add from '@material-ui/icons/Add';
 import image from '../images/whiteBook.jpg';
 import Typography from 'material-ui/Typography';
@@ -12,7 +14,7 @@ import Typography from 'material-ui/Typography';
 import { getRootRef } from '../utils/componentUtils';
 import  NewJournalForm  from './NewJournalForm.jsx';
 
-const styles = {
+const styles = theme => ({
   root: {
     display: 'flex',
     flexWrap: 'nowrap',
@@ -36,7 +38,7 @@ const styles = {
     width: 30,
     height: "auto"
   },
-};
+});
 
 export class AllJournals extends Component {
   constructor () {
@@ -95,4 +97,4 @@ export class AllJournals extends Component {
   }
 }
 
-export default withAuth(AllJournals);
+export default withTheme()(withAuth(AllJournals));

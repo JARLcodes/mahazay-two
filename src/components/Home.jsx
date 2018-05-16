@@ -5,6 +5,7 @@ import Button from 'material-ui/Button';
 import Grid from 'material-ui/Grid';
 import firebase from 'firebase';
 import { auth, db } from '../utils/firebase.config';
+import { withTheme } from 'material-ui/styles';
 
 const styles = theme => ({
   container: {
@@ -41,7 +42,7 @@ const styles = theme => ({
   
 });
 
-export default class HomepageForm extends Component {
+export class HomepageForm extends Component {
   constructor() {
     super();
     this.state = {
@@ -208,3 +209,5 @@ export default class HomepageForm extends Component {
     );
   }
 }
+
+export default withTheme()(HomepageForm);

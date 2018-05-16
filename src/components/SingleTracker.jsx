@@ -5,11 +5,12 @@ import Checkbox from 'material-ui/Checkbox';
 import Card, { CardContent } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 import { convertFromRaw } from 'draft-js';
+import { withTheme } from 'material-ui/styles';
 
 import { Map, withAuth } from 'fireview';
 import { db } from '../utils/firebase.config';
 
-const styles = {
+const styles = theme => ({
   grid: {
 		maxWidth: 200,
 		padding: "2vh 2vh",
@@ -21,7 +22,7 @@ const styles = {
     flexDirection: "column",
     position: "sticky"
   }
-};
+});
 
 class SingleTracker extends Component {
   constructor() {
@@ -110,4 +111,4 @@ class SingleTracker extends Component {
   }
 }
 
-export default withAuth(SingleTracker);
+export default withTheme()(withAuth(SingleTracker));
