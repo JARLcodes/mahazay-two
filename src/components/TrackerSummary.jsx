@@ -71,14 +71,33 @@ class TrackerSummary extends Component {
     this.setState({ habitToAdd : { name: event.target.value, userId: userId, datesCompleted: [] }});
   }
 
-  handleAdd(event) {
-    event.preventDefault();
+  handleAdd(e) {
+    e.preventDefault();
     const habitToAdd = this.state.habitToAdd;
     db.collection('habits').add(habitToAdd)
       .then(() => {
         this.setState({ habitToAdd: { name: '' } });
         this.props.history.push(`/tracker/${habitToAdd.name}`);
       });
+  }
+
+  deleteHabit(e){
+    e.preventDefault();
+    console.log('e.target', e.target.value);
+    // confirmAlert({
+    //   title: 'Are you sure you want to delete this entry?',
+    //   message: '',
+    //   buttons: [
+    //     {
+    //       label: 'Yes, delete entry',
+    //       onClick: () => entry.delete().then(() => this.props.history.push('/entries'))
+    //     },
+    //     {
+    //       label: 'No, keep entry',
+    //       onClick: () => this.props.history.push(`/journals/${this.props.match.params.journalId}/entries/${this.props.match.params.entryId}`)
+    //     }
+    //   ]
+    // });
   }
 
   resetToThisWeek(){
@@ -106,9 +125,10 @@ class TrackerSummary extends Component {
       const { name, datesCompleted } = props;
       return (
         <TableRow key={props}>
-          <TableCell>
-          {name}
+          <TableCell style={{ display: 'flex'}}>
+            <form onSubmit={this.deleteHabit.bind(this)} ><Button type="submit" value={name}>{name}</Button></form>
           </TableCell>
+          
             { week.map(day => {
              
               if (props){
