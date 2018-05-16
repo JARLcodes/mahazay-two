@@ -6,6 +6,7 @@ import Checkbox from 'material-ui/Checkbox';
 import Card, { CardContent } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 import { convertFromRaw } from 'draft-js';
+import { confirmAlert } from 'react-confirm-alert';
 
 import { Map, withAuth } from 'fireview';
 import { db } from '../utils/firebase.config';
@@ -20,7 +21,8 @@ const styles = {
     flexDirection: "column",
     position: "sticky", 
     borderRadius: "0.5em", 
-    border: "0em 1em 1em 2em"
+    border: "0em 1em 1em 2em", 
+    minHeight: '400px'
   }, 
   habit: {
     display: 'flex', 
@@ -54,7 +56,7 @@ class SingleTracker2 extends Component {
 
   componentDidUpdate(){
     const { habits } = this.state;
-    if (habits.length && this.state.entry.data().content){
+    if (habits.length && this.state.entry.data() && this.state.entry.data().content){
       habits.forEach(habit => {
         const entryContent = convertFromRaw(this.state.entry.data().content).getPlainText().toLowerCase();
         const habitWordArray = habit.data().name.split(' ');
@@ -63,7 +65,6 @@ class SingleTracker2 extends Component {
         //to toggle: if datesCompleted includes entryDate and completed is false, then remove it
         if (!completed && entryDate) {
           let datesCompletedArr = [];
-          console.log('habit data in component did update completed false', habit.data());
           habit.data().datesCompleted.forEach(date => datesCompletedArr.push(date));
           // let updatedDatesCompleted = [];
           let updatedDatesCompleted = datesCompletedArr.filter(date => date - entryDate !== 0);
@@ -93,31 +94,36 @@ class SingleTracker2 extends Component {
             let datesCompleted = [];
             habit.data().datesCompleted.forEach(date => datesCompleted.push(date));
             let updatedDatesCompleted = datesCompleted.filter(date => date - entryDate !== 0);
-            if (e.target.name === habit.data().name) habit.ref.update({ datesCompleted: updatedDatesCompleted });
+            if (e.target.name === habit.data().name) habit.ref.update({ datesCompleted: updatedDatesCompleted }).then(() => {
+              this.props.entry.get().then(entry=> {
+                if (this.props.history) this.props.history.push(`/journals/${entry.data().journalId}/entries/${entry.id}`);
+            })
+            })
           }
           //if datesCompleted does not include entryDate, then add it
           else {
-            console.log('habit data', habit.data());
-            if (e.target.name === habit.data().name) habit.ref.update({ datesCompleted: [...habit.data().datesCompleted, entryDate] });
-          }
-        }
-      });
+            console.log('habit data', habit.data())
+            if (e.target.name === habit.data().name) habit.ref.update({ datesCompleted: [...habit.data().datesCompleted, entryDate] }).then(() => {
+              this.props.entry.get().then(entry => {
+                if (this.props.history) this.props.history.push(`/journals/${entry.data().journalId}/entries/${entry.id}`);
+              })
+            })
+        }}
+      })
     }
   }
 
- 
 
   render() {
-    if (Object.values(this.state.entry).length) console.log('entry date', this.state.entry.data().dateCreated);
+    
     const AllHabits = db.collection('habits').where('userId', '==', this.props.user.uid);
     const Habit = props => {
-      if (Object.keys(props).length) {
+      if (Object.keys(props).length && this.state.entry) {
       const { name, datesCompleted } = props;
       const datesCompletedArr = [];
       datesCompleted.forEach(date => datesCompletedArr.push(date));
       let entryDate = Object.values(this.state.entry).length ? this.state.entry.data().dateCreated : '';
       let isChecked = datesCompletedArr.includes(entryDate);
-      console.log('is checked', isChecked);
       return <div style={styles.habit}> 
         
         <Checkbox
@@ -134,7 +140,7 @@ class SingleTracker2 extends Component {
 
     return (
       <Grid style={styles.grid}>
-      <Typography variant="subheading" component="h2">Your Habits</Typography>
+      <Typography variant="heading" component="h2">Your Habits</Typography>
           <Map from={AllHabits}
           Render={Habit}
           />
