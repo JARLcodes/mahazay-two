@@ -24,6 +24,8 @@ const PersonalityTextSummaries = require('personality-text-summary');
 // locale is one of {'en', 'es', 'ja', 'ko'}.  version refers to which version of Watson Personality Insights to use, v2 or v3.
 const v3EnglishTextSummaries = new PersonalityTextSummaries({ locale: 'en', version: 'v3' });
 
+import ToneInsights from './ToneInsights'
+
 export class Insights extends Component {
     constructor () {
         super();
@@ -64,9 +66,9 @@ export class Insights extends Component {
                 //helper functions
                 const filter = (obj, num) => obj.score === num;
                 const percent = num => Math.floor(num * 100) + "%"
-                
+
                 //consumption preferences data
-                const consumptionPreferences = Array.from(snap.data().consumption_preferences)
+                const consumptionPreferences = snap.data() ? Array.from(snap.data().consumption_preferences) : [];
                 const flattenedConsumptionArray = []
 
                 consumptionPreferences.forEach(preference => {
@@ -80,7 +82,7 @@ export class Insights extends Component {
                 const unlikely = flattenedConsumptionArray.filter(preference => filter(preference, 0))
 
                 // personality data
-                const personalityArr = Array.from(snap.data().personality)
+                const personalityArr = snap.data() ? Array.from(snap.data().personality) : [];
                 const finalPersonalityArr = []
 
                 personalityArr.forEach(personality => {
@@ -88,7 +90,7 @@ export class Insights extends Component {
                 })
 
                 // needs data
-                const needsArr = Array.from(snap.data().needs)
+                const needsArr = snap.data() ? Array.from(snap.data().needs) : [];
                 const finalNeedsArr = []
 
                 needsArr.forEach(need => {
@@ -96,7 +98,7 @@ export class Insights extends Component {
                 })
 
                 // values data
-                const valuesArr = Array.from(snap.data().values)
+                const valuesArr = snap.data() ? Array.from(snap.data().values) : [];
                 const finalValuesArr = []
 
                 valuesArr.forEach(value => {
@@ -109,11 +111,11 @@ export class Insights extends Component {
         console.log("I rerendered")
         }
     }
-    
-    
+
+
     render () {
-        const { 
-            personalityLikes, 
+        const {
+            personalityLikes,
             personalityUnlikes,
             personality,
             needs,
@@ -142,7 +144,7 @@ export class Insights extends Component {
                             <Paper style={styles.paper}>Habits</Paper>
                         </Grid>
                         <Grid item xs={8} sm={4}>
-                            <Paper style={styles.paper}>Moods: ToneInsightsComponent</Paper>
+                            <Paper style={styles.paper}><ToneInsights  entryId = {this.props.entryId}/> </Paper>
                         </Grid>
                     </Grid>
                 </div>
@@ -260,5 +262,5 @@ const styles = {
         alignItems: 'right'
     }
   };
-  
+
   export default withAuth(Insights);

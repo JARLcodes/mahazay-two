@@ -2,10 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import Grid from 'material-ui/Grid';
-import Card, { CardContent } from 'material-ui/Card';
+import Card, { CardContent, CardHeader } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
-
-import Person from '@material-ui/icons/Person';
+import Avatar from 'material-ui/Avatar';
 import ImportContacts from '@material-ui/icons/ImportContacts';
 import LibraryBooks from '@material-ui/icons/LibraryBooks';
 import { withAuth } from 'fireview';
@@ -13,34 +12,35 @@ import { withAuth } from 'fireview';
 const styles = {
 	profileCard: {
 		maxWidth: 200,
-		background: "#d1e2ff",
+		background: "white",
 		padding: "7vh 10vh",
-		marginBottom: "3.5vh",
+		margin: "3.5vh 2vh",
+		borderRadius: ".5em .5em"
 	},
   card: {
 		maxWidth: 200,
-		background: "#FFFDE7",
+		background: "white",
 		padding: "4vh 4vh",
-		margin: "2vh 2vh"
+		margin: "2vh 2vh",
+		borderRadius: ".5em .5em"
 	},
   gridList: {
     display: "flex",
     flexWrap: "nowrap",
     overflowX: "auto",
 	},
-	profileIcon: {
-		color: "#616161",
+	bigAvatar : {
 		width: 80,
 		height: 80
 	},
 	mediumIcon: {
 		color: "#616161",
-		width: 80,
-		height: 80
+		width: 60,
+		height: 60
 	}
 };
 
-const Dashboard = (props) => {
+const Dashboard = props => {
 	const user = props && props._user ? props._user : 'tina you fat lard';
 	return (
 	<div>
@@ -48,8 +48,15 @@ const Dashboard = (props) => {
 			<Grid>
 				<Link to="/profile" style={{textDecoration:"none"}}>
 				<Card style={styles.profileCard}>
-					<Person style={styles.profileIcon}/>
-					<div>{user.email}</div>
+					<CardHeader
+						avatar={
+							<Avatar	style={styles.bigAvatar}>
+								S
+							</Avatar>
+						}
+						title={`Welcome, ${user.email}`}
+						subheader={user.email}
+						/>
 				</Card>
 				</Link>
 			</Grid>
@@ -77,6 +84,7 @@ const Dashboard = (props) => {
 					</Card>
 					</Link>
 				</Grid>
+
 			</Grid>
 		</div>
 	);

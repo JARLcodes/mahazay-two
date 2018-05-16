@@ -10,10 +10,9 @@ import Table, {
 import Grid from 'material-ui/Grid';
 import Checkbox from 'material-ui/Checkbox';
 
-
 import { Map, withAuth } from 'fireview';
 import { db } from '../utils/firebase.config';
-import { Habit, week } from '../utils/trackerSummaryUtils';
+import { Habit, generateWeek } from '../utils/trackerSummaryUtils';
 
 const styles = theme => ({
   container: {
@@ -22,7 +21,6 @@ const styles = theme => ({
     marginLeft: '30%',
   },
   textField: {
-    
     width: 200,
   },
   menu: {
@@ -43,11 +41,13 @@ class TrackerSummary extends Component {
     super();
     this.state = {
       habits: [],
-      habitToAdd: {}
+      habitToAdd: {}, 
+      weeksAgo: 0, 
+      week: generateWeek(0)
     };
     this.handleAdd = this.handleAdd.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    // this.handleDelete = this.handleDelete.bind(this);
+    this.getWeek = this.getWeek.bind(this);
   }
 
   componentDidMount() {
@@ -60,7 +60,7 @@ class TrackerSummary extends Component {
     event.preventDefault();
     const user = this.props._user;
     const userId = user && user.uid ? user.uid : null;
-    this.setState({ habitToAdd : { name: event.target.value, userId: userId, dateCompleted: '', completed: false }});
+    this.setState({ habitToAdd : { name: event.target.value, userId: userId, datesCompleted: [] }});
   }
 
   handleAdd(event) {
@@ -73,13 +73,26 @@ class TrackerSummary extends Component {
       });
   }
 
+  resetToThisWeek(){
+    this.setState({ weeksAgo: 0 })
+  }
+
+  getWeeksAgo(){
+    console.log('this.state.weeksAgo before decrement', this.state.weeksAgo);
+    this.setState({ weeksAgo: this.state.weeksAgo++ });
+    console.log('this.state.weeksAgo after increment', this.state.weeksAgo);
+    this.setState({ week: this.getWeek() })
+  }
+
+  getWeek(){
+    return generateWeek(this.state.weeksAgo);
+  }
 
   render() {
     const AllHabits = db.collection('habits');
     const user = this.props._user;
     const userId = user && user.uid ? user.uid : null;
-    
-
+    const { week } = this.state;
 
     return (
       <Grid container style={{marginLeft: "5%", paddingRight: "15%", marginBottom: "5%", display: 'flex', flexDirection: "column"}}>
@@ -101,6 +114,8 @@ class TrackerSummary extends Component {
       <Table>
       <TableHead>
         <TableRow>
+        <TableCell><Button onClick={this.getWeeksAgo.bind(this)}>Previous Week</Button></TableCell>
+        <TableCell><Button onClick={this.resetToThisWeek.bind(this)}>This Week</Button></TableCell>
         <TableCell variant="body-2">Habits</TableCell>
         </TableRow>
       </TableHead>

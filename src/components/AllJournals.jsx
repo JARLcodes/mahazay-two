@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import Grid from 'material-ui/Grid';
+import GridList, { GridListTile, GridListTileBar } from 'material-ui/GridList';
 import Subheader from 'material-ui/List/ListSubheader';
 import Button from 'material-ui/Button';
 import { Link } from 'react-router-dom';
 import { withAuth } from 'fireview';
 import Add from '@material-ui/icons/Add';
-import Card, {CardContent, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import image from '../images/whiteBook.jpg';
 import Typography from 'material-ui/Typography';
 
 import { getRootRef } from '../utils/componentUtils';
@@ -14,34 +15,27 @@ import  NewJournalForm  from './NewJournalForm.jsx';
 const styles = {
   root: {
     display: 'flex',
-    flexWrap: 'wrap',
+    flexWrap: 'nowrap',
     justifyContent: 'space-around',
-    overflow: 'hidden',
+    overflow: 'hidden'
   },
   gridList: {
-    display: "flex",
-    flexWrap: "wrap",
-    overflowX: "auto",
-	},
+    spacing: "1em"
+  },
   subheader: {
-    fontSize: 40,
+    fontSize: "2.5em",
     fontVariant: 'small-caps',
     color: 'grey'
   },
-  tile: {
-    backgroundColor: '#BCAAA4',
-    borderWidth: '.1vh',
-    borderColor: '#A1887F'
+  image: {
+    width: "60vh",
+    height: "auto"
   },
-  addJournal: {
-    backgroundColor: "#A1887F",
-    border: "1px dotted #454545"
+  addIcon: {
+    color: "grey", 
+    width: 30,
+    height: "auto"
   },
-  card: {
-    padding: "2vh 2vh",
-    margin: "1vh 1vh",
-    marginBottom: ".1vh"
-  }
 };
 
 export class AllJournals extends Component {
@@ -75,27 +69,28 @@ export class AllJournals extends Component {
     const journalIds = this.state.allJournalIds;
 
     return (
-      <Grid>
-        <Grid container justify="center" spacing={24} style={styles.gridList}>
-          <Subheader style={styles.subheader}>My Journals</Subheader>
-            <Grid item xs={12}>{this.props && this.props._user ? <Button  onClick={this.newJournal.bind(this)}><Add styles={styles.addJournal}/></Button> : null}</Grid>
+      <div style={styles.root}>
+        <GridList cellHeight="auto" style={styles.gridList} cols={3}>
+        <GridListTile key="Subheader" cols={3}>
+          <Subheader component="div" style={styles.subheader}>Journals</Subheader>
+            {this.props && this.props._user ? <Button onClick={this.newJournal.bind(this)}><Add style={styles.addIcon}/></Button> : null}
+          </GridListTile>
           {
             journals.map((journal, ind) => (
-              <Grid key={journalIds[ind]}>
-                <Link to={`/journals/${journalIds[ind]}`}>
-                <Card style={styles.cards}>
-                  <img src='https://store.storeimages.cdn-apple.com/4974/as-images.apple.com/is/image/AppleInc/aos/published/images/H/KB/HKB12/HKB12?wid=572&hei=572&fmt=jpeg&qlt=95&op_usm=0.5,0.5&.v=1480984401449' alt=""/>
-                  <CardContent>
-                    <Typography variant="title">{journal.title}</Typography> 
-                   <Typography variant="subheading">{journal.description}</Typography>
-                  </CardContent>
-                </Card>
+            <GridListTile key={journalIds[ind]}>
+              <Link to={`/journals/${journalIds[ind]}`}>
+              <GridListTileBar
+                  title={<Typography style={{textTransform: "capitalize", color: "#BDBDBD"}} variant="title">{journal.title}</Typography>}
+                  subtitle={<Typography variant="subheading" style={{color: "#9E9E9E"}}>{journal.description}</Typography>}
+                  titlePosition="top"
+                />
+                <img src={image} style={styles.image} alt=""/>
                 </Link>
-              </Grid>
+                </GridListTile>
             ))
           }
-         </Grid>
-        </Grid>
+         </GridList>
+        </div>
     );
   }
 }

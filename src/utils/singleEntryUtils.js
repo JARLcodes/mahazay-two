@@ -45,14 +45,14 @@ export const styles = {
   }, 
   editor: {
     width: "80%",
-    height: "100%",
+    minHeight: "500px",
     border: "1px dotted #454545",
     boxSizing: "borderBox",
     boxShadow: "inset 0px 1px 8px -3px #ABABAB", 
     cursor: "text",
-    padding: "20px",
+    paddingRight: "2vh",
     marginBottom: "2em",
-    borderRadius: '1em'
+    borderRadius: '0.5em', 
   }, 
   entry: {
     display: "flex"
@@ -63,7 +63,7 @@ export const styles = {
     zIndex: "1"
   }, 
   allButtons: {
-    borderRadius: "1em"
+    borderRadius: "0.5em"
   }
 }
 
