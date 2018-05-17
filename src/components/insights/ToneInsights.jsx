@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { withAuth } from 'fireview';
 import { EditorState, RichUtils, convertFromRaw, convertToRaw, ContentState } from "draft-js";
-import {VictoryChart, VictoryArea, VictoryTheme, VictoryPolarAxis} from 'victory'
+import {VictoryChart, VictoryArea, VictoryTheme, VictoryPolarAxis, VictoryAxis, VictoryLabel} from 'victory'
 import { withTheme } from 'material-ui/styles';
+import Grid from 'material-ui/Grid';
 
 import { getRootRef, getIds } from '../../utils/componentUtils';
 import {db} from '../../utils/firebase.config'
@@ -79,22 +80,25 @@ export class ToneInsights extends Component {
             <div>
 
                 {insight ?
-                <div>
-                    <p>These were the tones that were reflected in your entry and their relative</p>
-                    <VictoryChart polar theme={VictoryTheme.material}>
-                        <VictoryPolarAxis dependentAxis
-                            style={{ axis: { stroke: "none" } }}
-                            tickFormat={() => null}
-                        />
-                        <VictoryPolarAxis/>
+                <Grid container>
+                    <p>These were the tones that were reflected in your entry and their relative strength:</p>
+                    <VictoryChart theme={VictoryTheme.material} margin = {100 +"px"} >
+                        <VictoryAxis independent orientation ="bottom"
+                            style={{
+                                axis: {stroke: "#756f6a"},
+                                ticks: {stroke: "grey", size: 5},
+                                tickLabels: {fontSize: 5, padding: 25, margin: 10, verticalAnchor: "middle", angle: 450 }
+                            }} />
+                        <VictoryAxis  dependent orientation = "left" />
+
                         <VictoryArea
                             data={arr}
                             style={{
-                            data: { fill: "#c43a31" },
+                            data: { fill: "#FFA726" }
                             }}
                         />
                     </VictoryChart>
-                </div>
+                </Grid>
                 : <div>Fetching your insights!</div>}
             </div>
         )
