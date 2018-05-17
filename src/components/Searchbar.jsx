@@ -110,7 +110,7 @@ class Searchbar extends Component {
             {this.renderInput({
               fullWidth: true,
               InputProps: getInputProps({
-                placeholder: 'Search',
+                placeholder: 'Search by entry',
                 id: 'integration-downshift-simple',
                 onChange: event => {
                   if (event.target.value === '') clearSelection();
