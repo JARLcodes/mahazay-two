@@ -194,9 +194,9 @@ export class SingleJournal extends Component {
 
         <Grid container style={{justifyContent: "flex-end", "paddingLeft": 24 + "px", "paddingRight": 24 + "px", "marginBottom": 10 +"px"}}>
           <Tooltip title = "Add Today's Entry" placement="top">
-            <Button variant ="fab" color="primary" onClick={this.addEntry}><Icon>edit_icon</Icon></Button>
+            <Button variant ="fab" color="primary" onClick={this.addEntry} style={{marginRight: '1em'}}><Icon >edit_icon</Icon></Button>
           </Tooltip>
-          <Button variant="raised" style={styles.delete} onClick={this.deleteJournal.bind(this, this.state.journal)}>Delete Journal</Button>
+          <Button variant="raised" style={{ width: '5%', backgroundColor: "#EF9A9A", color: "#fff", borderRadius: "0.5em", borderLeft: '1.5em'}} onClick={this.deleteJournal.bind(this, this.state.journal)}>Delete Journal</Button>
         </Grid>
       </div>
     )
