@@ -19,36 +19,6 @@ import { Map, withAuth } from 'fireview';
 import { db } from '../utils/firebase.config';
 import { generateWeek, months } from '../utils/trackerSummaryUtils';
 
-const styles = theme => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    marginLeft: '30%',
-  },
-  textField: {
-    width: 200,
-  },
-  menu: {
-    width: 200,
-  },
-  root: {
-    width: '100%',
-    marginTop: theme.spacing.unit * 3,
-    overflowX: 'auto',
-  },
-  table: {
-    minWidth: 500
-  }, 
-  check: {
-    color: 'green', 
-    alignSelf: 'center', 
-  }, 
-  x: {
-    color: 'red', 
-    alignSelf: 'center'
-  }, 
-});
-
 class TrackerSummary extends Component {
   constructor(props) {
     super(props);
@@ -76,8 +46,8 @@ class TrackerSummary extends Component {
     this.setState({ habitToAdd : { name: event.target.value, userId: userId, datesCompleted: [] }});
   }
 
-  handleAdd(e) {
-    e.preventDefault();
+  handleAdd(event) {
+    event.preventDefault();
     const habitToAdd = this.state.habitToAdd;
     db.collection('habits').add(habitToAdd)
       .then(() => {
@@ -86,26 +56,25 @@ class TrackerSummary extends Component {
       });
   }
 
-  deleteHabit(e){
-    e.preventDefault();
-    e.persist();
-
+  deleteHabit(event){
+    event.preventDefault();
+    event.persist();
     
     confirmAlert({
-      title: `Are you sure you don't want to track ${e.target.name} anymore?`,
-      message: `Click yes to confirm, no to keep tracking ${e.target.name}`,
+      title: `Are you sure you don't want to track ${event.target.name} anymore?`,
+      message: `Click yes to confirm, no to keep tracking ${event.target.name}`,
       buttons: [
         {
           label: 'Yes, stop tracking',
           onClick: () => {
-            db.collection('habits').where('name', '==', e.target.name).get()
+            db.collection('habits').where('name', '==', event.target.name).get()
               .then(querySnapshot => {
                 querySnapshot.forEach(habit => {
-                  if (habit.data().name === e.target.name) return habit.ref.delete();
-                })
+                  if (habit.data().name === event.target.name) return habit.ref.delete();
+                });
             })
           .then(() => this.props.history.push('/tracker'))
-          .catch(console.error);
+          .catch(err => console.log(err));
           }
         },
         {
@@ -116,7 +85,6 @@ class TrackerSummary extends Component {
     });
   }
 
-
   resetToThisWeek(){
     this.setState({ weeksAgo: 0 });
     this.setState({ week: this.getWeek(0) });
@@ -124,7 +92,7 @@ class TrackerSummary extends Component {
 
   getWeeksAgo(){
     this.setState({ weeksAgo: this.state.weeksAgo += 1 });
-    this.setState({ week: this.getWeek() })
+    this.setState({ week: this.getWeek() });
   }
 
   getWeek(weeksAgo){
@@ -157,21 +125,16 @@ class TrackerSummary extends Component {
                     if (formattedDatesCompleted[i] === day) return true;
                   }
                   return false;
-                }
-                if (datesMatch(day)) return <TableCell key={day}><b style={{color: '#3ace3a'}}>Y</b></TableCell>
-                else if (!datesMatch(day)) return <TableCell key={day}><b style={{ color: '#dd7777' }}>X</b></TableCell>
+                };
+                if (datesMatch(day)) return <TableCell key={day}><b style={{color: '#3ace3a'}}>Y</b></TableCell>;
+                else if (!datesMatch(day)) return <TableCell key={day}><b style={{ color: '#dd7777' }}>X</b></TableCell>;
               }
-              
-              
-              
               }) 
             }
         </TableRow>
-      )
+      );
     };
     
-
-
     return (
       <Grid container style={{marginLeft: "5%", paddingRight: "15%", marginBottom: "5%", display: 'flex', flexDirection: "column"}}>
          <Subheader component="div" style={{ fontSize: "2.5em", fontVariant: 'small-caps',color: 'grey'}}>Your Habits</Subheader>
@@ -181,7 +144,7 @@ class TrackerSummary extends Component {
           id="name"
           label="Add Habit?"
           name="habitToAdd"
-          style={styles.textField}
+          style={{ width: 200 }}
           onChange={this.handleChange}
           margin="normal"
           value={this.state.habitToAdd.name}
@@ -213,5 +176,3 @@ class TrackerSummary extends Component {
 
 export default withTheme()(withAuth(TrackerSummary));
 
-// const formattedDate = `${months.indexOf(dateArray[1]) + 1}/${dateArray[2]}`;
-//                     console.log('formatted date', formattedDate);
