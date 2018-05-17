@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
+import Subheader from 'material-ui/List/ListSubheader';
 import {db} from '../utils/firebase.config'
 import Button from "material-ui/Button";
 import Icon from 'material-ui/Icon';
@@ -33,12 +34,20 @@ export class SingleJournal extends Component {
       entries: [],
       events:[],
       insights: [],
-      journal: getRootRef('journals', this.props.match.params.journalId) //db.collection('journals')
+      journal: getRootRef('journals', this.props.match.params.journalId),  //db.collection('journals')
+      journalTitle: ''
     }
     this.addEntry = this.addEntry.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
     this.checkColor = this.checkColor.bind(this);
 
+  }
+
+  componentDidMount(){
+    this.state.journal.get()
+      .then(doc => {
+        this.setState({ journalTitle: doc.data().title })
+      })
   }
 
   addEntry(){
@@ -182,11 +191,11 @@ export class SingleJournal extends Component {
   }
 
   render() {
-    const entries = this.state.entries
-    const events = this.state.events
+    const   { entries, events, journalTitle } = this.state;
     console.log("state in render", this.state)
     return (
       <div>
+        { journalTitle && <Subheader component="div" variant="display1" style={{ fontSize: "2.5em", fontVariant: 'small-caps', color: 'grey' }}>{journalTitle}</Subheader> }
         <div style={{"paddingLeft": 24 + "px", "paddingRight": 24 + "px", "marginBottom": 24 +"px" }}>
           <BigCalendar eventPropGetter={this.checkColor} defaultDate={new Date()} events={events} views={['month']} style={{height: 350 + "px"}} onSelectEvent={this.handleSelect} />
 
@@ -194,9 +203,9 @@ export class SingleJournal extends Component {
 
         <Grid container style={{justifyContent: "flex-end", "paddingLeft": 24 + "px", "paddingRight": 24 + "px", "marginBottom": 10 +"px"}}>
           <Tooltip title = "Add Today's Entry" placement="top">
-            <Button variant ="fab" color="primary" onClick={this.addEntry}><Icon>edit_icon</Icon></Button>
+            <Button variant ="fab" color="primary" onClick={this.addEntry} style={{marginRight: '1em'}}><Icon >edit_icon</Icon></Button>
           </Tooltip>
-          <Button variant="raised" style={styles.delete} onClick={this.deleteJournal.bind(this, this.state.journal)}>Delete Journal</Button>
+          <Button variant="raised" style={{ width: '5%', backgroundColor: "#EF9A9A", color: "#fff", borderRadius: "0.5em", borderLeft: '1.5em'}} onClick={this.deleteJournal.bind(this, this.state.journal)}>Delete Journal</Button>
         </Grid>
       </div>
     )
