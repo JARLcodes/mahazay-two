@@ -1,36 +1,16 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
+import { getRootRef } from '../utils/componentUtils';
+import { withAuth } from 'fireview';
+
 import Card, { CardContent } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 import Subheader from 'material-ui/List/ListSubheader';
 import Button from 'material-ui/Button';
 import Grid from 'material-ui/Grid';
-import { withAuth } from 'fireview';
+
 import ReactPlayer from 'react-player';
 import { withTheme } from 'material-ui/styles';
-
-import { getRootRef } from '../utils/componentUtils';
-
-const styles = theme => ({
-  card: {
-    width: 300,
-    height: 400,
-    borderRadius: ".5em .5em"
-  },
-  title: {
-    marginBottom: 16,
-    fontSize: 14,
-  },
-  pos: {
-    
-  },
-  subheader: {
-    
-  }, 
-  subheaderWrapper: {
-    
-  }
-});
 
 export class AllEntries extends Component {
   constructor(){
@@ -38,7 +18,6 @@ export class AllEntries extends Component {
     this.state = {
       entries: []
     };
-
   }
 
   componentWillReceiveProps(nextProps){
@@ -52,19 +31,21 @@ export class AllEntries extends Component {
 
     }
   }
+
   goToJournals(){
     this.props.history.push('/journals');
   }
 
-// For entries => each entry has a content key which has an object with the key blocks which is an array of objects , each with the key of text
   render() {
     const {entries} = this.state;
     const users = [];
+
     getRootRef('users').get().then(querySnap => {
       querySnap.forEach(doc => {
         users.push({userId: doc.id, data: doc.data()});
       });
     });
+
     return (
       <div>
         <Grid container spacing={24} style={{"paddingLeft": 24 + "px", "paddingRight": 24 + "px", "marginBottom": 24 +"px" }}>
@@ -81,10 +62,8 @@ export class AllEntries extends Component {
               );
             })
           : <div style={{marginLeft: "38%"}}><Subheader component="div" style={{fontSize: "2.5em", fontVariant: 'small-caps', color: 'grey'}}>No entries made</Subheader><Button onClick={this.goToJournals.bind(this)}>go to journals</Button></div> 
-          
         }
         </Grid>
-
       </div>
     );
   }

@@ -1,20 +1,16 @@
-'use strict';
-
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import Button from "material-ui/Button";
 import { withAuth } from 'fireview';
 import { storage } from '../utils/firebase.config';
+import Button from "material-ui/Button";
 import { confirmAlert } from 'react-confirm-alert';
-import { SingleTracker2 } from './index';
 import { withTheme } from 'material-ui/styles';
 import { SingleTracker } from './index';
-
 
 class SingleEntrySidebar extends Component {
 
   deleteEntry(entry){
-    
+
       confirmAlert({
         title: 'Are you sure you want to delete this entry?',
         message: '',
@@ -29,8 +25,6 @@ class SingleEntrySidebar extends Component {
           }
         ]
       });
-    
-   
   }
 
   render() {

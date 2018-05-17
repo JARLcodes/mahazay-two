@@ -1,19 +1,16 @@
 import React, { Component } from 'react';
+import { getRootRef } from '../utils/componentUtils';
+import { withAuth } from 'fireview';
 import Grid from 'material-ui/Grid';
 import GridList, { GridListTile, GridListTileBar } from 'material-ui/GridList';
 import Subheader from 'material-ui/List/ListSubheader';
 import Button from 'material-ui/Button';
 import { Link } from 'react-router-dom';
-import { withAuth } from 'fireview';
 import { withTheme } from 'material-ui/styles';
-
 import Add from '@material-ui/icons/Add';
 import image from '../images/whiteBook.jpg';
 import Typography from 'material-ui/Typography';
-
-import { getRootRef } from '../utils/componentUtils';
-import  NewJournalForm  from './NewJournalForm.jsx';
-
+import { NewJournalForm } from './index';
 
 export class AllJournals extends Component {
   constructor () {

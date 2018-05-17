@@ -27,6 +27,7 @@
         "material-design-icons": "^3.0.1",
         "material-ui": "^1.0.0-beta.47",
         "moment": "^2.22.1",
+        "node": "^7.1.0",
         "npm": "^6.0.0",
         "personality-sunburst-chart": "^2.2.4",
         "personality-text-summary": "^2.2.0",
