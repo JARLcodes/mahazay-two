@@ -162,9 +162,9 @@ export class Insights extends Component {
                     </Grid>
                 </div>
                 <div>
-                    <ExpansionPanel expanded={expanded === 'panel1'} onChange={this.handleChange('panel1')} style={{backgroundColor: '#ffc107'}}>
+                    <ExpansionPanel expanded={expanded === 'panel1'} onChange={this.handleChange('panel1')} >
                         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                            <Typography variant="title" gutterBottom align="center">You are likely to...</Typography>
+                            <Typography variant="title" gutterBottom align="center" style={{color: 'gray'}}>You are likely to...</Typography>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails>
                             <List style={styles.list}>
@@ -179,9 +179,9 @@ export class Insights extends Component {
                             </List>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
-                    <ExpansionPanel expanded={expanded === 'panel2'} onChange={this.handleChange('panel2')} style={{backgroundColor: '#ffb300'}}>
+                    <ExpansionPanel expanded={expanded === 'panel2'} onChange={this.handleChange('panel2')} >
                         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                            <Typography variant="title" gutterBottom align="center">You are unlikely to...</Typography>
+                            <Typography variant="title" gutterBottom align="center" style={{color: 'gray'}}>You are unlikely to...</Typography>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails>
                             <List style={styles.list}>
@@ -196,9 +196,9 @@ export class Insights extends Component {
                             </List>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
-                    <ExpansionPanel expanded={expanded === 'panel3'} onChange={this.handleChange('panel3')} style={{backgroundColor: '#ffa000'}}>
+                    <ExpansionPanel expanded={expanded === 'panel3'} onChange={this.handleChange('panel3')} >
                         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                            <Typography variant="title" gutterBottom align="center">My Personality</Typography>
+                            <Typography variant="title" gutterBottom align="center" style={{color: 'gray'}}>My Personality</Typography>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails>
                             <List style={styles.list}>
@@ -213,9 +213,9 @@ export class Insights extends Component {
                             </List>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
-                    <ExpansionPanel expanded={expanded === 'panel4'} onChange={this.handleChange('panel4')} style={{backgroundColor: '#ff8f00'}}>
+                    <ExpansionPanel expanded={expanded === 'panel4'} onChange={this.handleChange('panel4')} >
                         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                            <Typography variant="title" gutterBottom align="center">My Needs</Typography>
+                            <Typography variant="title" gutterBottom align="center" style={{color: 'gray'}}>My Needs</Typography>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails>
                             <List style={styles.list}>
@@ -230,9 +230,9 @@ export class Insights extends Component {
                             </List>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
-                    <ExpansionPanel expanded={expanded === 'panel5'} onChange={this.handleChange('panel5')} style={{backgroundColor: '#ff6f00'}}>
+                    <ExpansionPanel expanded={expanded === 'panel5'} onChange={this.handleChange('panel5')} >
                         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                            <Typography variant="title" gutterBottom align="center">My Values</Typography>
+                            <Typography variant="title" gutterBottom align="center" style={{color: 'gray'}}>My Values</Typography>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails>
                             <List style={styles.list}>

@@ -30,9 +30,9 @@ class SingleEntrySidebar extends Component {
   render() {
     return (
       <div>
-      { this.props._user && <SingleTracker entry={this.props.entry} user={this.props._user}/> }
-      <div style={{display: "flex", flexDirection: "column", margin: "0em 2em 2em 2em"}}>
-        <Button variant="raised" style={{alignSelf: 'center', width: '20%', backgroundColor: "#EF9A9A", color: "#fff", borderRadius: "0.5em"}} onClick={this.deleteEntry.bind(this, this.props.entry)}>
+      { this.props._user && <SingleTracker entry={this.props.entry} user={this.props._user} style={{marginBottom: '2em'}}/> }
+      <div style={{display: "flex", flexDirection: "column", margin: "2em 2em 2em 2em"}}>
+        <Button variant="raised" style={{alignSelf: 'center', width: '20%', backgroundColor: "#EF9A9A", color: "#fff", borderRadius: "0.5em", marginTop: '2em'}} onClick={this.deleteEntry.bind(this, this.props.entry)}>
           Delete Entry
         </Button>
       </div>

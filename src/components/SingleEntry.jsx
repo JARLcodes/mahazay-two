@@ -26,13 +26,13 @@ class SingleEntry extends Component {
   render(){
     return (
       <div>
-        <div style={{display: "flex"}}>
+        <div style={{display: "flex", marginLeft: '2em'}}>
           <SingleEntrySidebar item xs={4} history={this.props.history} match={this.props.match} entry={getRootRef('entries', this.props.match.params.entryId)} style={{width: "20%", height: "100%", marginRight: "15%"}}/>
           <EditorComponent item xs={8} history={this.props.history} match={this.props.match} entry={getRootRef('entries', this.props.match.params.entryId)} style={{marginLeft: "15%"}}/>
         </div>
 
         <div style={{ gridColumnEnd: 'span 12' }}>
-          <Button onClick = {this.clickHandler} > Get Insights! </Button>
+          <Button onClick = {this.clickHandler} style={{alignSelf: 'center', width: '20%', backgroundColor: "#ABF2B7", color: "#fff", borderRadius: "0.5em", marginTop: '2em'}}> Get Insights! </Button>
           {this.state.showInsight && <InsightComponent item xs={12} history={this.props.history} entry={getRootRef('entries', this.props.match.params.entryId)} entryId={this.props.match.params.entryId}/>}
         </div>
       </div>
