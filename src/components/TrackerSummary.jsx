@@ -26,7 +26,8 @@ class TrackerSummary extends Component {
       habits: [],
       habitToAdd: {}, 
       weeksAgo: 0, 
-      week: generateWeek(0)
+      week: generateWeek(0), 
+      message: ''
     };
     this.handleAdd = this.handleAdd.bind(this);
     this.handleChange = this.handleChange.bind(this);
