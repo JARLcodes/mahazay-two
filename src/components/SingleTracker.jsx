@@ -6,33 +6,9 @@ import Card, { CardContent } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 import { convertFromRaw } from 'draft-js';
 import { withTheme } from 'material-ui/styles';
-import { confirmAlert } from 'react-confirm-alert';
 
 import { Map, withAuth } from 'fireview';
 import { db } from '../utils/firebase.config';
-
-const styles = theme => ({
-  grid: {
-		maxWidth: 200,
-    border: "1px dotted #454545",
-    borderWidth: ".1vh",
-    borderColor: "grey", 
-    display: "flex",
-    flexDirection: "column",
-    position: "sticky", 
-    borderRadius: "0.5em", 
-    border: "0em 1em 1em 2em", 
-    minHeight: '400px'
-  }, 
-  habit: {
-    display: 'flex', 
-    borderLeft: "2em"
-  }, 
-  habitName: {
-    justify: 'flexStart', 
-    paddingTop: '1em'
-  }
-});
 
 class SingleTracker extends Component {
   constructor() {
@@ -41,22 +17,19 @@ class SingleTracker extends Component {
       habits: [],
       entry: {}
     };
-    
-   
   }
 
   componentDidMount() {
     this.props.entry.get().then(entryItem => this.setState({entry: entryItem}));
     db.collection('habits').where('userId', '==', this.props.user.uid).get()
       .then(querySnapshot => {
-        querySnapshot.forEach(habit => this.setState({ habits: [...this.state.habits, habit] }))
-    })
+        querySnapshot.forEach(habit => this.setState({ habits: [...this.state.habits, habit] }));
+    });
   }
-
 
   componentDidUpdate(){
     const { habits } = this.state;
-    if (habits.length && this.state.entry.data() && this.state.entry.data().content){
+    if (habits.length && this.state.entry.data().content){
       habits.forEach(habit => {
         const entryContent = convertFromRaw(this.state.entry.data().content).getPlainText().toLowerCase();
         const habitWordArray = habit.data().name.split(' ');
@@ -68,22 +41,20 @@ class SingleTracker extends Component {
           habit.data().datesCompleted.forEach(date => datesCompletedArr.push(date));
           // let updatedDatesCompleted = [];
           let updatedDatesCompleted = datesCompletedArr.filter(date => date - entryDate !== 0);
-          habit.ref.update({ datesCompleted: updatedDatesCompleted })
+          habit.ref.update({ datesCompleted: updatedDatesCompleted });
         }
         //if datesCompleted does not include entryDate and completed is true, then add it
         else {
-          if (entryDate){
+          if (entryDate) {
             habit.ref.update({ datesCompleted: [...habit.data().datesCompleted, entryDate]});
           }
         }
-       
-      })
-   
+      });
     }
   }
 
-  handleCheck(e){
-    e.persist();
+  handleCheck(event){
+    event.persist();
     const { habits } = this.state;
     if (habits.length){
       habits.forEach(habit => {
@@ -94,58 +65,47 @@ class SingleTracker extends Component {
             let datesCompleted = [];
             habit.data().datesCompleted.forEach(date => datesCompleted.push(date));
             let updatedDatesCompleted = datesCompleted.filter(date => date - entryDate !== 0);
-            if (e.target.name === habit.data().name) habit.ref.update({ datesCompleted: updatedDatesCompleted }).then(() => {
-              this.props.entry.get().then(entry=> {
-                if (this.props.history) this.props.history.push(`/journals/${entry.data().journalId}/entries/${entry.id}`);
-            })
-            })
+            if (event.target.name === habit.data().name) habit.ref.update({ datesCompleted: updatedDatesCompleted });
           }
           //if datesCompleted does not include entryDate, then add it
-          else {
-            if (e.target.name === habit.data().name) habit.ref.update({ datesCompleted: [...habit.data().datesCompleted, entryDate] }).then(() => {
-              this.props.entry.get().then(entry => {
-                if (this.props.history) this.props.history.push(`/journals/${entry.data().journalId}/entries/${entry.id}`);
-              })
-            })
-        }}
-      })
+          else if (event.target.name === habit.data().name) habit.ref.update({ datesCompleted: [...habit.data().datesCompleted, entryDate] });
+          }
+      });
     }
   }
 
-
   render() {
-    
     const AllHabits = db.collection('habits').where('userId', '==', this.props.user.uid);
     const Habit = props => {
-      if (Object.keys(props).length && this.state.entry) {
+      if (Object.keys(props).length) {
       const { name, datesCompleted } = props;
       const datesCompletedArr = [];
       datesCompleted.forEach(date => datesCompletedArr.push(date));
       let entryDate = Object.values(this.state.entry).length ? this.state.entry.data().dateCreated : '';
       let isChecked = datesCompletedArr.includes(entryDate);
-      return <div style={styles.habit}> 
-        
+
+      return <div style={{display: 'flex', borderLeft: "2em"}}>
         <Checkbox
           onClick={this.handleCheck.bind(this)}
           name={name}
           checked={isChecked}
         />
-        <Typography style={styles.habitName}>{name}</Typography>
+        <Typography style={{justify: 'flexStart', paddingTop: '1em'}}>{name}</Typography>
         </div>;
       } else {
-        return <div></div>
+        return <div></div>;
       }
     };
 
     return (
-      <Grid style={styles.grid}>
-      <Typography variant="heading" component="h2">Your Habits</Typography>
+      <Grid style={{maxWidth: 200, border: "1px dotted #454545", borderWidth: ".1vh", borderColor: "grey", display: "flex", flexDirection: "column", position: "sticky", borderRadius: "0.5em"}}>
+        <Typography variant="subheading" component="h2">Your Habits</Typography>
           <Map from={AllHabits}
           Render={Habit}
-          />
+        />
       </Grid>
     );
   }
 }
 
-export default withTheme()(withAuth(SingleTracker));
+export default withTheme()(SingleTracker);
