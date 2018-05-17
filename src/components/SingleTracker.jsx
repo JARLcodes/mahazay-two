@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
+import { convertFromRaw } from 'draft-js';
+import { withTheme } from 'material-ui/styles';
+import { Map, withAuth } from 'fireview';
+import { db } from '../utils/firebase.config';
+
 import Button from 'material-ui/Button';
 import Grid from 'material-ui/Grid';
 import Checkbox from 'material-ui/Checkbox';
-import Card, { CardContent } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
-import { convertFromRaw } from 'draft-js';
-import { withTheme } from 'material-ui/styles';
-
-import { Map, withAuth } from 'fireview';
-import { db } from '../utils/firebase.config';
 
 class SingleTracker extends Component {
   constructor() {
@@ -27,7 +26,7 @@ class SingleTracker extends Component {
     });
   }
 
-  componentDidUpdate(){
+  componentDidUpdate() {
     const { habits } = this.state;
     if (habits.length && this.state.entry.data().content){
       habits.forEach(habit => {
@@ -99,7 +98,7 @@ class SingleTracker extends Component {
 
     return (
       <Grid style={{maxWidth: 200, border: "1px dotted #454545", borderWidth: ".1vh", borderColor: "grey", display: "flex", flexDirection: "column", position: "sticky", borderRadius: "0.5em"}}>
-        <Typography variant="subheading" component="h2">Your Habits</Typography>
+        <Typography variant="subheading" style={{textTransform: "uppercase"}}>Your Habits</Typography>
           <Map from={AllHabits}
           Render={Habit}
         />

@@ -10,7 +10,6 @@ import { SingleTracker } from './index';
 class SingleEntrySidebar extends Component {
 
   deleteEntry(entry){
-
       confirmAlert({
         title: 'Are you sure you want to delete this entry?',
         message: '',
@@ -32,7 +31,7 @@ class SingleEntrySidebar extends Component {
       <div>
       { this.props._user && <SingleTracker entry={this.props.entry} user={this.props._user}/> }
       <div style={{display: "flex", flexDirection: "column", margin: "0em 2em 2em 2em"}}>
-        <Button variant="raised" style={{alignSelf: 'center', width: '20%', backgroundColor: "#EF9A9A", color: "#fff", borderRadius: "0.5em"}} onClick={this.deleteEntry.bind(this, this.props.entry)}>
+        <Button variant="raised" style={{alignSelf: 'center', width: '20%', backgroundColor: "#EF5350", color: "#fff", borderRadius: "0.5em", margin: '1em 1em 1em'}} onClick={this.deleteEntry.bind(this, this.props.entry)}>
           Delete Entry
         </Button>
       </div>

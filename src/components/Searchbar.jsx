@@ -26,7 +26,7 @@ class Searchbar extends Component {
     this.renderInput = this.renderInput.bind(this);
   }
 
-  componentDidMount(){
+  componentDidMount() {
     getRootRef('entries').where('userId', '==', this.props.userId).get()
       .then(querySnaps => {
         querySnaps.forEach(entry => {
@@ -100,7 +100,7 @@ class Searchbar extends Component {
     );
   }
 
-  render(){
+  render() {
    
     return (
       <div style={{ flexGrow: 1 }}>

@@ -1,26 +1,22 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { getRootRef } from '../utils/componentUtils';
 import { withAuth } from 'fireview';
-
 import Card, { CardContent } from 'material-ui/Card';
-import Typography from 'material-ui/Typography';
 import Subheader from 'material-ui/List/ListSubheader';
 import Button from 'material-ui/Button';
 import Grid from 'material-ui/Grid';
-
-import ReactPlayer from 'react-player';
 import { withTheme } from 'material-ui/styles';
 
 export class AllEntries extends Component {
-  constructor(){
+  constructor() {
     super();
     this.state = {
       entries: []
     };
   }
 
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextProps) {
     if(this.props._user !== nextProps._user){
        getRootRef('entries').where('userId', '==', nextProps._user.uid).orderBy('dateCreated', "desc").get()
       .then(querySnapshot => {
@@ -32,7 +28,7 @@ export class AllEntries extends Component {
     }
   }
 
-  goToJournals(){
+  goToJournals() {
     this.props.history.push('/journals');
   }
 
