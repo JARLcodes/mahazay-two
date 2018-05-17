@@ -150,7 +150,7 @@ export class SingleJournal extends Component {
 
     // Math.floor((Math.random() * 10)) % 2 === 0 ? background = '#F48FB1' : background ="#81C784"
 
-    return {style : {background}}
+    return {style : {background, color: "black"}}
   }
 
   deleteJournal(journal){
