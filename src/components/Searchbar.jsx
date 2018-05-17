@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { getRootRef } from '../utils/componentUtils';
 import { withRouter } from 'react-router-dom';
+import keycode from 'keycode';
 import Button from "material-ui/Button";
 import Chip from 'material-ui/Chip/Chip.js';
 import Paper from 'material-ui/Paper/Paper.js';
@@ -8,36 +10,8 @@ import Downshift from 'downshift';
 import TextField from 'material-ui/TextField';
 import InputAdornment from 'material-ui/Input/InputAdornment';
 import Search from '@material-ui/icons/Search';
-import keycode from 'keycode';
-import PropTypes from 'prop-types';
 import { convertFromRaw } from 'draft-js';
 import { withTheme } from 'material-ui/styles';
-
-import { getRootRef } from '../utils/componentUtils';
-
-const styles = theme => ({
-  root: {
-    flexGrow: 1,
-  },
-  container: {
-    flexGrow: 1,
-    position: 'relative',
-  },
-  paper: {
-    position: 'absolute',
-    zIndex: 1,
-    left: 0,
-    right: 0,
-  },
-  
-  inputRoot: {
-    flexWrap: 'wrap',
-  },
-  textField: {
-    width: "50%", 
-    position: 'flexEnd'
-  }
-});
 
 class Searchbar extends Component {
   constructor(props){
@@ -69,7 +43,6 @@ class Searchbar extends Component {
 
   renderInput(inputProps) {
     const { InputProps, ref, ...other } = inputProps;
-    // console.log('inputProps', inputProps);
     return (
       <TextField
         InputProps={{
@@ -79,39 +52,33 @@ class Searchbar extends Component {
         }}
         {...other}
         onKeyDown={this.goToEntry.bind(this, InputProps.value)}
-        style={styles.textField}
+        style={{ width: "50%", position: 'flexEnd' }}
       />
     );
   }
 
-  goToEntry(value, e){
+  goToEntry(value, event) {
     const { userEntries } = this.state;
-    console.log('value', value);
     userEntries.forEach(entry => {
       const entryPlainText = convertFromRaw(entry.data().content).getPlainText();
       const journalId = entry.data().journalId;
       const entryId = entry.id;
-      if (entryPlainText.includes(value) && e.which === 13) this.props.history.push(`/journals/${journalId}/entries/${entryId}`)
-    })
-    
+      if (entryPlainText.includes(value) && event.which === 13) this.props.history.push(`/journals/${journalId}/entries/${entryId}`);
+    });
   }
 
-  getSuggestions(inputValue){
+  getSuggestions(inputValue) {
     const { userEntries, userJournals, matchingEntries } = this.state;
     
     let count = 0;
     const entryArray = userEntries.filter(entry => {
       const entryPlainText = convertFromRaw(entry.data().content).getPlainText();
-      const keep = 
-        (!inputValue || entryPlainText.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1) && count < 5;
-     
+      const keep = (!inputValue || entryPlainText.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1) && count < 5;
       count = keep ? count += 1 : count;
       return keep;
-    })
-
+    });
     return entryArray;
-  
-  };
+  }
 
   renderSuggestion({ userEntry, index, itemProps, highlightedIndex, selectedItem }) {
     const isHighlighted = highlightedIndex === index;
@@ -124,9 +91,7 @@ class Searchbar extends Component {
           {...itemProps}
           selected={isHighlighted}
           component="div"
-          style={{
-            fontWeight: isSelected ? 500 : 400,
-          }}
+          style={{ fontWeight: isSelected ? 500 : 400 }}
           onClick={this.goToEntry.bind(this, userEntry.id, userEntry.data().journalId)}
           key={userEntry.id}
         >
@@ -138,22 +103,22 @@ class Searchbar extends Component {
   render(){
    
     return (
-      <div style={styles.root}>
+      <div style={{ flexGrow: 1 }}>
       <Downshift itemToString={item => item === null ? '' : convertFromRaw(item.data().content).getPlainText()}>
         {({ getInputProps, getItemProps, isOpen, inputValue, selectedItem, highlightedIndex, clearSelection }) => (
-          <div style={styles.container}>
+          <div style={{ flexGrow: 1, position: 'relative'}}>
             {this.renderInput({
               fullWidth: true,
               InputProps: getInputProps({
                 placeholder: 'Search',
                 id: 'integration-downshift-simple',
-                onChange: e => {
-                  if(e.target.value === '') clearSelection();
+                onChange: event => {
+                  if (event.target.value === '') clearSelection();
                 }
               }),
             })}
             {isOpen ? (
-              <Paper style={styles.paper} square>
+              <Paper style={{ position: 'absolute', zIndex: 1, left: 0, right: 0 }} square>
                 {this.getSuggestions(inputValue).map((userEntry, index) =>
                   this.renderSuggestion({ 
                     userEntry,
@@ -169,7 +134,7 @@ class Searchbar extends Component {
         )}
       </Downshift>
     </div>
-    )
+    );
   }
 }
 
