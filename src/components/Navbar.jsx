@@ -48,15 +48,15 @@ class Navbar extends Component {
             <Link to="/" style={{textDecoration:"none"}}>
               <Typography variant="display1">MA•HĀ•ZAY</Typography>
             </Link>
-            <Button href="/journals" color="inherit" style={{color: "#A1887F"}} disabled={disabled}>
+            <Button href="/journals" color="inherit" style={{color: "#A1887F", marginLeft: '1em', marginRight: '1em'}} disabled={disabled}>
               <ImportContacts />
               Journals
             </Button>
-            <Button href="/entries" color="inherit" style={{color: "#82B1FF"}} disabled={disabled}> 
+            <Button href="/entries" color="inherit" style={{color: "#82B1FF", marginLeft: '1em', marginRight: '1em'}} disabled={disabled}> 
               <LibraryBooks />
               Entries
             </Button>
-            <Button href="/tracker" color="inherit" style={{color: "#EF9A9A", marginRight: "30%"}} disabled={disabled}>
+            <Button href="/tracker" color="inherit" style={{color: "#EF9A9A", marginRight: "30%", marginLeft: '1em', marginRight: '1em'}} disabled={disabled}>
               <CheckBox />
               Tracker
             </Button>
