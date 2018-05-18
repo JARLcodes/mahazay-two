@@ -7,7 +7,22 @@ import { confirmAlert } from 'react-confirm-alert';
 import { withTheme } from 'material-ui/styles';
 import { SingleTracker } from './index';
 
+
 class SingleEntrySidebar extends Component {
+  state = {
+    journalId: ''
+  }
+
+  componentDidMount(){
+    this.props.entry.get()
+      .then(entry => this.setState({ journalId: entry.data().journalId }))
+  }
+
+  backToJournal(){
+    if (this.state.journalId){
+      this.props.history.push(`/journals/${this.state.journalId}`)
+    }
+  }
 
   deleteEntry(entry){
 
@@ -36,6 +51,12 @@ class SingleEntrySidebar extends Component {
           Delete Entry
         </Button>
       </div>
+      <div style={{display: "flex", flexDirection: "column", margin: "2em 2em 2em 2em"}}>
+        <Button variant="raised" style={{alignSelf: 'center', width: '20%', backgroundColor: 'blue', color: "#fff", borderRadius: "0.5em", marginTop: '2em'}} onClick={this.backToJournal.bind(this, this.props.entry)}>
+          Back To Journal
+        </Button>
+      </div>
+
       </div>
     );
   }
