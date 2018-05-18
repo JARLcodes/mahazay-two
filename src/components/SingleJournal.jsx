@@ -12,7 +12,6 @@ import BigCalendar from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment';
 import { withTheme } from 'material-ui/styles';
-
 import { getRootRef } from '../utils/componentUtils';
 
 BigCalendar.momentLocalizer(moment);
@@ -116,43 +115,43 @@ export class SingleJournal extends Component {
     console.log("HIGHEST:", highest)
     switch(highest.emotion) {
       case "Anger" :
-        background = "#C62828"
+        background = "#C62828" // red
         break;
       case "Disgust" :
-        background = "#827717"
+        background = "#827717" //mucky green
         break;
       case "Fear" :
-        background = "#757575"
+        background = "#757575" // gray
         break;
       case "Joy" :
-        background = "#F3E5F5"
+        background = "#CE93D8" // light purple/lavendar
         break;
       case "Sadness" :
-        background = "#546E7A"
+        background = "#546E7A" //faded/steel/grayish blue
         break;
       case "Analytical" :
-        background = "#FFB74D"
+        background = "#FFB74D" //tannish orangish
         break;
       case "Confident" :
-        background = "#FFFF00"
+        background = "#FFFF00" //yellow
         break;
-      case "Tenative" :
-        background = "#BCAAA4"
+      case "Tentative" :
+        background = "#C5E1A5" // pale green
         break;
       case "Openness" :
-        background = "#B2FF59"
+        background = "#B2FF59" // lime green
         break;
       case "Conscientiousness" :
-        background = "#69F0AE"
+        background = "#F06292" //pink
         break;
       case "Agreeableness" :
-        background = "#80D8FF"
+        background = "#80D8FF" //robin's egg blue
         break;
       case "Extraversion" :
-        background = "#9C27B0"
+        background = "#9C27B0" //purple
         break;
       default:
-        background = "#FFF3E0"
+        background = "#FFF3E0" //peach
         break;
       }
 
@@ -196,11 +195,13 @@ export class SingleJournal extends Component {
     return (
       <div>
         { journalTitle && <Subheader component="div" variant="display1" style={{ fontSize: "2.5em", fontVariant: 'small-caps', color: 'grey' }}>{journalTitle}</Subheader> }
-        <div style={{"paddingLeft": 24 + "px", "paddingRight": 24 + "px", "marginBottom": 24 +"px" }}>
+        <div style={{"paddingLeft": 24 + "px", "paddingRight": 24 + "px", "marginBottom": 10 +"px" }}>
           <BigCalendar eventPropGetter={this.checkColor} defaultDate={new Date()} events={events} views={['month']} style={{height: 350 + "px"}} onSelectEvent={this.handleSelect} />
 
         </div>
-
+        <Grid container style= {{justifyContent:"flex-start", "paddingLeft": 24 + "px", "paddingRight": 24 + "px", "marginBottom": 25 +"px"}}>
+          <img src="/moodcolorskey.png" />
+        </Grid>
         <Grid container style={{justifyContent: "flex-end", "paddingLeft": 24 + "px", "paddingRight": 24 + "px", "marginBottom": 10 +"px"}}>
           <Tooltip title = "Add Today's Entry" placement="top">
             <Button variant ="fab" color="primary" onClick={this.addEntry} style={{marginRight: '1em'}}><Icon >edit_icon</Icon></Button>
