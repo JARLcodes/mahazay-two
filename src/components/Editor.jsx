@@ -67,7 +67,9 @@ class EditorComponent extends Component {
     this.state.rootRef.get()
       .then(snap => {
         snap.data() && snap.data().content
+        //if entry exists and has content, get that content from the database and create a new editor state with that content
         ? this.setState({ editorState: EditorState.createWithContent(convertFromRaw(snap.data().content)) })
+        //otherwise, create a new, empty editor state
         : this.setState({ editorState: EditorState.createEmpty()});
     });
   }
@@ -80,7 +82,6 @@ class EditorComponent extends Component {
     const text = this.state.editorState.getCurrentContent().getPlainText();
     //only call tone analyzer if length of text is greater than 350 -- to limit api calls
     if (text.length > 350){
-      console.log('this.props', this.props)
       analyzePersonality(this.props.match.params.entryId);
     }
     //change to button to limit amout of times we hit watson
