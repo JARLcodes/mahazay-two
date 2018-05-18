@@ -52,7 +52,7 @@ class SingleEntrySidebar extends Component {
         </Button>
       </div>
       <div style={{display: "flex", flexDirection: "column", margin: "2em 2em 2em 2em"}}>
-        <Button variant="raised" style={{alignSelf: 'center', width: '20%', backgroundColor: 'blue', color: "#fff", borderRadius: "0.5em", marginTop: '2em'}} onClick={this.backToJournal.bind(this, this.props.entry)}>
+        <Button variant="raised" style={{alignSelf: 'center', width: '20%', backgroundColor: 'lightblue', color: "#fff", borderRadius: "0.5em", marginTop: '2em'}} onClick={this.backToJournal.bind(this, this.props.entry)}>
           Back To Journal
         </Button>
       </div>
