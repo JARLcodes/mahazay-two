@@ -74,8 +74,9 @@ app.get('/api/entries/:entryId/personalityInsights', (req, res, next) => {
         if(snap.data().content) return convertFromRaw(snap.data().content).getPlainText()
         return null;
       }
-      
+      return null;
     })
+    .catch(console.error)
   
   const token = getPersonalityToken();
 
