@@ -52,7 +52,7 @@
     "scripts": {
         "start": "concurrently  \"react-scripts start\" \"npm run firebase-serve\"",
         "build": "react-scripts build",
-        "test": "react-scripts test --env=jsdom",
+        "test": "concurrently \"react-scripts test --env=jsdom\" \"jest\"",
         "eject": "react-scripts eject",
         "firebase-serve": "npx -p node@6 firebase serve --only functions,hosting"
     },
