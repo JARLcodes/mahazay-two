@@ -1,12 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ReactPlayer from 'react-player';
-import Audio from 'react-audioplayer';
-import { EditorState, AtomicBlockUtils, convertToRaw } from 'draft-js';
+import { EditorState, AtomicBlockUtils } from 'draft-js';
 import createImagePlugin from 'draft-js-image-plugin';
 import createFocusPlugin from 'draft-js-focus-plugin';
 import { composeDecorators } from 'draft-js-plugins-editor';
-import TextField from 'material-ui/TextField';
-import Button from "material-ui/Button";
 
 
 const focusPlugin = createFocusPlugin();
@@ -105,7 +102,7 @@ export const mediaBlockRenderer = function(block) {
 const AudioPlayer = (props) => ( <audio src={props.src} preload="auto" controls/> );
 
 
-export const Image = (props) => ( <img src={props.src}  style={{width: "20%", height: "auto", zIndex: "1"}} alt="image cannot be displayed"/> );
+export const Image = (props) => ( <img src={props.src}  style={{width: "20%", height: "auto", zIndex: "1"}} alt="cannot be displayed"/> );
 
 const Video = (props) => ( <ReactPlayer url={props.src} style={{width: "20%", height: "auto", zIndex: "1"}} controls /> );
 

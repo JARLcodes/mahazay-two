@@ -8,7 +8,7 @@ import { withTheme } from 'material-ui/styles';
 
 import { getRootRef } from '../utils/componentUtils';
 import { styles } from '../utils/singleEntryUtils';
-import { ToneInsights } from './insights/ToneInsights';
+
 
 class SingleEntry extends Component {
   constructor(){

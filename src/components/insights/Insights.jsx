@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
 import { withAuth } from 'fireview';
-import { getRootRef, getIds } from '../../utils/componentUtils';
-import {db} from '../../utils/firebase.config';
+import { getRootRef } from '../../utils/componentUtils';
 import PersonalitySunburstChart from 'personality-sunburst-chart/lib/charts/v3-d3v4';
 import ToneInsights from './ToneInsights'
 
 import { withTheme } from 'material-ui/styles';
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import Paper from 'material-ui/Paper';
 import Grid from 'material-ui/Grid';
-import List, { ListItem, ListItemIcon, ListItemText}from 'material-ui/List';
+import List, { ListItem, ListItemIcon }from 'material-ui/List';
 import ExpansionPanel, { ExpansionPanelDetails, ExpansionPanelSummary } from 'material-ui/ExpansionPanel';
 
 import ThumbUp from '@material-ui/icons/ThumbUp';
@@ -56,11 +53,6 @@ export class Insights extends Component {
 
                 //sunburst data visualization
                 const element = this.myRef.current;
-                const chart = new PersonalitySunburstChart({
-                  'element': element,
-                  'version': 'v3'
-                });
-                const sunburst = chart.show(snap.data());
 
                 //helper functions
                 const filter = (obj, num) => obj.score === num;

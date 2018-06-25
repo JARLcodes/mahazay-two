@@ -7,7 +7,6 @@ import firebase from 'firebase';
 import { auth, db } from '../utils/firebase.config';
 import { withTheme } from 'material-ui/styles';
 
-import { storage } from '../utils/firebase.config';
 
 const styles = theme => ({
   container: {

@@ -1,4 +1,3 @@
-'use strict';
 const firebase = require('firebase-admin');
 firebase.initializeApp();
 const db = firebase.firestore();
