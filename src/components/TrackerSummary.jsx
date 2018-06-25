@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import TextField from 'material-ui/TextField';
 import Subheader from 'material-ui/List/ListSubheader';
 import { confirmAlert } from 'react-confirm-alert';
@@ -12,7 +11,6 @@ import Table, {
 } from 'material-ui/Table';
 import Grid from 'material-ui/Grid';
 import Add from '@material-ui/icons/Add';
-import Checkbox from 'material-ui/Checkbox';
 import { withTheme } from 'material-ui/styles';
 
 import { Map, withAuth } from 'fireview';
@@ -92,7 +90,7 @@ class TrackerSummary extends Component {
   }
 
   getWeeksAgo(){
-    this.setState({ weeksAgo: this.state.weeksAgo += 1 });
+    this.setState({ weeksAgo: this.state.weeksAgo + 1 });
     this.setState({ week: this.getWeek() });
   }
 
@@ -115,12 +113,10 @@ class TrackerSummary extends Component {
           </TableCell>
           
             { week.map(day => {
-             
               if (props){
                 const datesCompletedArr = [];
                 datesCompleted.forEach(date => datesCompletedArr.push(new Date(date).toString().split(' ')));
                 const formattedDatesCompleted = datesCompletedArr.map(date => `${date[0]} ${months.indexOf(date[1]) + 1}/${date[2]}`);
-                let isChecked = false;
                 const datesMatch = day => {
                   for (let i = 0; i < formattedDatesCompleted.length; i++){
                     if (formattedDatesCompleted[i] === day) return true;

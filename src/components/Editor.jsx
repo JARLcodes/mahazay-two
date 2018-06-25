@@ -1,19 +1,14 @@
 import React, { Component } from "react";
-import { EditorState, RichUtils, convertFromRaw, convertToRaw, ContentState } from "draft-js";
+import { EditorState, RichUtils, convertFromRaw, convertToRaw } from "draft-js";
 import Editor from 'draft-js-plugins-editor';
 import { withTheme } from 'material-ui/styles';
 import Button from "material-ui/Button";
-import FormatAlignCenter from '@material-ui/icons/FormatAlignCenter';
-import FormatAlignLeft from '@material-ui/icons/FormatAlignLeft';
-import FormatAlignRight from '@material-ui/icons/FormatAlignRight';
 import Add from '@material-ui/icons/Add';
 import { withAuth } from 'fireview';
 import { CircularProgress } from 'material-ui/Progress';
 
 import { storage } from '../utils/firebase.config';
-import { getRootRef } from '../utils/componentUtils';
 import { plugins, confirmMedia, mediaBlockRenderer } from './../utils/singleEntryUtils';
-import SingleEntrySidebar from './SingleEntrySidebar.jsx';
 import { analyzePersonality } from '../utils/watsonFuncs.js';
 
 
@@ -140,7 +135,7 @@ class EditorComponent extends Component {
   }
 
   render() {
-    const { showStyleToolbar, showMediaInput, urlValue, urlType, showMediaTypeButtons, editorState } = this.state;
+    const { showStyleToolbar, showMediaInput, showMediaTypeButtons, editorState } = this.state;
     if (!editorState) return (
       <CircularProgress />
     );

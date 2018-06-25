@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { withAuth } from 'fireview';
-import { EditorState, RichUtils, convertFromRaw, convertToRaw, ContentState } from "draft-js";
-import {VictoryChart, VictoryArea, VictoryTheme, VictoryPolarAxis, VictoryAxis, VictoryLabel} from 'victory'
+import { convertFromRaw } from "draft-js";
+import {VictoryChart, VictoryArea, VictoryTheme, VictoryAxis } from 'victory'
 import { withTheme } from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
 
-import { getRootRef, getIds } from '../../utils/componentUtils';
+import { getRootRef } from '../../utils/componentUtils';
 import {db} from '../../utils/firebase.config'
 import { getTokenTone, analyzeTone } from '../../utils/watsonFuncs.js'
-import { user } from 'firebase-functions/lib/providers/auth';
 
 export class ToneInsights extends Component {
     constructor (){

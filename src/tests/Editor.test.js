@@ -1,12 +1,9 @@
-/*eslint-disable */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import Editor from '../components/Editor.jsx';
 
 it('renders without crashing', () => {
     const div = document.createElement('div');
-    ReactDOM.render( < App / > , div);
+    ReactDOM.render( < Editor / > , div);
     ReactDOM.unmountComponentAtNode(div);
 });
-
-/*eslint-enable */

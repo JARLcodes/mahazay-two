@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-import Button from 'material-ui/Button';
 import Grid from 'material-ui/Grid';
 import Checkbox from 'material-ui/Checkbox';
-import Card, { CardContent } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 import { convertFromRaw } from 'draft-js';
 import { withTheme } from 'material-ui/styles';
 
-import { Map, withAuth } from 'fireview';
+import { Map } from 'fireview';
 import { db } from '../utils/firebase.config';
 
 class SingleTracker extends Component {

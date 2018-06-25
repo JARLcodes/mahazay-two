@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { withTheme } from 'material-ui/styles';
-import { FormHelperText } from 'material-ui/Form';
 import Grid from 'material-ui/Grid';
 import Card, { CardContent, CardHeader } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
@@ -9,9 +8,6 @@ import Avatar from 'material-ui/Avatar';
 import ImportContacts from '@material-ui/icons/ImportContacts';
 import LibraryBooks from '@material-ui/icons/LibraryBooks';
 import { withAuth } from 'fireview';
-
-import { storage, db } from '../utils/firebase.config';
-
 
 const Dashboard = props =>  {
 	

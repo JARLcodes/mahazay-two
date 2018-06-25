@@ -93,7 +93,7 @@ export class SingleJournal extends Component {
     let arrInsights = this.state.insights;
     console.log("arrof insights:", arrInsights, "event.entryId:", event.entryId)
     let correctInsight = arrInsights.filter(insight => {
-      return insight.entryId == event.entryId})[0]
+      return insight.entryId === event.entryId})[0]
     let arr = [];
     let highest = {};
     console.log("correctInsight: ", correctInsight)
@@ -190,7 +190,7 @@ export class SingleJournal extends Component {
   }
 
   render() {
-    const   { entries, events, journalTitle } = this.state;
+    const   { events, journalTitle } = this.state;
     console.log("state in render", this.state)
     return (
       <div>
@@ -200,7 +200,7 @@ export class SingleJournal extends Component {
 
         </div>
         <Grid container style= {{justifyContent:"flex-start", "paddingLeft": 24 + "px", "paddingRight": 24 + "px", "marginBottom": 25 +"px"}}>
-          <img src="/moodcolorskey.png" />
+          <img alt="mood_key" src="/moodcolorskey.png" />
         </Grid>
         <Grid container style={{justifyContent: "flex-end", "paddingLeft": 24 + "px", "paddingRight": 24 + "px", "marginBottom": 10 +"px"}}>
           <Tooltip title = "Add Today's Entry" placement="top">

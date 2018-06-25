@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 import { withAuth } from 'fireview';
-import { storage } from '../utils/firebase.config';
 import Button from "material-ui/Button";
 import { confirmAlert } from 'react-confirm-alert';
 import { withTheme } from 'material-ui/styles';
