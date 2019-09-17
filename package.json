@@ -3,10 +3,10 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
-        "@firebase/firestore": "^0.4.1",
+        "@firebase/firestore": "^1.5.2",
         "@material-ui/icons": "^1.0.0-beta.43",
         "ajv": "^6.0.0",
-        "axios": "^0.18.0",
+        "axios": "^0.18.1",
         "cors": "^2.8.4",
         "d3": "^5.4.0",
         "downshift": "^1.31.14",
@@ -20,7 +20,7 @@
         "firebase": "^4.13.0",
         "firebase-admin": "^5.12.0",
         "firebase-functions": "^1.0.2",
-        "firebase-tools": "^3.18.4",
+        "firebase-tools": "^7.3.2",
         "fireview": "0.0.8",
         "history": "^4.7.2",
         "keycode": "^2.2.0",
@@ -28,7 +28,7 @@
         "material-ui": "^1.0.0-beta.47",
         "moment": "^2.22.1",
         "node": "^7.1.0",
-        "npm": "^6.0.0",
+        "npm": "^6.11.3",
         "personality-sunburst-chart": "^2.2.4",
         "personality-text-summary": "^2.2.0",
         "prop-types": "^15.6.1",
@@ -44,7 +44,7 @@
         "react-responsive-navbar": "^1.0.11",
         "react-router": "^4.2.0",
         "react-router-dom": "^4.2.2",
-        "react-scripts": "1.1.4",
+        "react-scripts": "^3.1.1",
         "victory": "^0.26.0",
         "video-react": "^0.10.5",
         "watson-developer-cloud": "^3.4.1"
@@ -59,7 +59,7 @@
     "devDependencies": {
         "concurrently": "^3.5.1",
         "eslint-plugin-react": "^7.8.2",
-        "jest": "^23.1.0"
+        "jest": "^25.0.0"
     },
     "proxy": {
         "/api": {
